@@ -237,6 +237,35 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(myPath);
         }
 
+        public void Cepochka(Figure figure, double step, Canvas canvas)
+        {
+            Figure resultFigure = new Figure(canvas);
+            for (int i = 0; i < figure.Points.Count - 1; i++)
+            {
+                resultFigure.Points.Add(figure.Points[i]);
+                double x;
+                double y;
+                x = figure.Points[i + 1].X - figure.Points[i].X;
+                y = figure.Points[i + 1].Y - figure.Points[i].Y;
+                double distance = step;
+                Vector vect = new Vector(x, y);
+                double length = vect.Length;
+                while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
+                {
+                    vect.Normalize();
+                    vect *= distance;
+                    resultFigure.Points.Add(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y));
+                    distance += step;
+
+                }
+                resultFigure.Points.Add(figure.Points[i + 1]);
+            }
+            for (int i = 0; i < resultFigure.Points.Count; i++)
+            {
+                SetDot(resultFigure.Points[i], "red", canvas);
+            }
+        }
+
 
         public void CalculateParallelLines(Point a, Point b, Figure StartLines, List<Figure> ListControlLines, List<Figure> ListTatamiFigures, Canvas CurCanvas)            //отрисовка параллельных задающих линий
         {

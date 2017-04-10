@@ -30,8 +30,12 @@ namespace ТриНитиДизайн
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)
         {
-
-
+            if (ListFigure[IndexFigure].Points.Count > 0)
+            {
+                OptionRegim.regim = Regim.RegimCepochka;
+                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
+                Cepochka(ListFigure[IndexFigure], 15, MainCanvas);
+            }
         }
 
         private void GladButtonEvent(object sender, RoutedEventArgs e)
