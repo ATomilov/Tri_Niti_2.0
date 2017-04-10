@@ -1,0 +1,202 @@
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.baml
+c:\users\comp\documents\visual studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.g.cs
+C:\Users\Comp\Documents\Visual Studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.baml
+C:\Users\Comp\Documents\Visual Studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.g.cs
+C:\Users\Comp\Documents\Visual Studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Comp\Documents\Visual Studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.baml
+C:\Users\Comp\Documents\Visual Studio 2010\Projects\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.g.cs
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.baml
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.baml
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.baml
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.g.cs
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.g.cs
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.g.cs
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Zim\Desktop\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.baml
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.baml
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.baml
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.g.cs
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.g.cs
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.g.cs
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+L:\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.baml
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.baml
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.baml
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.g.cs
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.g.cs
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.g.cs
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Stechki.baml
+C:\Users\Comp\Desktop\Новая папка (2)\Новая папка\Тринити\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Stechki.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Stechki.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\About.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\GrafPanel.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Setting.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\Stechki.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\About.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\Setting.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\Stechki.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\About.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\Setting.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\Stechki.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Zim\Desktop\Тринити Последнее\Доработки\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\About.baml
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Setting.baml
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Stechki.baml
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\About.g.cs
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Setting.g.cs
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Stechki.g.cs
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.g.cs
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.baml
+C:\Users\Comp\Desktop\TriNitiDizayn_dlya_Bori\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csprojResolveAssemblyReference.cache
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csprojResolveAssemblyReference.cache
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\About.baml
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Setting.baml
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Stechki.baml
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\About.g.cs
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Setting.g.cs
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\Stechki.g.cs
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.g.cs
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.baml
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Apofeo\Desktop\ТРИНИТИ\TriNitiDizayn\ТриНитиДизайн для Бори\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csprojResolveAssemblyReference.cache
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\About.baml
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\Setting.baml
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\Stechki.baml
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\About.g.cs
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\Setting.g.cs
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\Stechki.g.cs
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.g.cs
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.baml
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\Tatami.baml
+C:\Users\Gibsman\Desktop\Tri_Niti\ТриНитиДизайн\obj\x86\Debug\View\Tatami.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csprojResolveAssemblyReference.cache
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\About.baml
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Setting.baml
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Stechki.baml
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Tatami.baml
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\About.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Glad.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Setting.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Stechki.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Tatami.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\App.g.cs
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.cache
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\Glad.baml
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.baml
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
+C:\Users\Gibsman\Downloads\Tri_Niti_Max_Edition\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache

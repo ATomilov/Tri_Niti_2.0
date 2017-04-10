@@ -1,0 +1,244 @@
+﻿<Window x:Class="ТриНитиДизайн.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:ТриНитиДизайн.Main"
+        Title="Три Нити Дизайн 1.0" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="1078" Width="1120" VerticalAlignment="Stretch" HorizontalContentAlignment="Left" Icon="/ТриНитиДизайн;component/Images/1%20%282%29.ico" ResizeMode="CanResize" VerticalContentAlignment="Stretch" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="SingleBorderWindow" xmlns:my="clr-namespace:ТриНитиДизайн"  Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid 
+        Background="#00000000" 
+        Name="mainGrid"
+        >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="424*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <Menu Height="Auto" Name="menu1" VerticalAlignment="Top" FontFamily="Verdana" FontSize="12" Background="#00000000">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый проект" Click="NewProject" />
+                <Separator/>
+                <MenuItem Header="Загрузить проект"  />
+                <MenuItem Header="Сохранить проект"  />
+                <MenuItem Header="Сохранить как..."  />
+                <Separator/>
+                <MenuItem Header="Загрузить рисунок" />
+                <MenuItem Header="Удалить рисунок" />
+                <Separator/>
+                <MenuItem Header="Выход" />
+            </MenuItem>
+            <MenuItem Header="Редактировать">
+                <MenuItem Header="Удалить" />
+                <MenuItem Header="Отменить" />
+                <MenuItem Header="Вернуть" />
+                <MenuItem Header="Восстановить" />
+                <Separator/>
+                <MenuItem Header="Копировать" />
+                <MenuItem Header="Вставить" />
+                <Separator/>
+                <MenuItem Header="Копировать в..." />
+                <MenuItem Header="Вставить из..." />
+                <Separator/>
+                <MenuItem Header="Создать рисунок" />
+                <MenuItem Header="Выбрать цвет" />
+                <MenuItem Header="Обновить" />
+            </MenuItem>
+            <MenuItem Header="Настройки" Name="MenuSetka" >
+                <MenuItem Header="Показать центр" />
+                <MenuItem Header="Нет сетки" IsCheckable="True" IsChecked="True" Checked="SetItemSetka1"/>
+                <MenuItem Header="Сетка 0.1 мм" IsCheckable="True" Checked="SetItemSetka2"/>
+                <MenuItem Header="Сетка 0.2 мм" IsCheckable="True" Checked="SetItemSetka3"/>
+                <MenuItem Header="Сетка 0.5 мм" IsCheckable="True" Checked="SetItemSetka4"/>
+                <MenuItem Header="Сетка 1.0 мм" IsCheckable="True" Checked="SetItemSetka5"/>
+                <MenuItem Header="Сетка 5.0 мм" IsCheckable="True" Checked="SetItemSetka6"/>
+                <MenuItem Header="Рисовать по сетке" IsCheckable="True" Checked="SetDotOnGrid"/>
+            </MenuItem>
+                <MenuItem Header="Установки" Click="OpenSetting" />
+            <MenuItem Header="Элементы" >
+                <MenuItem Header="Стежки" IsChecked="True" IsCheckable="True" />
+                <MenuItem Header="Цепочка" IsChecked="True" IsCheckable="True" />
+                <MenuItem Header="Гладь" IsChecked="True" IsCheckable="True" />
+                <MenuItem Header="Татами" IsChecked="True" IsCheckable="True" />
+            </MenuItem>
+            <MenuItem Header="Справка" Click="OpenAbout" />
+            <MenuItem Header="Цвета" Click="OpenWindowsColor"  />
+        </Menu>
+        <ToolBar Height="26" Margin="0,27,0,0" Name="toolBarPanel1" VerticalAlignment="Top" Background="White">
+            <Button  Width="25" Content="" Click="OpenFile">
+                <Button.Background>
+                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/fileopen.png" />
+                </Button.Background>
+            </Button>
+            <Button  Width="25" Content="" Click="SaveFile">
+                <Button.Background>
+                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/skachat_nora_roberts_nezavershennye_dela_v_formate_fb2_4017_0.jpg" />
+                </Button.Background>
+            </Button>
+            <Button  Width="30" Content="">
+                <Button.Background>
+                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.undo.png" />
+                </Button.Background>
+            </Button>
+            <Button  Width="30" Content="">
+                <Button.Background>
+                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.undo1.png" />
+                </Button.Background>
+            </Button>
+        </ToolBar>
+        <Button 
+            Height="40" 
+            HorizontalAlignment="Left" 
+            Margin="4,59,0,0" 
+            VerticalAlignment="Top" 
+            Width="40" 
+            Panel.ZIndex="1" 
+            BorderBrush="Black" 
+            AllowDrop="False" 
+            BorderThickness="2" 
+            Click="CurcorButtonEvent" 
+            Background="White">
+                <Image Source="/ТриНитиДизайн;component/Images/appbar.cursor.default.png"    />
+        </Button>
+        <Button 
+            HorizontalAlignment="Left" 
+            Margin="4,99,0,0" 
+            Width="40" TabIndex="1" 
+            Panel.ZIndex="1" 
+            Click="EditButtonEvent" 
+            BorderBrush="Black" 
+            BorderThickness="2" 
+            Height="40" 
+            VerticalAlignment="Top" 
+            Background="White">
+                <Image Source="/ТриНитиДизайн;component/Images/appbar.draw.pencil.reflection.png" Stretch="Fill"  />
+        </Button>
+        <Button 
+            Height="40" 
+            HorizontalAlignment="Left" 
+            Margin="4,179,0,0" 
+            VerticalAlignment="Top" 
+            Width="40" 
+            BorderBrush="Black" 
+            BorderThickness="2" 
+            Click="ShapeMainButtonEvant" 
+            Background="White">
+                <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.line.png" />
+        </Button>
+        <Button 
+            Height="40" 
+            HorizontalAlignment="Left" 
+            Margin="4,219,0,0" 
+            VerticalAlignment="Top" 
+            Width="40" 
+            BorderBrush="Black"
+            BorderThickness="2" 
+            Click="FigureMainButtonEvant" 
+            Background="White">
+                <Image Source="/ТриНитиДизайн;component/Images/appbar.server.png" />
+        </Button>
+        <Canvas 
+                Margin="50,59,12,19" 
+                Width="Auto"
+                Name="MainCanvas" 
+                Background="White" 
+                Cursor="Arrow" 
+                MouseMove="CanvasTest_MouseMove"  
+                MouseRightButtonDown="CanvasTest_MouseRightButtonDown"
+                MouseRightButtonUp="CanvasTest_MouseRightButtonUp" 
+                MouseLeftButtonDown="CanvasTest_MouseLeftButtonDown"
+                MouseWheel="MainCanvas_MouseWheel" MouseLeftButtonUp="CanvasTest_MouseLeftButtonUp"
+            />
+        <Expander    
+            ExpandDirection="Right" 
+            Height="65" 
+            HorizontalAlignment="Left" 
+            IsExpanded="False" 
+            Margin="12,128,0,0" 
+            Name="expander1" 
+            TabIndex="4" 
+            VerticalAlignment="Top" 
+            Width="320" 
+            Visibility="Visible" 
+            BorderBrush="#00932929" 
+            Opacity="1">
+            <Grid>
+                <Button Height="40" Margin="10,10,247,0" VerticalAlignment="Top" Click="PlusButtonEvent">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.magnify.add.png" />
+                    </Button.Background>
+                </Button>
+                <Button Height="40" HorizontalAlignment="Left" Margin="50,10,0,0" VerticalAlignment="Top" Width="40" Click="MinusButtonEvent">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.magnify.minus.png" />
+                    </Button.Background>
+                </Button>
+                <Button Height="40" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="40" Click="PrevVidButtonEvent">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.magnify.back.png" />
+                    </Button.Background>
+                </Button>
+                <Button Height="40" HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabFigureButtonEvent">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.vector.star.png" />
+                    </Button.Background>
+                </Button>
+                <Button Height="40" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabVidButtonEvent">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.vector.rectangle.png" />
+                    </Button.Background>
+                </Button>
+                <Button Height="40" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="40" Click="SetCenterButtonEvent">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.axis.three.png" />
+                    </Button.Background>
+                </Button>
+                <Button Height="40" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="40" Click="OneToOneButtonEvent">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.monitor.identify.png" />
+                    </Button.Background>
+                </Button>
+            </Grid>
+        </Expander>
+        <StatusBar Height="23" Name="statusBar1" VerticalAlignment="Bottom" Grid.RowSpan="2">
+            <StatusBarItem Content="Статус" Name="statusbar1" />
+        </StatusBar>
+        <TabControl Name="tabControl1" Width="120" TabStripPlacement="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="12,265,0,0" Visibility="Visible" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top">
+            <TabItem Header="Линии" Name="tabItem1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"   IsSelected="True">
+                <Grid Height="205" Width="110" Background="White">
+                    <Button Content="" Height="32" Margin="3,6,0,0" Name="button1" Width="35" HorizontalAlignment="Left" VerticalAlignment="Top" Click="PointAddedButtonEvent">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.arrow.left.png" />
+                        </Button.Background>
+                    </Button>
+                    <Button Content="" Height="32" Margin="0,6,37,0" Name="button2" Width="35" HorizontalAlignment="Right" VerticalAlignment="Top" Click="PointDeleteButtonEvent">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.arrow.right.png" />
+                        </Button.Background>
+                    </Button>
+                    <Button Content="&lt;&gt;" Height="32" Margin="73,6,0,0" Name="button3" Width="35" HorizontalAlignment="Left" VerticalAlignment="Top" Click="RazrivButtonEvent">
+                        <Button.Background>
+                            <ImageBrush />
+                        </Button.Background>
+                    </Button>
+                    <Button Content="Ломаная" Height="32" Margin="3,66,0,0" Name="button4" Width="105" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" Click="LomannaiButtonEvent"/>
+                    <Button Content="Дуга" Height="32" Margin="3,38,0,0" Name="button5" VerticalAlignment="Top" Width="105" HorizontalAlignment="Left"  Background="White" Click="DygaButtonEvent"/>
+                    <Button Content="Кривая" Height="32" Margin="3,0,0,75" Name="button6" Width="105" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="White" Click="KrivaiaButtonEvent"/>
+                    <Button Content="Сгладить" Height="32" Margin="3,0,0,43" Name="button7" Width="105" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="White" Click="SgladitButtonEvent"   />
+                    <Button Content="&lt;&lt;-" Height="32" Margin="3,0,0,11" Name="button8" Width="52" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="White" Click="SelectPointNextButtonEvent" />
+                    <Button Content="-&gt;&gt;" Height="32" Margin="0,0,2,11" Name="button9" Width="54" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Background="White" Click="SelectPointPrevButtonEvent"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <TabControl HorizontalContentAlignment="Stretch" Name="tabControl2" TabStripPlacement="Top" VerticalContentAlignment="Stretch" Visibility="Visible" Width="125" Margin="11,503,0,0" HorizontalAlignment="Left" Height="191" VerticalAlignment="Top">
+            <TabItem Header="Фигуры" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  IsSelected="True"  Name="tabItem2">
+                <Grid>
+                    <Button Content="Гладь" Height="30" Margin="4,37,6,92" Name="button13" Width="100" Background="White" Click="GladButtonEvent" />
+                    <Button Content="Татами" Height="30" Margin="4,67,6,62" Name="button14" Width="100"  Background="White" Click="TatamiButtonEvent"/>
+                    <Button Content="Стежки" Height="30" Margin="4,97,6,32" Name="button15" Width="100"   Background="White" Click="StagkiButtonEvent"/>
+                    <Button Content="Рисуй" Height="30" Margin="4,127,6,2" Name="button16" Width="100"  Background="White" Click="RisuiButtonEvent"/>
+                    <Button Content="Цепочка" Height="30" Margin="4,7,6,0" Name="button10" VerticalAlignment="Top" Width="100" Background="White" Click="ChepochkaButtonEvent" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Height="40" HorizontalAlignment="Left" Margin="4,139,0,0" VerticalAlignment="Top" Width="40" BorderBrush="Black" BorderThickness="2"  Background="White" Click="MashtabMainButtonEvant">
+            <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.browse.png" />
+        </Button>
+    </Grid>
+</Window>

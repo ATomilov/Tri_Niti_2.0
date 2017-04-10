@@ -1,0 +1,15 @@
+﻿<Window x:Class="ТриНитиДизайн.Setting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Установки" Height="240" Width="300">
+    <Grid>
+        <Label Content="Максимальный стежок =" Height="28" HorizontalAlignment="Left" Margin="16,19,0,0" Name="label1" VerticalAlignment="Top" Width="165" />
+        <TextBox Height="27" HorizontalAlignment="Left" Margin="187,19,0,0" Name="textBox1" VerticalAlignment="Top" Width="51" />
+        <Label Content="Минимальный стежок =" Height="28" HorizontalAlignment="Left" Margin="16,52,0,0" Name="label2" VerticalAlignment="Top" Width="165" />
+        <TextBox Height="27" HorizontalAlignment="Left" Margin="187,52,0,0" Name="textBox2" VerticalAlignment="Top" Width="51" />
+        <Label Content="Переходной стежок =" Height="28" HorizontalAlignment="Left" Margin="16,86,0,0" Name="label3" VerticalAlignment="Top" Width="165" />
+        <TextBox Height="27" HorizontalAlignment="Left" Margin="187,86,0,0" Name="textBox3" VerticalAlignment="Top" Width="51" />
+        <Button Content="ОК" Height="23" HorizontalAlignment="Left" Margin="94,168,0,0" Name="button1" VerticalAlignment="Top" Width="87" Background="White" Click="button1_Click" />
+        <CheckBox Content="Делать закрепки" Height="16" HorizontalAlignment="Left" Margin="81,133,0,0" Name="checkBox1" VerticalAlignment="Top" />
+    </Grid>
+</Window>

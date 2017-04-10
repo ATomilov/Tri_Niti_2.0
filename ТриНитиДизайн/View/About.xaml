@@ -1,0 +1,13 @@
+﻿<Window x:Class="ТриНитиДизайн.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Справка" Height="357" Width="418">
+    <Grid>
+        <Label Content="ООО Три Нити" Height="26" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" Width="151" />
+        <Label Content="Контакты телефон" Height="26" HorizontalAlignment="Left" Margin="12,40,0,0" Name="label2" VerticalAlignment="Top" Width="151" />
+        <Label Content="Контакты почта" Height="26" HorizontalAlignment="Left" Margin="12,60,0,0" Name="label3" VerticalAlignment="Top" Width="151" />
+        <Label Content="Купш А.Г." Height="26" HorizontalAlignment="Left" Margin="218,12,0,0" Name="label4" VerticalAlignment="Top" Width="151" />
+        <Label Content="89994537497" Height="26" HorizontalAlignment="Left" Margin="218,40,0,0" Name="label5" VerticalAlignment="Top" Width="151" />
+        <Label Content="akupsh@yandex.ru" Height="26" HorizontalAlignment="Left" Margin="218,60,0,0" Name="label6" VerticalAlignment="Top" Width="151" />
+    </Grid>
+</Window>
