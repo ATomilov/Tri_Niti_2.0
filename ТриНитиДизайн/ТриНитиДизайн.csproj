@@ -76,12 +76,19 @@
     <Compile Include="Main\MainEvent.cs" />
     <Compile Include="Main\MainEventMenu.cs" />
     <Compile Include="Main\TatamiFunctions.cs" />
+    <Compile Include="Options\OptionCepochka.cs" />
     <Compile Include="Options\OptionGlad.cs" />
     <Compile Include="Options\OptionTatami.cs" />
     <Compile Include="Options\OptionRegim.cs" />
     <Compile Include="Options\OptionSetka.cs" />
     <Compile Include="Options\OptionColor.cs" />
     <Compile Include="Options\OptionStechki.cs" />
+    <Compile Include="View\Cepochka.xaml.cs">
+      <DependentUpon>Cepochka.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConnectionElements.xaml.cs">
+      <DependentUpon>ConnectionElements.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Glad.xaml.cs">
       <DependentUpon>Glad.xaml</DependentUpon>
     </Compile>
@@ -116,6 +123,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Cepochka.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConnectionElements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Glad.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -6,7 +6,7 @@
         <Label Content="Длина шага" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top"/>
         <Label Content="Длина стежка" HorizontalAlignment="Left" Margin="20,41,0,0" VerticalAlignment="Top"/>
         <Label Content="Смещение" HorizontalAlignment="Left" Margin="20,72,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="Привязяать к сетке" HorizontalAlignment="Left" Margin="44,108,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Привязать к сетке" HorizontalAlignment="Left" Margin="44,108,0,0" VerticalAlignment="Top"/>
         <Button Content="ОК" HorizontalAlignment="Left" Margin="69,139,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <TextBox x:Name="textbox1" HorizontalAlignment="Left" Height="23" Margin="124,14,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="53"/>
         <TextBox x:Name="textbox2" HorizontalAlignment="Left" Height="23" Margin="124,44,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="53"/>

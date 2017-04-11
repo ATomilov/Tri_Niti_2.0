@@ -23,3 +23,7 @@ D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДиза�
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
+D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Cepochka.g.cs
+D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\ConnectionElements.g.cs
+D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Cepochka.baml
+D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\ConnectionElements.baml
