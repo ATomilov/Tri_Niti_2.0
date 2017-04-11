@@ -16,6 +16,7 @@ namespace ТриНитиДизайн
         RegimLomanaya = 0,
         RegimTatami = 1,
         RegimStegki = 2,
-        RegimKrivaya = 3
+        RegimKrivaya = 3,
+        RegimCepochka = 4
     }
 }

@@ -23,12 +23,26 @@ namespace ТриНитиДизайн
             InitializeComponent();
             textbox1.Text = OptionTatami.StepLine.ToString();
             textbox2.Text = OptionTatami.StepStegok.ToString();
+            textbox3.Text = OptionTatami.Smeshcheniye.ToString();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OptionTatami.StepLine = int.Parse(textbox1.Text);
+            if ((int.Parse(textbox1.Text) < OptionTatami.MinStepLine) || (int.Parse(textbox1.Text) > OptionTatami.MaxStepLine))
+            {
+                System.Windows.MessageBox.Show("Длина шага должна быть от " + OptionTatami.MinStepLine.ToString() + " до " + OptionTatami.MaxStepLine.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             OptionTatami.StepStegok = int.Parse(textbox2.Text);
+            if ((int.Parse(textbox2.Text) < OptionTatami.MinStepStegok) || (int.Parse(textbox2.Text) > OptionTatami.MaxStepStegok))
+            {
+                System.Windows.MessageBox.Show("Длина стежка должна быть от " + OptionTatami.MinStepStegok.ToString() + " до " + OptionTatami.MaxStepStegok.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            OptionTatami.Smeshcheniye = int.Parse(textbox3.Text);
+            if ((int.Parse(textbox3.Text) < OptionTatami.MinSmeshcheniye) || (int.Parse(textbox3.Text) > OptionTatami.MaxSmeshcheniye))
+            {
+                System.Windows.MessageBox.Show("Смещение должно быть от " + OptionTatami.MinSmeshcheniye.ToString() + " до " + OptionTatami.MaxSmeshcheniye.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             this.Close();
         }
     }
