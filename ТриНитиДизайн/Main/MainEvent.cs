@@ -24,6 +24,7 @@ namespace ТриНитиДизайн
         {
             InitializeComponent();
             KrivayaLine = new Figure(MainCanvas);
+            
 
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

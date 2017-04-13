@@ -50,7 +50,7 @@
                 <MenuItem Header="Сетка 5.0 мм" IsCheckable="True" Checked="SetItemSetka6"/>
                 <MenuItem Header="Рисовать по сетке" IsCheckable="True" Checked="SetDotOnGrid"/>
             </MenuItem>
-                <MenuItem Header="Установки" Click="OpenSetting" />
+            <MenuItem Header="Установки" Click="OpenSetting" />
             <MenuItem Header="Элементы" >
                 <MenuItem Header="Стежки" IsChecked="True" IsCheckable="True" />
                 <MenuItem Header="Цепочка" IsChecked="True" IsCheckable="True" />
@@ -81,6 +81,7 @@
                     <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.undo1.png" />
                 </Button.Background>
             </Button>
+            <Button Content="Button" VerticalAlignment="Stretch" Width="75" Click="Button_Click"/>
         </ToolBar>
         <Button 
             Height="40" 
@@ -94,7 +95,7 @@
             BorderThickness="2" 
             Click="CurcorButtonEvent" 
             Background="White">
-                <Image Source="/ТриНитиДизайн;component/Images/appbar.cursor.default.png"    />
+            <Image Source="/ТриНитиДизайн;component/Images/appbar.cursor.default.png"    />
         </Button>
         <Button 
             HorizontalAlignment="Left" 
@@ -107,7 +108,7 @@
             Height="40" 
             VerticalAlignment="Top" 
             Background="White">
-                <Image Source="/ТриНитиДизайн;component/Images/appbar.draw.pencil.reflection.png" Stretch="Fill"  />
+            <Image Source="/ТриНитиДизайн;component/Images/appbar.draw.pencil.reflection.png" Stretch="Fill"  />
         </Button>
         <Button 
             Height="40" 
@@ -119,7 +120,7 @@
             BorderThickness="2" 
             Click="ShapeMainButtonEvant" 
             Background="White">
-                <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.line.png" />
+            <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.line.png" />
         </Button>
         <Button 
             Height="40" 
@@ -131,7 +132,7 @@
             BorderThickness="2" 
             Click="FigureMainButtonEvant" 
             Background="White">
-                <Image Source="/ТриНитиДизайн;component/Images/appbar.server.png" />
+            <Image Source="/ТриНитиДизайн;component/Images/appbar.server.png" />
         </Button>
         <Canvas 
                 Margin="50,59,12,19" 
