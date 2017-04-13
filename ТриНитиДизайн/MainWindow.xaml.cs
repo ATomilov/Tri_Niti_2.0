@@ -23,7 +23,7 @@ namespace ТриНитиДизайн
         {
             
             ListFigure[IndexFigure].Rotate(5);
-            //ListFigure[IndexFigure].AddPoint()
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             
         }
     }

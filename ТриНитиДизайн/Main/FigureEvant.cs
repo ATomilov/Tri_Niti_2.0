@@ -29,12 +29,6 @@ namespace ТриНитиДизайн
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)
         {
-<<<<<<< HEAD
-            var CepochkaSetting = new View.Cepochka();
-            CepochkaSetting.ShowDialog();
-=======
-            
->>>>>>> origin/master
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
                 var CepochkaSetting = new View.Cepochka();

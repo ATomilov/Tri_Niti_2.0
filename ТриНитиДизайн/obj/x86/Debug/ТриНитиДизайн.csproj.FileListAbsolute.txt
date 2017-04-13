@@ -1,6 +1,5 @@
 D:\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.exe
 D:\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
-D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csprojResolveAssemblyReference.cache
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\About.baml
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Glad.baml

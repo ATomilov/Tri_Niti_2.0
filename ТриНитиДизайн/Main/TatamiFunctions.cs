@@ -166,7 +166,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        private double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
+        public double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
         {
             return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
         }
@@ -207,34 +207,6 @@ namespace ТриНитиДизайн
             shape.X2 = point2.X;
             shape.Y2 = point2.Y;
             CurCanvas.Children.Add(shape);
-        }
-
-        public void SetDot(Point centerPoint, string type,Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
-        {
-            Path myPath = new Path();
-            EllipseGeometry myEllipse = new EllipseGeometry();
-            myEllipse.Center = centerPoint;
-            myEllipse.RadiusX = 3;
-            myEllipse.RadiusY = 3;
-            if (type.Equals("red"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Red;
-                myPath.Fill = System.Windows.Media.Brushes.Red;
-            }
-            if (type.Equals("blue"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.RoyalBlue;
-                myPath.Fill = System.Windows.Media.Brushes.LimeGreen;
-            }
-            if (type.Equals("grid"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Black;
-                myEllipse.RadiusX = 1;
-                myEllipse.RadiusY = 1;
-            }
-
-            myPath.Data = myEllipse;
-            CurCanvas.Children.Add(myPath);
         }
 
         public Figure Cepochka(Figure figure, double step, Canvas canvas)

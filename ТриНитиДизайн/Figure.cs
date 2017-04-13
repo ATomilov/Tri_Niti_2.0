@@ -21,7 +21,7 @@ namespace ТриНитиДизайн
     {
         public List<Shape> Shapes;
         public List<Point> Points;
-        public List<Rectangle> RectangleOfFigures;
+        //public List<Rectangle> RectangleOfFigures;
         public Dictionary<Rectangle, Point> DictionaryRecPoint;
         public Dictionary<Rectangle, Tuple<Line,Line>> DictionaryPointLines;
         public Point PointStart;
@@ -29,6 +29,7 @@ namespace ТриНитиДизайн
         public double angle;
         public Canvas canvas;
         public Rectangle SelectedRectangle;
+        public Rectangle RectangleOfFigure;
         public Figure(Canvas _canvas)
         {
             Shapes = new List<Shape>();
@@ -48,8 +49,7 @@ namespace ТриНитиДизайн
         {
             Shapes.Remove(shape);// ??? point
         }
-
-<<<<<<< HEAD
+        
         public void DrawAllRectangles(double size)
         {
             foreach(Point p in Points)
@@ -65,6 +65,18 @@ namespace ТриНитиДизайн
             }
         }
 
+        public void DrawOutSideRectangle(Point center, double width, double height)
+        {
+            Rectangle rec = new Rectangle();
+            rec.Height = height;
+            rec.Width = width;
+            Canvas.SetLeft(rec, center.X - width / 2);
+            Canvas.SetTop(rec, center.Y - height / 2);
+            rec.Stroke = OptionColor.ColorSelection;
+            rec.StrokeThickness = 1;
+            canvas.Children.Add(rec);
+        }
+
 
         public void ClearFigure()
         {
@@ -75,7 +87,6 @@ namespace ТриНитиДизайн
             DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
         }
 
-=======
         public void SetDot(Point centerPoint, string type, Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
         {
             Path myPath = new Path();
@@ -104,23 +115,33 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(myPath);
         }
 
+        public void DrawOutSideRectanglePoints()
+        {
+            Point a, b, c, d;
+            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
+            //отрисовка точек прямоугольника вокруг фигуры
+            SetDot(a, "blue", canvas);
+            SetDot(b, "blue", canvas);
+            SetDot(c, "blue", canvas);
+            SetDot(d, "blue", canvas);
+        }
 
         public void Rotate(int _angle)
         {
             // отрисовка
-            SetDot(GetCenter(), "red", canvas);
+            Point a, b, c, d;
+            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
             angle += _angle;
-            foreach (Shape shape in Shapes)
-            {
+            //foreach (Shape shape in Shapes)
+            //{
                 
-                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
-                shape.RenderTransform = rotate;
+            //    RotateTransform rotate = new RotateTransform(angle, GetCenter(out a, out b, out c, out d).X, GetCenter(out a, out b, out c, out d).Y);
+            //    shape.RenderTransform = rotate;
                 
-            }
+            //}
+            DrawOutSideRectangle(GetCenter(out a, out b, out c, out d), FindLength(a, d) + 20, FindLength(a, b) + 20);
         }
-
-
->>>>>>> origin/master
+        
         public void AddPoint(Point New)
         {
             if (Points.Count == 0)
@@ -194,7 +215,12 @@ namespace ТриНитиДизайн
             }
         }
 
-        public Point GetCenter()
+        public double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
+        {
+            return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
+        }
+
+        public Point GetCenter(out Point a, out Point b, out Point c, out Point d)
         {
             Point max = new Point(-100,-100);
             Point min = new Point(40000,40000);
@@ -209,6 +235,10 @@ namespace ТриНитиДизайн
                 if (p.Y < min.Y)
                     min.Y = p.Y;
             }
+            a = new Point(min.X, min.Y);
+            b = new Point(min.X, max.Y);
+            c = new Point(max.X, max.Y);
+            d = new Point(max.X, min.Y);
             return new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
         }
 
