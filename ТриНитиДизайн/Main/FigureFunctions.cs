@@ -45,7 +45,6 @@ namespace ТриНитиДизайн
 
             for (int i = 1; indexstart < shaps.Count - 1; i++)
             {
-
                 if (i % 2 != 0)
                 {
                     //move end
@@ -96,8 +95,17 @@ namespace ТриНитиДизайн
                     }
                     else
                     {
+                        if(j == 0)
+                        {
+                            DrawRectangle(FigureList[i].Points[j], canvas);
+                        }
+                        if(j == FigureList[i].Points.Count - 2)
+                        {
+                            DrawRectangle(FigureList[i].Points[j+1], canvas);
+                        }
                         if (j != ForbiddenLine)
                         {
+                            
                             SetLine(FigureList[i].Points[j], FigureList[i].Points[j + 1], "red", canvas);
                         }
                     }
@@ -105,7 +113,46 @@ namespace ТриНитиДизайн
             }
         }
 
+        private void DrawRectangle(Point p, Canvas canvas)
+        {
+            Rectangle rec = new Rectangle();
+            rec.Height = 8;
+            rec.Width = 8;
+            Canvas.SetLeft(rec, p.X - 4);
+            Canvas.SetTop(rec, p.Y - 4);
+            rec.Stroke = OptionColor.ColorSelection;
+            rec.StrokeThickness = 1;
+            canvas.Children.Add(rec);
+        }
 
-
+        public void DrawChoosingRectangle(Point p1, Point p2,Canvas canvas)
+        {
+            Rectangle rec = new Rectangle();
+            rec.Height = Math.Abs(p2.Y - p1.Y);
+            rec.Width = Math.Abs(p2.X - p1.X);
+            DoubleCollection dashes = new DoubleCollection();
+            dashes.Add(2);
+            dashes.Add(2);
+            rec.StrokeDashArray = dashes;
+            if (p2.X > p1.X)
+            {
+                Canvas.SetLeft(rec, p1.X);
+            }
+            else
+            {
+                Canvas.SetLeft(rec, p2.X);
+            }
+            if (p2.Y > p1.Y)
+            {
+                Canvas.SetTop(rec, p1.Y);
+            }
+            else
+            {
+                Canvas.SetTop(rec, p2.Y);
+            }
+            rec.Stroke = OptionColor.ColorChoosingRec;
+            rec.StrokeThickness = 1;
+            canvas.Children.Add(rec);
+        }
     }
 }

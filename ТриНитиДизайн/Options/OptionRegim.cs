@@ -17,6 +17,7 @@ namespace ТриНитиДизайн
         RegimTatami = 1,
         RegimStegki = 2,
         RegimKrivaya = 3,
-        RegimCepochka = 4
+        RegimCepochka = 4,
+        RegimEditFigures = 5
     }
 }

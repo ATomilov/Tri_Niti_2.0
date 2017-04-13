@@ -19,19 +19,13 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        //Курсоры
-        Cursor HandCursor;
-        Cursor NormalCursor;
-        double MousePositionX;
-        double MousePositionY;
-        int IndexFigure;
-        List<Figure> ListFigure;
-
-        Figure ChoosingRectangle;
-        Figure ControlLine;
-        Figure KrivayaLine;
-        int LineForbidden = 0;
-        List<Figure> ControlFigures = new List<Figure>();
-        List<Figure> TatamiFigures = new List<Figure>();
+        public void CloseAllTabs()
+        {
+            expander1.IsExpanded = false;
+            if (tabControl1.Visibility == Visibility.Visible)
+                tabControl1.Visibility = Visibility.Hidden;
+            if (tabControl2.Visibility == Visibility.Visible)
+                tabControl2.Visibility = Visibility.Hidden;
+        }
     }
 }

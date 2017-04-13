@@ -62,7 +62,7 @@
     <Compile Include="CanonicalSplineHelper.cs" />
     <Compile Include="Main\CanvasAssistant.cs" />
     <Compile Include="Figure.cs" />
-    <Compile Include="Functions.cs" />
+    <Compile Include="Main\MainFunctions.cs" />
     <Compile Include="Main\FigureFunctions.cs" />
     <Compile Include="Main\MashtabFunctions.cs" />
     <Compile Include="Main\SetkaFunctions.cs" />

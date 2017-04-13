@@ -48,6 +48,31 @@ namespace ТриНитиДизайн
             Shapes.Remove(shape);// ??? point
         }
 
+        public void DrawAllRectangles(double size)
+        {
+            foreach(Point p in Points)
+            {
+                Rectangle rec = new Rectangle();
+                rec.Height = size;
+                rec.Width = size;
+                Canvas.SetLeft(rec, p.X - size/2);
+                Canvas.SetTop(rec, p.Y - size/2);
+                rec.Stroke = OptionColor.ColorSelection;
+                rec.StrokeThickness = 1;
+                canvas.Children.Add(rec);
+            }
+        }
+
+
+        public void ClearFigure()
+        {
+            Shapes = new List<Shape>();
+            Points = new List<Point>();
+            angle = 0;
+            DictionaryRecPoint = new Dictionary<Rectangle, Point>();
+            DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
+        }
+
         public void AddPoint(Point New)
         {
             if (Points.Count == 0)
@@ -70,7 +95,7 @@ namespace ТриНитиДизайн
             rec.Width = 8;
             Canvas.SetLeft(rec, New.X - 4);
             Canvas.SetTop(rec, New.Y - 4);
-            rec.Stroke = OptionColor.ColorDraw;
+            rec.Stroke = OptionColor.ColorSelection;
             rec.StrokeThickness = 1;
             canvas.Children.Add(rec);
             DictionaryRecPoint.Add(rec, New);

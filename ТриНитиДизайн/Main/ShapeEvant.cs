@@ -23,9 +23,12 @@ namespace ТриНитиДизайн
 
         private void ShapeMainButtonEvant(object sender, RoutedEventArgs e)
         {
-            if (tabControl1.Visibility == Visibility.Visible)
-                tabControl1.Visibility = Visibility.Hidden;
-            else if (tabControl1.Visibility == Visibility.Hidden)
+            CloseAllTabs();
+            OptionRegim.regim = Regim.RegimEditFigures;
+            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+            ListFigure[IndexFigure].DrawAllRectangles(8);
+            ChoosingRectangle = new Figure(MainCanvas);
+            if (tabControl1.Visibility == Visibility.Hidden)
                 tabControl1.Visibility = Visibility.Visible;
         }
 
@@ -51,7 +54,19 @@ namespace ТриНитиДизайн
         {
             MainCanvas.Children.Clear();
             SetSpline(1, ListFigure[IndexFigure].Points, MainCanvas);
-
+            ListFigure[IndexFigure].Points.Clear();
+            Path path = (Path)MainCanvas.Children[MainCanvas.Children.Count - 1];
+            PathGeometry myPathGeometry = (PathGeometry)path.Data;
+            Point p;
+            Point tg;
+            var points = new List<Point>();
+            double step = 50;
+            for (var i = 0; i <= step; i++)
+            {
+                myPathGeometry.GetPointAtFractionLength(i / step, out p, out tg);
+                ListFigure[IndexFigure].Points.Add(p);
+            }
+            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
         }
 
         private void SelectPointNextButtonEvent(object sender, RoutedEventArgs e)

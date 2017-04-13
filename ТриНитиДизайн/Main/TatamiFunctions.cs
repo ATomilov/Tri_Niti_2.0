@@ -237,7 +237,7 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(myPath);
         }
 
-        public void Cepochka(Figure figure, double step, Canvas canvas)
+        public Figure Cepochka(Figure figure, double step, Canvas canvas)
         {
             Figure resultFigure = new Figure(canvas);
             for (int i = 0; i < figure.Points.Count - 1; i++)
@@ -250,20 +250,16 @@ namespace ТриНитиДизайн
                 double distance = step;
                 Vector vect = new Vector(x, y);
                 double length = vect.Length;
-                while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
+                while (length - (step/2) > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
                 {
                     vect.Normalize();
                     vect *= distance;
                     resultFigure.Points.Add(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y));
                     distance += step;
-
                 }
                 resultFigure.Points.Add(figure.Points[i + 1]);
             }
-            for (int i = 0; i < resultFigure.Points.Count; i++)
-            {
-                SetDot(resultFigure.Points[i], "red", canvas);
-            }
+            return resultFigure;
         }
 
 
@@ -409,10 +405,7 @@ namespace ТриНитиДизайн
             }
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //точки на татами
             {
-                for (int j = 0; j < ListTatamiFigures[i].Points.Count; j++)
-                {
-                    SetDot(ListTatamiFigures[i].Points[j], "blue",CurCanvas);
-                }
+                ListTatamiFigures[i].DrawAllRectangles(4);
             }
         }
 

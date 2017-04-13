@@ -22,21 +22,21 @@ namespace ТриНитиДизайн
 
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
-            if (tabControl2.Visibility == Visibility.Visible)
-                tabControl2.Visibility = Visibility.Hidden;
-            else if (tabControl2.Visibility == Visibility.Hidden)
+            CloseAllTabs();
+            if (tabControl2.Visibility == Visibility.Hidden)
                 tabControl2.Visibility = Visibility.Visible;
         }
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)
         {
             var CepochkaSetting = new View.Cepochka();
-            CepochkaSetting.Show();
+            CepochkaSetting.ShowDialog();
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
                 OptionRegim.regim = Regim.RegimCepochka;
                 ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
-                Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
+                ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
+                ListFigure[IndexFigure].DrawAllRectangles(8);
             }
         }
 

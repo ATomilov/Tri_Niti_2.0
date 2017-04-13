@@ -44,12 +44,14 @@ namespace ТриНитиДизайн
                 {
                     if (ListFigure[IndexFigure].Points.Count > 0)
                     {
-                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                        if (ListFigure[IndexFigure].Points.Count > 0)
+                        {
+                            MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                        }
                         Line line = ListFigure[IndexFigure].GetLine(ListFigure[IndexFigure].PointEnd, e.GetPosition(MainCanvas));
                         line.StrokeThickness = 1;
                         line.Stroke = OptionColor.ColorDraw;
                         MainCanvas.Children.Add(line);
-                        MainCanvas.UpdateLayout();
                     }
                 }
                 if (OptionRegim.regim == Regim.RegimTatami)
@@ -84,6 +86,16 @@ namespace ТриНитиДизайн
                         KrivayaLine.Points.RemoveAt(1);
                     }
                 }
+
+                if (OptionRegim.regim == Regim.RegimEditFigures)
+                {
+                    if (ChoosingRectangle.Points.Count > 0)
+                    {
+                        RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+                        ListFigure[IndexFigure].DrawAllRectangles(8);
+                        DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas),MainCanvas);
+                    }
+                }
             }
         }
 
@@ -107,6 +119,34 @@ namespace ТриНитиДизайн
                     }
                     RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
                     KrivayaLine.Points.Clear();
+                }
+            }
+            if (OptionRegim.regim == Regim.RegimEditFigures)
+            {
+                if (ChoosingRectangle.Points.Count > 1)
+                {
+                    Point UpperLeftCorner = new Point();
+                    Point LowerRightCorner = new Point();
+                    if(e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
+                    {
+                        UpperLeftCorner.X = e.GetPosition(MainCanvas).X;
+                        LowerRightCorner.X = ChoosingRectangle.Points[0].X;
+                    }
+                    else
+                    {
+                        UpperLeftCorner.X = ChoosingRectangle.Points[0].X;
+                        LowerRightCorner.X = e.GetPosition(MainCanvas).X;
+                    }
+                    if (e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
+                    {
+                        UpperLeftCorner.X = e.GetPosition(MainCanvas).X;
+                        LowerRightCorner.X = ChoosingRectangle.Points[0].X;
+                    }
+                    else
+                    {
+                        UpperLeftCorner.X = ChoosingRectangle.Points[0].X;
+                        LowerRightCorner.X = e.GetPosition(MainCanvas).X;
+                    }
                 }
             }
         }
@@ -141,17 +181,31 @@ namespace ТриНитиДизайн
             Mouse.Capture(MainCanvas);
             if (OptionRegim.regim == Regim.RegimLomanaya)
             {
-                ListFigure.Add(new Figure(MainCanvas));
-                IndexFigure++;
-                for (int i = 0; i < ListFigure.Count; i++)
+                if (e.OriginalSource is Line)                      //выделение части татами
                 {
-                    if (i != IndexFigure)
+                    double x;
+                    double y;
+                    Line clickedLine = (Line)e.OriginalSource;
+                    x = clickedLine.X1;
+                    y = clickedLine.Y1;
+                    for (int i = 0; i < ListFigure.Count; i++)
                     {
-                        foreach (Shape sh in ListFigure[i].Shapes)
+                        for (int j = 0; j < ListFigure[i].Points.Count; j++)
                         {
-                            sh.Stroke = OptionColor.ColorSelection;
+                            if (ListFigure[i].Points[j].X == x && ListFigure[i].Points[j].Y == y)
+                            {
+                                IndexFigure = i;
+                                RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+                                break;
+                            }
                         }
                     }
+                }
+                else
+                {
+                    ListFigure.Add(new Figure(MainCanvas));
+                    IndexFigure = ListFigure.Count-1;
+                    RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
                 }
             }
             if (OptionRegim.regim == Regim.RegimStegki)
@@ -213,6 +267,11 @@ namespace ТриНитиДизайн
                 }
             }
 
+            if (OptionRegim.regim == Regim.RegimEditFigures)
+            {
+                ChoosingRectangle.Points.Clear();
+                ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
+            }
 
         }
     }

@@ -55,11 +55,16 @@ namespace ТриНитиДизайн
 
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
-            MainCanvas.Cursor = HandCursor;
+            CloseAllTabs();
+            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+            OptionRegim.regim = Regim.RegimLomanaya;
+            MainCanvas.Cursor = HandCursor;            
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
+            CloseAllTabs();
+            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
             MainCanvas.Cursor = NormalCursor;
         }
 
