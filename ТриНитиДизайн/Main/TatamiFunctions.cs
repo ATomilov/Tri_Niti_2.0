@@ -209,7 +209,7 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(shape);
         }
 
-        private void SetDot(Point centerPoint, string type,Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
+        public void SetDot(Point centerPoint, string type,Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
         {
             Path myPath = new Path();
             EllipseGeometry myEllipse = new EllipseGeometry();

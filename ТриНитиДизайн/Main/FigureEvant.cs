@@ -30,10 +30,11 @@ namespace ТриНитиДизайн
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)
         {
-            var CepochkaSetting = new View.Cepochka();
-            CepochkaSetting.Show();
+            
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
+                var CepochkaSetting = new View.Cepochka();
+                CepochkaSetting.ShowDialog();
                 OptionRegim.regim = Regim.RegimCepochka;
                 ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
                 Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);

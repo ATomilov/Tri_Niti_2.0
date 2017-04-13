@@ -33,12 +33,6 @@ namespace ТриНитиДизайн.View
             {
                 System.Windows.MessageBox.Show("Длина шага должна быть от " + OptionCepochka.MinLenthStep.ToString() + " до " + OptionCepochka.MaxLenthStep.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            //if (ListFigure[IndexFigure].Points.Count > 0)
-            //{
-            //    OptionRegim.regim = Regim.RegimCepochka;
-            //    ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
-            //    Cepochka(ListFigure[IndexFigure], 15, MainCanvas);
-            //}
             this.Close();
 
         }

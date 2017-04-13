@@ -21,6 +21,7 @@ namespace ТриНитиДизайн
     {
         public List<Shape> Shapes;
         public List<Point> Points;
+        public List<Rectangle> RectangleOfFigures;
         public Dictionary<Rectangle, Point> DictionaryRecPoint;
         public Dictionary<Rectangle, Tuple<Line,Line>> DictionaryPointLines;
         public Point PointStart;
@@ -47,6 +48,50 @@ namespace ТриНитиДизайн
         {
             Shapes.Remove(shape);// ??? point
         }
+
+        public void SetDot(Point centerPoint, string type, Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
+        {
+            Path myPath = new Path();
+            EllipseGeometry myEllipse = new EllipseGeometry();
+            myEllipse.Center = centerPoint;
+            myEllipse.RadiusX = 3;
+            myEllipse.RadiusY = 3;
+            if (type.Equals("red"))
+            {
+                myPath.Stroke = System.Windows.Media.Brushes.Red;
+                myPath.Fill = System.Windows.Media.Brushes.Red;
+            }
+            if (type.Equals("blue"))
+            {
+                myPath.Stroke = System.Windows.Media.Brushes.RoyalBlue;
+                myPath.Fill = System.Windows.Media.Brushes.LimeGreen;
+            }
+            if (type.Equals("grid"))
+            {
+                myPath.Stroke = System.Windows.Media.Brushes.Black;
+                myEllipse.RadiusX = 1;
+                myEllipse.RadiusY = 1;
+            }
+
+            myPath.Data = myEllipse;
+            CurCanvas.Children.Add(myPath);
+        }
+
+
+        public void Rotate(int _angle)
+        {
+            // отрисовка
+            SetDot(GetCenter(), "red", canvas);
+            angle += _angle;
+            foreach (Shape shape in Shapes)
+            {
+                
+                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
+                shape.RenderTransform = rotate;
+                
+            }
+        }
+
 
         public void AddPoint(Point New)
         {
@@ -123,8 +168,8 @@ namespace ТриНитиДизайн
 
         public Point GetCenter()
         {
-            Point max = new Point();
-            Point min = new Point();
+            Point max = new Point(-100,-100);
+            Point min = new Point(40000,40000);
             foreach (Point p in Points)
             {
                 if (p.X > max.X)
