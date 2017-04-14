@@ -22,6 +22,8 @@ namespace ТриНитиДизайн
 
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
+
+            ChosenPts = new List<Point>();
             CloseAllTabs();
             if (tabControl2.Visibility == Visibility.Hidden)
                 tabControl2.Visibility = Visibility.Visible;
@@ -34,7 +36,7 @@ namespace ТриНитиДизайн
                 var CepochkaSetting = new View.Cepochka();
                 CepochkaSetting.ShowDialog();
                 OptionRegim.regim = Regim.RegimCepochka;
-                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
+                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0],OptionColor.ColorDraw,false,8);
                 ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
                 ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
             }
@@ -53,7 +55,8 @@ namespace ТриНитиДизайн
                 Tatami TatamiWindow = new Tatami();
                 TatamiWindow.ShowDialog();
                 OptionRegim.regim = Regim.RegimTatami;
-                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
+                PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0],OptionColor.ColorDraw,false,8);
                 ControlLine = new Figure(MainCanvas);
             }
         }

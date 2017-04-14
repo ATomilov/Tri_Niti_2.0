@@ -20,8 +20,8 @@ namespace ТриНитиДизайн
     /// </summary>
     public partial class WindowColors : Window
     {
-        Canvas canvas;
-        Brush brush;                                    //brush не работает почему-то
+
+        Brush brush;
         Polyline lines = new Polyline();
 
         public WindowColors()

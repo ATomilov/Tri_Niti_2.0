@@ -29,9 +29,7 @@ namespace ТриНитиДизайн
 
         Figure ChoosingRectangle;
         Figure ControlLine;
-        Figure KrivayaLine;
-        Figure TempFigure;
-        int LineForbidden = 0;
+        List<Point> ChosenPts;
         List<Figure> ControlFigures = new List<Figure>();
         List<Figure> TatamiFigures = new List<Figure>();
     }

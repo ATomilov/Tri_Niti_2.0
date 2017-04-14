@@ -23,9 +23,7 @@ namespace ТриНитиДизайн
         public MainWindow()
         {
             InitializeComponent();
-            KrivayaLine = new Figure(MainCanvas);
-            
-
+            ChosenPts = new List<Point>();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -57,15 +55,15 @@ namespace ТриНитиДизайн
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-            OptionRegim.regim = Regim.RegimLomanaya;
+            RedrawEverything(ListFigure, IndexFigure, MainCanvas);
+            OptionRegim.regim = Regim.RegimDraw;
             MainCanvas.Cursor = HandCursor;            
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, MainCanvas);
             MainCanvas.Cursor = NormalCursor;
         }
 
