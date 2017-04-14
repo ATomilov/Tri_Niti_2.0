@@ -30,6 +30,7 @@ namespace ТриНитиДизайн
         public double angle;
         public Canvas canvas;
         public Rectangle SelectedRectangle;
+        public Rectangle RectangleOfFigure;
         public Figure(Canvas _canvas)
         {
             Shapes = new List<Shape>();
@@ -50,8 +51,13 @@ namespace ТриНитиДизайн
         {
             Shapes.Remove(shape);// ??? point
         }
+<<<<<<< HEAD
 
         public void DrawAllRectangles(double size, Brush brush)
+=======
+        
+        public void DrawAllRectangles(double size)
+>>>>>>> 90023ce0a7123ced2f8766aec51496e5f27b0949
         {
             foreach(Point p in Points)
             {
@@ -65,6 +71,18 @@ namespace ТриНитиДизайн
                 rec.StrokeThickness = 1;
                 canvas.Children.Add(rec);
             }
+        }
+
+        public void DrawOutSideRectangle(Point center, double width, double height)
+        {
+            Rectangle rec = new Rectangle();
+            rec.Height = height;
+            rec.Width = width;
+            Canvas.SetLeft(rec, center.X - width / 2);
+            Canvas.SetTop(rec, center.Y - height / 2);
+            rec.Stroke = OptionColor.ColorSelection;
+            rec.StrokeThickness = 1;
+            canvas.Children.Add(rec);
         }
 
 
@@ -91,8 +109,18 @@ namespace ТриНитиДизайн
             }
             if (type.Equals("blue"))
             {
+                myPath.Stroke = System.Windows.Media.Brushes.Blue;
+                myPath.Fill = System.Windows.Media.Brushes.Blue;
+            }
+            if (type.Equals("green"))
+            {
+                myPath.Stroke = System.Windows.Media.Brushes.Green;
+                myPath.Fill = System.Windows.Media.Brushes.Green;
+            }
+            if (type.Equals("black"))
+            {
                 myPath.Stroke = System.Windows.Media.Brushes.RoyalBlue;
-                myPath.Fill = System.Windows.Media.Brushes.LimeGreen;
+                myPath.Fill = System.Windows.Media.Brushes.Black;
             }
             if (type.Equals("grid"))
             {
@@ -105,22 +133,72 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(myPath);
         }
 
+        public void DrawOutSideRectanglePoints()
+        {
+            List<Point> PointsOutSideRectangle = new List<Point>();
+            Point a, b, c, d;
+            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
+            PointsOutSideRectangle.Add(a);
+            PointsOutSideRectangle.Add(b);
+            PointsOutSideRectangle.Add(c);
+            PointsOutSideRectangle.Add(d);
+            PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
+            PointsOutSideRectangle.Add(new Point((b.X + c.X) / 2, (b.Y + c.Y) / 2));
+            PointsOutSideRectangle.Add(new Point((c.X + d.X) / 2, (c.Y + d.Y) / 2));
+            PointsOutSideRectangle.Add(new Point((d.X + a.X) / 2, (d.Y + a.Y) / 2));
+            foreach(Point p in PointsOutSideRectangle)
+            {
+                DrawRectangle(p, canvas);
+            }
+        }
+
+        public void DrawRectangle(Point p, Canvas canvas)
+        {
+            Rectangle rec = new Rectangle();
+            rec.Height = 10;
+            rec.Width = 10;
+            Canvas.SetLeft(rec, p.X - 5);
+            Canvas.SetTop(rec, p.Y - 5);
+            rec.Stroke = OptionColor.ColorSelection;
+            rec.StrokeThickness = 1;
+            rec.Fill = Brushes.Black;
+            rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+            rec.MouseUp += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseUp);
+            canvas.Children.Add(rec);
+        }
+
+        void PointOfRectangleOutSide_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+            ((Rectangle)sender).Fill = Brushes.Red;
+        }
+        void PointOfRectangleOutSide_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            
+            ((Rectangle)sender).Fill = Brushes.Yellow;
+        }
 
         public void Rotate(int _angle)
         {
             // отрисовка
-            SetDot(GetCenter(), "red", canvas);
+            Point a, b, c, d;
+            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
             angle += _angle;
-            foreach (Shape shape in Shapes)
-            {
+            //foreach (Shape shape in Shapes)
+            //{
                 
-                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
-                shape.RenderTransform = rotate;
+            //    RotateTransform rotate = new RotateTransform(angle, GetCenter(out a, out b, out c, out d).X, GetCenter(out a, out b, out c, out d).Y);
+            //    shape.RenderTransform = rotate;
                 
-            }
+            //}
+            DrawOutSideRectangle(GetCenter(out a, out b, out c, out d), FindLength(a, d), FindLength(a, b));
         }
+<<<<<<< HEAD
 
 
+=======
+        
+>>>>>>> 90023ce0a7123ced2f8766aec51496e5f27b0949
         public void AddPoint(Point New)
         {
             if (Points.Count == 0)
@@ -193,7 +271,12 @@ namespace ТриНитиДизайн
             }
         }
 
-        public Point GetCenter()
+        public double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
+        {
+            return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
+        }
+
+        public Point GetCenter(out Point a, out Point b, out Point c, out Point d)
         {
             Point max = new Point(-100,-100);
             Point min = new Point(40000,40000);
@@ -208,6 +291,10 @@ namespace ТриНитиДизайн
                 if (p.Y < min.Y)
                     min.Y = p.Y;
             }
+            a = new Point(min.X - 20, min.Y - 20);
+            b = new Point(min.X - 20, max.Y + 20);
+            c = new Point(max.X + 20, max.Y + 20);
+            d = new Point(max.X + 20, min.Y - 20);
             return new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
         }
 

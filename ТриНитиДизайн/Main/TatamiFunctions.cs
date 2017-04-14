@@ -166,7 +166,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        private double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
+        public double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
         {
             return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
         }

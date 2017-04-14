@@ -20,6 +20,11 @@ namespace ТриНитиДизайн
     public partial class MainWindow : Window
     {
 
+<<<<<<< HEAD
+=======
+        
+
+>>>>>>> 90023ce0a7123ced2f8766aec51496e5f27b0949
         public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, int ForbiddenLine, Canvas canvas)
         {
             canvas.Children.Clear();
