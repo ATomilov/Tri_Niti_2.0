@@ -209,34 +209,6 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(shape);
         }
 
-        public void SetDot(Point centerPoint, string type,Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
-        {
-            Path myPath = new Path();
-            EllipseGeometry myEllipse = new EllipseGeometry();
-            myEllipse.Center = centerPoint;
-            myEllipse.RadiusX = 3;
-            myEllipse.RadiusY = 3;
-            if (type.Equals("red"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Red;
-                myPath.Fill = System.Windows.Media.Brushes.Red;
-            }
-            if (type.Equals("blue"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.RoyalBlue;
-                myPath.Fill = System.Windows.Media.Brushes.LimeGreen;
-            }
-            if (type.Equals("grid"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Black;
-                myEllipse.RadiusX = 1;
-                myEllipse.RadiusY = 1;
-            }
-
-            myPath.Data = myEllipse;
-            CurCanvas.Children.Add(myPath);
-        }
-
         public Figure Cepochka(Figure figure, double step, Canvas canvas)
         {
             Figure resultFigure = new Figure(canvas);
@@ -405,7 +377,7 @@ namespace ТриНитиДизайн
             }
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //точки на татами
             {
-                ListTatamiFigures[i].DrawAllRectangles(4);
+                ListTatamiFigures[i].DrawAllRectangles(4, OptionColor.ColorOpacity);
             }
         }
 

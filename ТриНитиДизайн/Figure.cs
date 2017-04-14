@@ -21,6 +21,7 @@ namespace ТриНитиДизайн
     {
         public List<Shape> Shapes;
         public List<Point> Points;
+        public List<int> PointsCount;
         public List<Rectangle> RectangleOfFigures;
         public Dictionary<Rectangle, Point> DictionaryRecPoint;
         public Dictionary<Rectangle, Tuple<Line,Line>> DictionaryPointLines;
@@ -33,6 +34,7 @@ namespace ТриНитиДизайн
         {
             Shapes = new List<Shape>();
             Points = new List<Point>();
+            PointsCount = new List<int>();
             angle = 0;
             canvas = _canvas;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
@@ -49,8 +51,7 @@ namespace ТриНитиДизайн
             Shapes.Remove(shape);// ??? point
         }
 
-<<<<<<< HEAD
-        public void DrawAllRectangles(double size)
+        public void DrawAllRectangles(double size, Brush brush)
         {
             foreach(Point p in Points)
             {
@@ -60,6 +61,7 @@ namespace ТриНитиДизайн
                 Canvas.SetLeft(rec, p.X - size/2);
                 Canvas.SetTop(rec, p.Y - size/2);
                 rec.Stroke = OptionColor.ColorSelection;
+                rec.Fill = brush;
                 rec.StrokeThickness = 1;
                 canvas.Children.Add(rec);
             }
@@ -75,7 +77,6 @@ namespace ТриНитиДизайн
             DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
         }
 
-=======
         public void SetDot(Point centerPoint, string type, Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
         {
             Path myPath = new Path();
@@ -120,13 +121,11 @@ namespace ТриНитиДизайн
         }
 
 
->>>>>>> origin/master
         public void AddPoint(Point New)
         {
             if (Points.Count == 0)
             {
                 PointStart = New;
-               
             }
             if(Points.Count != 0)
             {

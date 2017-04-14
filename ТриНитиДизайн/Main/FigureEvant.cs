@@ -29,12 +29,6 @@ namespace ТриНитиДизайн
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)
         {
-<<<<<<< HEAD
-            var CepochkaSetting = new View.Cepochka();
-            CepochkaSetting.ShowDialog();
-=======
-            
->>>>>>> origin/master
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
                 var CepochkaSetting = new View.Cepochka();
@@ -42,7 +36,7 @@ namespace ТриНитиДизайн
                 OptionRegim.regim = Regim.RegimCepochka;
                 ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
                 ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
-                ListFigure[IndexFigure].DrawAllRectangles(8);
+                ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
             }
         }
 

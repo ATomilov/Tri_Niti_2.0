@@ -44,10 +44,7 @@ namespace ТриНитиДизайн
                 {
                     if (ListFigure[IndexFigure].Points.Count > 0)
                     {
-                        if (ListFigure[IndexFigure].Points.Count > 0)
-                        {
-                            MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
-                        }
+                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                         Line line = ListFigure[IndexFigure].GetLine(ListFigure[IndexFigure].PointEnd, e.GetPosition(MainCanvas));
                         line.StrokeThickness = 1;
                         line.Stroke = OptionColor.ColorDraw;
@@ -81,6 +78,7 @@ namespace ТриНитиДизайн
                     if (KrivayaLine.Points.Count > 1)
                     {
                         RedrawEverything(ListFigure, IndexFigure, LineForbidden, MainCanvas);
+                        ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
                         KrivayaLine.Points.Insert(1, e.GetPosition(MainCanvas));
                         SetSpline(0.75, KrivayaLine.Points, MainCanvas);
                         KrivayaLine.Points.RemoveAt(1);
@@ -92,7 +90,7 @@ namespace ТриНитиДизайн
                     if (ChoosingRectangle.Points.Count > 0)
                     {
                         RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-                        ListFigure[IndexFigure].DrawAllRectangles(8);
+                        ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
                         DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas),MainCanvas);
                     }
                 }
@@ -123,8 +121,10 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
-                if (ChoosingRectangle.Points.Count > 1)
+                if (ChoosingRectangle.Points.Count > 0)
                 {
+                    RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+                    ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
                     Point UpperLeftCorner = new Point();
                     Point LowerRightCorner = new Point();
                     if(e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
@@ -137,16 +137,27 @@ namespace ТриНитиДизайн
                         UpperLeftCorner.X = ChoosingRectangle.Points[0].X;
                         LowerRightCorner.X = e.GetPosition(MainCanvas).X;
                     }
-                    if (e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
+                    if (e.GetPosition(MainCanvas).Y < ChoosingRectangle.Points[0].Y)
                     {
-                        UpperLeftCorner.X = e.GetPosition(MainCanvas).X;
-                        LowerRightCorner.X = ChoosingRectangle.Points[0].X;
+                        UpperLeftCorner.Y = e.GetPosition(MainCanvas).Y;
+                        LowerRightCorner.Y = ChoosingRectangle.Points[0].Y;
                     }
                     else
                     {
-                        UpperLeftCorner.X = ChoosingRectangle.Points[0].X;
-                        LowerRightCorner.X = e.GetPosition(MainCanvas).X;
+                        UpperLeftCorner.Y = ChoosingRectangle.Points[0].Y;
+                        LowerRightCorner.Y = e.GetPosition(MainCanvas).Y;
                     }
+                    for (int i = 0; i < ListFigure[IndexFigure].Points.Count;i++ )
+                    {
+                        Point newPoint = ListFigure[IndexFigure].Points[i];
+                        if(newPoint.X < LowerRightCorner.X && newPoint.X > UpperLeftCorner.X &&
+                            newPoint.Y < LowerRightCorner.Y && newPoint.Y > UpperLeftCorner.Y)
+                        {
+                            TempFigure.Points.Add(newPoint);
+                            TempFigure.PointsCount.Add(i);
+                        }
+                    }
+                    TempFigure.DrawAllRectangles(8, OptionColor.ColorSelection);
                 }
             }
         }
@@ -156,10 +167,12 @@ namespace ТриНитиДизайн
             Mouse.Capture(null);
             if (OptionRegim.regim == Regim.RegimLomanaya)
             {
-                if (MainCanvas.Children.Count > 1)
+                if (ListFigure[IndexFigure].Points.Count > 1)
                 {
                     MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                    DrawRectangle(ListFigure[IndexFigure].PointStart, MainCanvas);
                 }
+
                 Point point = FindClosestDot(e.GetPosition(MainCanvas));
                 ListFigure[IndexFigure].AddPoint(point);
             }
@@ -269,6 +282,7 @@ namespace ТриНитиДизайн
 
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
+                TempFigure.Points.Clear();
                 ChoosingRectangle.Points.Clear();
                 ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
             }
