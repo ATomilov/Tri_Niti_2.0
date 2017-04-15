@@ -75,6 +75,7 @@
     <Compile Include="Main\MouseEvent.cs" />
     <Compile Include="Main\MainEvent.cs" />
     <Compile Include="Main\MainEventMenu.cs" />
+    <Compile Include="Main\GladFunctions.cs" />
     <Compile Include="Main\TatamiFunctions.cs" />
     <Compile Include="Options\OptionCepochka.cs" />
     <Compile Include="Options\OptionGlad.cs" />

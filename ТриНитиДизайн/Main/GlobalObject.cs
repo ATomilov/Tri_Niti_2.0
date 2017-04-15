@@ -25,11 +25,13 @@ namespace ТриНитиДизайн
         double MousePositionX;
         double MousePositionY;
         int IndexFigure;
+        int SecondGladFigure;
         List<Figure> ListFigure;
 
         Figure ChoosingRectangle;
         Figure ControlLine;
         List<Point> ChosenPts;
+        List<Figure> LinesForGlad = new List<Figure>();
         List<Figure> ControlFigures = new List<Figure>();
         List<Figure> TatamiFigures = new List<Figure>();
     }

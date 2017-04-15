@@ -228,7 +228,7 @@ namespace ТриНитиДизайн
             {
                 PointStart = New;
             }
-            if(Points.Count != 0)
+            if (Points.Count != 0)
             {
                 Line line = GetLine(PointEnd, New);
                 line.StrokeThickness = 1;
@@ -244,8 +244,8 @@ namespace ТриНитиДизайн
                 Rectangle rec = new Rectangle();
                 rec.Height = recSize;
                 rec.Width = recSize;
-                Canvas.SetLeft(rec, New.X - recSize/2);
-                Canvas.SetTop(rec, New.Y - recSize/2);
+                Canvas.SetLeft(rec, New.X - recSize / 2);
+                Canvas.SetTop(rec, New.Y - recSize / 2);
                 rec.Stroke = OptionColor.ColorSelection;
                 rec.StrokeThickness = 1;
                 canvas.Children.Add(rec);
@@ -257,9 +257,6 @@ namespace ТриНитиДизайн
             //Подписать поинт на изменение координат
         }
 
-
- 
-
         public Line GetLine(Point start, Point end)
         {
             Line line = new Line();
@@ -269,8 +266,6 @@ namespace ТриНитиДизайн
             line.Y2 = end.Y;
             return line;
         }
-
-
 
         public void ClearFigure(Canvas _canvas)
         {
@@ -295,8 +290,7 @@ namespace ТриНитиДизайн
                 _canvas.Children.Add(shape);
             }
         }
-
-
+        
         public double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
         {
             return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));

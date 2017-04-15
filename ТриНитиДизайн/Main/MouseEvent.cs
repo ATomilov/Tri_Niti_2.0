@@ -32,6 +32,31 @@ namespace ТриНитиДизайн
                 ControlLine.Points.Clear();
                 ControlLine.Points.Add(e.GetPosition(MainCanvas));
             }
+            if (OptionRegim.regim == Regim.RegimFigure)
+            {
+                if (e.OriginalSource is Line)
+                {
+                    double x;
+                    double y;
+                    Line clickedLine = (Line)e.OriginalSource;
+                    x = clickedLine.X1;
+                    y = clickedLine.Y1;
+                    for (int i = 0; i < ListFigure.Count; i++)
+                    {
+                        if(i!= IndexFigure)
+                        {
+                            if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                            {
+                                SecondGladFigure = i;
+                                ShowJoinMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[i],MainCanvas);
+                                break;
+                            }
+                        }
+                        
+                    }
+                }
+                
+            }
         }
 
         private void CanvasTest_MouseMove(object sender, MouseEventArgs e)
@@ -204,8 +229,17 @@ namespace ТриНитиДизайн
                     {
                         if(ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x,y)) == true)
                         {
-                            IndexFigure = i;
-                            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw);
+                            if (IndexFigure == i)
+                            {
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
+                                IndexFigure = ListFigure.Count - 1;
+                            }
+                            else
+                            {
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
+                                IndexFigure = i;
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw);
+                            }
                             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
                             break;
                         }
@@ -221,14 +255,14 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimStegki)
             {
-                if (e.OriginalSource is Line)                      //выделение части татами
+                if (e.OriginalSource is Line)
                 {
                     double x;
                     double y;
                     Line clickedLine = (Line)e.OriginalSource;
                     x = clickedLine.X1;
                     y = clickedLine.Y1;
-                    for (int i = 0; i < 128; i++)                           //находим номер фигуры, которую хотим выделить
+                    for (int i = 0; i < 128; i++)
                     {
                         if (TatamiFigures[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
                         {
@@ -242,7 +276,7 @@ namespace ТриНитиДизайн
                 }
                 else
                 {
-                    for (int i = 0; i < 128; i++)                           //находим номер фигуры, которую хотим выделить
+                    for (int i = 0; i < 128; i++)
                     {
                         TatamiFigures[i].ChangeFigureColor(OptionColor.ColorSelection);
                     }

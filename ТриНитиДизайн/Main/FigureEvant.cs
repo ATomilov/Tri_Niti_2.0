@@ -22,7 +22,7 @@ namespace ТриНитиДизайн
 
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
-
+            OptionRegim.regim = Regim.RegimFigure;
             ChosenPts = new List<Point>();
             CloseAllTabs();
             if (tabControl2.Visibility == Visibility.Hidden)
@@ -46,8 +46,15 @@ namespace ТриНитиДизайн
 
         private void GladButtonEvent(object sender, RoutedEventArgs e)
         {
-            var GladSetting = new View.Glad();
-            GladSetting.Show();
+            
+            if (LinesForGlad.Count > 0)
+            {
+                var GladSetting = new View.Glad();
+                GladSetting.ShowDialog();
+                OptionRegim.regim = Regim.RegimGlad;
+                CalculateGladLines(ListFigure[IndexFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
+
+            }
 
         }
         private void TatamiButtonEvent(object sender, RoutedEventArgs e)
@@ -80,8 +87,14 @@ namespace ТриНитиДизайн
 
         private void RisuiButtonEvent(object sender, RoutedEventArgs e)
         {
-
-
+            if (ControlLine != null)
+            {
+                if (ControlLine.Points.Count > 2)
+                {
+                    OptionRegim.regim = Regim.RegimStegki;
+                    CalculateParallelLines(ControlLine.Points[2], ControlLine.Points[ControlLine.Points.Count - 1], ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
+                }
+            }
         }
 
 
