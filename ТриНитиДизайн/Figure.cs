@@ -31,11 +31,13 @@ namespace ТриНитиДизайн
         public Canvas canvas;
         public Rectangle SelectedRectangle;
         public Rectangle RectangleOfFigure;
+        public bool PreparedForTatami;
         public Figure(Canvas _canvas)
         {
             Shapes = new List<Shape>();
             Points = new List<Point>();
             PointsCount = new List<int>();
+            PreparedForTatami = false;
             angle = 0;
             canvas = _canvas;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
@@ -116,6 +118,7 @@ namespace ТриНитиДизайн
             Points = new List<Point>();
             PointsCount = new List<int>();
             angle = 0;
+            PreparedForTatami = false;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
         }

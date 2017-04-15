@@ -214,7 +214,7 @@ namespace ТриНитиДизайн
             Figure resultFigure = new Figure(canvas);
             for (int i = 0; i < figure.Points.Count - 1; i++)
             {
-                resultFigure.Points.Add(figure.Points[i]);
+                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, true, 8);
                 double x;
                 double y;
                 x = figure.Points[i + 1].X - figure.Points[i].X;
@@ -222,14 +222,13 @@ namespace ТриНитиДизайн
                 double distance = step;
                 Vector vect = new Vector(x, y);
                 double length = vect.Length;
-                while (length - (step/2) > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
+                while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
                 {
                     vect.Normalize();
                     vect *= distance;
-                    resultFigure.Points.Add(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y));
+                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, true, 8);
                     distance += step;
                 }
-                resultFigure.Points.Add(figure.Points[i + 1]);
             }
             return resultFigure;
         }

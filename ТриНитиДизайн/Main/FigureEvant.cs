@@ -35,10 +35,12 @@ namespace ТриНитиДизайн
             {
                 var CepochkaSetting = new View.Cepochka();
                 CepochkaSetting.ShowDialog();
-                OptionRegim.regim = Regim.RegimCepochka;
-                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0],OptionColor.ColorDraw,false,8);
+                if (!ListFigure[IndexFigure].PreparedForTatami)
+                {
+                    PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                    ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
+                }
                 ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
-                ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
             }
         }
 
@@ -55,8 +57,11 @@ namespace ТриНитиДизайн
                 Tatami TatamiWindow = new Tatami();
                 TatamiWindow.ShowDialog();
                 OptionRegim.regim = Regim.RegimTatami;
-                PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
-                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0],OptionColor.ColorDraw,false,8);
+                if (!ListFigure[IndexFigure].PreparedForTatami)
+                {
+                    PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                    ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
+                }
                 ControlLine = new Figure(MainCanvas);
             }
         }

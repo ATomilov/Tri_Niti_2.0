@@ -29,8 +29,14 @@ namespace ТриНитиДизайн
 
         private void NewProject(object sender, RoutedEventArgs e)
         {
-           
+            ListFigure.Clear();
+            ListFigure.Add(new Figure(MainCanvas));
+            MainCanvas.Children.Clear();
+            OptionRegim.regim = Regim.RegimDraw;
+            TatamiFigures.Clear();
+            IndexFigure = 0;
         }
+
         private void OpenFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();

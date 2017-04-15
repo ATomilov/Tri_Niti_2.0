@@ -77,8 +77,7 @@ namespace ТриНитиДизайн
                 {
                     if (ChosenPts.Count > 0)
                     {
-                        RedrawEverything(ListFigure, IndexFigure,  MainCanvas);
-                        ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
+                        RedrawEverything(ListFigure, IndexFigure,true,false, MainCanvas);
                         ChosenPts.Insert(1, e.GetPosition(MainCanvas));
 
                         SetSpline(0.75, ChosenPts, MainCanvas);
@@ -91,9 +90,8 @@ namespace ТриНитиДизайн
                 {
                     if (ChoosingRectangle.Points.Count > 0)
                     {
-                        RedrawEverything(ListFigure, IndexFigure, MainCanvas);
-                        ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
-                        DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas),MainCanvas);
+                        RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+                        DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas), MainCanvas);
                     }
                 }
             }
@@ -115,8 +113,7 @@ namespace ТриНитиДизайн
             {
                 if (ChoosingRectangle.Points.Count > 0)
                 {
-                    RedrawEverything(ListFigure, IndexFigure, MainCanvas);
-                    ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
+                    RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
                     Point UpperLeftCorner = new Point();
                     Point LowerRightCorner = new Point();
                     if(e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
@@ -183,24 +180,34 @@ namespace ТриНитиДизайн
             Mouse.Capture(MainCanvas);
             if (OptionRegim.regim == Regim.RegimDraw)
             {
-                if (e.OriginalSource is Line)                      //выделение части татами
+                if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
                     double x;
                     double y;
-                    Line clickedLine = (Line)e.OriginalSource;
-                    x = clickedLine.X1;
-                    y = clickedLine.Y1;
+                    if (e.OriginalSource is Line)
+                    {
+                        Line clickedLine = (Line)e.OriginalSource;
+                        x = clickedLine.X1;
+                        y = clickedLine.Y1;
+                    }
+                    else
+                    {
+                        Path path = (Path)e.OriginalSource;
+                        PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                        Point p;
+                        Point tg;
+                        myPathGeometry.GetPointAtFractionLength(0, out p, out tg);
+                        x = p.X;
+                        y = p.Y;
+                    }
                     for (int i = 0; i < ListFigure.Count; i++)
                     {
-                        for (int j = 0; j < ListFigure[i].Points.Count; j++)
+                        if(ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x,y)) == true)
                         {
-                            if (ListFigure[i].Points[j].X == x && ListFigure[i].Points[j].Y == y)
-                            {
-                                IndexFigure = i;
-                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw);
-                                RedrawEverything(ListFigure, IndexFigure, MainCanvas);
-                                break;
-                            }
+                            IndexFigure = i;
+                            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw);
+                            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                            break;
                         }
                     }
                 }
@@ -209,38 +216,35 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
                     ListFigure.Add(new Figure(MainCanvas));
                     IndexFigure = ListFigure.Count - 1;
-                    RedrawEverything(ListFigure, IndexFigure, MainCanvas);
+                    RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
                 }
             }
             if (OptionRegim.regim == Regim.RegimStegki)
             {
-                if (e.OriginalSource is Line || e.OriginalSource is Path)                      //выделение части татами
+                if (e.OriginalSource is Line)                      //выделение части татами
                 {
                     double x;
                     double y;
-                    if (e.OriginalSource is Line)                                       //если мы нажали на линию, то находим одну из точек линии
-                    {
-                        Line clickedLine = (Line)e.OriginalSource;
-                        x = clickedLine.X1;
-                        y = clickedLine.Y1;
-                    }
-                    else
-                    {
-                        Path clickedPath = (Path)e.OriginalSource;                      //если мы нажали на точку, то находим координаты
-                        EllipseGeometry geom = (EllipseGeometry)clickedPath.Data;
-                        x = geom.Center.X;
-                        y = geom.Center.Y;
-                    }
+                    Line clickedLine = (Line)e.OriginalSource;
+                    x = clickedLine.X1;
+                    y = clickedLine.Y1;
                     for (int i = 0; i < 128; i++)                           //находим номер фигуры, которую хотим выделить
                     {
-                        for (int j = 0; j < TatamiFigures[i].Points.Count; j++)
+                        if (TatamiFigures[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
                         {
-                            if (TatamiFigures[i].Points[j].X == x && TatamiFigures[i].Points[j].Y == y)
-                            {
-                                DrawTatami(TatamiFigures, i, MainCanvas);
-                                break;
-                            }
+                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorDraw);
                         }
+                        else
+                        {
+                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorSelection);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 128; i++)                           //находим номер фигуры, которую хотим выделить
+                    {
+                        TatamiFigures[i].ChangeFigureColor(OptionColor.ColorSelection);
                     }
                 }
             }
@@ -250,22 +254,42 @@ namespace ТриНитиДизайн
                 ChosenPts.Clear();
                 ListFigure[IndexFigure].PointsCount.Clear();
                 ChoosingRectangle.Points.Clear();
-                if (e.OriginalSource is Line)
+                if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
-                    double x;
-                    double y;
-                    Line clickedLine = (Line)e.OriginalSource;
-                    x = clickedLine.X1;
-                    y = clickedLine.Y1;
-                    Point newPoint = new Point(x, y);
+                    double x1;
+                    double y1;
+                    double x2;
+                    double y2;
+                    Shape clickedShape = (Shape)e.OriginalSource;
+                    if (e.OriginalSource is Line)
+                    {
+                        Line clickedLine = (Line)clickedShape;
+                        x1 = clickedLine.X1;
+                        y1 = clickedLine.Y1;
+                        x2 = clickedLine.X2;
+                        y2 = clickedLine.Y2;
+                    }
+                    else
+                    {
+                        Path path = (Path)clickedShape;
+                        PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                        Point p;
+                        Point tg;
+                        myPathGeometry.GetPointAtFractionLength(0, out p, out tg);
+                        x1 = p.X;
+                        y1 = p.Y;
+                        myPathGeometry.GetPointAtFractionLength(1, out p, out tg);
+                        x2 = p.X;
+                        y2 = p.Y;
+                    }
                     Shape sh;
-                    if (clickedLine.Stroke == OptionColor.ColorKrivaya)
+                    if (clickedShape.Stroke == OptionColor.ColorKrivaya)
                     {
                         OptionRegim.regim = Regim.RegimKrivaya;
-                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(new Point(x, y), out sh);
-                        ListFigure[IndexFigure].DeleteShape(sh, new Point(x, y));
-                        ChosenPts.Add(newPoint);
-                        ChosenPts.Add(new Point(clickedLine.X2, clickedLine.Y2));
+                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(new Point(x1, y1), out sh);
+                        ListFigure[IndexFigure].DeleteShape(sh, new Point(x1, y1));
+                        ChosenPts.Add(new Point(x1, y1));
+                        ChosenPts.Add(new Point(x2,y2));
                     }
                 }
                 else

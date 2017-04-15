@@ -19,23 +19,42 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, Canvas canvas)
+        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, bool rectanglesOn, bool isTatami, Canvas canvas)
         {
             canvas.Children.Clear();
+            double size = 0;
+            if(isTatami)
+            {
+                size = 4;
+            }
+            else
+            {
+                size = 8;
+            }
             for(int i = 0; i < FigureList.Count;i++)
             {
+                FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
                 if(i == ChosenFigure)
                 {
-                    FigureList[i].AddFigure(canvas);
-                    if (FigureList[i].Points.Count > 0)
+                    if(rectanglesOn)
                     {
-                        DrawRectangle(FigureList[i].Points[0], OptionColor.ColorOpacity, canvas);
-                        DrawRectangle(FigureList[i].Points[FigureList[i].Points.Count - 1], OptionColor.ColorOpacity, canvas);
+                        FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
+                    }
+                    else
+                    {
+                        if (FigureList[i].Points.Count > 0)
+                        {
+                            DrawRectangle(FigureList[i].Points[0], OptionColor.ColorOpacity, canvas);
+                            DrawRectangle(FigureList[i].Points[FigureList[i].Points.Count - 1], OptionColor.ColorOpacity, canvas);
+                        }
                     }
                 }
                 else
                 {
-                    FigureList[i].AddFigure(canvas);
+                    if(isTatami)
+                    {
+                        FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
+                    }
                 }
             }
         }
@@ -157,6 +176,8 @@ namespace ТриНитиДизайн
 
         public void PrepareForTatami(Figure fig, Canvas canvas)
         {
+            fig.PreparedForTatami = true;
+            fig.ChangeFigureColor(OptionColor.ColorDraw);
             for(int i = 0; i< fig.Points.Count-1;i++)
             {
                 Shape sh;
