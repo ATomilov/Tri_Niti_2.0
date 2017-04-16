@@ -23,15 +23,6 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseRightButtonDown(object sender, MouseButtonEventArgs e)         //при нажатии на праую кнопку мыши
         {
             Mouse.Capture(MainCanvas);
-            if (OptionRegim.regim == Regim.RegimTatami)
-            {
-                if(ControlLine.Points.Count > 2)
-                {
-                    MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
-                }
-                ControlLine.Points.Clear();
-                ControlLine.Points.Add(e.GetPosition(MainCanvas));
-            }
             if (OptionRegim.regim == Regim.RegimFigure)
             {
                 if (e.OriginalSource is Line)
@@ -41,18 +32,20 @@ namespace ТриНитиДизайн
                     Line clickedLine = (Line)e.OriginalSource;
                     x = clickedLine.X1;
                     y = clickedLine.Y1;
-                    for (int i = 0; i < ListFigure.Count; i++)
+                    if (ListFigure[IndexFigure].Points.Count > 1)
                     {
-                        if(i!= IndexFigure)
+                        for (int i = 0; i < ListFigure.Count; i++)
                         {
-                            if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                            if (i != IndexFigure)
                             {
-                                SecondGladFigure = i;
-                                ShowJoinMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[i],MainCanvas);
-                                break;
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                {
+                                    SecondGladFigure = i;
+                                    ShowJoinMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+                                    break;
+                                }
                             }
                         }
-                        
                     }
                 }
                 
@@ -75,24 +68,6 @@ namespace ТриНитиДизайн
                         line.Stroke = OptionColor.ColorChoosingRec;
                         MainCanvas.Children.Add(line);
                     }
-                }
-                if (OptionRegim.regim == Regim.RegimTatami)
-                {
-                    if (ControlLine.Points.Count > 1)
-                    {
-                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
-                        ControlLine.Points.RemoveAt(ControlLine.Points.Count - 1);
-                    }
-                    Line line = ControlLine.GetLine(ControlLine.Points[0], e.GetPosition(MainCanvas));
-                    DoubleCollection dashes = new DoubleCollection();
-                    dashes.Add(2);
-                    dashes.Add(2);
-                    line.StrokeDashArray = dashes;
-                    line.StrokeThickness = 1;
-                    line.Stroke = OptionColor.ColorSelection;
-                    MainCanvas.Children.Add(line);
-                    MainCanvas.UpdateLayout();
-                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
             }
 
@@ -119,12 +94,49 @@ namespace ТриНитиДизайн
                         DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas), MainCanvas);
                     }
                 }
+
+                if (OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
+                {
+                    if (ControlLine.Points.Count > 1)
+                    {
+                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                        ControlLine.Points.RemoveAt(ControlLine.Points.Count - 1);
+                    }
+                    Line line = ControlLine.GetLine(ControlLine.Points[0], e.GetPosition(MainCanvas));
+                    DoubleCollection dashes = new DoubleCollection();
+                    dashes.Add(2);
+                    dashes.Add(2);
+                    line.StrokeDashArray = dashes;
+                    line.StrokeThickness = 1;
+                    line.Stroke = OptionColor.ColorSelection;
+                    MainCanvas.Children.Add(line);
+                    MainCanvas.UpdateLayout();
+                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                }
+
             }
         }
 
         private void CanvasTest_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(null);
+
+            if (OptionRegim.regim == Regim.RegimTatami)
+            {
+                if (ControlLine.Points.Count == 1)
+                {
+                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                }
+                FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
+            }
+            if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                if (ControlLine.Points.Count == 1)
+                {
+                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                }
+               FindGladControlLine(ControlLine,LinesForGlad,ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+            }
             if (OptionRegim.regim == Regim.RegimKrivaya)
             {
                 if (ChosenPts.Count > 1)
@@ -190,19 +202,25 @@ namespace ТриНитиДизайн
                 ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true, 8);
             }
 
-            if (OptionRegim.regim == Regim.RegimTatami)
-            {
-                if(ControlLine.Points.Count == 1)
-                {
-                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
-                }
-                FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
-            }
         }
 
         void CanvasTest_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)          //левая кнопка мыши
         {
             Mouse.Capture(MainCanvas);
+            if (OptionRegim.regim == Regim.RegimTatami)
+            {
+                if (ControlLine.Points.Count > 2)
+                {
+                    MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                }
+                ControlLine.Points.Clear();
+                ControlLine.Points.Add(e.GetPosition(MainCanvas));
+            }
+            if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                ControlLine.Points.Clear();
+                ControlLine.Points.Add(e.GetPosition(MainCanvas));
+            }
             if (OptionRegim.regim == Regim.RegimDraw)
             {
                 if (e.OriginalSource is Line || e.OriginalSource is Path)

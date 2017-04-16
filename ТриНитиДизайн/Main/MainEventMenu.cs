@@ -35,6 +35,14 @@ namespace ТриНитиДизайн
             OptionRegim.regim = Regim.RegimDraw;
             TatamiFigures.Clear();
             IndexFigure = 0;
+            CloseAllTabs();
+            MainCanvas.Cursor = NormalCursor;   
+        }
+
+        private void DeleteFigureClick(object sender, RoutedEventArgs e)
+        {
+            ListFigure[IndexFigure].ClearFigure();
+            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
         }
 
         private void OpenFile(object sender, RoutedEventArgs e)

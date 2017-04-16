@@ -22,6 +22,7 @@ namespace ТриНитиДизайн
         //Курсоры
         Cursor HandCursor;
         Cursor NormalCursor;
+        Cursor SwordCursor;
         double MousePositionX;
         double MousePositionY;
         int IndexFigure;

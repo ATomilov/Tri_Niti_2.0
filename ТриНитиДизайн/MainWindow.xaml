@@ -25,7 +25,7 @@
                 <MenuItem Header="Выход" />
             </MenuItem>
             <MenuItem Header="Редактировать">
-                <MenuItem Header="Удалить" />
+                <MenuItem Header="Удалить"  Click="DeleteFigureClick"/>
                 <MenuItem Header="Отменить" />
                 <MenuItem Header="Вернуть" />
                 <MenuItem Header="Восстановить" />
