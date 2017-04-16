@@ -66,6 +66,7 @@ namespace ТриНитиДизайн
         {
             CloseAllTabs();
             RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+            OptionRegim.regim = Regim.RegimSelectFigureToEdit;
             MainCanvas.Cursor = NormalCursor;
         }
 

@@ -83,6 +83,7 @@
     <Compile Include="Options\OptionSetka.cs" />
     <Compile Include="Options\OptionColor.cs" />
     <Compile Include="Options\OptionStechki.cs" />
+    <Compile Include="Pair.cs" />
     <Compile Include="View\Cepochka.xaml.cs">
       <DependentUpon>Cepochka.xaml</DependentUpon>
     </Compile>
