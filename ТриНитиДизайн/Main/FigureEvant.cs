@@ -22,7 +22,10 @@ namespace ТриНитиДизайн
 
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
+            OptionRegim.regim = Regim.RegimFigure;
+            ChosenPts = new List<Point>();
             CloseAllTabs();
+            MainCanvas.Cursor = SwordCursor;   
             if (tabControl2.Visibility == Visibility.Hidden)
                 tabControl2.Visibility = Visibility.Visible;
         }
@@ -33,19 +36,24 @@ namespace ТриНитиДизайн
             {
                 var CepochkaSetting = new View.Cepochka();
                 CepochkaSetting.ShowDialog();
-                OptionRegim.regim = Regim.RegimCepochka;
-                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
+                if (!ListFigure[IndexFigure].PreparedForTatami)
+                {
+                    PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                    ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
+                }
                 ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
-                ListFigure[IndexFigure].DrawAllRectangles(8);
             }
         }
 
         private void GladButtonEvent(object sender, RoutedEventArgs e)
         {
-            var GladSetting = new View.Glad();
-            GladSetting.Show();
-
+            if (LinesForGlad.Count > 0)
+            {
+                var GladSetting = new View.Glad();
+                GladSetting.ShowDialog();
+            }
         }
+
         private void TatamiButtonEvent(object sender, RoutedEventArgs e)
         {
             if (ListFigure[IndexFigure].Points.Count > 0)
@@ -53,11 +61,35 @@ namespace ТриНитиДизайн
                 Tatami TatamiWindow = new Tatami();
                 TatamiWindow.ShowDialog();
                 OptionRegim.regim = Regim.RegimTatami;
-                ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0]);
+                if (!ListFigure[IndexFigure].PreparedForTatami)
+                {
+                    PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                    ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
+                }
                 ControlLine = new Figure(MainCanvas);
             }
         }
         private void StagkiButtonEvent(object sender, RoutedEventArgs e)
+        {
+            if (OptionRegim.regim == Regim.RegimTatami)
+            {
+                if (ControlLine != null)
+                {
+                    if (ControlLine.Points.Count > 2)
+                    {
+                        OptionRegim.regim = Regim.RegimStegki;
+                        CalculateParallelLines(ControlLine.Points[2], ControlLine.Points[ControlLine.Points.Count - 1], ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
+                    }
+                }
+            }
+            if(OptionRegim.regim == Regim.RegimGlad)
+            {
+                OptionRegim.regim = Regim.RegimFigure;
+                CalculateGladLines(ListFigure[IndexFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
+            }
+        }
+
+        private void RisuiButtonEvent(object sender, RoutedEventArgs e)
         {
             if (ControlLine != null)
             {
@@ -67,16 +99,6 @@ namespace ТриНитиДизайн
                     CalculateParallelLines(ControlLine.Points[2], ControlLine.Points[ControlLine.Points.Count - 1], ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
                 }
             }
-            //Ctezhki(ListFigure[IndexFigure].Shapes, new Point(), new Point(), 1, 0,MainCanvas);
         }
-
-        private void RisuiButtonEvent(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
-
-
     }
 }

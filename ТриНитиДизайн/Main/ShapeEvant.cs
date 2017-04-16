@@ -20,13 +20,12 @@ namespace ТриНитиДизайн
     public partial class MainWindow : Window
     {
 
-
         private void ShapeMainButtonEvant(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
-            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-            ListFigure[IndexFigure].DrawAllRectangles(8);
+            MainCanvas.Cursor = NormalCursor;
+            RedrawEverything(ListFigure, IndexFigure, true,false, MainCanvas);
             ChoosingRectangle = new Figure(MainCanvas);
             if (tabControl1.Visibility == Visibility.Hidden)
                 tabControl1.Visibility = Visibility.Visible;
@@ -35,49 +34,37 @@ namespace ТриНитиДизайн
 
         private void LomannaiButtonEvent(object sender, RoutedEventArgs e)
         {
-            OptionRegim.regim = Regim.RegimLomanaya;
-            MainCanvas.Children.Clear();
-            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+            OptionRegim.regim = Regim.RegimEditFigures;
+            MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
         }
 
         private void DygaButtonEvent(object sender, RoutedEventArgs e)
         {
-
+            OptionRegim.regim = Regim.RegimDuga;
+            DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorChoosingRec, MainCanvas);
         }
 
         private void KrivaiaButtonEvent(object sender, RoutedEventArgs e)
         {
-            OptionRegim.regim = Regim.RegimKrivaya;
+            DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
         }
 
         private void SgladitButtonEvent(object sender, RoutedEventArgs e)
         {
-            MainCanvas.Children.Clear();
-            SetSpline(1, ListFigure[IndexFigure].Points, MainCanvas);
-            ListFigure[IndexFigure].Points.Clear();
-            Path path = (Path)MainCanvas.Children[MainCanvas.Children.Count - 1];
-            PathGeometry myPathGeometry = (PathGeometry)path.Data;
-            Point p;
-            Point tg;
-            var points = new List<Point>();
-            double step = 50;
-            for (var i = 0; i <= step; i++)
-            {
-                myPathGeometry.GetPointAtFractionLength(i / step, out p, out tg);
-                ListFigure[IndexFigure].Points.Add(p);
-            }
-            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
+            MakeSpline(ListFigure[IndexFigure], MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
         }
 
         private void SelectPointNextButtonEvent(object sender, RoutedEventArgs e)
         {
-
-
+            ChooseNextRectangle(ListFigure[IndexFigure], false, MainCanvas);
+            ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
         }
         private void SelectPointPrevButtonEvent(object sender, RoutedEventArgs e)
         {
-
-
+            ChooseNextRectangle(ListFigure[IndexFigure], true, MainCanvas);
+            ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
         }
 
         private void PointAddedButtonEvent(object sender, RoutedEventArgs e)

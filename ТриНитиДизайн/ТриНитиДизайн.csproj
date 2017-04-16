@@ -75,6 +75,7 @@
     <Compile Include="Main\MouseEvent.cs" />
     <Compile Include="Main\MainEvent.cs" />
     <Compile Include="Main\MainEventMenu.cs" />
+    <Compile Include="Main\GladFunctions.cs" />
     <Compile Include="Main\TatamiFunctions.cs" />
     <Compile Include="Options\OptionCepochka.cs" />
     <Compile Include="Options\OptionGlad.cs" />
@@ -217,6 +218,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Cursors\Normal.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Cursors\Sword.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,34 +23,58 @@ namespace ТриНитиДизайн
         public List<Point> Points;
         public Dictionary<Rectangle, Point> DictionaryRecPoint;
         public Dictionary<Rectangle, Pair<Line,Line>> DictionaryPointLines;
+        public List<int> PointsCount;
+        public List<Rectangle> RectangleOfFigures;
+        public Dictionary<Rectangle, Point> DictionaryRecPoint;
+        public Dictionary<Point, Shape> DictionaryPointLines;
         public Point PointStart;
         public Point PointEnd;
         public double angle;
         public Canvas canvas;
         public Rectangle SelectedRectangle;
         public Rectangle RectangleOfFigure;
+        public bool PreparedForTatami;
         public Figure(Canvas _canvas)
         {
             Shapes = new List<Shape>();
             Points = new List<Point>();
+            PointsCount = new List<int>();
+            PreparedForTatami = false;
             angle = 0;
             canvas = _canvas;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
             DictionaryPointLines = new Dictionary<Rectangle, Pair<Line, Line>>();
-            
+            //DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
+            DictionaryPointLines = new Dictionary<Point, Shape>();
         }
 
-        public void AddShape(Shape shape)
+        public void AddShape(Shape shape,Point p)
         {
             Shapes.Add(shape);
+            DictionaryPointLines.Add(p, shape);
         }
 
-        public void DeleteShape(Shape shape)
+        public void DeleteShape(Shape shape,Point p)
         {
             Shapes.Remove(shape);// ??? point
+            DictionaryPointLines.Remove(p);
         }
+
+        public void AddLine(Point point1, Point point2, Brush brush)
+        {
+            Line shape = new Line();
+            shape.Stroke = brush;
+            shape.StrokeThickness = 1;
+            shape.X1 = point1.X;
+            shape.Y1 = point1.Y;
+            shape.X2 = point2.X;
+            shape.Y2 = point2.Y;
+            Shapes.Add(shape);
+            DictionaryPointLines.Add(point1, shape);
+        }
+
         
-        public void DrawAllRectangles(double size)
+        public void DrawAllRectangles(double size,Brush brush)
         {
             foreach(Point p in Points)
             {
@@ -60,6 +84,19 @@ namespace ТриНитиДизайн
                 Canvas.SetLeft(rec, p.X - size/2);
                 Canvas.SetTop(rec, p.Y - size/2);
                 rec.Stroke = OptionColor.ColorSelection;
+                rec.Fill = brush;
+                rec.StrokeThickness = 1;
+                canvas.Children.Add(rec);
+            }
+            foreach(int i in PointsCount)
+            {
+                Rectangle rec = new Rectangle();
+                rec.Height = size;
+                rec.Width = size;
+                Canvas.SetLeft(rec, Points[i].X - size / 2);
+                Canvas.SetTop(rec, Points[i].Y - size / 2);
+                rec.Stroke = OptionColor.ColorSelection;
+                rec.Fill = OptionColor.ColorSelection;
                 rec.StrokeThickness = 1;
                 canvas.Children.Add(rec);
             }
@@ -82,9 +119,12 @@ namespace ТриНитиДизайн
         {
             Shapes = new List<Shape>();
             Points = new List<Point>();
+            PointsCount = new List<int>();
             angle = 0;
+            PreparedForTatami = false;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
             DictionaryPointLines = new Dictionary<Rectangle, Pair<Line, Line>>();
+            DictionaryPointLines = new Dictionary<Point, Shape>();
         }
 
         public void SetDot(Point centerPoint, string type, Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
@@ -176,50 +216,45 @@ namespace ТриНитиДизайн
                 shape.RenderTransform = rotate;
             }
         }
-        
-        public void AddPoint(Point New)
+
+        public void AddPoint(Point New,Brush brush, bool addRec, double recSize)
         {
             if (Points.Count == 0)
             {
                 PointStart = New;
-               
             }
-            if(Points.Count != 0)
+            if (Points.Count != 0)
             {
                 Line line = GetLine(PointEnd, New);
                 line.StrokeThickness = 1;
-                line.Stroke = OptionColor.ColorDraw;
+                line.Stroke = brush;
                 canvas.Children.Add(line);
-                AddShape(line);
+                Shapes.Add(line);
+                DictionaryPointLines.Add(PointEnd, line);
             }
             Points.Add(New);
             PointEnd = New;
-            Rectangle rec = new Rectangle();
-            rec.Height = 8;
-            rec.Width = 8;
-            Canvas.SetLeft(rec, New.X - 4);
-            Canvas.SetTop(rec, New.Y - 4);
-            rec.Stroke = OptionColor.ColorSelection;
-            rec.StrokeThickness = 1;
-            canvas.Children.Add(rec);
-            DictionaryRecPoint.Add(rec, New);
-            if (Shapes.Where(p => p is Line).Count() > 1)
+            if (addRec)
             {
                 Pair<Line, Line> t = new Pair<Line, Line>((Line)Shapes[Shapes.Count - 1], (Line)Shapes[Shapes.Count - 2]);
                 DictionaryPointLines.Add(rec, t);
             }
             if (Shapes.Where(p=>p is Line).Count() == 1)
                 DictionaryPointLines.Add(rec, new Pair<Line, Line>((Line)Shapes[Shapes.Count - 1], null));
-
-
-
+                Rectangle rec = new Rectangle();
+                rec.Height = recSize;
+                rec.Width = recSize;
+                Canvas.SetLeft(rec, New.X - recSize / 2);
+                Canvas.SetTop(rec, New.Y - recSize / 2);
+                rec.Stroke = OptionColor.ColorSelection;
+                rec.StrokeThickness = 1;
+                canvas.Children.Add(rec);
+                DictionaryRecPoint.Add(rec, New);
+                rec.MouseDown += new MouseButtonEventHandler(PointMouseClick);
+            }
             canvas.MouseMove += new MouseEventHandler(PointMouseMove);
-            rec.MouseDown += new MouseButtonEventHandler (PointMouseClick);
             //Подписать поинт на изменение координат
         }
-
-
- 
 
         public Line GetLine(Point start, Point end)
         {
@@ -231,14 +266,19 @@ namespace ТриНитиДизайн
             return line;
         }
 
-
-
         public void ClearFigure(Canvas _canvas)
         {
-            
             foreach (Shape shape in Shapes)
             {
                 _canvas.Children.Remove(shape);
+            }
+        }
+
+        public void ChangeFigureColor(Brush brush)
+        {
+            foreach (Shape shape in Shapes)
+            {
+                shape.Stroke = brush;
             }
         }
 
@@ -249,7 +289,7 @@ namespace ТриНитиДизайн
                 _canvas.Children.Add(shape);
             }
         }
-
+        
         public double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам
         {
             return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
@@ -305,9 +345,11 @@ namespace ТриНитиДизайн
 
                     Canvas.SetLeft(SelectedRectangle, e.GetPosition(canvas).X - 4);
                     Canvas.SetTop(SelectedRectangle, e.GetPosition(canvas).Y - 4);
-
                     Line l1 = DictionaryPointLines[SelectedRectangle].First;
                     Line l2 = DictionaryPointLines[SelectedRectangle].Second;
+                    /*
+                    Line l1 = DictionaryPointLines[SelectedRectangle].Item1;
+                    Line l2 = DictionaryPointLines[SelectedRectangle].Item2;
                     if (l1 != null)
                     {
                         l1.X2 = point.X;
@@ -318,7 +360,7 @@ namespace ТриНитиДизайн
                         l2.X1 = point.X;
                         l2.Y1 = point.Y;
                     }
-
+                    */
                 }
             }
         }

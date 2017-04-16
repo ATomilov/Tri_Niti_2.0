@@ -22,15 +22,17 @@ namespace ТриНитиДизайн
         //Курсоры
         Cursor HandCursor;
         Cursor NormalCursor;
+        Cursor SwordCursor;
         double MousePositionX;
         double MousePositionY;
         int IndexFigure;
+        int SecondGladFigure;
         List<Figure> ListFigure;
 
         Figure ChoosingRectangle;
         Figure ControlLine;
-        Figure KrivayaLine;
-        int LineForbidden = 0;
+        List<Point> ChosenPts;
+        List<Figure> LinesForGlad = new List<Figure>();
         List<Figure> ControlFigures = new List<Figure>();
         List<Figure> TatamiFigures = new List<Figure>();
     }

@@ -214,7 +214,7 @@ namespace ТриНитиДизайн
             Figure resultFigure = new Figure(canvas);
             for (int i = 0; i < figure.Points.Count - 1; i++)
             {
-                resultFigure.Points.Add(figure.Points[i]);
+                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, true, 8);
                 double x;
                 double y;
                 x = figure.Points[i + 1].X - figure.Points[i].X;
@@ -222,14 +222,13 @@ namespace ТриНитиДизайн
                 double distance = step;
                 Vector vect = new Vector(x, y);
                 double length = vect.Length;
-                while (length - (step/2) > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
+                while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
                 {
                     vect.Normalize();
                     vect *= distance;
-                    resultFigure.Points.Add(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y));
+                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, true, 8);
                     distance += step;
                 }
-                resultFigure.Points.Add(figure.Points[i + 1]);
             }
             return resultFigure;
         }
@@ -299,6 +298,7 @@ namespace ТриНитиДизайн
 
         private void MakeTatami(List<Figure> ListControlLines, List<Figure> ListTatamiFigures, Canvas CurCanvas)                    //создание татами
         {
+            CurCanvas.Children.Clear();
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //алгоритм создания стежков на параллельных отрезках, точки начала и конца - пересечение изначальных отрезков и задающих прямых
             {
                 bool turnAround = false;
@@ -310,13 +310,13 @@ namespace ТриНитиДизайн
                     {
                         x = ListControlLines[i].Points[j].X - ListControlLines[i].Points[j + 1].X;
                         y = ListControlLines[i].Points[j].Y - ListControlLines[i].Points[j + 1].Y;
-                        ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, true, 4);
                     }
                     else
                     {
                         x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
                         y = ListControlLines[i].Points[j + 1].Y - ListControlLines[i].Points[j].Y;
-                        ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j + 1]);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, true, 4);
                     }
                     double step = OptionTatami.StepStegok;
                     double distance = step;
@@ -329,26 +329,25 @@ namespace ТриНитиДизайн
                         vect *= distance;
                         if (!turnAround)
                         {
-                            ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y));
+                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, true, 4);
                         }
                         else
                         {
-                            ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y));
+                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y), OptionColor.ColorSelection, true, 4);
                         }
                         distance += step;
                     }
                     if (!turnAround)        //конец отрезка
                     {
-                        ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j + 1]);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, true, 4);
                     }
                     else
                     {
-                        ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j],OptionColor.ColorSelection, true, 4);
                     }
                     turnAround = !turnAround;               //меняем направление вектора
                 }
             }
-            DrawTatami(ListTatamiFigures,-1,CurCanvas);                         //отрисовываем татами по найденным точкам
         }
 
         public void DrawTatami(List<Figure>ListTatamiFigures,int tatamiClicked,Canvas CurCanvas)                         //рисование татами, tatamiClicked - для выделения части татами красным цветом
@@ -377,7 +376,7 @@ namespace ТриНитиДизайн
             }
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //точки на татами
             {
-                ListTatamiFigures[i].DrawAllRectangles(4);
+                ListTatamiFigures[i].DrawAllRectangles(4, OptionColor.ColorOpacity);
             }
         }
 

@@ -23,14 +23,32 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseRightButtonDown(object sender, MouseButtonEventArgs e)         //при нажатии на праую кнопку мыши
         {
             Mouse.Capture(MainCanvas);
-            if (OptionRegim.regim == Regim.RegimTatami)
+            if (OptionRegim.regim == Regim.RegimFigure)
             {
-                if(ControlLine.Points.Count > 2)
+                if (e.OriginalSource is Line)
                 {
-                    MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                    double x;
+                    double y;
+                    Line clickedLine = (Line)e.OriginalSource;
+                    x = clickedLine.X1;
+                    y = clickedLine.Y1;
+                    if (ListFigure[IndexFigure].Points.Count > 1)
+                    {
+                        for (int i = 0; i < ListFigure.Count; i++)
+                        {
+                            if (i != IndexFigure)
+                            {
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                {
+                                    SecondGladFigure = i;
+                                    ShowJoinMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
-                ControlLine.Points.Clear();
-                ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                
             }
         }
 
@@ -40,21 +58,44 @@ namespace ТриНитиДизайн
             MousePositionY = e.GetPosition(MainCanvas).Y;
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                if (OptionRegim.regim == Regim.RegimLomanaya)
+                if (OptionRegim.regim == Regim.RegimDraw)
                 {
                     if (ListFigure[IndexFigure].Points.Count > 0)
                     {
-                        if (ListFigure[IndexFigure].Points.Count > 0)
-                        {
-                            MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
-                        }
+                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                         Line line = ListFigure[IndexFigure].GetLine(ListFigure[IndexFigure].PointEnd, e.GetPosition(MainCanvas));
                         line.StrokeThickness = 1;
-                        line.Stroke = OptionColor.ColorDraw;
+                        line.Stroke = OptionColor.ColorChoosingRec;
                         MainCanvas.Children.Add(line);
                     }
                 }
-                if (OptionRegim.regim == Regim.RegimTatami)
+            }
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if(OptionRegim.regim == Regim.RegimKrivaya)
+                {
+                    if (ChosenPts.Count > 0)
+                    {
+                        RedrawEverything(ListFigure, IndexFigure,true,false, MainCanvas);
+                        ChosenPts.Insert(1, e.GetPosition(MainCanvas));
+
+                        SetSpline(0.75, ChosenPts, MainCanvas);
+                        ChosenPts.RemoveAt(1);
+                         
+                    }
+                }
+
+                if (OptionRegim.regim == Regim.RegimEditFigures)
+                {
+                    if (ChoosingRectangle.Points.Count > 0)
+                    {
+                        RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+                        DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas), MainCanvas);
+                    }
+                }
+
+                if (OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
                 {
                     if (ControlLine.Points.Count > 1)
                     {
@@ -72,59 +113,44 @@ namespace ТриНитиДизайн
                     MainCanvas.UpdateLayout();
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-            }
 
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                if(OptionRegim.regim == Regim.RegimKrivaya)
-                {
-                    if (KrivayaLine.Points.Count > 1)
-                    {
-                        RedrawEverything(ListFigure, IndexFigure, LineForbidden, MainCanvas);
-                        KrivayaLine.Points.Insert(1, e.GetPosition(MainCanvas));
-                        SetSpline(0.75, KrivayaLine.Points, MainCanvas);
-                        KrivayaLine.Points.RemoveAt(1);
-                    }
-                }
-
-                if (OptionRegim.regim == Regim.RegimEditFigures)
-                {
-                    if (ChoosingRectangle.Points.Count > 0)
-                    {
-                        RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-                        ListFigure[IndexFigure].DrawAllRectangles(8);
-                        DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas),MainCanvas);
-                    }
-                }
             }
         }
 
         private void CanvasTest_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(null);
+
+            if (OptionRegim.regim == Regim.RegimTatami)
+            {
+                if (ControlLine.Points.Count == 1)
+                {
+                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                }
+                FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
+            }
+            if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                if (ControlLine.Points.Count == 1)
+                {
+                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                }
+               FindGladControlLine(ControlLine,LinesForGlad,ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+            }
             if (OptionRegim.regim == Regim.RegimKrivaya)
             {
-                if (KrivayaLine.Points.Count > 1)
+                if (ChosenPts.Count > 1)
                 {
-                    Path path = (Path)MainCanvas.Children[MainCanvas.Children.Count - 1];
-                    PathGeometry myPathGeometry = (PathGeometry)path.Data;
-                    Point p;
-                    Point tg;
-                    var points = new List<Point>();
-                    double step = 25;
-                    for (var i = 1; i < step; i++)
-                    {
-                        myPathGeometry.GetPointAtFractionLength(i / step, out p, out tg);
-                        ListFigure[IndexFigure].Points.Insert(LineForbidden + i, p);
-                    }
-                    RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-                    KrivayaLine.Points.Clear();
+                    ListFigure[IndexFigure].AddShape((Shape)MainCanvas.Children[MainCanvas.Children.Count - 1], ChosenPts[0]);
+                    ChosenPts.Clear();
+                    OptionRegim.regim = Regim.RegimEditFigures;
                 }
             }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
-                if (ChoosingRectangle.Points.Count > 1)
+                if (ChoosingRectangle.Points.Count > 0)
                 {
+                    RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
                     Point UpperLeftCorner = new Point();
                     Point LowerRightCorner = new Point();
                     if(e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
@@ -137,16 +163,26 @@ namespace ТриНитиДизайн
                         UpperLeftCorner.X = ChoosingRectangle.Points[0].X;
                         LowerRightCorner.X = e.GetPosition(MainCanvas).X;
                     }
-                    if (e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
+                    if (e.GetPosition(MainCanvas).Y < ChoosingRectangle.Points[0].Y)
                     {
-                        UpperLeftCorner.X = e.GetPosition(MainCanvas).X;
-                        LowerRightCorner.X = ChoosingRectangle.Points[0].X;
+                        UpperLeftCorner.Y = e.GetPosition(MainCanvas).Y;
+                        LowerRightCorner.Y = ChoosingRectangle.Points[0].Y;
                     }
                     else
                     {
-                        UpperLeftCorner.X = ChoosingRectangle.Points[0].X;
-                        LowerRightCorner.X = e.GetPosition(MainCanvas).X;
+                        UpperLeftCorner.Y = ChoosingRectangle.Points[0].Y;
+                        LowerRightCorner.Y = e.GetPosition(MainCanvas).Y;
                     }
+                    for (int i = 0; i < ListFigure[IndexFigure].Points.Count;i++ )
+                    {
+                        Point newPoint = ListFigure[IndexFigure].Points[i];
+                        if(newPoint.X < LowerRightCorner.X && newPoint.X > UpperLeftCorner.X &&
+                            newPoint.Y < LowerRightCorner.Y && newPoint.Y > UpperLeftCorner.Y)
+                        {
+                            ListFigure[IndexFigure].PointsCount.Add(i);
+                        }
+                    }
+                    ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
                 }
             }
         }
@@ -154,67 +190,44 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(null);
-            if (OptionRegim.regim == Regim.RegimLomanaya)
+            if (OptionRegim.regim == Regim.RegimDraw)
             {
-                if (MainCanvas.Children.Count > 1)
+                if (ListFigure[IndexFigure].Points.Count > 1)
                 {
                     MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                    DrawRectangle(ListFigure[IndexFigure].PointStart,OptionColor.ColorOpacity,MainCanvas);
                 }
-                Point point = FindClosestDot(e.GetPosition(MainCanvas));
-                ListFigure[IndexFigure].AddPoint(point);
-            }
 
-            if (OptionRegim.regim == Regim.RegimTatami)
-            {
-                if(ControlLine.Points.Count == 1)
-                {
-                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
-                }
-                FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
+                Point point = FindClosestDot(e.GetPosition(MainCanvas));
+                ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true, 8);
             }
 
         }
 
-
         void CanvasTest_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)          //левая кнопка мыши
         {
             Mouse.Capture(MainCanvas);
-            if (OptionRegim.regim == Regim.RegimLomanaya)
+            if (OptionRegim.regim == Regim.RegimTatami)
             {
-                if (e.OriginalSource is Line)                      //выделение части татами
+                if (ControlLine.Points.Count > 2)
                 {
-                    double x;
-                    double y;
-                    Line clickedLine = (Line)e.OriginalSource;
-                    x = clickedLine.X1;
-                    y = clickedLine.Y1;
-                    for (int i = 0; i < ListFigure.Count; i++)
-                    {
-                        for (int j = 0; j < ListFigure[i].Points.Count; j++)
-                        {
-                            if (ListFigure[i].Points[j].X == x && ListFigure[i].Points[j].Y == y)
-                            {
-                                IndexFigure = i;
-                                RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-                                break;
-                            }
-                        }
-                    }
+                    MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                 }
-                else
-                {
-                    ListFigure.Add(new Figure(MainCanvas));
-                    IndexFigure = ListFigure.Count-1;
-                    RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-                }
+                ControlLine.Points.Clear();
+                ControlLine.Points.Add(e.GetPosition(MainCanvas));
             }
-            if (OptionRegim.regim == Regim.RegimStegki)
+            if (OptionRegim.regim == Regim.RegimGlad)
             {
-                if (e.OriginalSource is Line || e.OriginalSource is Path)                      //выделение части татами
+                ControlLine.Points.Clear();
+                ControlLine.Points.Add(e.GetPosition(MainCanvas));
+            }
+            if (OptionRegim.regim == Regim.RegimDraw)
+            {
+                if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
                     double x;
                     double y;
-                    if (e.OriginalSource is Line)                                       //если мы нажали на линию, то находим одну из точек линии
+                    if (e.OriginalSource is Line)
                     {
                         Line clickedLine = (Line)e.OriginalSource;
                         x = clickedLine.X1;
@@ -222,55 +235,119 @@ namespace ТриНитиДизайн
                     }
                     else
                     {
-                        Path clickedPath = (Path)e.OriginalSource;                      //если мы нажали на точку, то находим координаты
-                        EllipseGeometry geom = (EllipseGeometry)clickedPath.Data;
-                        x = geom.Center.X;
-                        y = geom.Center.Y;
+                        Path path = (Path)e.OriginalSource;
+                        PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                        Point p;
+                        Point tg;
+                        myPathGeometry.GetPointAtFractionLength(0, out p, out tg);
+                        x = p.X;
+                        y = p.Y;
                     }
-                    for (int i = 0; i < 128; i++)                           //находим номер фигуры, которую хотим выделить
+                    for (int i = 0; i < ListFigure.Count; i++)
                     {
-                        for (int j = 0; j < TatamiFigures[i].Points.Count; j++)
+                        if(ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x,y)) == true)
                         {
-                            if (TatamiFigures[i].Points[j].X == x && TatamiFigures[i].Points[j].Y == y)
+                            if (IndexFigure == i)
                             {
-                                DrawTatami(TatamiFigures, i, MainCanvas);
-                                break;
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
+                                IndexFigure = ListFigure.Count - 1;
                             }
+                            else
+                            {
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
+                                IndexFigure = i;
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw);
+                            }
+                            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                            break;
                         }
                     }
                 }
+                else
+                {
+                    ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
+                    ListFigure.Add(new Figure(MainCanvas));
+                    IndexFigure = ListFigure.Count - 1;
+                    RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                }
             }
-
-            if (OptionRegim.regim == Regim.RegimKrivaya)
+            if (OptionRegim.regim == Regim.RegimStegki)
             {
-                if (e.OriginalSource is Line)                      //выделение части татами
+                if (e.OriginalSource is Line)
                 {
                     double x;
                     double y;
                     Line clickedLine = (Line)e.OriginalSource;
                     x = clickedLine.X1;
                     y = clickedLine.Y1;
-
-                   foreach(Figure fig in ListFigure)
-                   {
-                       for(int i = 0; i<fig.Points.Count; i++)
-                       {
-                           if(fig.Points[i].X == x && fig.Points[i].Y == y)
-                           {
-                               LineForbidden = i;
-                               KrivayaLine.Points.Add(fig.Points[i]);
-                               KrivayaLine.Points.Add(fig.Points[i+1]);
-                               break;
-                           }
-                       }
-                   }
+                    for (int i = 0; i < 128; i++)
+                    {
+                        if (TatamiFigures[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                        {
+                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorDraw);
+                        }
+                        else
+                        {
+                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorSelection);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 128; i++)
+                    {
+                        TatamiFigures[i].ChangeFigureColor(OptionColor.ColorSelection);
+                    }
                 }
             }
 
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
+                ChosenPts.Clear();
+                ListFigure[IndexFigure].PointsCount.Clear();
                 ChoosingRectangle.Points.Clear();
-                ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
+                if (e.OriginalSource is Line || e.OriginalSource is Path)
+                {
+                    double x1;
+                    double y1;
+                    double x2;
+                    double y2;
+                    Shape clickedShape = (Shape)e.OriginalSource;
+                    if (e.OriginalSource is Line)
+                    {
+                        Line clickedLine = (Line)clickedShape;
+                        x1 = clickedLine.X1;
+                        y1 = clickedLine.Y1;
+                        x2 = clickedLine.X2;
+                        y2 = clickedLine.Y2;
+                    }
+                    else
+                    {
+                        Path path = (Path)clickedShape;
+                        PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                        Point p;
+                        Point tg;
+                        myPathGeometry.GetPointAtFractionLength(0, out p, out tg);
+                        x1 = p.X;
+                        y1 = p.Y;
+                        myPathGeometry.GetPointAtFractionLength(1, out p, out tg);
+                        x2 = p.X;
+                        y2 = p.Y;
+                    }
+                    Shape sh;
+                    if (clickedShape.Stroke == OptionColor.ColorKrivaya)
+                    {
+                        OptionRegim.regim = Regim.RegimKrivaya;
+                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(new Point(x1, y1), out sh);
+                        ListFigure[IndexFigure].DeleteShape(sh, new Point(x1, y1));
+                        ChosenPts.Add(new Point(x1, y1));
+                        ChosenPts.Add(new Point(x2,y2));
+                    }
+                }
+                else
+                {
+                    ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
+                }
             }
 
             if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)

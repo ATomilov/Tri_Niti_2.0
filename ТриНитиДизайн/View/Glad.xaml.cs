@@ -99,7 +99,7 @@ namespace ТриНитиДизайн.View
                 CGS.b_EndLenthStezhok = false;
             }
             else CGS.b_EndLenthStezhok = true;
-            
+            this.Close();
             
         }
     }

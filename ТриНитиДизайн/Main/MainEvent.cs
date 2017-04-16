@@ -23,9 +23,7 @@ namespace ТриНитиДизайн
         public MainWindow()
         {
             InitializeComponent();
-            KrivayaLine = new Figure(MainCanvas);
-            
-
+            ChosenPts = new List<Point>();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -49,6 +47,8 @@ namespace ТриНитиДизайн
             HandCursor = new Cursor(sri.Stream);
             System.Windows.Resources.StreamResourceInfo sri1 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Normal.cur", UriKind.Relative));
             NormalCursor = new Cursor(sri1.Stream);
+            System.Windows.Resources.StreamResourceInfo sri2 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Sword.cur", UriKind.Relative));
+            SwordCursor = new Cursor(sri2.Stream);
             mainGrid.Cursor = NormalCursor;
             MainCanvas.Cursor = NormalCursor;
         }
@@ -57,16 +57,20 @@ namespace ТриНитиДизайн
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-            OptionRegim.regim = Regim.RegimLomanaya;
+            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+            OptionRegim.regim = Regim.RegimDraw;
             MainCanvas.Cursor = HandCursor;            
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
+<<<<<<< HEAD
             RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
             OptionRegim.regim = Regim.RegimSelectFigureToEdit;
+=======
+            RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+>>>>>>> ab1683644bd6f57e9be6adba748dea789add8159
             MainCanvas.Cursor = NormalCursor;
         }
 

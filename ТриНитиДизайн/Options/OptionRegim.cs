@@ -8,17 +8,21 @@ namespace ТриНитиДизайн
 {
     public static class OptionRegim
     {
-        public static Regim regim = Regim.RegimLomanaya;
+        public static Regim regim = Regim.RegimDraw;
     }
 
     public enum Regim
     {
-        RegimLomanaya = 0,
+        RegimDraw = 0,
         RegimTatami = 1,
         RegimStegki = 2,
         RegimKrivaya = 3,
         RegimCepochka = 4,
         RegimEditFigures = 5,
-        RegimSelectFigureToEdit = 6
+        RegimSelectFigureToEdit = 6,
+        RegimDuga = 7,
+        RegimLomanaya = 8,
+        RegimFigure = 9,
+        RegimGlad = 10
     }
 }
