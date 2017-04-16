@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, bool rectanglesOn, bool isTatami, Canvas canvas)
+        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, bool AllRectanglesOff,bool rectanglesOn, bool isTatami, Canvas canvas)
         {
             canvas.Children.Clear();
             double size = 0;
@@ -34,28 +34,32 @@ namespace ТриНитиДизайн
             for(int i = 0; i < FigureList.Count;i++)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
-                if(i == ChosenFigure)
+                if (!AllRectanglesOff)
                 {
-                    if(rectanglesOn)
+                    if (i == ChosenFigure)
                     {
-                        FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
+                        if (rectanglesOn)
+                        {
+                            FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
+                        }
+                        else
+                        {
+                            if (FigureList[i].Points.Count > 0)
+                            {
+                                DrawRectangle(FigureList[i].Points[0], OptionColor.ColorOpacity, canvas);
+                                DrawRectangle(FigureList[i].Points[FigureList[i].Points.Count - 1], OptionColor.ColorOpacity, canvas);
+                            }
+                        }
                     }
                     else
                     {
-                        if (FigureList[i].Points.Count > 0)
+                        if (isTatami)
                         {
-                            DrawRectangle(FigureList[i].Points[0], OptionColor.ColorOpacity, canvas);
-                            DrawRectangle(FigureList[i].Points[FigureList[i].Points.Count - 1], OptionColor.ColorOpacity, canvas);
+                            FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
                         }
                     }
                 }
-                else
-                {
-                    if(isTatami)
-                    {
-                        FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
-                    }
-                }
+                
             }
         }
 

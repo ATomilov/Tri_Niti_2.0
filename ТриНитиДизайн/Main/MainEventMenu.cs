@@ -42,7 +42,7 @@ namespace ТриНитиДизайн
         private void DeleteFigureClick(object sender, RoutedEventArgs e)
         {
             ListFigure[IndexFigure].ClearFigure();
-            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
         }
 
         private void OpenFile(object sender, RoutedEventArgs e)

@@ -25,7 +25,7 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
             MainCanvas.Cursor = NormalCursor;
-            RedrawEverything(ListFigure, IndexFigure, true,false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true,false, MainCanvas);
             ChoosingRectangle = new Figure(MainCanvas);
             if (tabControl1.Visibility == Visibility.Hidden)
                 tabControl1.Visibility = Visibility.Visible;
@@ -36,7 +36,7 @@ namespace ТриНитиДизайн
         {
             OptionRegim.regim = Regim.RegimEditFigures;
             MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true, false, MainCanvas);
         }
 
         private void DygaButtonEvent(object sender, RoutedEventArgs e)
@@ -53,7 +53,7 @@ namespace ТриНитиДизайн
         private void SgladitButtonEvent(object sender, RoutedEventArgs e)
         {
             MakeSpline(ListFigure[IndexFigure], MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true, false, MainCanvas);
         }
 
         private void SelectPointNextButtonEvent(object sender, RoutedEventArgs e)

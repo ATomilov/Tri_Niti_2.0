@@ -57,7 +57,7 @@ namespace ТриНитиДизайн
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
             OptionRegim.regim = Regim.RegimDraw;
             MainCanvas.Cursor = HandCursor;            
         }
@@ -65,7 +65,9 @@ namespace ТриНитиДизайн
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-            RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, true, true, false, MainCanvas);
+            OptionRegim.regim = Regim.RegimSelectFigureToEdit;
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             MainCanvas.Cursor = NormalCursor;
         }
 

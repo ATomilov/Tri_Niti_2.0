@@ -77,7 +77,7 @@ namespace ТриНитиДизайн
                 {
                     if (ChosenPts.Count > 0)
                     {
-                        RedrawEverything(ListFigure, IndexFigure,true,false, MainCanvas);
+                        RedrawEverything(ListFigure, IndexFigure, false,true, false, MainCanvas);
                         ChosenPts.Insert(1, e.GetPosition(MainCanvas));
 
                         SetSpline(0.75, ChosenPts, MainCanvas);
@@ -90,7 +90,7 @@ namespace ТриНитиДизайн
                 {
                     if (ChoosingRectangle.Points.Count > 0)
                     {
-                        RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+                        RedrawEverything(ListFigure, IndexFigure, false,true, false, MainCanvas);
                         DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas), MainCanvas);
                     }
                 }
@@ -150,7 +150,7 @@ namespace ТриНитиДизайн
             {
                 if (ChoosingRectangle.Points.Count > 0)
                 {
-                    RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+                    RedrawEverything(ListFigure, IndexFigure, false, true, false, MainCanvas);
                     Point UpperLeftCorner = new Point();
                     Point LowerRightCorner = new Point();
                     if(e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
@@ -258,7 +258,7 @@ namespace ТриНитиДизайн
                                 IndexFigure = i;
                                 ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw);
                             }
-                            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                            RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
                             break;
                         }
                     }
@@ -268,7 +268,7 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
                     ListFigure.Add(new Figure(MainCanvas));
                     IndexFigure = ListFigure.Count - 1;
-                    RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                    RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
                 }
             }
             if (OptionRegim.regim == Regim.RegimStegki)
@@ -348,6 +348,62 @@ namespace ТриНитиДизайн
                 {
                     ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
                 }
+
+            }
+            if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
+            {
+                if (e.OriginalSource is Line || e.OriginalSource is Path)
+                {
+                    double x;
+                    double y;
+                    if (e.OriginalSource is Line)
+                    {
+                        Line clickedLine = (Line)e.OriginalSource;
+                        x = clickedLine.X1;
+                        y = clickedLine.Y1;
+                    }
+                    else
+                    {
+                        Path path = (Path)e.OriginalSource;
+                        PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                        Point p;
+                        Point tg;
+                        myPathGeometry.GetPointAtFractionLength(0, out p, out tg);
+                        x = p.X;
+                        y = p.Y;
+                    }
+                    for (int i = 0; i < ListFigure.Count; i++)
+                    {
+                        if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                        {
+                            if (IndexFigure == i)
+                            {
+                                //отрисовка стрелок
+
+                                //ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
+                                //IndexFigure = ListFigure.Count - 1;
+                                //RedrawEverything(ListFigure, IndexFigure, true, false, false, MainCanvas);
+                            }
+                            else
+                            {
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection);
+                                IndexFigure = i;
+                                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw);
+                                RedrawEverything(ListFigure, IndexFigure, true, false, false, MainCanvas);
+                                ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                    
+                    if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == 10)
+                {
+                    //((Rectangle)e.OriginalSource).Fill = Brushes.Yellow;
+                    ListFigure[IndexFigure].Rotate(15);
+                }
+
             }
 
         }

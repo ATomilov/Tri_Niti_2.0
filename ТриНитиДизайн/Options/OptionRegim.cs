@@ -19,9 +19,10 @@ namespace ТриНитиДизайн
         RegimKrivaya = 3,
         RegimCepochka = 4,
         RegimEditFigures = 5,
-        RegimDuga = 6,
-        RegimLomanaya = 7,
-        RegimFigure = 8,
-        RegimGlad = 9
+        RegimSelectFigureToEdit = 6,
+        RegimDuga = 7,
+        RegimLomanaya = 8,
+        RegimFigure = 9,
+        RegimGlad = 10
     }
 }

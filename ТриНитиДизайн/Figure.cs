@@ -42,6 +42,7 @@ namespace ТриНитиДизайн
             canvas = _canvas;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
             //DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
+            //DictionaryPointLines = new Dictionary<Rectangle, Pair<Line, Line>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
         }
 
@@ -165,7 +166,7 @@ namespace ТриНитиДизайн
         {
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
-            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
+            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
             PointsOutSideRectangle.Add(a);
             PointsOutSideRectangle.Add(b);
             PointsOutSideRectangle.Add(c);
@@ -190,36 +191,25 @@ namespace ТриНитиДизайн
             rec.Stroke = OptionColor.ColorSelection;
             rec.StrokeThickness = 1;
             rec.Fill = Brushes.Black;
-            rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
-            rec.MouseUp += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseUp);
+            //rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
             canvas.Children.Add(rec);
         }
-
-        void PointOfRectangleOutSide_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
-            ((Rectangle)sender).Fill = Brushes.Red;
-        }
-        void PointOfRectangleOutSide_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            
-            ((Rectangle)sender).Fill = Brushes.Yellow;
-        }
+        
 
         public void Rotate(int _angle)
         {
             // отрисовка
             Point a, b, c, d;
-            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
             angle += _angle;
-            //foreach (Shape shape in Shapes)
-            //{
-                
-            //    RotateTransform rotate = new RotateTransform(angle, GetCenter(out a, out b, out c, out d).X, GetCenter(out a, out b, out c, out d).Y);
-            //    shape.RenderTransform = rotate;
-                
-            //}
-            DrawOutSideRectangle(GetCenter(out a, out b, out c, out d), FindLength(a, d), FindLength(a, b));
+            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
+            foreach (Shape shape in Shapes)
+            {
+
+                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
+                shape.RenderTransform = rotate;
+
+            }
+            //DrawOutSideRectangle(GetCenter(), FindLength(a, d), FindLength(a, b));
         }
 
         public void AddPoint(Point New,Brush brush, bool addRec, double recSize)
@@ -296,10 +286,10 @@ namespace ТриНитиДизайн
             return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
         }
 
-        public Point GetCenter(out Point a, out Point b, out Point c, out Point d)
+        public void GetFourPointsOfOutSideRectangle(out Point a, out Point b, out Point c, out Point d)
         {
-            Point max = new Point(-100,-100);
-            Point min = new Point(40000,40000);
+            Point max = new Point(Int32.MinValue, Int32.MinValue);
+            Point min = new Point(Int32.MaxValue, Int32.MaxValue);
             foreach (Point p in Points)
             {
                 if (p.X > max.X)
@@ -315,6 +305,23 @@ namespace ТриНитиДизайн
             b = new Point(min.X - 20, max.Y + 20);
             c = new Point(max.X + 20, max.Y + 20);
             d = new Point(max.X + 20, min.Y - 20);
+        }
+
+        public Point GetCenter()
+        {
+            Point max = new Point(-100, -100);
+            Point min = new Point(40000, 40000);
+            foreach (Point p in Points)
+            {
+                if (p.X > max.X)
+                    max.X = p.X;
+                if (p.Y > max.Y)
+                    max.Y = p.Y;
+                if (p.X < min.X)
+                    min.X = p.X;
+                if (p.Y < min.Y)
+                    min.Y = p.Y;
+            }
             return new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
         }
 
@@ -330,8 +337,8 @@ namespace ТриНитиДизайн
                     Canvas.SetLeft(SelectedRectangle, e.GetPosition(canvas).X - 4);
                     Canvas.SetTop(SelectedRectangle, e.GetPosition(canvas).Y - 4);
                     /*
-                    Line l1 = DictionaryPointLines[SelectedRectangle].Item1;
-                    Line l2 = DictionaryPointLines[SelectedRectangle].Item2;
+                    Line l1 = DictionaryPointLines[SelectedRectangle].First;
+                    Line l2 = DictionaryPointLines[SelectedRectangle].Second;
                     if (l1 != null)
                     {
                         l1.X2 = point.X;

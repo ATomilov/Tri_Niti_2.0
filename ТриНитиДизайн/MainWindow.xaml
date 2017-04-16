@@ -81,7 +81,6 @@
                     <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.undo1.png" />
                 </Button.Background>
             </Button>
-            <Button Content="Button" VerticalAlignment="Stretch" Width="75" Click="Button_Click"/>
         </ToolBar>
         <Button 
             Height="40" 
