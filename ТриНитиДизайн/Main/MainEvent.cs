@@ -65,12 +65,7 @@ namespace ТриНитиДизайн
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-<<<<<<< HEAD
-            RedrawEverything(ListFigure, IndexFigure, -1, MainCanvas);
-            OptionRegim.regim = Regim.RegimSelectFigureToEdit;
-=======
             RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
->>>>>>> ab1683644bd6f57e9be6adba748dea789add8159
             MainCanvas.Cursor = NormalCursor;
         }
 

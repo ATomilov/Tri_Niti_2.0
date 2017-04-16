@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        
+
         private void CanvasTest_MouseRightButtonDown(object sender, MouseButtonEventArgs e)         //при нажатии на праую кнопку мыши
         {
             Mouse.Capture(MainCanvas);
@@ -348,22 +348,6 @@ namespace ТриНитиДизайн
                 {
                     ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
                 }
-            }
-
-            if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
-            {
-                if (e.OriginalSource is Line)
-                {
-                    ListFigure[IndexFigure].DrawOutSideRectanglePoints();
-                }
-                if (e.OriginalSource is Rectangle)
-                {
-                    //((Rectangle)e.OriginalSource).Fill = Brushes.Yellow;
-                    //ListFigure[IndexFigure].Rotate(15);
-                }
-
-
-
             }
 
         }

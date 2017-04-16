@@ -22,7 +22,8 @@ namespace ТриНитиДизайн
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
-            
+            ListFigure[IndexFigure].Rotate(5);
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             
         }
     }

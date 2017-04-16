@@ -21,8 +21,6 @@ namespace ТриНитиДизайн
     {
         public List<Shape> Shapes;
         public List<Point> Points;
-        public Dictionary<Rectangle, Point> DictionaryRecPoint;
-        public Dictionary<Rectangle, Pair<Line,Line>> DictionaryPointLines;
         public List<int> PointsCount;
         public List<Rectangle> RectangleOfFigures;
         public Dictionary<Rectangle, Point> DictionaryRecPoint;
@@ -43,7 +41,6 @@ namespace ТриНитиДизайн
             angle = 0;
             canvas = _canvas;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
-            DictionaryPointLines = new Dictionary<Rectangle, Pair<Line, Line>>();
             //DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
         }
@@ -123,7 +120,6 @@ namespace ТриНитиДизайн
             angle = 0;
             PreparedForTatami = false;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
-            DictionaryPointLines = new Dictionary<Rectangle, Pair<Line, Line>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
         }
 
@@ -169,7 +165,7 @@ namespace ТриНитиДизайн
         {
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
-            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
+            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
             PointsOutSideRectangle.Add(a);
             PointsOutSideRectangle.Add(b);
             PointsOutSideRectangle.Add(c);
@@ -194,27 +190,36 @@ namespace ТриНитиДизайн
             rec.Stroke = OptionColor.ColorSelection;
             rec.StrokeThickness = 1;
             rec.Fill = Brushes.Black;
-            //rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+            rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+            rec.MouseUp += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseUp);
             canvas.Children.Add(rec);
         }
 
-        public void PointOfRectangleOutSide_MouseDown(object sender, MouseButtonEventArgs e)
+        void PointOfRectangleOutSide_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            
             ((Rectangle)sender).Fill = Brushes.Red;
+        }
+        void PointOfRectangleOutSide_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            
+            ((Rectangle)sender).Fill = Brushes.Yellow;
         }
 
         public void Rotate(int _angle)
         {
             // отрисовка
-            //Point a, b, c, d;
-            //GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
+            Point a, b, c, d;
+            SetDot(GetCenter(out a, out b, out c, out d), "red", canvas);
             angle += _angle;
-            foreach (Shape shape in Shapes)
-            {
-                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
-                shape.RenderTransform = rotate;
-            }
+            //foreach (Shape shape in Shapes)
+            //{
+                
+            //    RotateTransform rotate = new RotateTransform(angle, GetCenter(out a, out b, out c, out d).X, GetCenter(out a, out b, out c, out d).Y);
+            //    shape.RenderTransform = rotate;
+                
+            //}
+            DrawOutSideRectangle(GetCenter(out a, out b, out c, out d), FindLength(a, d), FindLength(a, b));
         }
 
         public void AddPoint(Point New,Brush brush, bool addRec, double recSize)
@@ -236,11 +241,6 @@ namespace ТриНитиДизайн
             PointEnd = New;
             if (addRec)
             {
-                Pair<Line, Line> t = new Pair<Line, Line>((Line)Shapes[Shapes.Count - 1], (Line)Shapes[Shapes.Count - 2]);
-                DictionaryPointLines.Add(rec, t);
-            }
-            if (Shapes.Where(p=>p is Line).Count() == 1)
-                DictionaryPointLines.Add(rec, new Pair<Line, Line>((Line)Shapes[Shapes.Count - 1], null));
                 Rectangle rec = new Rectangle();
                 rec.Height = recSize;
                 rec.Width = recSize;
@@ -252,6 +252,7 @@ namespace ТриНитиДизайн
                 DictionaryRecPoint.Add(rec, New);
                 rec.MouseDown += new MouseButtonEventHandler(PointMouseClick);
             }
+
             canvas.MouseMove += new MouseEventHandler(PointMouseMove);
             //Подписать поинт на изменение координат
         }
@@ -295,28 +296,10 @@ namespace ТриНитиДизайн
             return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
         }
 
-        public Point GetCenter()
+        public Point GetCenter(out Point a, out Point b, out Point c, out Point d)
         {
             Point max = new Point(-100,-100);
             Point min = new Point(40000,40000);
-            foreach (Point p in Points)
-            {
-                if (p.X > max.X)
-                    max.X = p.X;
-                if (p.Y > max.Y)
-                    max.Y = p.Y;
-                if (p.X < min.X)
-                    min.X = p.X;
-                if (p.Y < min.Y)
-                    min.Y = p.Y;
-            }
-            return new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
-        }
-
-        public void GetFourPointsOfOutSideRectangle(out Point a, out Point b, out Point c, out Point d)
-        {
-            Point max = new Point(-100, -100);
-            Point min = new Point(40000, 40000);
             foreach (Point p in Points)
             {
                 if (p.X > max.X)
@@ -332,6 +315,7 @@ namespace ТриНитиДизайн
             b = new Point(min.X - 20, max.Y + 20);
             c = new Point(max.X + 20, max.Y + 20);
             d = new Point(max.X + 20, min.Y - 20);
+            return new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
         }
 
         private void PointMouseMove(object sender, MouseEventArgs e)
@@ -345,8 +329,6 @@ namespace ТриНитиДизайн
 
                     Canvas.SetLeft(SelectedRectangle, e.GetPosition(canvas).X - 4);
                     Canvas.SetTop(SelectedRectangle, e.GetPosition(canvas).Y - 4);
-                    Line l1 = DictionaryPointLines[SelectedRectangle].First;
-                    Line l2 = DictionaryPointLines[SelectedRectangle].Second;
                     /*
                     Line l1 = DictionaryPointLines[SelectedRectangle].Item1;
                     Line l2 = DictionaryPointLines[SelectedRectangle].Item2;
