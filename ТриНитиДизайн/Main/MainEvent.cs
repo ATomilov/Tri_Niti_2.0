@@ -70,6 +70,11 @@ namespace ТриНитиДизайн
             ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             MainCanvas.Cursor = NormalCursor;
         }
+        private void ShowSpecialWindow(object sender, RoutedEventArgs e)
+        {
+            var SpecialWindow = new View.SpecialWindowWhenSelectedFigure();
+            SpecialWindow.ShowDialog();
+        }
 
     }
 }

@@ -1,0 +1,18 @@
+﻿<Window x:Class="ТриНитиДизайн.View.SpecialWindowWhenSelectedFigure"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ТриНитиДизайн.View"
+        mc:Ignorable="d"
+        Title="" Height="222" Width="300
+        " ResizeMode="NoResize">
+    <Grid>
+        <Button Content="Прорисовать стежки" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Prorisovat_Stezhki"/>
+        <Button Content="Прорисовать в цвете" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Prorisovat_v_tsvete"/>
+        <Button Content="Сохранить в файл" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Sokhranit_v_fayl"/>
+        <Button Content="Отшить" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Otshit"/>
+        <Button Content="Отменить" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Otmenit"/>
+
+    </Grid>
+</Window>

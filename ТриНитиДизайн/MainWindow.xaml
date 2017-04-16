@@ -93,6 +93,7 @@
             AllowDrop="False" 
             BorderThickness="2" 
             Click="CurcorButtonEvent" 
+            MouseDoubleClick="ShowSpecialWindow"
             Background="White">
             <Image Source="/ТриНитиДизайн;component/Images/appbar.cursor.default.png"    />
         </Button>
