@@ -88,22 +88,25 @@ namespace ТриНитиДизайн
                     break;
                 }
             }
-            for (int i = 0; i < secondFigure.Points.Count - 1; i++)
+            if (hits == 1)
             {
-                c = secondFigure.Points[i];
-                d = secondFigure.Points[i + 1];
-                hits = FindIntersection(a, b, c, d, pts, hits, false, true);
+                for (int i = 0; i < secondFigure.Points.Count - 1; i++)
+                {
+                    c = secondFigure.Points[i];
+                    d = secondFigure.Points[i + 1];
+                    hits = FindIntersection(a, b, c, d, pts, hits, false, true);
+                    if (hits == 2)
+                    {
+                        break;
+                    }
+                }
                 if (hits == 2)
                 {
-                    break;
+                    Figure fig = new Figure(canvas);
+                    fig.AddPoint(pts[0], OptionColor.ColorChoosingRec, false, 0);
+                    fig.AddPoint(pts[1], OptionColor.ColorChoosingRec, false, 0);
+                    gladLines.Insert(1, fig);
                 }
-            }
-            if(hits == 2)
-            {
-                Figure fig = new Figure(canvas);
-                fig.AddPoint(pts[0], OptionColor.ColorChoosingRec, false, 0);
-                fig.AddPoint(pts[1], OptionColor.ColorChoosingRec, false, 0);
-                gladLines.Insert(1, fig);
             }
         }
 

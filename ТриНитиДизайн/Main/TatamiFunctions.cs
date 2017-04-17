@@ -31,7 +31,6 @@ namespace ТриНитиДизайн
             {
                 CurCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
             }
-
             bool success;
             success = CheckForIntersection(a, b, StartLines, ConLine, null, CurCanvas, true, false);
             if (success)
@@ -91,7 +90,7 @@ namespace ТриНитиДизайн
                 if (secondCheck && hits % 2 != 1)                                                 //отрисовка линии между первой и последней точкой пересечения, как в программе
                 {
                     OrganizeDots(pts, ConLine,ListControlLines, b, hits);
-                    SetLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], "dash", CurCanvas);
+                    SetLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], "blue", CurCanvas);
                 }
                 success = true;
             }
@@ -214,7 +213,7 @@ namespace ТриНитиДизайн
             Figure resultFigure = new Figure(canvas);
             for (int i = 0; i < figure.Points.Count - 1; i++)
             {
-                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, true, 8);
+                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, false, 8);
                 double x;
                 double y;
                 x = figure.Points[i + 1].X - figure.Points[i].X;
@@ -226,7 +225,7 @@ namespace ТриНитиДизайн
                 {
                     vect.Normalize();
                     vect *= distance;
-                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, true, 8);
+                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, false, 8);
                     distance += step;
                 }
             }

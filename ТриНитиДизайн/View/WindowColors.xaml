@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ТриНитиДизайн"
         mc:Ignorable="d"
-        Title="Настройка цвета" Height="216.667" Width="550">
+        Title="Настройка цвета" Height="216.667" Width="550" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="button_accept" Content="Создать" HorizontalAlignment="Left" Margin="170,138,0,0" VerticalAlignment="Top" Width="105" Click="button_accept_Click" Height="28"/>
         <Button x:Name="button_cancel" Content="Оменить" HorizontalAlignment="Left" Margin="420,138,0,0" VerticalAlignment="Top" Width="105" Click="button_cancel_Click" Height="28"/>

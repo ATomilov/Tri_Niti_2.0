@@ -271,36 +271,6 @@ namespace ТриНитиДизайн
                     RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
                 }
             }
-            if (OptionRegim.regim == Regim.RegimStegki)
-            {
-                if (e.OriginalSource is Line)
-                {
-                    double x;
-                    double y;
-                    Line clickedLine = (Line)e.OriginalSource;
-                    x = clickedLine.X1;
-                    y = clickedLine.Y1;
-                    for (int i = 0; i < 128; i++)
-                    {
-                        if (TatamiFigures[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
-                        {
-                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorDraw);
-                        }
-                        else
-                        {
-                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorSelection);
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < 128; i++)
-                    {
-                        TatamiFigures[i].ChangeFigureColor(OptionColor.ColorSelection);
-                    }
-                }
-            }
-
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
                 ChosenPts.Clear();
@@ -308,16 +278,12 @@ namespace ТриНитиДизайн
                 ChoosingRectangle.Points.Clear();
                 if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
-                    double x1;
-                    double y1;
                     double x2;
                     double y2;
                     Shape clickedShape = (Shape)e.OriginalSource;
                     if (e.OriginalSource is Line)
                     {
                         Line clickedLine = (Line)clickedShape;
-                        x1 = clickedLine.X1;
-                        y1 = clickedLine.Y1;
                         x2 = clickedLine.X2;
                         y2 = clickedLine.Y2;
                     }
@@ -327,9 +293,6 @@ namespace ТриНитиДизайн
                         PathGeometry myPathGeometry = (PathGeometry)path.Data;
                         Point p;
                         Point tg;
-                        myPathGeometry.GetPointAtFractionLength(0, out p, out tg);
-                        x1 = p.X;
-                        y1 = p.Y;
                         myPathGeometry.GetPointAtFractionLength(1, out p, out tg);
                         x2 = p.X;
                         y2 = p.Y;
@@ -338,9 +301,10 @@ namespace ТриНитиДизайн
                     if (clickedShape.Stroke == OptionColor.ColorKrivaya)
                     {
                         OptionRegim.regim = Regim.RegimKrivaya;
-                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(new Point(x1, y1), out sh);
-                        ListFigure[IndexFigure].DeleteShape(sh, new Point(x1, y1));
-                        ChosenPts.Add(new Point(x1, y1));
+                        var point = ListFigure[IndexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == clickedShape);
+                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
+                        ListFigure[IndexFigure].DeleteShape(sh, point.Key);
+                        ChosenPts.Add(point.Key);
                         ChosenPts.Add(new Point(x2,y2));
                     }
                 }
@@ -403,9 +367,7 @@ namespace ТриНитиДизайн
                     //((Rectangle)e.OriginalSource).Fill = Brushes.Yellow;
                     ListFigure[IndexFigure].Rotate(15);
                 }
-
             }
-
         }
     }
 }

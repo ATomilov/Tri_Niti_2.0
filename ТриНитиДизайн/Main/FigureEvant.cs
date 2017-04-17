@@ -39,7 +39,6 @@ namespace ТриНитиДизайн
                 if (!ListFigure[IndexFigure].PreparedForTatami)
                 {
                     PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
-                    ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
                 }
                 ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
             }
@@ -77,15 +76,34 @@ namespace ТриНитиДизайн
                 {
                     if (ControlLine.Points.Count > 2)
                     {
-                        OptionRegim.regim = Regim.RegimStegki;
                         CalculateParallelLines(ControlLine.Points[2], ControlLine.Points[ControlLine.Points.Count - 1], ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
+                        TatamiFigures[0].ChangeFigureColor(OptionColor.ColorDraw);
+                        for(int i = 0; i < TatamiFigures.Count;i++)
+                        {
+                            ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                        }
+                        ListFigure.RemoveAt(IndexFigure + TatamiFigures.Count);
+                        IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
+                        RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
+                        TatamiFigures.Clear();
                     }
                 }
             }
             if(OptionRegim.regim == Regim.RegimGlad)
             {
-                OptionRegim.regim = Regim.RegimFigure;
                 CalculateGladLines(ListFigure[IndexFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
+                Figure firstFigure = ListFigure[IndexFigure];
+                Figure secondFigure = ListFigure[SecondGladFigure];
+                LinesForGlad[0].ChangeFigureColor(OptionColor.ColorDraw);
+                for (int i = 0; i < LinesForGlad.Count; i++)
+                {
+                    ListFigure.Insert(IndexFigure, LinesForGlad[i]);
+                }
+                ListFigure.Remove(firstFigure);
+                ListFigure.Remove(secondFigure);
+                IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
+                RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
+                LinesForGlad.Clear();
             }
         }
 
