@@ -27,5 +27,16 @@ namespace ТриНитиДизайн
             if (tabControl2.Visibility == Visibility.Visible)
                 tabControl2.Visibility = Visibility.Hidden;
         }
+
+        public void SetToDefault()
+        {
+            OptionSetka.MasshtabSetka = 0;
+            OptionSetka.isDrawSetka = false;
+            OptionSetka.isDotOnGrid = false;
+            OptionSetka.Masshtab = 1;
+            OptionSetka.Angle = 0;
+            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
+            MainCanvas.LayoutTransform = scaleTransform;
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace ТриНитиДизайн
             TatamiFigures.Clear();
             IndexFigure = 0;
             CloseAllTabs();
+            SetToDefault();
             MainCanvas.Cursor = NormalCursor;   
         }
 
