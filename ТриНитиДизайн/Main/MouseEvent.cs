@@ -135,7 +135,10 @@ namespace ТриНитиДизайн
                 {
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-               FindGladControlLine(ControlLine,LinesForGlad,ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+                if (ControlLine.Points[0] != ControlLine.Points[1])
+                {
+                    FindGladControlLine(ControlLine, LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+                }
             }
             if (OptionRegim.regim == Regim.RegimKrivaya)
             {
