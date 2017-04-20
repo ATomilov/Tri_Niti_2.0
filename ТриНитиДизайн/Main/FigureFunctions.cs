@@ -19,18 +19,11 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, bool AllRectanglesOff,bool rectanglesOn, bool isTatami, Canvas canvas)
+        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, bool AllRectanglesOff,bool rectanglesOn, Canvas canvas)
         {
             canvas.Children.Clear();
-            double size = 0;
-            if(isTatami)
-            {
-                size = 4;
-            }
-            else
-            {
-                size = 8;
-            }
+            SetkaFigure.AddFigure(canvas);
+            double size = 8;
             for(int i = 0; i < FigureList.Count;i++)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
@@ -49,13 +42,6 @@ namespace ТриНитиДизайн
                                 DrawRectangle(FigureList[i].Points[0], OptionColor.ColorOpacity, canvas);
                                 DrawRectangle(FigureList[i].Points[FigureList[i].Points.Count - 1], OptionColor.ColorOpacity, canvas);
                             }
-                        }
-                    }
-                    else
-                    {
-                        if (isTatami)
-                        {
-                            FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
                         }
                     }
                 }
@@ -181,7 +167,7 @@ namespace ТриНитиДизайн
         public void PrepareForTatami(Figure fig, Canvas canvas)
         {
             fig.PreparedForTatami = true;
-            fig.ChangeFigureColor(OptionColor.ColorDraw);
+            fig.ChangeFigureColor(OptionColor.ColorDraw,false);
             for(int i = 0; i< fig.Points.Count-1;i++)
             {
                 Shape sh;
@@ -200,6 +186,78 @@ namespace ТриНитиДизайн
                         fig.Points.Insert(j + i, p);
                     }
                 }
+            }
+        }
+
+        public void ChooseFigureByClicking(List<Figure> FigureList, Object clickedShape, Canvas canvas)
+        {
+            if (clickedShape is Line || clickedShape is Path)
+            {
+                double x = 0;
+                double y = 0;
+                if (clickedShape is Line)
+                {
+                    Line clickedLine = (Line)clickedShape;
+                    x = clickedLine.X1;
+                    y = clickedLine.Y1;
+                }
+                else
+                {
+                    Path path = (Path)clickedShape;
+                    for(int i = 0; i < FigureList.Count;i++)
+                    {
+                       var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == path);      //TODO: улучшить
+                       if(point.Value != null)
+                       {
+                           x = point.Key.X;
+                           y = point.Key.Y;
+                           break;
+                       }
+                    }
+                }
+                for (int i = 0; i < FigureList.Count; i++)
+                {
+                    if (OptionRegim.regim != Regim.RegimEditFigures)
+                    {
+                        if (FigureList[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                        {
+                            if (IndexFigure == i)
+                            {
+                                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
+                                IndexFigure = FigureList.Count - 1;
+                            }
+                            else
+                            {
+                                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
+                                IndexFigure = i;
+                                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
+                            }
+                            RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (FigureList[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                        {
+                            if (IndexFigure != i)
+                            {
+                                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+                                IndexFigure = i;
+                                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, true);
+                                RedrawEverything(FigureList, IndexFigure, false, true, canvas);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (OptionRegim.regim != Regim.RegimEditFigures)
+            {
+                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
+                FigureList.Add(new Figure(MainCanvas));
+                IndexFigure = FigureList.Count - 1;
+                RedrawEverything(FigureList, IndexFigure, false, false, canvas);
             }
         }
     }

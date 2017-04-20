@@ -27,10 +27,12 @@ namespace ТриНитиДизайн
         double MousePositionY;
         int IndexFigure;
         int SecondGladFigure;
+        bool startDrawing = true;
         List<Figure> ListFigure;
 
         Figure ChoosingRectangle;
         Figure ControlLine;
+        Figure SetkaFigure;
         List<Point> ChosenPts;
         List<Figure> LinesForGlad = new List<Figure>();
         List<Figure> ControlFigures = new List<Figure>();

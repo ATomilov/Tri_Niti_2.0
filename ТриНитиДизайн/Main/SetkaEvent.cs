@@ -29,7 +29,7 @@ namespace ТриНитиДизайн
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 0;
-                SetSetka();
+                SetGrid();
             }
         }
 
@@ -42,7 +42,7 @@ namespace ТриНитиДизайн
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 10;
-                SetSetka();
+                SetGrid();
             }
         }
 
@@ -55,7 +55,7 @@ namespace ТриНитиДизайн
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 20;
-                SetSetka();
+                SetGrid();
             }
         }
 
@@ -68,7 +68,7 @@ namespace ТриНитиДизайн
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 50;
-                SetSetka();
+                SetGrid();
             }
         }
 
@@ -81,7 +81,7 @@ namespace ТриНитиДизайн
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 100;
-                SetSetka();
+                SetGrid();
             }
         }
 
@@ -94,7 +94,7 @@ namespace ТриНитиДизайн
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 200;
-                SetSetka();
+                SetGrid();
             }
         }
 

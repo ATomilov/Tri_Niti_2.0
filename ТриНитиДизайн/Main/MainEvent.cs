@@ -25,6 +25,7 @@ namespace ТриНитиДизайн
             InitializeComponent();
             ChosenPts = new List<Point>();
         }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (MessageBox.Show("Сохранить последний проект?", "Сообщение", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
@@ -57,7 +58,8 @@ namespace ТриНитиДизайн
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-            RedrawEverything(ListFigure, IndexFigure, false, false, false, MainCanvas);
+            ListFigure[IndexFigure].PointsCount.Clear();
+            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
             OptionRegim.regim = Regim.RegimDraw;
             MainCanvas.Cursor = HandCursor;            
         }
@@ -65,7 +67,8 @@ namespace ТриНитиДизайн
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
             CloseAllTabs();
-            RedrawEverything(ListFigure, IndexFigure, true, true, false, MainCanvas);
+            ListFigure[IndexFigure].PointsCount.Clear();
+            RedrawEverything(ListFigure, IndexFigure, true, true, MainCanvas);
             OptionRegim.regim = Regim.RegimSelectFigureToEdit;
             ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             MainCanvas.Cursor = NormalCursor;

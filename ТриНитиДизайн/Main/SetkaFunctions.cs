@@ -20,35 +20,27 @@ namespace ТриНитиДизайн
     public partial class MainWindow : Window
     {
 
-        private void SetSetka()        
-        {
-            ClearScreen();                     
-        }
-
-        public void ClearScreen()                         
-        {
-            if (MainCanvas != null)
-            {
-                MainCanvas.Children.Clear();
-                SetGrid();
-            }
-        }
-
         public void SetGrid()          
         {
+            if(SetkaFigure != null)
+            {
+                SetkaFigure.RemoveFigure(MainCanvas);
+            }
+            SetkaFigure = new Figure(MainCanvas);
             double step = (Double)OptionSetka.MasshtabSetka;
             if (step != 0)
             {
                 for (double i = -step * 3; i < MainCanvas.ActualWidth + 0; i += (step * 3))
                     for (double j = -step * 3; j < MainCanvas.ActualHeight + 0; j += (step * 3))
                     {
-                        SetDot(new Point(i, j));
+                        SetkaFigure.Shapes.Add(SetDot(new Point(i, j)));
                     }
             }
+            SetkaFigure.AddFigure(MainCanvas);
         }
 
 
-        public void SetDot(Point centerPoint)         
+        public Path SetDot(Point centerPoint)         
         {
             System.Windows.Shapes.Path myPath = new System.Windows.Shapes.Path();
             EllipseGeometry myEllipse = new EllipseGeometry();
@@ -57,7 +49,7 @@ namespace ТриНитиДизайн
             myEllipse.RadiusX = 0.5;
             myEllipse.RadiusY = 0.5;
             myPath.Data = myEllipse;
-            MainCanvas.Children.Add(myPath);
+            return myPath;
         }
 
         public Point FindClosestDot(Point point)

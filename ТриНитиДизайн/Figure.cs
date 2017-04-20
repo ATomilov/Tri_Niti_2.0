@@ -265,11 +265,25 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void ChangeFigureColor(Brush brush)
+        public void ChangeFigureColor(Brush brush,bool isModeEditFigures)
         {
             foreach (Shape shape in Shapes)
             {
-                shape.Stroke = brush;
+                if (isModeEditFigures)
+                {
+                    if(shape is Path)
+                    {
+                        shape.Stroke = OptionColor.ColorKrivaya;
+                    }
+                    else
+                    {
+                        shape.Stroke = brush;
+                    }
+                }
+                else
+                {
+                    shape.Stroke = brush;
+                }
             }
         }
 
@@ -278,6 +292,14 @@ namespace ТриНитиДизайн
             foreach (Shape shape in Shapes)
             {
                 _canvas.Children.Add(shape);
+            }
+        }
+
+        public void RemoveFigure(Canvas _canvas)
+        {
+            foreach (Shape shape in Shapes)
+            {
+                _canvas.Children.Remove(shape);
             }
         }
         

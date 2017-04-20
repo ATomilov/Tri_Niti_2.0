@@ -37,6 +37,14 @@ namespace ТриНитиДизайн
                         OptionRegim.regim = Regim.RegimGlad;
                         ControlLine = new Figure(MainCanvas);
                         AddFirstGladLines(gladLines, firstFigure, secondFigure, canvas);
+                        if (!firstFigure.PreparedForTatami)
+                        {
+                            PrepareForTatami(firstFigure, MainCanvas);
+                        }
+                        if (!secondFigure.PreparedForTatami)
+                        {
+                            PrepareForTatami(secondFigure, MainCanvas);
+                        }
                         break;
                     }
                     
@@ -49,7 +57,7 @@ namespace ТриНитиДизайн
         {
             gladShapesCount = 0;
             gladLines.Clear();
-            secondFigure.ChangeFigureColor(OptionColor.ColorDraw);
+            secondFigure.ChangeFigureColor(OptionColor.ColorDraw,false);
             gladLines.Add(new Figure(canvas));
             gladLines.Add(new Figure(canvas));
             if (CheckForGladIntersection(firstFigure.PointStart, secondFigure.PointStart, firstFigure, secondFigure, true, null))
