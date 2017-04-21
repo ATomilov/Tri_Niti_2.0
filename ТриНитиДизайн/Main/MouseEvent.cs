@@ -135,7 +135,7 @@ namespace ТриНитиДизайн
                 {
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-                FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
+                FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas,false);
             }
             if (OptionRegim.regim == Regim.RegimGlad)
             {
@@ -231,10 +231,6 @@ namespace ТриНитиДизайн
             Mouse.Capture(MainCanvas);
             if (OptionRegim.regim == Regim.RegimTatami)
             {
-                if (ControlLine.Points.Count > 2)
-                {
-                    MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
-                }
                 ControlLine.Points.Clear();
                 ControlLine.Points.Add(e.GetPosition(MainCanvas));
             }

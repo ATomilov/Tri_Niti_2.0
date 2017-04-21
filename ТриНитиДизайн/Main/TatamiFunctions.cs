@@ -22,19 +22,45 @@ namespace ТриНитиДизайн
         int oldHits = 2;
         int TatamiShapesCount = 0;
 
-        public void FindControlLine(Figure StartLines, Figure ConLine, Canvas CurCanvas)
+        public void InsertFirstControlLine(Figure StartLines, Figure ConLine, Canvas CurCanvas)
+        {
+            Random rand = new Random();
+            Point center = StartLines.GetCenter();
+            Vector vect = new Vector();
+            bool found = false;
+            while (!found)
+            {
+                ConLine.Points.Clear();
+                vect.X = rand.NextDouble() * 2 - 1;
+                vect.Y = rand.NextDouble() * 2 - 1;
+                Point p1 = new Point(center.X + vect.X * 500, center.Y + vect.Y * 500);
+                Point p2 = new Point(center.X - vect.X * 500, center.Y - vect.Y * 500);
+                ConLine.Points.Add(p1);
+                ConLine.Points.Add(p2);
+                found = FindControlLine(StartLines, ConLine, CurCanvas,true);
+            }
+
+        }
+
+        public bool FindControlLine(Figure StartLines, Figure ConLine, Canvas CurCanvas,bool isFirstLine)
         {
             Point a = ConLine.Points[0];
             Point b = ConLine.Points[1];
 
-            if(!(a.X == b.X && a.Y == b.Y))
+            if (!(a.X == b.X && a.Y == b.Y) && !isFirstLine)
             {
                 CurCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
             }
+
             bool success;
             success = CheckForIntersection(a, b, StartLines, ConLine, null, CurCanvas, true, false);
             if (success)
             {
+                if(ConLine.Shapes != null)
+                {
+                    ConLine.RemoveFigure(CurCanvas);
+                    ConLine.Shapes.Clear();
+                }
                 double x = b.X - a.X;
                 double y = b.Y - a.Y;
                 Vector line = new Vector(x, y);
@@ -46,6 +72,7 @@ namespace ТриНитиДизайн
                 double y2 = a.Y - line.Y;
                 CheckForIntersection(new Point(x1, y1), new Point(x2, y2), StartLines, ConLine, null, CurCanvas, false, true);
             }
+            return success;
         }
 
         private bool CheckForIntersection(Point a, Point b, Figure StartLines, Figure ConLine, List<Figure> ListControlLines, Canvas CurCanvas, bool firstCheck, bool secondCheck)              //проверка на пересечение задающих прямых и начальных отрезков
@@ -90,7 +117,7 @@ namespace ТриНитиДизайн
                 if (secondCheck && hits % 2 != 1)                                                 //отрисовка линии между первой и последней точкой пересечения, как в программе
                 {
                     OrganizeDots(pts, ConLine,ListControlLines, b, hits);
-                    SetLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], "blue", CurCanvas);
+                    ConLine.Shapes.Add(SetLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], "blue", CurCanvas));
                 }
                 success = true;
             }
@@ -180,7 +207,7 @@ namespace ТриНитиДизайн
             return (Math.Min(a, b) <= c) && c <= (Math.Max(a, b));
         }
 
-        private void SetLine(Point point1, Point point2, string type, Canvas CurCanvas)                //отрисовка линии, dash - через черту, red - красная, blue - синяя
+        private Line SetLine(Point point1, Point point2, string type, Canvas CurCanvas)                //отрисовка линии, dash - через черту, red - красная, blue - синяя
         {
             Line shape = new Line();
             shape.Stroke = OptionColor.ColorSelection;
@@ -206,6 +233,7 @@ namespace ТриНитиДизайн
             shape.X2 = point2.X;
             shape.Y2 = point2.Y;
             CurCanvas.Children.Add(shape);
+            return shape;
         }
 
         public Figure Cepochka(Figure figure, double step, Canvas canvas)

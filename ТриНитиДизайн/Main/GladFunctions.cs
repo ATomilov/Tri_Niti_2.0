@@ -361,9 +361,13 @@ namespace ТриНитиДизайн
             pts = new List<Point>();
             for(int i = 1; i < count;i++)
             {
-                FindIntersection(ControlGladLines[i].PointStart, ControlGladLines[i].PointEnd, ControlGladLines[0].PointStart,
-                    ControlGladLines[count].PointStart, pts, 0, false, false);
+                double dist = FindLength(ControlGladLines[0].PointStart, ControlGladLines[i].PointStart);
+                if (dist < FindLength(ControlGladLines[0].PointStart, ControlGladLines[i].PointEnd))
+                    pts.Add(ControlGladLines[i].PointEnd);
+                else
+                    pts.Add(ControlGladLines[i].PointStart);
             }
+
             double[] distance = new double[pts.Count];
 
             for (int i = 0; i < pts.Count; i++)

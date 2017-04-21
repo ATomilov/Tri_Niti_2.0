@@ -30,7 +30,5 @@ namespace ТриНитиДизайн
             myPath.Data = myPathGeometry;
             canvas.Children.Add(myPath);
         }
-
-
     }
-    }
+}
