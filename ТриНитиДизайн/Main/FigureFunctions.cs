@@ -221,7 +221,7 @@ namespace ТриНитиДизайн
                     {
                         if (FigureList[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
                         {
-                            if (IndexFigure == i)
+                            if (IndexFigure == i && OptionRegim.regim != Regim.RegimFigure)
                             {
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                                 IndexFigure = FigureList.Count - 1;
@@ -252,7 +252,7 @@ namespace ТриНитиДизайн
                     }
                 }
             }
-            else if (OptionRegim.regim != Regim.RegimEditFigures)
+            else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure)
             {
                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                 FigureList.Add(new Figure(MainCanvas));

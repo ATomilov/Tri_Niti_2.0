@@ -36,13 +36,18 @@ namespace ТриНитиДизайн
         {
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
-                var CepochkaSetting = new View.Cepochka();
-                CepochkaSetting.ShowDialog();
-                if (!ListFigure[IndexFigure].PreparedForTatami)
+                bool accepted;
+                accepted = ShowAcceptMessage(0);
+                if (accepted)
                 {
-                    PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                    OptionRegim.regim = Regim.RegimCepochka;
+                    var CepochkaSetting = new View.Cepochka();
+                    CepochkaSetting.ShowDialog();
+                    if (!ListFigure[IndexFigure].PreparedForTatami)
+                    {
+                        PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                    }
                 }
-                OptionRegim.regim = Regim.RegimCepochka;
             }
         }
 
@@ -59,60 +64,71 @@ namespace ТриНитиДизайн
         {
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
-                Tatami TatamiWindow = new Tatami();
-                TatamiWindow.ShowDialog();
-                OptionRegim.regim = Regim.RegimTatami;
-                if (!ListFigure[IndexFigure].PreparedForTatami)
+                bool accepted;
+                accepted = ShowAcceptMessage(1);
+                if (accepted)
                 {
-                    PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
-                    ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
+                    OptionRegim.regim = Regim.RegimTatami;
+                    Tatami TatamiWindow = new Tatami();
+                    TatamiWindow.ShowDialog();
+
+                    if (!ListFigure[IndexFigure].PreparedForTatami)
+                    {
+                        PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                        ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
+                    }
+                    ControlLine = new Figure(MainCanvas);
                 }
-                ControlLine = new Figure(MainCanvas);
             }
         }
         private void StagkiButtonEvent(object sender, RoutedEventArgs e)
         {
-            if (OptionRegim.regim == Regim.RegimTatami)
+            bool accepted;
+            accepted = ShowAcceptMessage(2);
+            if (accepted)
             {
-                if (ControlLine != null)
+                if (OptionRegim.regim == Regim.RegimTatami)
                 {
-                    if (ControlLine.Points.Count > 2)
+                    if (ControlLine != null)
                     {
-                        CalculateParallelLines(ControlLine.Points[2], ControlLine.Points[ControlLine.Points.Count - 1], ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
-                        TatamiFigures[0].ChangeFigureColor(OptionColor.ColorDraw,false);
-                        for(int i = 0; i < TatamiFigures.Count;i++)
+                        if (ControlLine.Points.Count > 2)
                         {
-                            ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                            CalculateParallelLines(ControlLine.Points[2], ControlLine.Points[ControlLine.Points.Count - 1], ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
+                            TatamiFigures[0].ChangeFigureColor(OptionColor.ColorDraw, false);
+                            for (int i = 0; i < TatamiFigures.Count; i++)
+                            {
+                                ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                            }
+                            ListFigure.RemoveAt(IndexFigure + TatamiFigures.Count);
+                            IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
+                            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                            TatamiFigures.Clear();
+                            OptionRegim.regim = Regim.RegimFigure;
                         }
-                        ListFigure.RemoveAt(IndexFigure + TatamiFigures.Count);
-                        IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
-                        RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
-                        TatamiFigures.Clear();
-                        OptionRegim.regim = Regim.RegimFigure;
                     }
                 }
-            }
-            if(OptionRegim.regim == Regim.RegimGlad)
-            {
-                CalculateGladLines(ListFigure[IndexFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
-                Figure firstFigure = ListFigure[IndexFigure];
-                Figure secondFigure = ListFigure[SecondGladFigure];
-                LinesForGlad[0].ChangeFigureColor(OptionColor.ColorDraw, false);
-                for (int i = 0; i < LinesForGlad.Count; i++)
+                if (OptionRegim.regim == Regim.RegimGlad)
                 {
-                    ListFigure.Insert(IndexFigure, LinesForGlad[i]);
+                    CalculateGladLines(ListFigure[IndexFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
+                    Figure firstFigure = ListFigure[IndexFigure];
+                    Figure secondFigure = ListFigure[SecondGladFigure];
+                    LinesForGlad[0].ChangeFigureColor(OptionColor.ColorDraw, false);
+                    for (int i = 0; i < LinesForGlad.Count; i++)
+                    {
+                        ListFigure.Insert(IndexFigure, LinesForGlad[i]);
+                    }
+                    ListFigure.Remove(firstFigure);
+                    ListFigure.Remove(secondFigure);
+                    IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
+                    RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                    LinesForGlad.Clear();
+                    OptionRegim.regim = Regim.RegimFigure;
                 }
-                ListFigure.Remove(firstFigure);
-                ListFigure.Remove(secondFigure);
-                IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
-                RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
-                LinesForGlad.Clear();
-                OptionRegim.regim = Regim.RegimFigure;
-            }
-            if(OptionRegim.regim == Regim.RegimCepochka)
-            {
-                ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
-                OptionRegim.regim = Regim.RegimFigure;
+                if (OptionRegim.regim == Regim.RegimCepochka)
+                {
+                    ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
+                    OptionRegim.regim = Regim.RegimFigure;
+                }
             }
         }
 

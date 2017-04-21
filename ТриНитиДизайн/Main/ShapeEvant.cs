@@ -31,7 +31,6 @@ namespace ТриНитиДизайн
                 tabControl1.Visibility = Visibility.Visible;
         }
 
-
         private void LomannaiButtonEvent(object sender, RoutedEventArgs e)
         {
             OptionRegim.regim = Regim.RegimEditFigures;

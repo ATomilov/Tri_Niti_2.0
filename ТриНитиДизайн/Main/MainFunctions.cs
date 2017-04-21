@@ -38,5 +38,49 @@ namespace ТриНитиДизайн
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             MainCanvas.LayoutTransform = scaleTransform;
         }
+
+        public bool ShowAcceptMessage(int choice)
+        {
+            string sMessageBoxText = "Соединить?";
+            string sCaption = "Стежки";
+            if(choice == 0)
+            {
+                sMessageBoxText = "Создать цепочку стежков?";
+            }
+            if(choice == 1)
+            {
+                sMessageBoxText = "Создать татами?";
+            }
+            if (choice == 2)
+            {
+                sMessageBoxText = "Создать стежки?";
+                if(OptionRegim.regim == Regim.RegimTatami)
+                {
+                    sCaption = "Татами";
+                }
+                if (OptionRegim.regim == Regim.RegimCepochka)
+                {
+                    sCaption = "Цепочка стежков";
+                }
+                if (OptionRegim.regim == Regim.RegimGlad)
+                {
+                    sCaption = "Гладь";
+                }
+
+            }
+            MessageBoxButton btnMessageBox = MessageBoxButton.OKCancel;
+
+            MessageBoxResult rsltMessageBox = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox);
+
+            switch (rsltMessageBox)
+            {
+                case MessageBoxResult.OK:
+                    return true;
+
+                case MessageBoxResult.Cancel:
+                    return false;
+            }
+            return false;
+        }
     }
 }
