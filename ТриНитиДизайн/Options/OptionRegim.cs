@@ -9,6 +9,7 @@ namespace ТриНитиДизайн
     public static class OptionRegim
     {
         public static Regim regim = Regim.RegimDraw;
+        public static Regim oldRegim = Regim.RegimFigure;
     }
 
     public enum Regim

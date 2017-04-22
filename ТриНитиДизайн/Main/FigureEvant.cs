@@ -24,7 +24,17 @@ namespace ТриНитиДизайн
         {
             ListFigure[IndexFigure].PointsCount.Clear();
             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
-            OptionRegim.regim = Regim.RegimFigure;
+            OptionRegim.regim = OptionRegim.oldRegim;
+            ChangeFiguresColor(ListFigure, MainCanvas);
+            if (OptionRegim.regim == Regim.RegimTatami)
+            {
+                ControlLine.AddFigure(MainCanvas);
+            }
+            if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                foreach (Figure sh in LinesForGlad)
+                    sh.AddFigure(MainCanvas);
+            }
             ChosenPts = new List<Point>();
             CloseAllTabs();
             MainCanvas.Cursor = SwordCursor;   
@@ -41,6 +51,7 @@ namespace ТриНитиДизайн
                 if (accepted)
                 {
                     OptionRegim.regim = Regim.RegimCepochka;
+                    OptionRegim.oldRegim = Regim.RegimCepochka;
                     var CepochkaSetting = new View.Cepochka();
                     CepochkaSetting.ShowDialog();
                     if (!ListFigure[IndexFigure].PreparedForTatami)
@@ -69,6 +80,7 @@ namespace ТриНитиДизайн
                 if (accepted)
                 {
                     OptionRegim.regim = Regim.RegimTatami;
+                    OptionRegim.oldRegim = Regim.RegimTatami;
                     Tatami TatamiWindow = new Tatami();
                     TatamiWindow.ShowDialog();
 
@@ -77,7 +89,6 @@ namespace ТриНитиДизайн
                         PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
                         ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
                     }
-                    ControlLine = new Figure(MainCanvas);
                     InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
                 }
             }
@@ -106,12 +117,14 @@ namespace ТриНитиДизайн
                         RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
                         TatamiFigures.Clear();
                         OptionRegim.regim = Regim.RegimFigure;
+                        OptionRegim.oldRegim = Regim.RegimFigure;
                     }
                     if (OptionRegim.regim == Regim.RegimGlad)
                     {
                         CalculateGladLines(ListFigure[IndexFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
                         Figure firstFigure = ListFigure[IndexFigure];
                         Figure secondFigure = ListFigure[SecondGladFigure];
+                        SecondGladFigure = -1; 
                         LinesForGlad[0].ChangeFigureColor(OptionColor.ColorDraw, false);
                         for (int i = 0; i < LinesForGlad.Count; i++)
                         {
@@ -123,11 +136,13 @@ namespace ТриНитиДизайн
                         RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
                         LinesForGlad.Clear();
                         OptionRegim.regim = Regim.RegimFigure;
+                        OptionRegim.oldRegim = Regim.RegimFigure;
                     }
                     if (OptionRegim.regim == Regim.RegimCepochka)
                     {
                         ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
                         OptionRegim.regim = Regim.RegimFigure;
+                        OptionRegim.oldRegim = Regim.RegimFigure;
                     }
                 }
             }

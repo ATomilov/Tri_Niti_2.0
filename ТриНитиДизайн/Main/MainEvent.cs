@@ -23,6 +23,8 @@ namespace ТриНитиДизайн
         public MainWindow()
         {
             InitializeComponent();
+
+            ControlLine = new Figure(MainCanvas);
             ChosenPts = new List<Point>();
         }
 
@@ -61,6 +63,7 @@ namespace ТриНитиДизайн
             ListFigure[IndexFigure].PointsCount.Clear();
             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
             OptionRegim.regim = Regim.RegimDraw;
+            ChangeFiguresColor(ListFigure, MainCanvas);
             MainCanvas.Cursor = HandCursor;            
         }
 
@@ -70,6 +73,7 @@ namespace ТриНитиДизайн
             ListFigure[IndexFigure].PointsCount.Clear();
             RedrawEverything(ListFigure, IndexFigure, true, true, MainCanvas);
             OptionRegim.regim = Regim.RegimSelectFigureToEdit;
+            ChangeFiguresColor(ListFigure, MainCanvas);
             ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             MainCanvas.Cursor = NormalCursor;
         }

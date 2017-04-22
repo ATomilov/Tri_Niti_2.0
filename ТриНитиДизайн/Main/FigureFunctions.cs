@@ -252,12 +252,33 @@ namespace ТриНитиДизайн
                     }
                 }
             }
-            else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure)
+            else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimSelectFigureToEdit)
             {
                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                 FigureList.Add(new Figure(MainCanvas));
                 IndexFigure = FigureList.Count - 1;
                 RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+            }
+        }
+
+        public void ChangeFiguresColor(List<Figure> FigureList, Canvas canvas)
+        {
+            if(SecondGladFigure != -1)
+            {
+                FigureList[SecondGladFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+            }
+            if(OptionRegim.regim == Regim.RegimGlad)
+            {
+                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw,false);
+                FigureList[SecondGladFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
+            }
+            else if (OptionRegim.regim == Regim.RegimEditFigures)
+            {
+                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, true);
+            }
+            else
+            {
+                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
             }
         }
     }

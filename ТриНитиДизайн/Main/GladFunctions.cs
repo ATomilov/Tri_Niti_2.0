@@ -35,6 +35,7 @@ namespace ТриНитиДизайн
                 case MessageBoxResult.OK:
                     {
                         OptionRegim.regim = Regim.RegimGlad;
+                        OptionRegim.oldRegim = Regim.RegimGlad;
                         ControlLine = new Figure(MainCanvas);
                         AddFirstGladLines(gladLines, firstFigure, secondFigure, canvas);
                         if (!firstFigure.PreparedForTatami)

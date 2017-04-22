@@ -33,8 +33,10 @@ namespace ТриНитиДизайн
             ListFigure.Add(new Figure(MainCanvas));
             MainCanvas.Children.Clear();
             OptionRegim.regim = Regim.RegimDraw;
+            OptionRegim.oldRegim = Regim.RegimFigure;
             TatamiFigures.Clear();
             IndexFigure = 0;
+            SecondGladFigure = -1;
             CloseAllTabs();
             SetToDefault();
             MainCanvas.Cursor = NormalCursor;   
