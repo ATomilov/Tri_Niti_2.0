@@ -24,7 +24,7 @@ namespace ТриНитиДизайн
             checkBox1.IsChecked = OptionStechki.isZacrepki;
             textBox1.Text = OptionStechki.MaxLenthStechki.ToString();
             textBox2.Text = OptionStechki.MinLenthStechki.ToString();
-            textBox3.Text = OptionStechki.LenthPerehodStechki.ToString();
+            textBox3.Text = OptionStechki.CurrentPerehodStechki.ToString();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -32,7 +32,7 @@ namespace ТриНитиДизайн
             OptionStechki.isZacrepki = checkBox1.IsChecked ?? false;
             OptionStechki.MaxLenthStechki = int.Parse(textBox1.Text);
             OptionStechki.MinLenthStechki = int.Parse( textBox2.Text);
-            OptionStechki.LenthPerehodStechki = int.Parse(textBox3.Text);
+            OptionStechki.CurrentPerehodStechki = int.Parse(textBox3.Text);
             this.Close();
         }
     }

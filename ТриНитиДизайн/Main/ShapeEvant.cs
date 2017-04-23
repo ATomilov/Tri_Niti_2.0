@@ -25,7 +25,7 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
             ChangeFiguresColor(ListFigure, MainCanvas);
-            MainCanvas.Cursor = NormalCursor;
+            MainCanvas.Cursor = ArrowCurcor;
             RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
             ChoosingRectangle = new Figure(MainCanvas);
             if (tabControl1.Visibility == Visibility.Hidden)

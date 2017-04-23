@@ -94,6 +94,9 @@
     <Compile Include="View\Glad.xaml.cs">
       <DependentUpon>Glad.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Razorvat.xaml.cs">
+      <DependentUpon>Razorvat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
@@ -139,6 +142,10 @@
     <Page Include="View\Glad.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Razorvat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Setting.xaml">
       <SubType>Designer</SubType>
@@ -228,6 +235,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Cursors\Sword.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\minus.png" />
+    <Resource Include="Images\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Cursors\ArrowInLineRegim.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

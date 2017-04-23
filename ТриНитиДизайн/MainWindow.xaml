@@ -58,7 +58,7 @@
                 <MenuItem Header="Татами" IsChecked="True" IsCheckable="True" />
             </MenuItem>
             <MenuItem Header="Справка" Click="OpenAbout" />
-            <MenuItem Header="Цвета" Click="OpenWindowsColor"  />
+            <!--<MenuItem Header="Цвета" Click="OpenWindowsColor"  />-->
         </Menu>
         <ToolBar Height="26" Margin="0,27,0,0" Name="toolBarPanel1" VerticalAlignment="Top" Background="White">
             <Button  Width="25" Content="" Click="OpenFile">
@@ -204,13 +204,13 @@
             <TabItem Header="Линии" Name="tabItem1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"   IsSelected="True">
                 <Grid Height="205" Width="110" Background="White">
                     <Button Content="" Height="32" Margin="3,6,0,0" Name="button1" Width="35" HorizontalAlignment="Left" VerticalAlignment="Top" Click="PointAddedButtonEvent">
-                        <Button.Background>
-                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.arrow.left.png" />
+                        <Button.Background >
+                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/plus.png"/>
                         </Button.Background>
                     </Button>
                     <Button Content="" Height="32" Margin="0,6,37,0" Name="button2" Width="35" HorizontalAlignment="Right" VerticalAlignment="Top" Click="PointDeleteButtonEvent">
                         <Button.Background>
-                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.arrow.right.png" />
+                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/minus.png" />
                         </Button.Background>
                     </Button>
                     <Button Content="&lt;&gt;" Height="32" Margin="73,6,0,0" Name="button3" Width="35" HorizontalAlignment="Left" VerticalAlignment="Top" Click="RazrivButtonEvent">

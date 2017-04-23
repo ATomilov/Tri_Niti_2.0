@@ -26,7 +26,6 @@ D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДиза�
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.pdb
-D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csprojResolveAssemblyReference.cache
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\SpecialWindowWhenSelectedFigure.g.cs
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\SpecialWindowWhenSelectedFigure.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.exe
@@ -60,3 +59,5 @@ C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.g.resources
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.Properties.Resources.resources
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
+D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.g.cs
+D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.baml

@@ -1,0 +1,17 @@
+﻿<Window x:Class="ТриНитиДизайн.View.Razorvat"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ТриНитиДизайн.View"
+        mc:Ignorable="d"
+        Title="Разорвать?" Height="127" Width="343" ResizeMode="NoResize">
+    <Grid>
+        <Button Content="&lt;&lt;-" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="95" Height="30"/>
+        <Button Content="-&gt;&gt;" HorizontalAlignment="Left" Margin="230,10,0,0" VerticalAlignment="Top" Width="95" Height="30"/>
+        <Button Click="OpenWindowsColor" Content="Цвет" HorizontalAlignment="Left" Margin="120,10,0,0" VerticalAlignment="Top" Width="95" Height="30"/>
+        <Button Content="Да" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="145" Height="30"/>
+        <Button Content="Нет" HorizontalAlignment="Left" Margin="180,55,0,0" VerticalAlignment="Top" Width="145" Height="30"/>
+
+    </Grid>
+</Window>

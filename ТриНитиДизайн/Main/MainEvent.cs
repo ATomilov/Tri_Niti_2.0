@@ -52,6 +52,8 @@ namespace ТриНитиДизайн
             NormalCursor = new Cursor(sri1.Stream);
             System.Windows.Resources.StreamResourceInfo sri2 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Sword.cur", UriKind.Relative));
             SwordCursor = new Cursor(sri2.Stream);
+            System.Windows.Resources.StreamResourceInfo sri3 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\ArrowInLineRegim.cur", UriKind.Relative));
+            ArrowCurcor = new Cursor(sri3.Stream);
             mainGrid.Cursor = NormalCursor;
             MainCanvas.Cursor = NormalCursor;
         }
