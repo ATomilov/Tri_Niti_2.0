@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cursors/arrowinlineregim.cur")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cursors/sword.cur")]
 
 

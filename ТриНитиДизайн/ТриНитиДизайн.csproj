@@ -234,14 +234,14 @@
     <Resource Include="Cursors\Normal.cur" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Cursors\Sword.cur" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\minus.png" />
     <Resource Include="Images\plus.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Cursors\ArrowInLineRegim.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Cursors\Sword.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
