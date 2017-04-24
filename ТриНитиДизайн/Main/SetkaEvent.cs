@@ -93,7 +93,31 @@ namespace ТриНитиДизайн
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 200;
+                OptionSetka.MasshtabSetka = 500;
+                SetGrid();
+            }
+        }
+        private void SetItemSetka7(object sender, RoutedEventArgs e)
+        {
+            MenuItem check = (MenuItem)sender;
+            if (check.IsChecked == true)
+            {
+                foreach (MenuItem item in MenuSetka.Items)
+                    if (item is MenuItem && !ReferenceEquals(item, check))
+                        item.IsChecked = false;
+                OptionSetka.MasshtabSetka = 1000;
+                SetGrid();
+            }
+        }
+        private void SetItemSetka8(object sender, RoutedEventArgs e)
+        {
+            MenuItem check = (MenuItem)sender;
+            if (check.IsChecked == true)
+            {
+                foreach (MenuItem item in MenuSetka.Items)
+                    if (item is MenuItem && !ReferenceEquals(item, check))
+                        item.IsChecked = false;
+                OptionSetka.MasshtabSetka = 2000;
                 SetGrid();
             }
         }

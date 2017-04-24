@@ -61,4 +61,3 @@ C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csproj.GenerateResource.Cache
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.g.cs
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.baml
-D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн.csprojResolveAssemblyReference.cache

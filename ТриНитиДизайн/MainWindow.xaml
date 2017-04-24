@@ -22,14 +22,18 @@
                 <MenuItem Header="Загрузить рисунок" />
                 <MenuItem Header="Удалить рисунок" />
                 <Separator/>
+                <MenuItem Header="Создать каталог" />
+                <Separator/>
                 <MenuItem Header="Выход" />
             </MenuItem>
             <MenuItem Header="Редактировать">
                 <MenuItem Header="Удалить"  Click="DeleteFigureClick"/>
-                <MenuItem Header="Отменить" />
-                <MenuItem Header="Вернуть" />
                 <MenuItem Header="Восстановить" />
                 <Separator/>
+                <!--<MenuItem Header="Отменить" />
+                <MenuItem Header="Вернуть" />
+                <MenuItem Header="Восстановить" />
+                <Separator/>-->
                 <MenuItem Header="Копировать" />
                 <MenuItem Header="Вставить" />
                 <Separator/>
@@ -37,8 +41,8 @@
                 <MenuItem Header="Вставить из..." />
                 <Separator/>
                 <MenuItem Header="Создать рисунок" />
-                <MenuItem Header="Выбрать цвет" />
-                <MenuItem Header="Обновить" />
+                <!--<MenuItem Header="Выбрать цвет" />
+                <MenuItem Header="Обновить" />-->
             </MenuItem>
             <MenuItem Header="Настройки" Name="MenuSetka" >
                 <MenuItem Header="Показать центр" />
@@ -48,7 +52,10 @@
                 <MenuItem Header="Сетка 0.5 мм" IsCheckable="True" Checked="SetItemSetka4"/>
                 <MenuItem Header="Сетка 1.0 мм" IsCheckable="True" Checked="SetItemSetka5"/>
                 <MenuItem Header="Сетка 5.0 мм" IsCheckable="True" Checked="SetItemSetka6"/>
+                <MenuItem Header="Сетка 10 мм" IsCheckable="True" Checked="SetItemSetka7"/>
+                <MenuItem Header="Сетка 20 мм" IsCheckable="True" Checked="SetItemSetka8"/>
                 <MenuItem Header="Рисовать по сетке" IsCheckable="True" Checked="SetDotOnGrid"/>
+                <MenuItem Header="Обновить картинку"/>
             </MenuItem>
             <MenuItem Header="Установки" Click="OpenSetting" />
             <MenuItem Header="Элементы" >
