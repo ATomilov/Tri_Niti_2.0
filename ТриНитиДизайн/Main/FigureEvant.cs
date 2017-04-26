@@ -53,6 +53,8 @@ namespace ТриНитиДизайн
                     OptionRegim.regim = Regim.RegimCepochka;
                     OptionRegim.oldRegim = Regim.RegimCepochka;
                     var CepochkaSetting = new View.Cepochka();
+                    CepochkaSetting.Owner = this;
+                    CepochkaSetting.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
                     CepochkaSetting.ShowDialog();
                     if (!ListFigure[IndexFigure].PreparedForTatami)
                     {
@@ -67,6 +69,8 @@ namespace ТриНитиДизайн
             if (LinesForGlad.Count > 0)
             {
                 var GladSetting = new View.Glad();
+                GladSetting.Owner = this;
+                GladSetting.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
                 GladSetting.ShowDialog();
             }
         }

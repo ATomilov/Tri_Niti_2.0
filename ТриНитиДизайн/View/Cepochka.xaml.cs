@@ -23,6 +23,7 @@ namespace ТриНитиДизайн.View
             InitializeComponent();
             checkbox1.IsChecked = OptionCepochka.ProkolyVTochkah;
             textbox1.Text = OptionCepochka.LenthStep.ToString();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
