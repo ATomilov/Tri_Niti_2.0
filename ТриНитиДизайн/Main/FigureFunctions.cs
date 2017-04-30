@@ -160,6 +160,7 @@ namespace ТриНитиДизайн
                     newList.Add(fig.Points[fig.PointsCount[i+1]]);
                     SetSpline(0.8, newList, MainCanvas);
                     fig.AddShape((Shape)MainCanvas.Children[MainCanvas.Children.Count - 1], fig.Points[fig.PointsCount[i]]);
+
                 }
             }
         }
@@ -206,7 +207,8 @@ namespace ТриНитиДизайн
                     Path path = (Path)clickedShape;
                     for(int i = 0; i < FigureList.Count;i++)
                     {
-                       var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == path);      //TODO: улучшить
+                       var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == path);
+                       var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);      //TODO: улучшить
                        if(point.Value != null)
                        {
                            x = point.Key.X;

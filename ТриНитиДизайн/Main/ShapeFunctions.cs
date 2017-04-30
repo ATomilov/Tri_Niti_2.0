@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void SetSpline(double tension,List<Point> TPoint,Canvas canvas)
+        public Shape SetSpline(double tension,List<Point> TPoint,Canvas canvas)
         {
             Path myPath = new Path();
             myPath.Stroke = OptionColor.ColorKrivaya;
@@ -29,6 +29,7 @@ namespace ТриНитиДизайн
             myPathGeometry = spline.CreateSpline(TPoint, tension, null, false, false, 0.25);
             myPath.Data = myPathGeometry;
             canvas.Children.Add(myPath);
+            return myPath;
         }
     }
 }

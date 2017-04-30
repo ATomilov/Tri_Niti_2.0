@@ -34,6 +34,7 @@ namespace ТриНитиДизайн
         Figure ChoosingRectangle;
         Figure ControlLine;
         Figure SetkaFigure;
+        Shape changedLine;
         List<Point> ChosenPts;
         List<Figure> LinesForGlad = new List<Figure>();
         List<Figure> ControlFigures = new List<Figure>();

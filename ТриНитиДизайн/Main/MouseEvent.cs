@@ -84,9 +84,8 @@ namespace ТриНитиДизайн
                         RedrawEverything(ListFigure, IndexFigure, false,true, MainCanvas);
                         ChosenPts.Insert(1, e.GetPosition(MainCanvas));
 
-                        SetSpline(0.75, ChosenPts, MainCanvas);
+                        changedLine = SetSpline(0.75, ChosenPts, MainCanvas);
                         ChosenPts.RemoveAt(1);
-                         
                     }
                 }
 
@@ -152,7 +151,7 @@ namespace ТриНитиДизайн
             {
                 if (ChosenPts.Count > 1)
                 {
-                    ListFigure[IndexFigure].AddShape((Shape)MainCanvas.Children[MainCanvas.Children.Count - 1], ChosenPts[0]);
+                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0]);
                     ChosenPts.Clear();
                     OptionRegim.regim = Regim.RegimEditFigures;
                 }
@@ -271,12 +270,14 @@ namespace ТриНитиДизайн
                         y2 = p.Y;
                     }
                     Shape sh;
-                    if (clickedShape.Stroke == OptionColor.ColorKrivaya)
+                    var keyLine = ListFigure[IndexFigure].DictionaryInvLines.FirstOrDefault(x => x.Value == clickedShape);
+                    if (keyLine.Key.Stroke == OptionColor.ColorKrivaya)
                     {
                         OptionRegim.regim = Regim.RegimKrivaya;
-                        var point = ListFigure[IndexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == clickedShape);
+                        var point = ListFigure[IndexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
                         ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
                         ListFigure[IndexFigure].DeleteShape(sh, point.Key);
+                        changedLine = sh;
                         ChosenPts.Add(point.Key);
                         ChosenPts.Add(new Point(x2,y2));
                     }

@@ -147,6 +147,8 @@ namespace ТриНитиДизайн
                         ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep, MainCanvas);
                         OptionRegim.regim = Regim.RegimFigure;
                         OptionRegim.oldRegim = Regim.RegimFigure;
+
+                        //TODO: убрать после выполнения функции №31
                         for(int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
                         {
                             DrawRectangle(ListFigure[IndexFigure].Points[i], Brushes.White, MainCanvas);
