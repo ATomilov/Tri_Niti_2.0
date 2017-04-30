@@ -155,10 +155,10 @@
             />
         <Expander    
             ExpandDirection="Right" 
-            Height="65" 
+            Height="54" 
             HorizontalAlignment="Left" 
             IsExpanded="False" 
-            Margin="12,128,0,0" 
+            Margin="12,125,0,0" 
             Name="expander1" 
             TabIndex="4" 
             VerticalAlignment="Top" 

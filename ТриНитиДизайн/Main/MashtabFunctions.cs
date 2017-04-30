@@ -22,6 +22,8 @@ namespace ТриНитиДизайн
         public void Plus(Canvas canvas)
         {
             OptionSetka.Masshtab *= 2;
+            OptionDrawLine.StrokeThickness /= 2;
+            OptionDrawLine.SizeWidthAndHeightRectangle /= 2;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             canvas.LayoutTransform = scaleTransform;
         }
@@ -29,6 +31,8 @@ namespace ТриНитиДизайн
         public void Minus(Canvas canvas)
         {
             OptionSetka.Masshtab /= 2;
+            OptionDrawLine.StrokeThickness *= 2;
+            OptionDrawLine.SizeWidthAndHeightRectangle *= 2;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             canvas.LayoutTransform = scaleTransform;
         }

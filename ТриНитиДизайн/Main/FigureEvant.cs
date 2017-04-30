@@ -91,7 +91,7 @@ namespace ТриНитиДизайн
                     if (!ListFigure[IndexFigure].PreparedForTatami)
                     {
                         PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
-                        ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, 8);
+                        ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                     }
                     InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
                 }

@@ -62,7 +62,7 @@ namespace ТриНитиДизайн
         {
             Line shape = new Line();
             shape.Stroke = brush;
-            shape.StrokeThickness = 1;
+            shape.StrokeThickness = OptionDrawLine.StrokeThickness;
             shape.X1 = point1.X;
             shape.Y1 = point1.Y;
             shape.X2 = point2.X;
@@ -83,7 +83,7 @@ namespace ТриНитиДизайн
                 Canvas.SetTop(rec, p.Y - size/2);
                 rec.Stroke = OptionColor.ColorSelection;
                 rec.Fill = brush;
-                rec.StrokeThickness = 1;
+                rec.StrokeThickness = OptionDrawLine.StrokeThickness;
                 canvas.Children.Add(rec);
             }
             foreach(int i in PointsCount)
@@ -95,7 +95,7 @@ namespace ТриНитиДизайн
                 Canvas.SetTop(rec, Points[i].Y - size / 2);
                 rec.Stroke = OptionColor.ColorSelection;
                 rec.Fill = OptionColor.ColorSelection;
-                rec.StrokeThickness = 1;
+                rec.StrokeThickness = OptionDrawLine.StrokeThickness;
                 canvas.Children.Add(rec);
             }
         }
@@ -108,7 +108,7 @@ namespace ТриНитиДизайн
             Canvas.SetLeft(rec, center.X - width / 2);
             Canvas.SetTop(rec, center.Y - height / 2);
             rec.Stroke = OptionColor.ColorSelection;
-            rec.StrokeThickness = 1;
+            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             canvas.Children.Add(rec);
         }
 
@@ -189,7 +189,7 @@ namespace ТриНитиДизайн
             Canvas.SetLeft(rec, p.X - 5);
             Canvas.SetTop(rec, p.Y - 5);
             rec.Stroke = OptionColor.ColorSelection;
-            rec.StrokeThickness = 1;
+            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             rec.Fill = Brushes.Black;
             //rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
             canvas.Children.Add(rec);
@@ -221,7 +221,7 @@ namespace ТриНитиДизайн
             if (Points.Count != 0)
             {
                 Line line = GetLine(PointEnd, New);
-                line.StrokeThickness = 1;
+                line.StrokeThickness = OptionDrawLine.StrokeThickness;
                 line.Stroke = brush;
                 canvas.Children.Add(line);
                 Shapes.Add(line);
@@ -237,7 +237,7 @@ namespace ТриНитиДизайн
                 Canvas.SetLeft(rec, New.X - recSize / 2);
                 Canvas.SetTop(rec, New.Y - recSize / 2);
                 rec.Stroke = OptionColor.ColorSelection;
-                rec.StrokeThickness = 1;
+                rec.StrokeThickness = OptionDrawLine.StrokeThickness;
                 canvas.Children.Add(rec);
                 DictionaryRecPoint.Add(rec, New);
                 rec.MouseDown += new MouseButtonEventHandler(PointMouseClick);

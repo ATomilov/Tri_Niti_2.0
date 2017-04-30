@@ -23,7 +23,7 @@ namespace ТриНитиДизайн
         {
             Path myPath = new Path();
             myPath.Stroke = OptionColor.ColorKrivaya;
-            myPath.StrokeThickness = 1;
+            myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
             PathGeometry myPathGeometry = new PathGeometry();
             CanonicalSplineHelper spline = new CanonicalSplineHelper();
             myPathGeometry = spline.CreateSpline(TPoint, tension, null, false, false, 0.25);

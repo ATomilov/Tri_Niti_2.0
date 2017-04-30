@@ -211,7 +211,7 @@ namespace ТриНитиДизайн
         {
             Line shape = new Line();
             shape.Stroke = OptionColor.ColorSelection;
-            shape.StrokeThickness = 1;
+            shape.StrokeThickness = OptionDrawLine.StrokeThickness;
             if (type.Equals("dash"))
             {
                 DoubleCollection dashes = new DoubleCollection();
@@ -225,7 +225,7 @@ namespace ТриНитиДизайн
             }
             if (type.Equals("blue"))
             {
-                shape.StrokeThickness = 1;
+                shape.StrokeThickness = OptionDrawLine.StrokeThickness;
                 shape.Stroke = System.Windows.Media.Brushes.Blue;
             }
             shape.X1 = point1.X;
@@ -241,7 +241,7 @@ namespace ТриНитиДизайн
             Figure resultFigure = new Figure(canvas);
             for (int i = 0; i < figure.Points.Count - 1; i++)
             {
-                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, false, 8);
+                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                 double x;
                 double y;
                 x = figure.Points[i + 1].X - figure.Points[i].X;
@@ -253,7 +253,7 @@ namespace ТриНитиДизайн
                 {
                     vect.Normalize();
                     vect *= distance;
-                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, false, 8);
+                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                     distance += step;
                 }
             }
