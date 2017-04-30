@@ -11,7 +11,7 @@
         <Label Content="Длина шага" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <TextBox Name="textbox1" HorizontalAlignment="Left" Height="23" Margin="95,14,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="45"/>
         <CheckBox Name="checkbox1" Content="Проколы в точках" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top"/>
-        <Button Content="ОК" HorizontalAlignment="Left" Margin="38,82,0,0" VerticalAlignment="Top" Width="79" Click="Button_Click"/>
+        <Button Name="button1" Content="ОК" HorizontalAlignment="Left" Margin="38,82,0,0" VerticalAlignment="Top" Width="79" Click="Button_Click"/>
 
     </Grid>
 </Window>

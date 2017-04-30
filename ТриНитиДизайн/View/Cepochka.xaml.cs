@@ -23,7 +23,9 @@ namespace ТриНитиДизайн.View
             InitializeComponent();
             checkbox1.IsChecked = OptionCepochka.ProkolyVTochkah;
             textbox1.Text = OptionCepochka.LenthStep.ToString();
-
+            textbox1.SelectAll();
+            textbox1.Focus();
+            button1.IsDefault = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -35,6 +37,11 @@ namespace ТриНитиДизайн.View
                 System.Windows.MessageBox.Show("Длина шага должна быть от " + OptionCepochka.MinLenthStep.ToString() + " до " + OptionCepochka.MaxLenthStep.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             this.Close();
+
+        }
+
+        private void textbox1_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
 
         }
     }

@@ -32,6 +32,9 @@ namespace ТриНитиДизайн.View
             textbox5.Text = OptionGlad.NumberOfProkolov.ToString();
             textbox6.Text = OptionGlad.StartLenthStezhok.ToString();
             textbox7.Text = OptionGlad.EndLenthStezhok.ToString();
+            textbox1.SelectAll();
+            textbox1.Focus();
+            button1.IsDefault = true;
 
         }
         struct CorrectGladSetting
