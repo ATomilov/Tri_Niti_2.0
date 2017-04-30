@@ -10,6 +10,7 @@ namespace ТриНитиДизайн
     {
         //DrawLine
         public static double StrokeThickness = 1;
+        public static double InvisibleStrokeThickness = 10;
         public static double SizeWidthAndHeightRectangle = 8;
     }
 }

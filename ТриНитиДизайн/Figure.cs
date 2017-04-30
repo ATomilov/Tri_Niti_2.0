@@ -58,7 +58,7 @@ namespace ТриНитиДизайн
                 Path newPath = new Path();
                 newPath.Data = pth.Data;
                 newPath.Stroke = OptionColor.ColorBackground;
-                newPath.StrokeThickness = 10;
+                newPath.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
                 newPath.Opacity = 0;
                 DictionaryInvLines.Add(shape, newPath);
             }
@@ -67,7 +67,7 @@ namespace ТриНитиДизайн
                 Line ln = (Line)shape;
                 Line newLine = new Line();
                 newLine.Stroke = OptionColor.ColorBackground;
-                newLine.StrokeThickness = 10;
+                newLine.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
                 newLine.Opacity = 0;
                 newLine.X1 = ln.X1;
                 newLine.Y1 = ln.Y1;
@@ -101,7 +101,7 @@ namespace ТриНитиДизайн
 
             Line newLine = new Line();
             newLine.Stroke = brush;
-            newLine.StrokeThickness = 10;
+            newLine.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
             newLine.Opacity = 0;
             newLine.X1 = point1.X;
             newLine.Y1 = point1.Y;
@@ -269,7 +269,7 @@ namespace ТриНитиДизайн
 
                 Line newLine = GetLine(PointEnd, New);
                 newLine.Stroke = brush;
-                newLine.StrokeThickness = 10;
+                newLine.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
                 newLine.Opacity = 0;
                 canvas.Children.Add(newLine);
 
