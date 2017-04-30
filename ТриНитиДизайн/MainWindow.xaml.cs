@@ -19,12 +19,12 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
             
-            ListFigure[IndexFigure].Rotate(5);
-            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+        //    ListFigure[IndexFigure].Rotate(5);
+        //    ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             
-        }
+        //}
     }
 }

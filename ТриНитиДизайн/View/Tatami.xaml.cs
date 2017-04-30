@@ -24,6 +24,9 @@ namespace ТриНитиДизайн
             textbox1.Text = OptionTatami.StepLine.ToString();
             textbox2.Text = OptionTatami.StepStegok.ToString();
             textbox3.Text = OptionTatami.Smeshcheniye.ToString();
+            textbox1.SelectAll();
+            textbox1.Focus();
+            button1.IsDefault = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

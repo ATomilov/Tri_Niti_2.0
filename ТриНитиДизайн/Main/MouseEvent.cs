@@ -67,7 +67,7 @@ namespace ТриНитиДизайн
                             MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                         }
                         Line line = ListFigure[IndexFigure].GetLine(ListFigure[IndexFigure].PointEnd, e.GetPosition(MainCanvas));
-                        line.StrokeThickness = 1;
+                        line.StrokeThickness = OptionDrawLine.StrokeThickness;
                         line.Stroke = OptionColor.ColorChoosingRec;
                         MainCanvas.Children.Add(line);
                         startDrawing = false;
@@ -114,7 +114,7 @@ namespace ТриНитиДизайн
                     dashes.Add(2);
                     dashes.Add(2);
                     line.StrokeDashArray = dashes;
-                    line.StrokeThickness = 1;
+                    line.StrokeThickness = OptionDrawLine.StrokeThickness;
                     line.Stroke = OptionColor.ColorSelection;
                     MainCanvas.Children.Add(line);
                     MainCanvas.UpdateLayout();
@@ -192,7 +192,7 @@ namespace ТриНитиДизайн
                             ListFigure[IndexFigure].PointsCount.Add(i);
                         }
                     }
-                    ListFigure[IndexFigure].DrawAllRectangles(8, OptionColor.ColorOpacity);
+                    ListFigure[IndexFigure].DrawAllRectangles(OptionDrawLine.SizeWidthAndHeightRectangle, OptionColor.ColorOpacity);
                 }
             }
             startDrawing = true;
@@ -220,7 +220,7 @@ namespace ТриНитиДизайн
                     MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                 }
                 Point point = FindClosestDot(e.GetPosition(MainCanvas));
-                ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true, 8);
+                ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true, OptionDrawLine.SizeWidthAndHeightRectangle);
             }
             startDrawing = true;
         }

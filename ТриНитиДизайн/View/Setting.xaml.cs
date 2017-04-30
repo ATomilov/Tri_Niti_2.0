@@ -25,6 +25,9 @@ namespace ТриНитиДизайн
             textBox1.Text = OptionStechki.MaxLenthStechki.ToString();
             textBox2.Text = OptionStechki.MinLenthStechki.ToString();
             textBox3.Text = OptionStechki.CurrentPerehodStechki.ToString();
+            textBox1.SelectAll();
+            textBox1.Focus();
+            button1.IsDefault = true;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)

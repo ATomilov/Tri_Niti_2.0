@@ -23,7 +23,7 @@ namespace ТриНитиДизайн
         {
             canvas.Children.Clear();
             SetkaFigure.AddFigure(canvas);
-            double size = 8;
+            double size = OptionDrawLine.SizeWidthAndHeightRectangle;
             for(int i = 0; i < FigureList.Count;i++)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
@@ -52,13 +52,13 @@ namespace ТриНитиДизайн
         private void DrawRectangle(Point p, Brush brush, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
-            rec.Height = 8;
-            rec.Width = 8;
+            rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle;
+            rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle;
             Canvas.SetLeft(rec, p.X - 4);
             Canvas.SetTop(rec, p.Y - 4);
             rec.Fill = brush;
             rec.Stroke = OptionColor.ColorSelection;
-            rec.StrokeThickness = 1;
+            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             canvas.Children.Add(rec);
         }
 
@@ -88,7 +88,7 @@ namespace ТриНитиДизайн
                 Canvas.SetTop(rec, p2.Y);
             }
             rec.Stroke = OptionColor.ColorChoosingRec;
-            rec.StrokeThickness = 1;
+            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             canvas.Children.Add(rec);
         }
 

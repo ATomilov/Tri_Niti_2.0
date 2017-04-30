@@ -78,6 +78,7 @@
     <Compile Include="Main\GladFunctions.cs" />
     <Compile Include="Main\TatamiFunctions.cs" />
     <Compile Include="Options\OptionCepochka.cs" />
+    <Compile Include="Options\OptionDrawLine.cs" />
     <Compile Include="Options\OptionGlad.cs" />
     <Compile Include="Options\OptionTatami.cs" />
     <Compile Include="Options\OptionRegim.cs" />
@@ -185,6 +186,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
