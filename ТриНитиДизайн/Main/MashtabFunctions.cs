@@ -24,6 +24,15 @@ namespace ТриНитиДизайн
             OptionSetka.Masshtab *= 2;
             OptionDrawLine.StrokeThickness /= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle /= 2;
+            OptionDrawLine.InvisibleStrokeThickness /= 2;
+            foreach (Shape sh in ListFigure[IndexFigure].Shapes)
+            {
+                sh.StrokeThickness /= 2;
+            }
+            foreach (Shape sh2 in ListFigure[SecondGladFigure].Shapes)
+            {
+                sh2.StrokeThickness /= 2;
+            }
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             canvas.LayoutTransform = scaleTransform;
         }
@@ -33,6 +42,15 @@ namespace ТриНитиДизайн
             OptionSetka.Masshtab /= 2;
             OptionDrawLine.StrokeThickness *= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle *= 2;
+            OptionDrawLine.InvisibleStrokeThickness *= 2;
+            foreach (Shape sh in ListFigure[IndexFigure].Shapes)
+            {
+                sh.StrokeThickness *= 2;
+            }
+            foreach (Shape sh2 in ListFigure[SecondGladFigure].Shapes)
+            {
+                sh2.StrokeThickness *= 2;
+            }
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             canvas.LayoutTransform = scaleTransform;
         }

@@ -311,7 +311,7 @@ namespace ТриНитиДизайн
                     {
                         if(firstPoint)
                         {
-                            gladLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, true, 4);
+                            gladLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, true, (OptionDrawLine.SizeWidthAndHeightRectangle/2));
                             firstPoint = false;
                         }
                         double x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
@@ -324,10 +324,10 @@ namespace ТриНитиДизайн
                         {
                             vect.Normalize();
                             vect *= distance;
-                            gladLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, true, 4);
+                            gladLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, true, (OptionDrawLine.SizeWidthAndHeightRectangle / 2));
                             distance += step;
                         }
-                        gladLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.ColorSelection, true, 4);
+                        gladLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.ColorSelection, true, (OptionDrawLine.SizeWidthAndHeightRectangle/2));
                     }
                 }
             }
