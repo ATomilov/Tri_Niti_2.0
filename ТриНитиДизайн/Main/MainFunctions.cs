@@ -39,7 +39,8 @@ namespace ТриНитиДизайн
             OptionSetka.Masshtab = 1;
             OptionSetka.Angle = 0;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
-            MainCanvas.LayoutTransform = scaleTransform;
+            MainCanvas.RenderTransform = scaleTransform;
+
         }
 
         public bool ShowAcceptMessage(int choice)

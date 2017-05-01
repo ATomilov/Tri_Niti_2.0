@@ -46,8 +46,10 @@ namespace ТриНитиДизайн
                     rec.StrokeThickness /= 2;
                 }
             }
-            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab, center.X, center.Y);
-            canvas.LayoutTransform = scaleTransform;
+            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
+            scaleTransform.CenterX = center.X;
+            scaleTransform.CenterY = center.Y;
+            canvas.RenderTransform = scaleTransform;
         }
 
         public void Minus(Canvas canvas, Point center)
@@ -79,8 +81,10 @@ namespace ТриНитиДизайн
                     rec.StrokeThickness *= 2;
                 }
             }
-            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab, center.X, center.Y);
-            canvas.LayoutTransform = scaleTransform;
+            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
+            scaleTransform.CenterX = center.X;
+            scaleTransform.CenterY = center.Y;
+            canvas.RenderTransform = scaleTransform;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace ТриНитиДизайн
             SecondGladFigure = -1;
             CloseAllTabs();
             SetToDefault();
-            MainCanvas.Cursor = NormalCursor;   
+            MainCanvas.Cursor = NormalCursor;
         }
 
         private void DeleteFigureClick(object sender, RoutedEventArgs e)
