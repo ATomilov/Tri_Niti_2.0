@@ -54,8 +54,8 @@ namespace ТриНитиДизайн
             Rectangle rec = new Rectangle();
             rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle;
             rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle;
-            Canvas.SetLeft(rec, p.X - 4);
-            Canvas.SetTop(rec, p.Y - 4);
+            Canvas.SetLeft(rec, p.X - OptionDrawLine.SizeWidthAndHeightRectangle/2);
+            Canvas.SetTop(rec, p.Y - OptionDrawLine.SizeWidthAndHeightRectangle/2);
             rec.Fill = brush;
             rec.Stroke = OptionColor.ColorSelection;
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;

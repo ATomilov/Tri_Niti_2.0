@@ -33,6 +33,9 @@ namespace ТриНитиДизайн
             OptionSetka.MasshtabSetka = 0;
             OptionSetka.isDrawSetka = false;
             OptionSetka.isDotOnGrid = false;
+            OptionDrawLine.StrokeThickness = 1;
+            OptionDrawLine.SizeWidthAndHeightRectangle = 8;
+            OptionDrawLine.InvisibleStrokeThickness = 10;
             OptionSetka.Masshtab = 1;
             OptionSetka.Angle = 0;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
