@@ -25,13 +25,26 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness /= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle /= 2;
             OptionDrawLine.InvisibleStrokeThickness /= 2;
-            foreach (Shape sh in ListFigure[IndexFigure].Shapes)
+            foreach(Figure fig in ListFigure)
             {
-                sh.StrokeThickness /= 2;
+                foreach(Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness /= 2;
+                }
             }
-            foreach (Shape sh2 in ListFigure[SecondGladFigure].Shapes)
+            foreach (UIElement element in canvas.Children)
             {
-                sh2.StrokeThickness /= 2;
+                if (element is Rectangle)
+                {
+                    Rectangle rec = (Rectangle)element;
+                    double x = Canvas.GetLeft(rec);
+                    double y = Canvas.GetTop(rec);
+                    rec.Height /= 2;
+                    rec.Width /= 2;
+                    Canvas.SetLeft(rec,x+rec.Height/2);
+                    Canvas.SetTop(rec, y + rec.Height / 2);
+                    rec.StrokeThickness /= 2;
+                }
             }
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             canvas.LayoutTransform = scaleTransform;
@@ -43,19 +56,31 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness *= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle *= 2;
             OptionDrawLine.InvisibleStrokeThickness *= 2;
-            foreach (Shape sh in ListFigure[IndexFigure].Shapes)
+            foreach (Figure fig in ListFigure)
             {
-                sh.StrokeThickness *= 2;
+                foreach (Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness *= 2;
+                }
             }
-            foreach (Shape sh2 in ListFigure[SecondGladFigure].Shapes)
+            foreach (UIElement element in canvas.Children)
             {
-                sh2.StrokeThickness *= 2;
+                if (element is Rectangle)
+                {
+                    Rectangle rec = (Rectangle)element;
+                    double x = Canvas.GetLeft(rec);
+                    double y = Canvas.GetTop(rec);
+
+                    Canvas.SetLeft(rec, x - rec.Height / 2);
+                    Canvas.SetTop(rec, y - rec.Height / 2);
+                    rec.Height *= 2;
+                    rec.Width *= 2;
+
+                    rec.StrokeThickness *= 2;
+                }
             }
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             canvas.LayoutTransform = scaleTransform;
         }
-
-
-
     }
 }
