@@ -53,7 +53,11 @@ namespace ТриНитиДизайн
             System.Windows.Resources.StreamResourceInfo sri2 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Sword.cur", UriKind.Relative));
             SwordCursor = new Cursor(sri2.Stream);
             System.Windows.Resources.StreamResourceInfo sri3 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\ArrowInLineRegim.cur", UriKind.Relative));
-            ArrowCurcor = new Cursor(sri3.Stream);
+            ArrowCursor = new Cursor(sri3.Stream);
+            System.Windows.Resources.StreamResourceInfo sri4 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Zoom-in.cur", UriKind.Relative));
+            ZoomInCursor = new Cursor(sri4.Stream);
+            System.Windows.Resources.StreamResourceInfo sri5 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Zoom-out.cur", UriKind.Relative));
+            ZoomOutCursor = new Cursor(sri5.Stream);
             mainGrid.Cursor = NormalCursor;
             MainCanvas.Cursor = NormalCursor;
         }

@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void Plus(Canvas canvas)
+        public void Plus(Canvas canvas, Point center)
         {
             OptionSetka.Masshtab *= 2;
             OptionDrawLine.StrokeThickness /= 2;
@@ -41,16 +41,16 @@ namespace ТриНитиДизайн
                     double y = Canvas.GetTop(rec);
                     rec.Height /= 2;
                     rec.Width /= 2;
-                    Canvas.SetLeft(rec,x+rec.Height/2);
+                    Canvas.SetLeft(rec, x + rec.Height / 2);
                     Canvas.SetTop(rec, y + rec.Height / 2);
                     rec.StrokeThickness /= 2;
                 }
             }
-            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
+            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab, center.X, center.Y);
             canvas.LayoutTransform = scaleTransform;
         }
 
-        public void Minus(Canvas canvas)
+        public void Minus(Canvas canvas, Point center)
         {
             OptionSetka.Masshtab /= 2;
             OptionDrawLine.StrokeThickness *= 2;
@@ -79,7 +79,7 @@ namespace ТриНитиДизайн
                     rec.StrokeThickness *= 2;
                 }
             }
-            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
+            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab, center.X, center.Y);
             canvas.LayoutTransform = scaleTransform;
         }
     }

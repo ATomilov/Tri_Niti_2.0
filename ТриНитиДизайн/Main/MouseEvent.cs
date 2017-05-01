@@ -301,6 +301,16 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }
             }
+            if(OptionRegim.regim == Regim.ZoomIn)
+            {
+                Point currentPosition = e.GetPosition(MainCanvas);
+                Plus(MainCanvas, currentPosition);
+            }
+            if (OptionRegim.regim == Regim.ZoomOut)
+            {
+                Point currentPosition = e.GetPosition(MainCanvas);
+                Minus(MainCanvas, currentPosition);
+            }
         }
     }
 }

@@ -24,6 +24,8 @@ namespace ТриНитиДизайн
         RegimDuga = 7,
         RegimLomanaya = 8,
         RegimFigure = 9,
-        RegimGlad = 10
+        RegimGlad = 10,
+        ZoomIn = 11,
+        ZoomOut = 12
     }
 }

@@ -52,11 +52,15 @@ namespace ТриНитиДизайн
 
         private void PlusButtonEvent(object sender, RoutedEventArgs e)
         {
-            Plus(MainCanvas);
+            OptionRegim.regim = Regim.ZoomIn;
+            MainCanvas.Cursor = ZoomInCursor;
+            //Plus(MainCanvas);
         }
         private void MinusButtonEvent(object sender, RoutedEventArgs e)
         {
-            Minus(MainCanvas);
+            OptionRegim.regim = Regim.ZoomOut;
+            MainCanvas.Cursor = ZoomOutCursor;
+            //Minus(MainCanvas);
         }
 
         private void PrevVidButtonEvent(object sender, RoutedEventArgs e)

@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cursors/sword.cur")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cursors/zoom-in.cur")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cursors/zoom-out.cur")]
 
 
