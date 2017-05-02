@@ -169,40 +169,26 @@
             BorderBrush="#00932929" 
             Opacity="1">
             <Grid Margin="0,0,0,-2">
-                <Button Height="40" Margin="10,10,247,0" VerticalAlignment="Top" Click="PlusButtonEvent">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.magnify.add.png" />
-                    </Button.Background>
+                <Button Height="40" Margin="10,10,247,0" VerticalAlignment="Top" Click="PlusButtonEvent" Background="White">
+                    <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.add.png" />
                 </Button>
-                <Button Height="40" HorizontalAlignment="Left" Margin="50,10,0,0" VerticalAlignment="Top" Width="40" Click="MinusButtonEvent">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.magnify.minus.png" />
-                    </Button.Background>
+                <Button Height="40" HorizontalAlignment="Left" Margin="50,10,0,0" VerticalAlignment="Top" Width="40" Click="MinusButtonEvent"  Background="White">
+                    <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.minus.png" />
                 </Button>
-                <Button Height="40" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="40" Click="PrevVidButtonEvent">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.magnify.back.png" />
-                    </Button.Background>
+                <Button Height="40" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="40" Click="PrevVidButtonEvent" Background="White">
+                    <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.back.png" />
                 </Button>
-                <Button Height="40" HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabFigureButtonEvent">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.vector.star.png" />
-                    </Button.Background>
+                <Button Height="40" HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabFigureButtonEvent" Background="White">
+                    <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.star.png" />
                 </Button>
-                <Button Height="40" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabVidButtonEvent">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.vector.rectangle.png" />
-                    </Button.Background>
+                <Button Height="40" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabVidButtonEvent" Background="White">
+                    <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.rectangle.png" />
                 </Button>
-                <Button Height="40" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="40" Click="SetCenterButtonEvent">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.axis.three.png" />
-                    </Button.Background>
+                <Button Height="40" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="40" Click="SetCenterButtonEvent" Background="White">
+                    <Image Source="/ТриНитиДизайн;component/Images/appbar.axis.three.png" />
                 </Button>
-                <Button Height="40" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="40" Click="OneToOneButtonEvent">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.monitor.identify.png" />
-                    </Button.Background>
+                <Button Height="40" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="40" Click="OneToOneButtonEvent"  Background="White">
+                    <Image Source="/ТриНитиДизайн;component/Images/appbar.monitor.identify.png" />
                 </Button>
             </Grid>
         </Expander>
@@ -212,15 +198,11 @@
         <TabControl Name="tabControl1" Width="120" TabStripPlacement="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="12,265,0,0" Visibility="Visible" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top">
             <TabItem Header="Линии" Name="tabItem1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"   IsSelected="True">
                 <Grid Height="205" Width="110" Background="White">
-                    <Button Content="" Height="32" Margin="3,6,0,0" Name="button1" Width="35" HorizontalAlignment="Left" VerticalAlignment="Top" Click="PointAddedButtonEvent">
-                        <Button.Background >
-                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/plus.png"/>
-                        </Button.Background>
+                    <Button Height="32" Margin="3,6,0,0" Name="button1" Width="35" HorizontalAlignment="Left" VerticalAlignment="Top"  Background="White" Click="PointAddedButtonEvent">
+                        <Image Source="/ТриНитиДизайн;component/Images/plus.png"/>
                     </Button>
-                    <Button Content="" Height="32" Margin="0,6,37,0" Name="button2" Width="35" HorizontalAlignment="Right" VerticalAlignment="Top" Click="PointDeleteButtonEvent">
-                        <Button.Background>
-                            <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/minus.png" />
-                        </Button.Background>
+                    <Button Height="32" Margin="0,6,37,0" Name="button2" Width="35" HorizontalAlignment="Right" VerticalAlignment="Top"  Background="White" Click="PointDeleteButtonEvent">
+                        <Image Source="/ТриНитиДизайн;component/Images/minus.png" />
                     </Button>
                     <Button Content="&lt;&gt;" Height="32" Margin="73,6,0,0" Name="button3" Width="35" HorizontalAlignment="Left" VerticalAlignment="Top" Click="RazrivButtonEvent">
                         <Button.Background>
