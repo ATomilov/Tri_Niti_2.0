@@ -167,7 +167,10 @@ namespace ТриНитиДизайн
 
         public void PrepareForTatami(Figure fig, Canvas canvas)
         {
-            fig.PreparedForTatami = true;
+            if (OptionRegim.regim != Regim.RegimCepochka)
+            {
+                fig.PreparedForTatami = true;
+            }
             fig.ChangeFigureColor(OptionColor.ColorDraw,false);
             for(int i = 0; i< fig.Points.Count-1;i++)
             {

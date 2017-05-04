@@ -20,10 +20,16 @@ namespace ТриНитиДизайн
     public class Figure
     {
         public List<Shape> Shapes;
+        public List<Shape> InvShapes;
         public List<Point> Points;
+        public List<Shape> tempInvShapes;
+        public List<Shape> tempShapes;
+        public List<Point> tempPoints;
         public List<int> PointsCount;
         public List<Rectangle> RectangleOfFigures;
         public Dictionary<Rectangle, Point> DictionaryRecPoint;
+        public Dictionary<Point, Shape> tempDictionaryPointLines;
+        public Dictionary<Shape, Shape> tempDictionaryInvLines;
         public Dictionary<Point, Shape> DictionaryPointLines;
         public Dictionary<Shape, Shape> DictionaryInvLines;
         public Point PointStart;
@@ -36,7 +42,11 @@ namespace ТриНитиДизайн
         public Figure(Canvas _canvas)
         {
             Shapes = new List<Shape>();
+            InvShapes = new List<Shape>();
             Points = new List<Point>();
+            tempShapes = new List<Shape>();
+            tempInvShapes = new List<Shape>();
+            tempPoints = new List<Point>();
             PointsCount = new List<int>();
             PreparedForTatami = false;
             angle = 0;
@@ -46,6 +56,8 @@ namespace ТриНитиДизайн
             //DictionaryPointLines = new Dictionary<Rectangle, Pair<Line, Line>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
             DictionaryInvLines = new Dictionary<Shape, Shape>();
+            tempDictionaryPointLines = new Dictionary<Point, Shape>();
+            tempDictionaryInvLines = new Dictionary<Shape, Shape>();
         }
 
         public void AddShape(Shape shape,Point p)
@@ -60,6 +72,7 @@ namespace ТриНитиДизайн
                 newPath.Stroke = OptionColor.ColorBackground;
                 newPath.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
                 newPath.Opacity = 0;
+                InvShapes.Add(newPath);
                 DictionaryInvLines.Add(shape, newPath);
             }
             else
@@ -73,6 +86,7 @@ namespace ТриНитиДизайн
                 newLine.Y1 = ln.Y1;
                 newLine.X2 = ln.X2;
                 newLine.Y2 = ln.Y2;
+                InvShapes.Add(newLine);
                 DictionaryInvLines.Add(shape, newLine);
             }
         }
@@ -83,6 +97,7 @@ namespace ТриНитиДизайн
             DictionaryPointLines.Remove(p);
             Shape sh;
             DictionaryInvLines.TryGetValue(shape, out sh);
+            InvShapes.Remove(sh);
             DictionaryInvLines.Remove(shape);
             canvas.Children.Remove(sh);
         }
@@ -107,6 +122,7 @@ namespace ТриНитиДизайн
             newLine.Y1 = point1.Y;
             newLine.X2 = point2.X;
             newLine.Y2 = point2.Y;
+            InvShapes.Add(newLine);
             DictionaryInvLines.Add(shape, newLine);
         }
 
@@ -154,7 +170,11 @@ namespace ТриНитиДизайн
 
         public void ClearFigure()
         {
+            tempShapes = new List<Shape>();
+            tempInvShapes = new List<Shape>();
+            tempPoints = new List<Point>();
             Shapes = new List<Shape>();
+            InvShapes = new List<Shape>();
             Points = new List<Point>();
             PointsCount = new List<int>();
             angle = 0;
@@ -162,6 +182,27 @@ namespace ТриНитиДизайн
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
             DictionaryInvLines = new Dictionary<Shape, Shape>();
+            tempDictionaryPointLines = new Dictionary<Point, Shape>();
+            tempDictionaryInvLines = new Dictionary<Shape, Shape>();
+        }
+
+        public void SaveCurrentShapes()
+        {
+            tempInvShapes = new List<Shape>(InvShapes);
+            tempShapes = new List<Shape>(Shapes);
+            tempPoints = new List<Point>(Points);
+            tempDictionaryInvLines = new Dictionary<Shape, Shape>(DictionaryInvLines);
+            tempDictionaryPointLines = new Dictionary<Point, Shape>(DictionaryPointLines);
+        }
+
+        public void LoadCurrentShapes()
+        {
+            InvShapes = new List<Shape>(tempInvShapes);
+            Shapes = new List<Shape>(tempShapes);
+            Points = new List<Point>(tempPoints);
+            DictionaryInvLines = new Dictionary<Shape, Shape>(tempDictionaryInvLines);
+            DictionaryPointLines = new Dictionary<Point, Shape>(tempDictionaryPointLines);
+            PreparedForTatami = false;
         }
 
         public void SetDot(Point centerPoint, string type, Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
@@ -271,9 +312,10 @@ namespace ТриНитиДизайн
                 newLine.Stroke = brush;
                 newLine.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
                 newLine.Opacity = 0;
+                InvShapes.Add(newLine);
                 canvas.Children.Add(newLine);
 
-                DictionaryInvLines.Add((Shape)line, (Shape)newLine);
+                DictionaryInvLines.Add(line, newLine);
             }
             Points.Add(New);
             PointEnd = New;
@@ -305,14 +347,6 @@ namespace ТриНитиДизайн
             return line;
         }
 
-        public void ClearFigure(Canvas _canvas)
-        {
-            foreach (Shape shape in Shapes)
-            {
-                _canvas.Children.Remove(shape);
-            }
-        }
-
         public void ChangeFigureColor(Brush brush,bool isModeEditFigures)
         {
             foreach (Shape shape in Shapes)
@@ -340,9 +374,10 @@ namespace ТриНитиДизайн
             foreach (Shape shape in Shapes)
             {
                 _canvas.Children.Add(shape);
-                Shape sh;
-                DictionaryInvLines.TryGetValue(shape, out sh);
-                _canvas.Children.Add(sh);
+            }
+            foreach(Shape shape in InvShapes)
+            {
+                _canvas.Children.Add(shape);
             }
         }
 
