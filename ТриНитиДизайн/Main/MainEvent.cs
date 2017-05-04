@@ -60,6 +60,12 @@ namespace ТриНитиДизайн
             ZoomOutCursor = new Cursor(sri5.Stream);
             mainGrid.Cursor = NormalCursor;
             MainCanvas.Cursor = NormalCursor;
+
+
+            //ScaleTransform scaleTransform = new ScaleTransform(2, 2);
+            //scaleTransform.CenterX = MainCanvas.Width / 2;
+            //scaleTransform.CenterY = MainCanvas.Height / 2;
+            //MainCanvas.RenderTransform = scaleTransform;
         }
 
 

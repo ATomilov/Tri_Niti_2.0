@@ -50,6 +50,7 @@ namespace ТриНитиДизайн
             scaleTransform.CenterX = center.X;
             scaleTransform.CenterY = center.Y;
             canvas.RenderTransform = scaleTransform;
+            PreviousMasshtabZoomIn = OptionSetka.Masshtab;
         }
 
         public void Minus(Canvas canvas, Point center)
@@ -82,6 +83,75 @@ namespace ТриНитиДизайн
                 }
             }
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
+            scaleTransform.CenterX = center.X;
+            scaleTransform.CenterY = center.Y;
+            canvas.RenderTransform = scaleTransform;
+            PreviousMasshtabZoomOut = OptionSetka.Masshtab;
+        }
+
+        public void PlusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke)
+        {
+            OptionSetka.Masshtab = masshtab;
+            OptionDrawLine.StrokeThickness = stroke;
+            OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
+            OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
+            foreach (Figure fig in ListFigure)
+            {
+                foreach (Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness = stroke;
+                }
+            }
+            foreach (UIElement element in canvas.Children)
+            {
+                if (element is Rectangle)
+                {
+                    Rectangle rec = (Rectangle)element;
+                    double x = Canvas.GetLeft(rec);
+                    double y = Canvas.GetTop(rec);
+                    rec.Height = sizerectangle;
+                    rec.Width = sizerectangle;
+                    Canvas.SetLeft(rec, x + rec.Height / 2);
+                    Canvas.SetTop(rec, y + rec.Height / 2);
+                    rec.StrokeThickness = stroke;
+                }
+            }
+            ScaleTransform scaleTransform = new ScaleTransform(masshtab, masshtab);
+            scaleTransform.CenterX = center.X;
+            scaleTransform.CenterY = center.Y;
+            canvas.RenderTransform = scaleTransform;
+        }
+
+        public void MinusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke)
+        {
+            OptionSetka.Masshtab = masshtab;
+            OptionDrawLine.StrokeThickness = stroke;
+            OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
+            OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
+            foreach (Figure fig in ListFigure)
+            {
+                foreach (Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness = stroke;
+                }
+            }
+            foreach (UIElement element in canvas.Children)
+            {
+                if (element is Rectangle)
+                {
+                    Rectangle rec = (Rectangle)element;
+                    double x = Canvas.GetLeft(rec);
+                    double y = Canvas.GetTop(rec);
+
+                    Canvas.SetLeft(rec, x - rec.Height / 2);
+                    Canvas.SetTop(rec, y - rec.Height / 2);
+                    rec.Height = sizerectangle;
+                    rec.Width = sizerectangle;
+
+                    rec.StrokeThickness = stroke;
+                }
+            }
+            ScaleTransform scaleTransform = new ScaleTransform(masshtab, masshtab);
             scaleTransform.CenterX = center.X;
             scaleTransform.CenterY = center.Y;
             canvas.RenderTransform = scaleTransform;

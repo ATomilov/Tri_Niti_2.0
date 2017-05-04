@@ -304,12 +304,26 @@ namespace ТриНитиДизайн
             if(OptionRegim.regim == Regim.ZoomIn)
             {
                 Point currentPosition = e.GetPosition(MainCanvas);
-                Plus(MainCanvas, currentPosition);
+                if (PreviousMasshtabZoomIn == 64)
+                {
+                    PlusWithFixedOptions(MainCanvas, currentPosition, 64, 0.015625, 0.125, 0.15625);
+                }
+                else
+                {
+                    Plus(MainCanvas, currentPosition);
+                }
             }
             if (OptionRegim.regim == Regim.ZoomOut)
             {
                 Point currentPosition = e.GetPosition(MainCanvas);
-                Minus(MainCanvas, currentPosition);
+                if (PreviousMasshtabZoomOut == 0.25)
+                {
+                    MinusWithFixedOptions(MainCanvas, currentPosition, 0.25, 4, 32, 40);
+                }
+                else
+                {
+                    Minus(MainCanvas, currentPosition);
+                }
             }
         }
     }

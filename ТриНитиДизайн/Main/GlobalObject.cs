@@ -28,6 +28,8 @@ namespace ТриНитиДизайн
         Cursor ZoomOutCursor;
         double MousePositionX;
         double MousePositionY;
+        double PreviousMasshtabZoomIn;
+        double PreviousMasshtabZoomOut;
         int IndexFigure;
         int SecondGladFigure;
         bool startDrawing = true;
