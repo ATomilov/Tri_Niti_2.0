@@ -65,7 +65,7 @@ namespace ТриНитиДизайн
 
         private void PrevVidButtonEvent(object sender, RoutedEventArgs e)
         {
-            ListFigure[IndexFigure].ClearFigure(MainCanvas);
+
         }
 
         private void MashtabFigureButtonEvent(object sender, RoutedEventArgs e)

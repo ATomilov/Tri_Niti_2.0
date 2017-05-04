@@ -28,10 +28,15 @@ namespace ТриНитиДизайн
             ChangeFiguresColor(ListFigure, MainCanvas);
             if (OptionRegim.regim == Regim.RegimTatami)
             {
+                ListFigure[IndexFigure].SaveCurrentShapes();
+                PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
                 ControlLine.AddFigure(MainCanvas);
             }
             if (OptionRegim.regim == Regim.RegimGlad)
             {
+                ListFigure[IndexFigure].SaveCurrentShapes();
+                ListFigure[SecondGladFigure].SaveCurrentShapes();
+                PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
                 foreach (Figure sh in LinesForGlad)
                     sh.AddFigure(MainCanvas);
             }
@@ -90,8 +95,9 @@ namespace ТриНитиДизайн
 
                     if (!ListFigure[IndexFigure].PreparedForTatami)
                     {
-                        PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
                         ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                        ListFigure[IndexFigure].SaveCurrentShapes();
+                        PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
                     }
                     InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
                 }

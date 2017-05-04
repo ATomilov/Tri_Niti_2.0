@@ -24,6 +24,10 @@ namespace ТриНитиДизайн
         {
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
+             if (ListFigure[IndexFigure].PreparedForTatami)
+            {
+                ListFigure[IndexFigure].LoadCurrentShapes();
+            }
             ChangeFiguresColor(ListFigure, MainCanvas);
             MainCanvas.Cursor = ArrowCursor;
             RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);

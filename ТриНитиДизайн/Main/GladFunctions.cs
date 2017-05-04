@@ -40,10 +40,12 @@ namespace ТриНитиДизайн
                         AddFirstGladLines(gladLines, firstFigure, secondFigure, canvas);
                         if (!firstFigure.PreparedForTatami)
                         {
+                            firstFigure.SaveCurrentShapes();
                             PrepareForTatami(firstFigure, MainCanvas);
                         }
                         if (!secondFigure.PreparedForTatami)
                         {
+                            secondFigure.SaveCurrentShapes();
                             PrepareForTatami(secondFigure, MainCanvas);
                         }
                         break;
