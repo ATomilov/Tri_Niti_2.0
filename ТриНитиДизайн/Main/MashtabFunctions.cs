@@ -50,7 +50,6 @@ namespace ТриНитиДизайн
             scaleTransform.CenterX = center.X;
             scaleTransform.CenterY = center.Y;
             canvas.RenderTransform = scaleTransform;
-            PreviousMasshtabZoomIn = OptionSetka.Masshtab;
         }
 
         public void Minus(Canvas canvas, Point center)
@@ -86,7 +85,6 @@ namespace ТриНитиДизайн
             scaleTransform.CenterX = center.X;
             scaleTransform.CenterY = center.Y;
             canvas.RenderTransform = scaleTransform;
-            PreviousMasshtabZoomOut = OptionSetka.Masshtab;
         }
 
         public void PlusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke)

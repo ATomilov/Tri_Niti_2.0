@@ -304,7 +304,7 @@ namespace ТриНитиДизайн
             if(OptionRegim.regim == Regim.ZoomIn)
             {
                 Point currentPosition = e.GetPosition(MainCanvas);
-                if (PreviousMasshtabZoomIn == 64)
+                if (OptionSetka.Masshtab == 64)
                 {
                     PlusWithFixedOptions(MainCanvas, currentPosition, 64, 0.015625, 0.125, 0.15625);
                 }
@@ -316,7 +316,7 @@ namespace ТриНитиДизайн
             if (OptionRegim.regim == Regim.ZoomOut)
             {
                 Point currentPosition = e.GetPosition(MainCanvas);
-                if (PreviousMasshtabZoomOut == 0.25)
+                if (OptionSetka.Masshtab == 0.25)
                 {
                     MinusWithFixedOptions(MainCanvas, currentPosition, 0.25, 4, 32, 40);
                 }
