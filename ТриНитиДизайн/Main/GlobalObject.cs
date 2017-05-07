@@ -28,6 +28,9 @@ namespace ТриНитиДизайн
         Cursor ZoomOutCursor;
         double MousePositionX;
         double MousePositionY;
+        double CurrentAngle = 0;
+        double TotalAngle = 0;
+        double StartAngle;
         int IndexFigure;
         int SecondGladFigure;
         bool startDrawing = true;

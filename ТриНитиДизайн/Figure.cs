@@ -265,10 +265,10 @@ namespace ТриНитиДизайн
         public void DrawRectangle(Point p, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
-            rec.Height = 10;
-            rec.Width = 10;
-            Canvas.SetLeft(rec, p.X - 5);
-            Canvas.SetTop(rec, p.Y - 5);
+            rec.Height = OptionDrawLine.SizeRectangleForTransform;
+            rec.Width = OptionDrawLine.SizeRectangleForTransform;
+            Canvas.SetLeft(rec, p.X - OptionDrawLine.SizeRectangleForTransform / 2);
+            Canvas.SetTop(rec, p.Y - OptionDrawLine.SizeRectangleForTransform / 2);
             rec.Stroke = OptionColor.ColorSelection;
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             rec.Fill = Brushes.Black;
@@ -277,7 +277,7 @@ namespace ТриНитиДизайн
         }
         
 
-        public void Rotate(int _angle)
+        public void Rotate(double _angle)
         {
             // отрисовка
             Point a, b, c, d;
@@ -285,10 +285,8 @@ namespace ТриНитиДизайн
             GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
             foreach (Shape shape in Shapes)
             {
-
                 RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
                 shape.RenderTransform = rotate;
-
             }
             //DrawOutSideRectangle(GetCenter(), FindLength(a, d), FindLength(a, b));
         }
@@ -417,8 +415,8 @@ namespace ТриНитиДизайн
 
         public Point GetCenter()
         {
-            Point max = new Point(-100, -100);
-            Point min = new Point(40000, 40000);
+            Point max = new Point(Int32.MinValue, Int32.MinValue);
+            Point min = new Point(Int32.MaxValue, Int32.MaxValue);
             foreach (Point p in Points)
             {
                 if (p.X > max.X)

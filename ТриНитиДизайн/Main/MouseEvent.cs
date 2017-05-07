@@ -54,8 +54,9 @@ namespace ТриНитиДизайн
 
         private void CanvasTest_MouseMove(object sender, MouseEventArgs e)
         {
-            MousePositionX = e.GetPosition(MainCanvas).X;
-            MousePositionY = e.GetPosition(MainCanvas).Y;
+            //MousePositionX = e.GetPosition(MainCanvas).X;
+            //MousePositionY = e.GetPosition(MainCanvas).Y;
+            Point NewMousePosition = e.GetPosition(MainCanvas);
             if (e.RightButton == MouseButtonState.Pressed)
             {
                 if (OptionRegim.regim == Regim.RegimDraw)
@@ -119,6 +120,16 @@ namespace ТриНитиДизайн
                     MainCanvas.Children.Add(line);
                     MainCanvas.UpdateLayout();
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                }
+                if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
+                {
+                    double dx = NewMousePosition.X - ListFigure[IndexFigure].GetCenter().X;
+                    double dy = NewMousePosition.Y - ListFigure[IndexFigure].GetCenter().Y;
+                    double new_angle = Math.Atan2(dy, dx);
+                    CurrentAngle = new_angle - StartAngle;
+                    CurrentAngle *= 180 / Math.PI;
+                    CurrentAngle += TotalAngle;
+                    ListFigure[IndexFigure].Rotate(CurrentAngle/100);
                 }
 
             }
@@ -290,10 +301,12 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
             {
-                if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == 10)
+                if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
                 {
-                    //((Rectangle)e.OriginalSource).Fill = Brushes.Yellow;
-                    ListFigure[IndexFigure].Rotate(15);
+                    Point OldCursorPosition = e.GetPosition(MainCanvas);
+                    double dx = OldCursorPosition.X - ListFigure[IndexFigure].GetCenter().X;
+                    double dy = OldCursorPosition.Y - ListFigure[IndexFigure].GetCenter().Y;
+                    StartAngle = Math.Atan2(dy, dx);
                 }
                 else
                 {
