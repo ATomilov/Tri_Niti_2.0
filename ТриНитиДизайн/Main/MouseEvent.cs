@@ -103,7 +103,7 @@ namespace ТриНитиДизайн
                     }
                 }
 
-                if (OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
+                if ((OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad) && !startDrawing)
                 {
                     if (ControlLine.Points.Count > 1)
                     {
@@ -142,6 +142,8 @@ namespace ТриНитиДизайн
             Mouse.Capture(null);
             //TotalAngle = CurrentAngle;
             if (OptionRegim.regim == Regim.RegimTatami)
+
+            if (OptionRegim.regim == Regim.RegimTatami && !startDrawing)
             {
                 if (ControlLine.Points.Count == 1)
                 {
@@ -149,7 +151,7 @@ namespace ТриНитиДизайн
                 }
                 FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas,false);
             }
-            if (OptionRegim.regim == Regim.RegimGlad)
+            if (OptionRegim.regim == Regim.RegimGlad && !startDrawing)
             {
                 if (ControlLine.Points.Count == 1)
                 {
@@ -159,6 +161,7 @@ namespace ТриНитиДизайн
                 {
                     FindGladControlLine(ControlLine, LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
                 }
+
             }
             if (OptionRegim.regim == Regim.RegimKrivaya)
             {
@@ -243,13 +246,35 @@ namespace ТриНитиДизайн
             Mouse.Capture(MainCanvas);
             if (OptionRegim.regim == Regim.RegimTatami)
             {
+                startDrawing = false;
                 ControlLine.Points.Clear();
                 ControlLine.Points.Add(e.GetPosition(MainCanvas));
             }
             if (OptionRegim.regim == Regim.RegimGlad)
             {
-                ControlLine.Points.Clear();
-                ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                if (e.OriginalSource is Shape)
+                {
+                    if(e.OriginalSource is Ellipse)
+                    {
+                        Ellipse ell = (Ellipse)e.OriginalSource;
+                        for (int i = 0; i < LinesForGlad.Count; i++)
+                        {
+                            if (LinesForGlad[i].Shapes.Contains(ell))
+                            {
+                                LinesForGlad[i].RemoveFigure(MainCanvas);
+                                LinesForGlad[i].Shapes.Clear();
+                                LinesForGlad.Remove(LinesForGlad[i]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    startDrawing = false;
+                    ControlLine.Points.Clear();
+                    ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                }
             }
             if (OptionRegim.regim == Regim.RegimDraw || OptionRegim.regim == Regim.RegimFigure)
             {
