@@ -261,6 +261,7 @@ namespace ТриНитиДизайн
                         {
                             if (LinesForGlad[i].Shapes.Contains(ell))
                             {
+                                //TODO: убрать этот коммент
                                 LinesForGlad[i].RemoveFigure(MainCanvas);
                                 LinesForGlad[i].Shapes.Clear();
                                 LinesForGlad.Remove(LinesForGlad[i]);
