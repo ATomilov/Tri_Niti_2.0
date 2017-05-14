@@ -281,7 +281,6 @@ namespace ТриНитиДизайн
         {
             // отрисовка
             Point a, b, c, d;
-            //angle += _angle;
             GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
             foreach (Shape shape in Shapes)
             {

@@ -54,8 +54,6 @@ namespace ТриНитиДизайн
 
         private void CanvasTest_MouseMove(object sender, MouseEventArgs e)
         {
-            //MousePositionX = e.GetPosition(MainCanvas).X;
-            //MousePositionY = e.GetPosition(MainCanvas).Y;
             Point NewMousePosition = e.GetPosition(MainCanvas);
             if (e.RightButton == MouseButtonState.Pressed)
             {
@@ -121,17 +119,14 @@ namespace ТриНитиДизайн
                     MainCanvas.UpdateLayout();
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-                if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
+                if (OptionRegim.regim == Regim.RotateFigure)//поворот при режиме ресайз для проверки корректности перехода в режим ресайз при моей логике (upd: поворот теперь не работает, ибо не переходит в нужный режим)
                 {
                     double dx = NewMousePosition.X - ListFigure[IndexFigure].GetCenter().X;
                     double dy = NewMousePosition.Y - ListFigure[IndexFigure].GetCenter().Y;
                     double new_angle = Math.Atan2(dy, dx);
-                    //CurrentAngle = new_angle - StartAngle;
                     CurrentAngle = new_angle;
                     CurrentAngle *= 180 / Math.PI;
-                    //CurrentAngle += TotalAngle;
                     ListFigure[IndexFigure].Rotate(CurrentAngle);
-                    //ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }
 
             }
@@ -329,9 +324,12 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
             {
-                if (e.OriginalSource is Line)
+                if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
-                    //ListFigure[IndexFigure].Shapes[0].MouseDown +=new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+                    //по идее в этом моменте надо менять флаг режима поворота, не снимая выделения с фигуры
+                    isRotateRegim = true;
+                    ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
+
                 }
                 if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
                 {
@@ -342,6 +340,7 @@ namespace ТриНитиДизайн
                 }
                 else
                 {
+                    isResizeRegim = true;
                     ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
                     ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }

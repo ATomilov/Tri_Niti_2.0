@@ -264,6 +264,22 @@ namespace ТриНитиДизайн
                 IndexFigure = FigureList.Count - 1;
                 RedrawEverything(FigureList, IndexFigure, false, false, canvas);
             }
+            else if (OptionRegim.regim == Regim.RegimSelectFigureToEdit) //переход в режим ресайз (пока работает в этом режиме поворот, так как пока не понятно как переходить в режим поворот)
+            {
+
+                if (isResizeRegim)
+                {
+                    OptionRegim.regim = Regim.ResizeFigure;
+                }
+                //isResizeRegim = false;
+            }
+            else if(OptionRegim.regim == Regim.ResizeFigure)
+            {
+                if (isRotateRegim)
+                {
+                    OptionRegim.regim = Regim.RotateFigure;
+                }
+            }
         }
 
         public void ChangeFiguresColor(List<Figure> FigureList, Canvas canvas)

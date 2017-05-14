@@ -35,6 +35,8 @@ namespace ТриНитиДизайн
         int SecondGladFigure;
         bool startDrawing = true;
         bool deleteControlLine = false;
+        bool isResizeRegim = false;
+        bool isRotateRegim = false;
         List<Figure> ListFigure;
 
         Figure ChoosingRectangle;
