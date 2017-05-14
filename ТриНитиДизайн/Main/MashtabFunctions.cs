@@ -33,6 +33,17 @@ namespace ТриНитиДизайн
                     sh.StrokeThickness /= 2;
                 }
             }
+            foreach (Figure fig in LinesForGlad)
+            {
+                foreach (Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness /= 2;
+                }
+            }
+            foreach (Shape sh in ControlLine.Shapes)
+            {
+                sh.StrokeThickness /= 2;
+            }
             foreach (UIElement element in canvas.Children)
             {
                 if (element is Rectangle)
@@ -45,6 +56,17 @@ namespace ТриНитиДизайн
                     Canvas.SetLeft(rec, x + rec.Height / 2);
                     Canvas.SetTop(rec, y + rec.Height / 2);
                     rec.StrokeThickness /= 2;
+                }
+                if (element is Ellipse)
+                {
+                    Ellipse ell = (Ellipse)element;
+                    double x = Canvas.GetLeft(ell);
+                    double y = Canvas.GetTop(ell);
+                    ell.Height /= 2;
+                    ell.Width /= 2;
+                    Canvas.SetLeft(ell, x + ell.Height / 2);
+                    Canvas.SetTop(ell, y + ell.Height / 2);
+                    ell.StrokeThickness /= 2;
                 }
             }
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
@@ -67,6 +89,17 @@ namespace ТриНитиДизайн
                     sh.StrokeThickness *= 2;
                 }
             }
+            foreach (Figure fig in LinesForGlad)
+            {
+                foreach (Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness *= 2;
+                }
+            }
+            foreach (Shape sh in ControlLine.Shapes)
+            {
+                sh.StrokeThickness *= 2;
+            }
             foreach (UIElement element in canvas.Children)
             {
                 if (element is Rectangle)
@@ -81,6 +114,17 @@ namespace ТриНитиДизайн
                     rec.Width *= 2;
 
                     rec.StrokeThickness *= 2;
+                }
+                if (element is Ellipse)
+                {
+                    Ellipse ell = (Ellipse)element;
+                    double x = Canvas.GetLeft(ell);
+                    double y = Canvas.GetTop(ell);
+                    ell.Height *= 2;
+                    ell.Width *= 2;
+                    Canvas.SetLeft(ell, x - ell.Height / 2);
+                    Canvas.SetTop(ell, y - ell.Height / 2);
+                    ell.StrokeThickness *= 2;
                 }
             }
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);

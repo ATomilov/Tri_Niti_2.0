@@ -71,6 +71,7 @@ namespace ТриНитиДизайн
 
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
+            Edit_Menu.IsEnabled = false;
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();
             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
@@ -81,6 +82,7 @@ namespace ТриНитиДизайн
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
+            Edit_Menu.IsEnabled = true;
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();
             RedrawEverything(ListFigure, IndexFigure, true, true, MainCanvas);

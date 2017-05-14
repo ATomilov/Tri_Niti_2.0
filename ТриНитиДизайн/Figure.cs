@@ -299,6 +299,15 @@ namespace ТриНитиДизайн
             }
             if (Points.Count != 0)
             {
+                Shape notUsed;
+                bool dotOverlaps = true;
+                while (dotOverlaps)
+                {
+                    if (DictionaryPointLines.TryGetValue(PointEnd, out notUsed))
+                        PointEnd.X += 0.000000001;
+                    else
+                        dotOverlaps = false;
+                }
                 Line line = GetLine(PointEnd, New);
                 line.StrokeThickness = OptionDrawLine.StrokeThickness;
                 line.Stroke = brush;
@@ -369,11 +378,11 @@ namespace ТриНитиДизайн
 
         public void AddFigure(Canvas _canvas)
         {
-            foreach (Shape shape in Shapes)
+            foreach (Shape shape in InvShapes)
             {
                 _canvas.Children.Add(shape);
             }
-            foreach(Shape shape in InvShapes)
+            foreach (Shape shape in Shapes)
             {
                 _canvas.Children.Add(shape);
             }
@@ -411,6 +420,21 @@ namespace ТриНитиДизайн
             b = new Point(min.X - 20, max.Y + 20);
             c = new Point(max.X + 20, max.Y + 20);
             d = new Point(max.X + 20, min.Y - 20);
+        }
+
+        public void SetMiddleControlLine(Point a, Point b, Canvas _canvas)
+        {
+            double x = (a.X + b.X)/2;
+            double y = (a.Y + b.Y) / 2;
+            Ellipse ell = new Ellipse();
+            ell.Height = OptionDrawLine.SizeWidthAndHeightRectangle;
+            ell.Width = OptionDrawLine.SizeWidthAndHeightRectangle;
+            ell.Stroke = OptionColor.ColorSelection;
+            ell.Fill = OptionColor.ColorSelection;
+            Canvas.SetLeft(ell, x - OptionDrawLine.SizeWidthAndHeightRectangle/2);
+            Canvas.SetTop(ell, y - OptionDrawLine.SizeWidthAndHeightRectangle/2);
+            Shapes.Add(ell);
+            _canvas.Children.Add(ell);
         }
 
         public Point GetCenter()

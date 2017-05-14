@@ -34,6 +34,7 @@ namespace ТриНитиДизайн
         int IndexFigure;
         int SecondGladFigure;
         bool startDrawing = true;
+        bool deleteControlLine = false;
         List<Figure> ListFigure;
 
         Figure ChoosingRectangle;
