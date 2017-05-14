@@ -126,10 +126,12 @@ namespace ТриНитиДизайн
                     double dx = NewMousePosition.X - ListFigure[IndexFigure].GetCenter().X;
                     double dy = NewMousePosition.Y - ListFigure[IndexFigure].GetCenter().Y;
                     double new_angle = Math.Atan2(dy, dx);
-                    CurrentAngle = new_angle - StartAngle;
+                    //CurrentAngle = new_angle - StartAngle;
+                    CurrentAngle = new_angle;
                     CurrentAngle *= 180 / Math.PI;
-                    CurrentAngle += TotalAngle;
-                    ListFigure[IndexFigure].Rotate(CurrentAngle/100);
+                    //CurrentAngle += TotalAngle;
+                    ListFigure[IndexFigure].Rotate(CurrentAngle);
+                    //ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }
 
             }
@@ -138,7 +140,7 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(null);
-
+            //TotalAngle = CurrentAngle;
             if (OptionRegim.regim == Regim.RegimTatami)
             {
                 if (ControlLine.Points.Count == 1)
@@ -301,12 +303,16 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
             {
+                if (e.OriginalSource is Line)
+                {
+                    //ListFigure[IndexFigure].Shapes[0].MouseDown +=new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+                }
                 if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
                 {
-                    Point OldCursorPosition = e.GetPosition(MainCanvas);
-                    double dx = OldCursorPosition.X - ListFigure[IndexFigure].GetCenter().X;
-                    double dy = OldCursorPosition.Y - ListFigure[IndexFigure].GetCenter().Y;
-                    StartAngle = Math.Atan2(dy, dx);
+                    //Point OldCursorPosition = e.GetPosition(MainCanvas);
+                    //double dx = OldCursorPosition.X - ListFigure[IndexFigure].GetCenter().X;
+                    //double dy = OldCursorPosition.Y - ListFigure[IndexFigure].GetCenter().Y;
+                    //StartAngle = Math.Atan2(dy, dx);
                 }
                 else
                 {
@@ -319,7 +325,7 @@ namespace ТриНитиДизайн
                 Point currentPosition = e.GetPosition(MainCanvas);
                 if (OptionSetka.Masshtab == 64)
                 {
-                    PlusWithFixedOptions(MainCanvas, currentPosition, 64, 0.015625, 0.125, 0.15625);
+                    PlusWithFixedOptions(MainCanvas, currentPosition, 64, 0.015625, 0.125, 0.15625, 0.15625);
                 }
                 else
                 {
@@ -331,7 +337,7 @@ namespace ТриНитиДизайн
                 Point currentPosition = e.GetPosition(MainCanvas);
                 if (OptionSetka.Masshtab == 0.25)
                 {
-                    MinusWithFixedOptions(MainCanvas, currentPosition, 0.25, 4, 32, 40);
+                    MinusWithFixedOptions(MainCanvas, currentPosition, 0.25, 4, 32, 40, 40);
                 }
                 else
                 {
@@ -339,5 +345,6 @@ namespace ТриНитиДизайн
                 }
             }
         }
+        
     }
 }

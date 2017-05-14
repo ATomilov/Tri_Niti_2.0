@@ -26,6 +26,8 @@ namespace ТриНитиДизайн
         RegimFigure = 9,
         RegimGlad = 10,
         ZoomIn = 11,
-        ZoomOut = 12
+        ZoomOut = 12,
+        ResizeFigure = 13,
+        RotateFigure = 14
     }
 }

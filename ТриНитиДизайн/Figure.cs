@@ -277,11 +277,11 @@ namespace ТриНитиДизайн
         }
         
 
-        public void Rotate(double _angle)
+        public void Rotate(double angle)
         {
             // отрисовка
             Point a, b, c, d;
-            angle += _angle;
+            //angle += _angle;
             GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
             foreach (Shape shape in Shapes)
             {

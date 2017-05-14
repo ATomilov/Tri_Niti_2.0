@@ -221,7 +221,7 @@ namespace ТриНитиДизайн
                     }
                 }
                 for (int i = 0; i < FigureList.Count; i++)
-                {
+                {// here flag-click
                     if (OptionRegim.regim != Regim.RegimEditFigures)
                     {
                         if (FigureList[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)

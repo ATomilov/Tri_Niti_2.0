@@ -25,7 +25,8 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness /= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle /= 2;
             OptionDrawLine.InvisibleStrokeThickness /= 2;
-            foreach(Figure fig in ListFigure)
+            OptionDrawLine.SizeRectangleForTransform /= 2;
+            foreach (Figure fig in ListFigure)
             {
                 foreach(Shape sh in fig.Shapes)
                 {
@@ -58,6 +59,7 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness *= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle *= 2;
             OptionDrawLine.InvisibleStrokeThickness *= 2;
+            OptionDrawLine.SizeRectangleForTransform *= 2;
             foreach (Figure fig in ListFigure)
             {
                 foreach (Shape sh in fig.Shapes)
@@ -87,12 +89,13 @@ namespace ТриНитиДизайн
             canvas.RenderTransform = scaleTransform;
         }
 
-        public void PlusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke)
+        public void PlusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke, double sizerectanglefortransform)
         {
             OptionSetka.Masshtab = masshtab;
             OptionDrawLine.StrokeThickness = stroke;
             OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
             OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
+            OptionDrawLine.SizeRectangleForTransform = sizerectanglefortransform;
             foreach (Figure fig in ListFigure)
             {
                 foreach (Shape sh in fig.Shapes)
@@ -120,12 +123,13 @@ namespace ТриНитиДизайн
             canvas.RenderTransform = scaleTransform;
         }
 
-        public void MinusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke)
+        public void MinusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke, double sizerectanglefortransform)
         {
             OptionSetka.Masshtab = masshtab;
             OptionDrawLine.StrokeThickness = stroke;
             OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
             OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
+            OptionDrawLine.SizeRectangleForTransform = sizerectanglefortransform;
             foreach (Figure fig in ListFigure)
             {
                 foreach (Shape sh in fig.Shapes)

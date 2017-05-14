@@ -7,13 +7,13 @@
         Background="#00000000" 
         Name="mainGrid"
         >
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="424*" />
             <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
         <Canvas 
-                Margin="0,59,12,0" 
+                Margin="-3985,-3460,-4003,-3468" 
                 Width="Auto"
                 Name="MainCanvas" 
                 Background="White" 
@@ -22,7 +22,7 @@
                 MouseRightButtonDown="CanvasTest_MouseRightButtonDown"
                 MouseRightButtonUp="CanvasTest_MouseRightButtonUp" 
                 MouseLeftButtonDown="CanvasTest_MouseLeftButtonDown"
-                MouseWheel="MainCanvas_MouseWheel" MouseLeftButtonUp="CanvasTest_MouseLeftButtonUp">
+                MouseWheel="MainCanvas_MouseWheel" MouseLeftButtonUp="CanvasTest_MouseLeftButtonUp" Grid.RowSpan="2">
         </Canvas>
         <Menu Height="Auto" Name="menu1" VerticalAlignment="Top" FontFamily="Verdana" FontSize="12" Background="White">
             <MenuItem Header="Файл">
@@ -154,7 +154,7 @@
             Background="White">
             <Image Source="/ТриНитиДизайн;component/Images/appbar.server.png" />
         </Button>
-        
+
         <Expander    
             ExpandDirection="Right" 
             Height="60" 
