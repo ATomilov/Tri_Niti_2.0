@@ -22,6 +22,7 @@ namespace ТриНитиДизайн
 
         private void ShapeMainButtonEvant(object sender, RoutedEventArgs e)
         {
+            Edit_Menu.IsEnabled = false;
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
              if (ListFigure[IndexFigure].PreparedForTatami)

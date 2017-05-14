@@ -118,6 +118,7 @@ namespace ТриНитиДизайн
                 {
                     OrganizeDots(pts, ConLine,ListControlLines, b, hits);
                     ConLine.Shapes.Add(SetLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], "blue", CurCanvas));
+                    ConLine.SetMiddleControlLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], CurCanvas);
                 }
                 success = true;
             }

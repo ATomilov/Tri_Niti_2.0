@@ -22,6 +22,7 @@ namespace ТриНитиДизайн
 
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
+            Edit_Menu.IsEnabled = false;
             ListFigure[IndexFigure].PointsCount.Clear();
             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
             OptionRegim.regim = OptionRegim.oldRegim;

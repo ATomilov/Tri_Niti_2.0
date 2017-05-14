@@ -116,6 +116,7 @@ namespace ТриНитиДизайн
                     Figure fig = new Figure(canvas);
                     fig.AddPoint(pts[0], OptionColor.ColorChoosingRec, false, 0);
                     fig.AddPoint(pts[1], OptionColor.ColorChoosingRec, false, 0);
+                    fig.SetMiddleControlLine(pts[0], pts[1], canvas);
                     gladLines.Insert(1, fig);
                 }
             }
