@@ -43,7 +43,9 @@ namespace ТриНитиДизайн
         Figure ControlLine;
         Figure SetkaFigure;
         Shape changedLine;
+        Point FarTransformRectangle;
         List<Point> ChosenPts;
+        List<Point> CoordinatesOfTransformRectangles = new List<Point>();
         List<Figure> LinesForGlad = new List<Figure>();
         List<Figure> ControlFigures = new List<Figure>();
         List<Figure> TatamiFigures = new List<Figure>();

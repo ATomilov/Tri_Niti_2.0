@@ -243,7 +243,7 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(myPath);
         }
 
-        public void DrawOutSideRectanglePoints()
+        public List<Point> DrawOutSideRectanglePoints()
         {
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
@@ -260,22 +260,35 @@ namespace ТриНитиДизайн
             {
                 DrawRectangle(p, canvas);
             }
+            return PointsOutSideRectangle;
         }
 
         public void DrawRectangle(Point p, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
             rec.Height = OptionDrawLine.SizeRectangleForTransform;
-            rec.Width = OptionDrawLine.SizeRectangleForTransform;
+            rec.Width = rec.Height;
             Canvas.SetLeft(rec, p.X - OptionDrawLine.SizeRectangleForTransform / 2);
             Canvas.SetTop(rec, p.Y - OptionDrawLine.SizeRectangleForTransform / 2);
             rec.Stroke = OptionColor.ColorSelection;
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             rec.Fill = Brushes.Black;
-            //rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+            rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+            //rec.MouseMove += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseMove);
             canvas.Children.Add(rec);
         }
-        
+
+        public void PointOfRectangleOutSide_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        public void PointOfRectangleOutSide_MouseMove(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+
 
         public void Rotate(double angle)
         {
@@ -288,6 +301,15 @@ namespace ТриНитиДизайн
                 shape.RenderTransform = rotate;
             }
             //DrawOutSideRectangle(GetCenter(), FindLength(a, d), FindLength(a, b));
+        }
+
+        public void ScaleVertical(double scaleX, double scaleY, Point center)
+        {
+            foreach (Shape shape in Shapes)
+            {
+                ScaleTransform scale = new ScaleTransform(scaleX, scaleY, center.X, center.Y);
+                shape.RenderTransform = scale;
+            }
         }
 
         public void AddPoint(Point New,Brush brush, bool addRec, double recSize)

@@ -119,14 +119,26 @@ namespace ТриНитиДизайн
                     MainCanvas.UpdateLayout();
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-                if (OptionRegim.regim == Regim.RotateFigure)//поворот при режиме ресайз для проверки корректности перехода в режим ресайз при моей логике (upd: поворот теперь не работает, ибо не переходит в нужный режим)
+                if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)//поворот при режиме ресайз для проверки корректности перехода в режим ресайз при моей логике (upd: поворот теперь не работает, ибо не переходит в нужный режим)
                 {
-                    double dx = NewMousePosition.X - ListFigure[IndexFigure].GetCenter().X;
-                    double dy = NewMousePosition.Y - ListFigure[IndexFigure].GetCenter().Y;
-                    double new_angle = Math.Atan2(dy, dx);
-                    CurrentAngle = new_angle;
-                    CurrentAngle *= 180 / Math.PI;
-                    ListFigure[IndexFigure].Rotate(CurrentAngle);
+                    //double dx = NewMousePosition.X - ListFigure[IndexFigure].GetCenter().X;
+                    //double dy = NewMousePosition.Y - ListFigure[IndexFigure].GetCenter().Y;
+                    //double new_angle = Math.Atan2(dy, dx);
+                    //CurrentAngle = new_angle;
+                    //CurrentAngle *= 180 / Math.PI;
+                    //ListFigure[IndexFigure].Rotate(CurrentAngle);
+                    //ListFigure[IndexFigure].ScaleVertical(2, CoordinatesOfTransformRectangles[4]);
+                }
+                if (OptionRegim.regim == Regim.RotateFigure)//работа с изменением размера
+                {
+                    //for (int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
+                    //{
+                    //    Point CurrentPoint = ListFigure[IndexFigure].Points[i];
+                    //    CurrentPoint.Y += NewMousePosition.Y;
+                    //    ListFigure[IndexFigure].Points[i] = CurrentPoint;
+                    //}
+                    //RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                    //ListFigure[IndexFigure].ScaleVertical(2);
                 }
 
             }
@@ -324,11 +336,13 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
             {
+                CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                
                 if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
                     //по идее в этом моменте надо менять флаг режима поворота, не снимая выделения с фигуры
-                    isRotateRegim = true;
-                    ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
+                    //isRotateRegim = true;
+                    //ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
 
                 }
                 if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
@@ -337,12 +351,49 @@ namespace ТриНитиДизайн
                     //double dx = OldCursorPosition.X - ListFigure[IndexFigure].GetCenter().X;
                     //double dy = OldCursorPosition.Y - ListFigure[IndexFigure].GetCenter().Y;
                     //StartAngle = Math.Atan2(dy, dx);
+                    Rectangle CurrentRec = (Rectangle)e.OriginalSource;
+                    int CurrentIndex = 0;
+                    double CurrentRecX, CurrentRecY;
+                    CurrentRecX = Canvas.GetLeft(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform)/2);
+                    CurrentRecY = Canvas.GetTop(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform)/2);
+                    for (int i = 0; i < CoordinatesOfTransformRectangles.Count; i++)
+                    {
+                        if (CurrentRecX == CoordinatesOfTransformRectangles[i].X && CurrentRecY == CoordinatesOfTransformRectangles[i].Y)
+                        {
+                            CurrentIndex = i;
+                        }
+                    }
+                    if (CurrentIndex < 2)
+                    {
+                        ListFigure[IndexFigure].ScaleVertical(1.5, 1.5, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                    }
+                    if (CurrentIndex >= 2 && CurrentIndex <= 3)
+                    {
+                        ListFigure[IndexFigure].ScaleVertical(1.5, 1.5, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                    }
+                    if (CurrentIndex == 4)
+                    {
+                        ListFigure[IndexFigure].ScaleVertical(2, 1.5, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                    }
+                    if (CurrentIndex == 6)
+                    {
+                        ListFigure[IndexFigure].ScaleVertical(2, 1.5, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                    }
+                    if (CurrentIndex == 7)
+                    {
+                        ListFigure[IndexFigure].ScaleVertical(1.5, 2, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                    }
+                    if (CurrentIndex == 5)
+                    {
+                        ListFigure[IndexFigure].ScaleVertical(1.5, 2, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                    }
+                    //ListFigure[IndexFigure].ScaleVertical(2, 1, CoordinatesOfTransformRectangles[4]);
                 }
                 else
                 {
-                    isResizeRegim = true;
+                    //isResizeRegim = true;
                     ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
-                    ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                    //CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }
             }
             if(OptionRegim.regim == Regim.ZoomIn)
