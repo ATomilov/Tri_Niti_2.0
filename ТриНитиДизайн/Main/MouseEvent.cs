@@ -365,27 +365,27 @@ namespace ТриНитиДизайн
                     }
                     if (CurrentIndex < 2)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(1.5, 1.5, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0.1, 0.1, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
                     }
                     if (CurrentIndex >= 2 && CurrentIndex <= 3)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(1.5, 1.5, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0.1, 0.1, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
                     }
                     if (CurrentIndex == 4)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(2, 1.5, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0.1, 0, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
                     }
                     if (CurrentIndex == 6)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(2, 1.5, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0.1, 0, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
                     }
                     if (CurrentIndex == 7)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(1.5, 2, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0, 0.1, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
                     }
                     if (CurrentIndex == 5)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(1.5, 2, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0, 0.1, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
                     }
                     //ListFigure[IndexFigure].ScaleVertical(2, 1, CoordinatesOfTransformRectangles[4]);
                 }

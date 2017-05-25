@@ -35,6 +35,8 @@ namespace ТриНитиДизайн
         public Point PointStart;
         public Point PointEnd;
         public double angle;
+        public double scaleX;
+        public double scaleY;
         public Canvas canvas;
         public Rectangle SelectedRectangle;
         public Rectangle RectangleOfFigure;
@@ -50,6 +52,8 @@ namespace ТриНитиДизайн
             PointsCount = new List<int>();
             PreparedForTatami = false;
             angle = 0;
+            scaleX = 1;
+            scaleY = 1;
             canvas = _canvas;
             DictionaryRecPoint = new Dictionary<Rectangle, Point>();
             //DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
@@ -303,8 +307,10 @@ namespace ТриНитиДизайн
             //DrawOutSideRectangle(GetCenter(), FindLength(a, d), FindLength(a, b));
         }
 
-        public void ScaleVertical(double scaleX, double scaleY, Point center)
+        public void ScaleVertical(double _scaleX, double _scaleY, Point center)
         {
+            scaleX += _scaleX;
+            scaleY += _scaleY;
             foreach (Shape shape in Shapes)
             {
                 ScaleTransform scale = new ScaleTransform(scaleX, scaleY, center.X, center.Y);
