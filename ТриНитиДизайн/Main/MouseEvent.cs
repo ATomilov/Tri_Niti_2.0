@@ -179,6 +179,11 @@ namespace ТриНитиДизайн
                     OptionRegim.regim = Regim.RegimEditFigures;
                 }
             }
+            if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
+            {
+                CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints(ListFigure[IndexFigure].angle);
+
+            }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
                 if (ChoosingRectangle.Points.Count > 0)
@@ -347,15 +352,15 @@ namespace ТриНитиДизайн
                 }
                 if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
                 {
-                    //Point OldCursorPosition = e.GetPosition(MainCanvas);
-                    //double dx = OldCursorPosition.X - ListFigure[IndexFigure].GetCenter().X;
-                    //double dy = OldCursorPosition.Y - ListFigure[IndexFigure].GetCenter().Y;
-                    //StartAngle = Math.Atan2(dy, dx);
+                    Point OldCursorPosition = e.GetPosition(MainCanvas);
+                    double dx = OldCursorPosition.X - ListFigure[IndexFigure].GetCenter().X;
+                    double dy = OldCursorPosition.Y - ListFigure[IndexFigure].GetCenter().Y;
+                    StartAngle = Math.Atan2(dy, dx);
                     Rectangle CurrentRec = (Rectangle)e.OriginalSource;
                     int CurrentIndex = 0;
                     double CurrentRecX, CurrentRecY;
-                    CurrentRecX = Canvas.GetLeft(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform)/2);
-                    CurrentRecY = Canvas.GetTop(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform)/2);
+                    CurrentRecX = Canvas.GetLeft(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform) / 2);
+                    CurrentRecY = Canvas.GetTop(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform) / 2);
                     for (int i = 0; i < CoordinatesOfTransformRectangles.Count; i++)
                     {
                         if (CurrentRecX == CoordinatesOfTransformRectangles[i].X && CurrentRecY == CoordinatesOfTransformRectangles[i].Y)
@@ -365,27 +370,45 @@ namespace ТриНитиДизайн
                     }
                     if (CurrentIndex < 2)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(0.1, 0.1, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                        //foreach (Figure fig in ListFigure)
+                        //{
+                        //    foreach (Shape sh in fig.Shapes)
+                        //    {
+                        //        sh.StrokeThickness /= 0.1;
+                        //    }
+                        //}
+                        //foreach (Figure fig in LinesForGlad)
+                        //{
+                        //    foreach (Shape sh in fig.Shapes)
+                        //    {
+                        //        sh.StrokeThickness /= 2;
+                        //    }
+                        //}
+                        //foreach (Shape sh in ControlLine.Shapes)
+                        //{
+                        //    sh.StrokeThickness /= 2;
+                        //}
                     }
                     if (CurrentIndex >= 2 && CurrentIndex <= 3)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(0.1, 0.1, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
                     }
                     if (CurrentIndex == 4)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(0.1, 0, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, 0, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
                     }
                     if (CurrentIndex == 6)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(0.1, 0, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, 0, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
                     }
                     if (CurrentIndex == 7)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(0, 0.1, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
                     }
                     if (CurrentIndex == 5)
                     {
-                        ListFigure[IndexFigure].ScaleVertical(0, 0.1, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
+                        ListFigure[IndexFigure].ScaleVertical(0, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
                     }
                     //ListFigure[IndexFigure].ScaleVertical(2, 1, CoordinatesOfTransformRectangles[4]);
                 }

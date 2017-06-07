@@ -267,6 +267,33 @@ namespace ТриНитиДизайн
             return PointsOutSideRectangle;
         }
 
+        public List<Point> DrawOutSideRectanglePoints(double _angle)
+        {
+            List<Point> PointsOutSideRectangle = new List<Point>();
+            Point a, b, c, d;
+            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d);
+            PointsOutSideRectangle.Add(a);
+            PointsOutSideRectangle.Add(b);
+            PointsOutSideRectangle.Add(c);
+            PointsOutSideRectangle.Add(d);
+            PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
+            PointsOutSideRectangle.Add(new Point((b.X + c.X) / 2, (b.Y + c.Y) / 2));
+            PointsOutSideRectangle.Add(new Point((c.X + d.X) / 2, (c.Y + d.Y) / 2));
+            PointsOutSideRectangle.Add(new Point((d.X + a.X) / 2, (d.Y + a.Y) / 2));
+            foreach (Point p in PointsOutSideRectangle)
+            {
+                
+                Rectangle rec = DrawReturnRectangle(p, canvas);
+                canvas.Children.Add(rec);
+                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
+                rec.RenderTransform = rotate;
+                rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
+                rec.MouseMove += new MouseEventHandler(PointOfRectangleOutSide_MouseMove);
+
+            }
+            return PointsOutSideRectangle;
+        }
+
         public void DrawRectangle(Point p, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
@@ -278,8 +305,26 @@ namespace ТриНитиДизайн
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             rec.Fill = Brushes.Black;
             rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
-            //rec.MouseMove += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseMove);
+            rec.MouseMove += new MouseEventHandler(PointOfRectangleOutSide_MouseMove);
             canvas.Children.Add(rec);
+        }
+
+        public Rectangle DrawReturnRectangle(Point p, Canvas canvas)
+        {
+            Rectangle rec = new Rectangle();
+            rec.Height = OptionDrawLine.SizeRectangleForTransform;
+            rec.Width = rec.Height;
+            Canvas.SetLeft(rec, p.X - OptionDrawLine.SizeRectangleForTransform / 2);
+            Canvas.SetTop(rec, p.Y - OptionDrawLine.SizeRectangleForTransform / 2);
+            rec.Stroke = OptionColor.ColorSelection;
+            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
+            rec.Fill = Brushes.Black;
+            return rec;
+        }
+
+        private void PointOfRectangleOutSide_MouseMove(object sender, MouseEventArgs e)
+        {
+            //throw new NotImplementedException();// делать перерисовку с погрешностью
         }
 
         public void PointOfRectangleOutSide_MouseDown(object sender, MouseButtonEventArgs e)
@@ -287,10 +332,7 @@ namespace ТриНитиДизайн
 
         }
 
-        public void PointOfRectangleOutSide_MouseMove(object sender, MouseButtonEventArgs e)
-        {
-
-        }
+        
 
 
 
@@ -304,6 +346,7 @@ namespace ТриНитиДизайн
                 RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
                 shape.RenderTransform = rotate;
             }
+            this.angle = angle;
             //DrawOutSideRectangle(GetCenter(), FindLength(a, d), FindLength(a, b));
         }
 

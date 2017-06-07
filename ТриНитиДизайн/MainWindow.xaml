@@ -22,7 +22,7 @@
                 MouseRightButtonDown="CanvasTest_MouseRightButtonDown"
                 MouseRightButtonUp="CanvasTest_MouseRightButtonUp" 
                 MouseLeftButtonDown="CanvasTest_MouseLeftButtonDown"
-                MouseWheel="MainCanvas_MouseWheel" MouseLeftButtonUp="CanvasTest_MouseLeftButtonUp" Grid.RowSpan="2"/>
+                MouseLeftButtonUp="CanvasTest_MouseLeftButtonUp" Grid.RowSpan="2"/>
         <Menu Height="Auto" Name="menu1" VerticalAlignment="Top" FontFamily="Verdana" FontSize="12" Background="White">
             <MenuItem Header="Файл">
                 <MenuItem Header="Новый проект" Click="NewProject" />
@@ -31,7 +31,7 @@
                 <MenuItem Header="Сохранить проект"  />
                 <MenuItem Header="Сохранить как..."  />
                 <Separator/>
-                <MenuItem Header="Загрузить рисунок" />
+                <MenuItem Header="Загрузить рисунок" Click="LoadPLT" />
                 <MenuItem Header="Удалить рисунок" />
                 <Separator/>
                 <MenuItem Header="Создать каталог" />

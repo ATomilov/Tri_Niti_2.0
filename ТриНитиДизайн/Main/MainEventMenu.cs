@@ -12,12 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Drawing;
 using Microsoft.Win32;
 using Path = System.Windows.Shapes.Path;
+using CorelDRAW;
 
 namespace ТриНитиДизайн
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private void SaveFile(object sender, RoutedEventArgs e)
         {
@@ -40,6 +42,37 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             SetToDefault();
             MainCanvas.Cursor = NormalCursor;
+        }
+
+        private void LoadPLT(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Filter = "Corel PLT| *.plt";
+            op.ShowDialog();
+            CorelDRAW.Application cdr = new CorelDRAW.Application();
+            cdr.OpenDocument(op.FileName, 1);
+            cdr.ActiveDocument.ExportBitmap(
+                op.FileName+".png",
+                VGCore.cdrFilter.cdrPNG,
+                VGCore.cdrExportRange.cdrCurrentPage,
+                VGCore.cdrImageType.cdrRGBColorImage,
+                0, 0, cdr.ActiveDocument.ResolutionX, cdr.ActiveDocument.ResolutionY,
+                VGCore.cdrAntiAliasingType.cdrNoAntiAliasing,
+                false,
+                true,
+                true,
+                false,
+                VGCore.cdrCompressionType.cdrCompressionNone,
+                null).Finish();
+            cdr.ActiveDocument.Close();
+            cdr.Quit();
+            //Image BodyImage = new Image
+            //{
+            //    Width = moonBitmap.Width,
+            //    Height = moonBitmap.Height,
+            //    Name = BodyName,
+            //    Source = new BitmapImage(new Uri(moonBitmap.UriSource.ToString(), UriKind.Relative)),
+            //};
         }
 
         private void DeleteFigureClick(object sender, RoutedEventArgs e)
