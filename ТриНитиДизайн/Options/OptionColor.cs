@@ -15,6 +15,7 @@ namespace ТриНитиДизайн
         public static Brush ColorOpacity = Brushes.White;
         public static Brush ColorKrivaya = Brushes.Violet;
         public static Brush ColorGlad = Brushes.Yellow;
+        public static Brush ColorPltFigure = Brushes.LightGreen;
         public static Brush ColorChoosingRec = Brushes.Blue;
     }
 }

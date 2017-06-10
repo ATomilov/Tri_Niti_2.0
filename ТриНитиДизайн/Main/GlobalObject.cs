@@ -38,6 +38,7 @@ namespace ТриНитиДизайн
         bool isResizeRegim = false;
         bool isRotateRegim = false;
         List<Figure> ListFigure;
+        List<Figure> ListPltFigure;
 
         Figure ChoosingRectangle;
         Figure ControlLine;

@@ -23,7 +23,7 @@ namespace ТриНитиДизайн
         public MainWindow()
         {
             InitializeComponent();
-
+            
             ControlLine = new Figure(MainCanvas);
             ChosenPts = new List<Point>();
         }
@@ -42,6 +42,8 @@ namespace ТриНитиДизайн
         {
             ListFigure = new List<Figure>();
             ListFigure.Add(new Figure(MainCanvas));
+            ListPltFigure = new List<Figure>();
+            ListPltFigure.Add(new Figure(MainCanvas));
             IndexFigure = 0;
             tabControl1.Visibility = Visibility.Hidden;
             tabControl2.Visibility = Visibility.Hidden;

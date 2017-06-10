@@ -47,6 +47,10 @@ namespace ТриНитиДизайн
                 }
                 
             }
+            for (int i = 0; i < ListPltFigure.Count; i++)
+            {
+                ListPltFigure[i].AddFigure(canvas);
+            }
         }
 
         private void DrawRectangle(Point p, Brush brush, Canvas canvas)

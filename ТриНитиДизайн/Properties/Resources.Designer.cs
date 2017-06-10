@@ -59,15 +59,5 @@ namespace ТриНитиДизайн.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        public static byte[] CorelDraw {
-            get {
-                object obj = ResourceManager.GetObject("CorelDraw", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

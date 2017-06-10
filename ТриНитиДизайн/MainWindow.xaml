@@ -32,7 +32,7 @@
                 <MenuItem Header="Сохранить как..."  />
                 <Separator/>
                 <MenuItem Header="Загрузить рисунок" Click="LoadPLT" />
-                <MenuItem Header="Удалить рисунок" />
+                <MenuItem Header="Удалить рисунок" Click="DeletePLT"/>
                 <Separator/>
                 <MenuItem Header="Создать каталог" />
                 <Separator/>
