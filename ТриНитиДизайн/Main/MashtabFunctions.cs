@@ -33,6 +33,13 @@ namespace ТриНитиДизайн
                     sh.StrokeThickness /= 2;
                 }
             }
+            foreach (Figure fig in ListPltFigure)
+            {
+                foreach (Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness /= 2;
+                }
+            }
             foreach (Figure fig in LinesForGlad)
             {
                 foreach (Shape sh in fig.Shapes)
@@ -83,6 +90,13 @@ namespace ТриНитиДизайн
             OptionDrawLine.InvisibleStrokeThickness *= 2;
             OptionDrawLine.SizeRectangleForTransform *= 2;
             foreach (Figure fig in ListFigure)
+            {
+                foreach (Shape sh in fig.Shapes)
+                {
+                    sh.StrokeThickness *= 2;
+                }
+            }
+            foreach (Figure fig in ListPltFigure)
             {
                 foreach (Shape sh in fig.Shapes)
                 {
