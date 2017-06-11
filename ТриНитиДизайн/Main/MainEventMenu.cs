@@ -50,6 +50,11 @@ namespace ТриНитиДизайн
             Nullable<bool> result = op.ShowDialog();
             if (result == true)
             {
+                foreach (Figure fig in ListPltFigure)
+                {
+                    fig.RemoveFigure(MainCanvas);
+                }
+                ListPltFigure.Clear();
                 StreamReader reader = new StreamReader(op.OpenFile());
                 string text = reader.ReadToEnd();
                 text = text.Replace("\r\n", "");
@@ -57,24 +62,40 @@ namespace ТриНитиДизайн
                 text = text.Replace("PD", " ");
                 string pattern = @"PU([0-9]| |-)+";
                 Regex rgx = new Regex(pattern);
-                Vector vect = new Vector();
-                bool firstDot = true;
-                foreach (Match match in rgx.Matches(text))
+                Vector vect;
+                MatchCollection matches = rgx.Matches(text);
+                List <List<Point>> pts = new List<List<Point>>();
+                double minX = Double.MaxValue;
+                double minY = -999999;
+                for (int i = 0; i < matches.Count;i++ )
                 {
-                    string newStuff = match.Value;
+                    string newStuff = matches[i].Value;
                     newStuff = newStuff.Remove(0, 2);
                     pattern = @" ";
                     String[] elements = Regex.Split(newStuff, pattern);
-                    ListPltFigure.Add(new Figure(MainCanvas));
-                    if (firstDot)
+                    double del = 22;
+                    pts.Add(new List<Point>());
+                    for (int j = 0; j < elements.Length; j += 2)
                     {
-                        vect = new Vector(Double.Parse(elements[0]) / 14 - 4400, Double.Parse(elements[1]) / 14 - 3600);
-                        firstDot = false;
+                        Point newP = new Point(Double.Parse(elements[j]) / del, Double.Parse(elements[j + 1]) / del);
+                        if(newP.X < minX)
+                        {
+                            minX = newP.X;
+                        }
+                        if(newP.Y > minY)
+                        {
+                            minY = newP.Y;
+                        }
+                        pts[i].Add(newP);
                     }
-                    for(int i = 0; i<elements.Length;i+=2)
+                }
+                vect = new Vector(minX - 4400, minY - 4100);
+                for(int i = 0; i< pts.Count;i++)
+                {
+                    ListPltFigure.Add(new Figure(MainCanvas));
+                    for(int j = 0; j < pts[i].Count;j++)
                     {
-                        double del = 14;
-                        Point newP = new Point((Double.Parse(elements[i])/del-vect.X),(Double.Parse(elements[i+1])/del-vect.Y));
+                        Point newP = new Point((pts[i][j].X - vect.X), (-pts[i][j].Y - vect.Y));
                         ListPltFigure[ListPltFigure.Count - 1].AddPoint(newP, OptionColor.ColorPltFigure, false, 8);
                     }
                 }
