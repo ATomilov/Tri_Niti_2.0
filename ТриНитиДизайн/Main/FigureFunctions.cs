@@ -53,6 +53,7 @@ namespace ТриНитиДизайн
             }
         }
 
+
         private void DrawRectangle(Point p, Brush brush, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
@@ -169,13 +170,14 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void PrepareForTatami(Figure fig, Canvas canvas)
+        public void PrepareForTatami(Figure fig,bool isColorChanged)
         {
             if (OptionRegim.regim != Regim.RegimCepochka)
             {
                 fig.PreparedForTatami = true;
             }
-            fig.ChangeFigureColor(OptionColor.ColorDraw,false);
+            if(isColorChanged)
+                fig.ChangeFigureColor(OptionColor.ColorDraw,false);
             for(int i = 0; i< fig.Points.Count-1;i++)
             {
                 Shape sh;
@@ -196,6 +198,7 @@ namespace ТриНитиДизайн
                 }
             }
         }
+
 
         public void ChooseFigureByClicking(List<Figure> FigureList, Object clickedShape, Canvas canvas)
         {
@@ -234,14 +237,15 @@ namespace ТриНитиДизайн
                             {
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                                 IndexFigure = FigureList.Count - 1;
+                                RedrawEverything(FigureList, IndexFigure, true, false, canvas);
                             }
                             else
                             {
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                                 IndexFigure = i;
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
-                            }
-                            RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+                                RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+                            }                            
                             break;
                         }
                     }

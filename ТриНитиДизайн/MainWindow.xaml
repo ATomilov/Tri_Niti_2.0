@@ -27,8 +27,8 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Новый проект" Click="NewProject" />
                 <Separator/>
-                <MenuItem Header="Загрузить проект"  />
-                <MenuItem Header="Сохранить проект"  />
+                <MenuItem Header="Загрузить проект"  Click="LoadProject" />
+                <MenuItem Header="Сохранить проект"  Click="SaveProject" />
                 <MenuItem Header="Сохранить как..."  />
                 <Separator/>
                 <MenuItem Header="Загрузить рисунок" Click="LoadPLT" />

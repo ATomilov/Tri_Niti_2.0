@@ -322,15 +322,18 @@ namespace ТриНитиДизайн
                     }
                     Shape sh;
                     var keyLine = ListFigure[IndexFigure].DictionaryInvLines.FirstOrDefault(x => x.Value == clickedShape);
-                    if (keyLine.Key.Stroke == OptionColor.ColorKrivaya)
+                    if (keyLine.Key != null)
                     {
-                        OptionRegim.regim = Regim.RegimKrivaya;
-                        var point = ListFigure[IndexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
-                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
-                        ListFigure[IndexFigure].DeleteShape(sh, point.Key);
-                        changedLine = sh;
-                        ChosenPts.Add(point.Key);
-                        ChosenPts.Add(new Point(x2,y2));
+                        if (keyLine.Key.Stroke == OptionColor.ColorKrivaya)
+                        {
+                            OptionRegim.regim = Regim.RegimKrivaya;
+                            var point = ListFigure[IndexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
+                            ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
+                            ListFigure[IndexFigure].DeleteShape(sh, point.Key);
+                            changedLine = sh;
+                            ChosenPts.Add(point.Key);
+                            ChosenPts.Add(new Point(x2, y2));
+                        }
                     }
                 }
                 else

@@ -41,12 +41,12 @@ namespace ТриНитиДизайн
                         if (!firstFigure.PreparedForTatami)
                         {
                             firstFigure.SaveCurrentShapes();
-                            PrepareForTatami(firstFigure, MainCanvas);
+                            PrepareForTatami(firstFigure,true);
                         }
                         if (!secondFigure.PreparedForTatami)
                         {
                             secondFigure.SaveCurrentShapes();
-                            PrepareForTatami(secondFigure, MainCanvas);
+                            PrepareForTatami(secondFigure,true);
                         }
                         break;
                     }

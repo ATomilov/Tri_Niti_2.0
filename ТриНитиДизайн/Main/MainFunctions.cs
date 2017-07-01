@@ -44,6 +44,23 @@ namespace ТриНитиДизайн
 
         }
 
+        private void ClearEverything(bool isListEmpty)
+        {
+            ListFigure.Clear();
+            if(!isListEmpty)
+                ListFigure.Add(new Figure(MainCanvas));
+            MainCanvas.Children.Clear();
+            ListPltFigure.Clear();
+            OptionRegim.regim = Regim.RegimDraw;
+            OptionRegim.oldRegim = Regim.RegimFigure;
+            TatamiFigures.Clear();
+            IndexFigure = 0;
+            SecondGladFigure = -1;
+            CloseAllTabs();
+            SetToDefault();
+            MainCanvas.Cursor = NormalCursor;
+        }
+
         public bool ShowAcceptMessage(int choice)
         {
             string sMessageBoxText = "Соединить?";

@@ -15,6 +15,7 @@ using System.IO;
 using Microsoft.Win32;
 using Path = System.Windows.Shapes.Path;
 using System.Text.RegularExpressions;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ТриНитиДизайн
 {
@@ -30,17 +31,70 @@ namespace ТриНитиДизайн
 
         private void NewProject(object sender, RoutedEventArgs e)
         {
-            ListFigure.Clear();
-            ListFigure.Add(new Figure(MainCanvas));
-            MainCanvas.Children.Clear();
-            OptionRegim.regim = Regim.RegimDraw;
-            OptionRegim.oldRegim = Regim.RegimFigure;
-            TatamiFigures.Clear();
-            IndexFigure = 0;
-            SecondGladFigure = -1;
-            CloseAllTabs();
-            SetToDefault();
-            MainCanvas.Cursor = NormalCursor;
+            ClearEverything(false);
+        }
+
+        private void SaveProject(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "txt files (*.txt)|*.txt";
+            Nullable<bool> result = saveFile.ShowDialog();
+            if (result == true)
+            {
+                string dots = "";
+                for (int i = 0; i < ListFigure.Count; i++)
+                {
+                    ListFigure[i].SaveCurrentShapes();
+                    PrepareForTatami(ListFigure[i],false);
+                    for (int j = 0; j < ListFigure[i].Points.Count; j++)
+                    {
+                        dots += ListFigure[i].Points[j].X;
+                        dots += " ";
+                        dots += ListFigure[i].Points[j].Y;
+                        dots += " ";
+                    }
+                    ListFigure[i].LoadCurrentShapes();
+                    dots += "!";
+                }
+                StreamWriter writer = new StreamWriter(saveFile.OpenFile());
+                writer.WriteLine(dots);
+                writer.Dispose();
+                writer.Close();
+            }
+        }
+
+        private void LoadProject(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Filter = "txt files| *.txt";
+            Nullable<bool> result = op.ShowDialog();
+            if (result == true)
+            {
+                ClearEverything(true);
+                StreamReader reader = new StreamReader(op.OpenFile());
+                string text = reader.ReadToEnd();
+                string pattern = @"([0-9]| |-|,)+!";
+                Regex rgx = new Regex(pattern);
+                MatchCollection matches = rgx.Matches(text);
+                if(matches.Count == 0)
+                {
+                    ListFigure.Add(new Figure(MainCanvas));
+                }
+                for (int i = 0; i < matches.Count; i++)
+                {           
+                    ListFigure.Add(new Figure(MainCanvas));
+                    string newStuff = matches[i].Value;
+                    pattern = @" ";
+                    String[] elements = Regex.Split(newStuff, pattern);
+                    for(int j = 0; j < elements.Length-1;j+=2)
+                    {
+                        Point p = new Point(Double.Parse(elements[j]),Double.Parse(elements[j+1]));
+                        ListFigure[i].AddPoint(p,OptionColor.ColorSelection,false,OptionDrawLine.SizeWidthAndHeightRectangle);
+                    }
+                }
+                RedrawEverything(ListFigure, IndexFigure, true, true, MainCanvas);
+            }
+
         }
 
         private void LoadPLT(object sender, RoutedEventArgs e)
@@ -147,5 +201,5 @@ namespace ТриНитиДизайн
             ab.ShowInTaskbar = false;
             ab.ShowDialog();
         }
-    }
+    }    
 }

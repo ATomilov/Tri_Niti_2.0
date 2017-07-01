@@ -30,14 +30,14 @@ namespace ТриНитиДизайн
             if (OptionRegim.regim == Regim.RegimTatami)
             {
                 ListFigure[IndexFigure].SaveCurrentShapes();
-                PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                PrepareForTatami(ListFigure[IndexFigure],true);
                 ControlLine.AddFigure(MainCanvas);
             }
             if (OptionRegim.regim == Regim.RegimGlad)
             {
                 ListFigure[IndexFigure].SaveCurrentShapes();
                 ListFigure[SecondGladFigure].SaveCurrentShapes();
-                PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                PrepareForTatami(ListFigure[IndexFigure],true);
                 foreach (Figure sh in LinesForGlad)
                     sh.AddFigure(MainCanvas);
             }
@@ -64,7 +64,7 @@ namespace ТриНитиДизайн
                     CepochkaSetting.ShowDialog();
                     if (!ListFigure[IndexFigure].PreparedForTatami)
                     {
-                        PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                        PrepareForTatami(ListFigure[IndexFigure],true);
                     }
                 }
             }
@@ -98,7 +98,7 @@ namespace ТриНитиДизайн
                     {
                         ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                         ListFigure[IndexFigure].SaveCurrentShapes();
-                        PrepareForTatami(ListFigure[IndexFigure], MainCanvas);
+                        PrepareForTatami(ListFigure[IndexFigure],true);
                     }
                     InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
                 }
