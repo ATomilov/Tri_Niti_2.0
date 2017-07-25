@@ -21,6 +21,7 @@ namespace ТриНитиДизайн
     {
         int gladShapesCount = 0;
         int oldGladHits = 0;
+
         public void ShowJoinMessage(List<Figure>gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
         {
             string sMessageBoxText = "Соединить?";
@@ -34,8 +35,9 @@ namespace ТриНитиДизайн
             {
                 case MessageBoxResult.OK:
                     {
-                        OptionRegim.regim = Regim.RegimGlad;
-                        OptionRegim.oldRegim = Regim.RegimGlad;
+                        OptionRegim.regim = Regim.RegimGlad;                        
+                        ListFigure[IndexFigure].regimFigure = Regim.RegimGlad;
+                        ListFigure[SecondGladFigure].regimFigure = Regim.RegimGlad;
                         ControlLine = new Figure(MainCanvas);
                         AddFirstGladLines(gladLines, firstFigure, secondFigure, canvas);
                         if (!firstFigure.PreparedForTatami)
@@ -50,9 +52,12 @@ namespace ТриНитиДизайн
                         }
                         break;
                     }
-                    
+
                 case MessageBoxResult.Cancel:
-                    break;
+                    {
+                        ListFigure[SecondGladFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+                        break;
+                    }
             }
         }
 
@@ -65,6 +70,7 @@ namespace ТриНитиДизайн
             gladLines.Add(new Figure(canvas));
             if (CheckForGladIntersection(firstFigure.PointStart, secondFigure.PointStart, firstFigure, secondFigure, true, null))
             {
+                areGladPointsInversed = true;
                 gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false, 0);
                 gladLines[0].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
                 gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
@@ -72,6 +78,7 @@ namespace ТриНитиДизайн
             }
             else
             {
+                areGladPointsInversed = false;
                 gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false, 0);
                 gladLines[0].AddPoint(secondFigure.PointStart, OptionColor.ColorChoosingRec, false, 0);
                 gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
@@ -278,7 +285,7 @@ namespace ТриНитиДизайн
                 else
                     b = gladLines[i + 1].PointStart;
 
-                distance = OptionGlad.LenthStep;
+                distance = OptionGlad.LenthStep *0.2;
                 Vector vect = b - a;
                 double length = vect.Length;
                 Vector invisibleLine = a - IntersectionPoint[0];

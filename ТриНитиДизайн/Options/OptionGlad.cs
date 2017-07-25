@@ -8,7 +8,7 @@ namespace ТриНитиДизайн
     public static class OptionGlad
     {
         //Glad
-        public static double LenthStep = 10;
+        public static double LenthStep = 4;
         public static double MaxLenthStep = 124;
         public static double MinLenthStep = 1;
         public static double Rasshirenie = 0;

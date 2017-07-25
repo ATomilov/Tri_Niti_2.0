@@ -19,7 +19,6 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-
         private void SetItemSetka1(object sender, RoutedEventArgs e)
         {
             MenuItem check = (MenuItem)sender;
@@ -35,68 +34,79 @@ namespace ТриНитиДизайн
 
         private void SetItemSetka2(object sender, RoutedEventArgs e)
         {
+            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 10;
+                OptionSetka.MasshtabSetka = 0.1;
                 SetGrid();
             }
+             */
         }
 
         private void SetItemSetka3(object sender, RoutedEventArgs e)
         {
+            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 20;
+                OptionSetka.MasshtabSetka = 0.2;
                 SetGrid();
             }
+             * */
         }
 
         private void SetItemSetka4(object sender, RoutedEventArgs e)
         {
+            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 50;
+                OptionSetka.MasshtabSetka = 0.5;
                 SetGrid();
             }
+             * */
         }
 
         private void SetItemSetka5(object sender, RoutedEventArgs e)
         {
+            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 100;
+                OptionSetka.MasshtabSetka = 1;
                 SetGrid();
             }
+             */
         }
 
         private void SetItemSetka6(object sender, RoutedEventArgs e)
         {
+           /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 500;
+                OptionSetka.MasshtabSetka = 2;
                 SetGrid();
             }
+            */
         }
+
         private void SetItemSetka7(object sender, RoutedEventArgs e)
         {
             MenuItem check = (MenuItem)sender;
@@ -105,7 +115,7 @@ namespace ТриНитиДизайн
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 1000;
+                OptionSetka.MasshtabSetka = 5;
                 SetGrid();
             }
         }
@@ -117,7 +127,19 @@ namespace ТриНитиДизайн
                 foreach (MenuItem item in MenuSetka.Items)
                     if (item is MenuItem && !ReferenceEquals(item, check))
                         item.IsChecked = false;
-                OptionSetka.MasshtabSetka = 2000;
+                OptionSetka.MasshtabSetka = 10;
+                SetGrid();
+            }
+        }
+        private void SetItemSetka9(object sender, RoutedEventArgs e)
+        {
+            MenuItem check = (MenuItem)sender;
+            if (check.IsChecked == true)
+            {
+                foreach (MenuItem item in MenuSetka.Items)
+                    if (item is MenuItem && !ReferenceEquals(item, check))
+                        item.IsChecked = false;
+                OptionSetka.MasshtabSetka = 20;
                 SetGrid();
             }
         }

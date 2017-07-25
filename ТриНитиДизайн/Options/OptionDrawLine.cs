@@ -13,5 +13,7 @@ namespace ТриНитиДизайн
         public static double InvisibleStrokeThickness = 10;
         public static double SizeWidthAndHeightRectangle = 8;
         public static double SizeRectangleForTransform = 10;
+        public static double SizeEllipseForPoints = 6;
+        public static double RisuiRegimDots = 2;
     }
 }

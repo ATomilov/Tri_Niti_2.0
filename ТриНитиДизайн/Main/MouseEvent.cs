@@ -23,33 +23,9 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseRightButtonDown(object sender, MouseButtonEventArgs e)         //при нажатии на праую кнопку мыши
         {
             Mouse.Capture(MainCanvas);
-            if (OptionRegim.regim == Regim.RegimFigure)
-            {
-                if (e.OriginalSource is Line)
-                {
-                    double x;
-                    double y;
-                    Line clickedLine = (Line)e.OriginalSource;
-                    x = clickedLine.X1;
-                    y = clickedLine.Y1;
-                    if (ListFigure[IndexFigure].Points.Count > 1)
-                    {
-                        for (int i = 0; i < ListFigure.Count; i++)
-                        {
-                            if (i != IndexFigure)
-                            {
-                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
-                                {
-                                    SecondGladFigure = i;
-                                    ShowJoinMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                
-            }
+            if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
+                BreakFigureOrMakeGladFigure(ListFigure, e.OriginalSource,MainCanvas);
+            ExitFromRisuiRegim();
         }
 
         private void CanvasTest_MouseMove(object sender, MouseEventArgs e)
@@ -82,12 +58,20 @@ namespace ТриНитиДизайн
                     {
                         RedrawEverything(ListFigure, IndexFigure, false,true, MainCanvas);
                         ChosenPts.Insert(1, e.GetPosition(MainCanvas));
-
-                        changedLine = SetSpline(0.75, ChosenPts, MainCanvas);
+                        changedLine = SetSpline(0.75, ChosenPts,true, MainCanvas);
                         ChosenPts.RemoveAt(1);
                     }
                 }
 
+                if (OptionRegim.regim == Regim.RegimDuga)
+                {
+                    if (ChosenPts.Count > 0)
+                    {
+                        RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
+                        ChosenPts[2] = e.GetPosition(MainCanvas);
+                        changedLine = SetArc(ChosenPts[0], ChosenPts[1], ChosenPts[2],changedLine, MainCanvas);
+                    }
+                }
                 if (OptionRegim.regim == Regim.RegimEditFigures)
                 {
                     if (ChoosingRectangle.Points.Count > 0)
@@ -148,8 +132,6 @@ namespace ТриНитиДизайн
         {
             Mouse.Capture(null);
             //TotalAngle = CurrentAngle;
-            if (OptionRegim.regim == Regim.RegimTatami)
-
             if (OptionRegim.regim == Regim.RegimTatami && !startDrawing)
             {
                 if (ControlLine.Points.Count == 1)
@@ -170,15 +152,7 @@ namespace ТриНитиДизайн
                 }
 
             }
-            if (OptionRegim.regim == Regim.RegimKrivaya)
-            {
-                if (ChosenPts.Count > 1)
-                {
-                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0]);
-                    ChosenPts.Clear();
-                    OptionRegim.regim = Regim.RegimEditFigures;
-                }
-            }
+            
             if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
             {
                 CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints(ListFigure[IndexFigure].angle);
@@ -223,6 +197,15 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].DrawAllRectangles(OptionDrawLine.SizeWidthAndHeightRectangle, OptionColor.ColorOpacity);
                 }
             }
+            if (OptionRegim.regim == Regim.RegimKrivaya || OptionRegim.regim == Regim.RegimDuga)
+            {
+                if (ChosenPts.Count > 1)
+                {
+                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0]);
+                    ChosenPts.Clear();
+                    OptionRegim.regim = Regim.RegimEditFigures;
+                }
+            }
             startDrawing = true;
         }
 
@@ -255,7 +238,7 @@ namespace ТриНитиДизайн
 
         void CanvasTest_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)          //левая кнопка мыши
         {
-            Mouse.Capture(MainCanvas);
+            Mouse.Capture(MainCanvas);            
             if (OptionRegim.regim == Regim.RegimTatami)
             {
                 startDrawing = false;
@@ -291,11 +274,11 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimDraw || OptionRegim.regim == Regim.RegimFigure)
             {
-                ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
+                ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
             }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
-                ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
+                ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
                 ChosenPts.Clear();
                 ListFigure[IndexFigure].PointsCount.Clear();
                 ChoosingRectangle.Points.Clear();
@@ -333,6 +316,17 @@ namespace ТриНитиДизайн
                             changedLine = sh;
                             ChosenPts.Add(point.Key);
                             ChosenPts.Add(new Point(x2, y2));
+                        }
+                        if (keyLine.Key.Stroke == OptionColor.ColorChoosingRec)
+                        {
+                            OptionRegim.regim = Regim.RegimDuga;
+                            var point = ListFigure[IndexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
+                            ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
+                            ListFigure[IndexFigure].DeleteShape(sh, point.Key);
+                            changedLine = sh;
+                            ChosenPts.Add(point.Key);
+                            ChosenPts.Add(new Point(x2, y2));
+                            ChosenPts.Add(new Point());
                         }
                     }
                 }
@@ -418,7 +412,7 @@ namespace ТриНитиДизайн
                 else
                 {
                     //isResizeRegim = true;
-                    ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
+                    ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
                     //CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }
             }
@@ -446,6 +440,7 @@ namespace ТриНитиДизайн
                     Minus(MainCanvas, currentPosition);
                 }
             }
+            ExitFromRisuiRegim();
         }
         
     }

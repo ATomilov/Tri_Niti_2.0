@@ -66,141 +66,127 @@ namespace ТриНитиДизайн
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             canvas.Children.Add(rec);
         }
-
-        public void DrawChoosingRectangle(Point p1, Point p2,Canvas canvas)
+        
+        public void BreakFigureOrMakeGladFigure(List<Figure> FigureList, Object clickedShape, Canvas canvas)
         {
-            Rectangle rec = new Rectangle();
-            rec.Height = Math.Abs(p2.Y - p1.Y);
-            rec.Width = Math.Abs(p2.X - p1.X);
-            DoubleCollection dashes = new DoubleCollection();
-            dashes.Add(2);
-            dashes.Add(2);
-            rec.StrokeDashArray = dashes;
-            if (p2.X > p1.X)
+            if (clickedShape is Line || clickedShape is Path)
             {
-                Canvas.SetLeft(rec, p1.X);
-            }
-            else
-            {
-                Canvas.SetLeft(rec, p2.X);
-            }
-            if (p2.Y > p1.Y)
-            {
-                Canvas.SetTop(rec, p1.Y);
-            }
-            else
-            {
-                Canvas.SetTop(rec, p2.Y);
-            }
-            rec.Stroke = OptionColor.ColorChoosingRec;
-            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
-            canvas.Children.Add(rec);
-        }
-
-        public void DrawAllChosenLines(Figure fig, Brush brush, Canvas canvas)
-        {
-            for (int i = 0; i < fig.PointsCount.Count - 1; i++)
-            {
-                if (fig.PointsCount[i] == (fig.PointsCount[i + 1] - 1))
+                double x = 0;
+                double y = 0;
+                if (clickedShape is Line)
                 {
-                    Shape sh;
-                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
-                    sh.Stroke = brush;
-                }
-            }
-        }
-
-        public void MakeLomanaya(Figure fig, Canvas canvas)
-        {
-            for (int i = 0; i < fig.PointsCount.Count - 1; i++)
-            {
-                if (fig.PointsCount[i] == (fig.PointsCount[i + 1] - 1))
-                {
-                    Shape sh;
-                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
-                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]]);
-                    fig.AddLine(fig.Points[fig.PointsCount[i]], fig.Points[fig.PointsCount[i + 1]], OptionColor.ColorDraw);
-                }
-            }
-        }
-
-        public void ChooseNextRectangle(Figure fig,bool isNext, Canvas canvas)
-        {
-            if(fig.PointsCount.Count == 1)
-            {
-                if(isNext)
-                {
-                    if(fig.PointsCount[0] != fig.Points.Count-1)
-                        fig.PointsCount[0]++;
+                    Line clickedLine = (Line)clickedShape;
+                    x = clickedLine.X1;
+                    y = clickedLine.Y1;
                 }
                 else
                 {
-                    if (fig.PointsCount[0] != 0)
-                        fig.PointsCount[0]--;
-                }
-            }
-        }
-
-        public void MakeSpline(Figure fig, Canvas canvas)
-        {
-            for (int i = 0; i < fig.PointsCount.Count - 1; i++)
-            {
-                if (fig.PointsCount[i] == (fig.PointsCount[i + 1] - 1))
-                {
-                    Shape sh;
-                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
-                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]]);
-                    List<Point> newList = new List<Point>();
-                    newList.Add(fig.Points[fig.PointsCount[i]]);
-
-                    double x1 = (fig.Points[fig.PointsCount[i+1]].X + fig.Points[fig.PointsCount[i]].X)/2;
-                    double y1 = (fig.Points[fig.PointsCount[i+1]].Y + fig.Points[fig.PointsCount[i]].Y)/2;
-                    double x2 = fig.Points[fig.PointsCount[i+1]].X - fig.Points[fig.PointsCount[i]].X;
-                    double y2 = fig.Points[fig.PointsCount[i+1]].Y - fig.Points[fig.PointsCount[i]].Y;
-                    double distance = FindLength(fig.Points[fig.PointsCount[i + 1]], fig.Points[fig.PointsCount[i]]);
-                    Vector vect = new Vector(x2, y2);
-                    vect.Normalize();
-
-                    newList.Add(new Point(x1 + vect.Y * distance / 10, y1 - vect.X * distance / 10));
-                    newList.Add(fig.Points[fig.PointsCount[i+1]]);
-                    SetSpline(0.8, newList, MainCanvas);
-                    fig.AddShape((Shape)MainCanvas.Children[MainCanvas.Children.Count - 1], fig.Points[fig.PointsCount[i]]);
-
-                }
-            }
-        }
-
-        public void PrepareForTatami(Figure fig,bool isColorChanged)
-        {
-            if (OptionRegim.regim != Regim.RegimCepochka)
-            {
-                fig.PreparedForTatami = true;
-            }
-            if(isColorChanged)
-                fig.ChangeFigureColor(OptionColor.ColorDraw,false);
-            for(int i = 0; i< fig.Points.Count-1;i++)
-            {
-                Shape sh;
-                fig.DictionaryPointLines.TryGetValue(fig.Points[i],out sh);
-                if(sh is Path)
-                {
-                    Path path = (Path)sh;
-                    PathGeometry myPathGeometry = (PathGeometry)path.Data;
-                    Point p;
-                    Point tg;
-                    var points = new List<Point>();
-                    double step = 50;
-                    for (var j = 1; j < step; j++)
+                    Path path = (Path)clickedShape;
+                    for (int i = 0; i < FigureList.Count; i++)
                     {
-                        myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
-                        fig.Points.Insert(j + i, p);
+                        var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == path);
+                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);      //TODO: улучшить
+                        if (point.Value != null)
+                        {
+                            x = point.Key.X;
+                            y = point.Key.Y;
+                            break;
+                        }
+                    }
+                }
+                if (ListFigure[IndexFigure].Points.Count > 1)
+                {
+                    for (int i = 0; i < ListFigure.Count; i++)
+                    {
+                        if (OptionRegim.regim == Regim.RegimFigure)
+                        {
+                            if (i != IndexFigure)
+                            {
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                {
+                                    FirstGladFigure = IndexFigure;
+                                    SecondGladFigure = i;
+                                    ListFigure[i].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+                                    ShowJoinMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+                                    break;
+                                }
+                            }
+                        }
+                        if (OptionRegim.regim == Regim.RegimGlad)
+                        {
+                            if (i == FirstGladFigure || i == SecondGladFigure)
+                            {
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                {
+                                    ListFigure[FirstGladFigure].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+                                    ListFigure[SecondGladFigure].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+                                    ShowBreakMessage();
+                                    break;
+                                }
+                            }
+                        }
+                        if (OptionRegim.regim == Regim.RegimTatami)
+                        {
+                            if (i == IndexFigure)
+                            {
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                {
+                                    ListFigure[i].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+                                    ShowBreakMessage();
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
 
+        public void ShowBreakMessage()
+        {
+            string sMessageBoxText = "Разорвать?";
+            string sCaption = "Окно";
 
-        public void ChooseFigureByClicking(List<Figure> FigureList, Object clickedShape, Canvas canvas)
+            MessageBoxButton btnMessageBox = MessageBoxButton.OKCancel;
+
+            MessageBoxResult rsltMessageBox = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox);
+
+            switch (rsltMessageBox)
+            {
+                case MessageBoxResult.OK:
+                    {
+                        if (OptionRegim.regim == Regim.RegimGlad)
+                        {
+                            OptionRegim.regim = Regim.RegimFigure;
+                            ListFigure[FirstGladFigure].regimFigure = Regim.RegimFigure;
+                            ListFigure[SecondGladFigure].regimFigure = Regim.RegimFigure;
+                            ListFigure[FirstGladFigure].LoadCurrentShapes();
+                            ListFigure[SecondGladFigure].LoadCurrentShapes();
+                            ChangeFiguresColor(ListFigure, MainCanvas);
+                            FirstGladFigure = -1;
+                            SecondGladFigure = -1;
+                        }
+                        else
+                        {
+                            OptionRegim.regim = Regim.RegimFigure;
+                            ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
+                            ListFigure[IndexFigure].LoadCurrentShapes();
+                        }
+                        ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
+                        RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                        break;
+                    }
+
+                case MessageBoxResult.Cancel:
+                    {
+                        ChangeFiguresColor(ListFigure, MainCanvas);
+                        break;
+                    }
+            }
+        }
+
+        public void ChooseFigureByClicking(Point clickedP, List<Figure> FigureList, Object clickedShape, Canvas canvas)
         {
             if (clickedShape is Line || clickedShape is Path)
             {
@@ -228,7 +214,7 @@ namespace ТриНитиДизайн
                     }
                 }
                 for (int i = 0; i < FigureList.Count; i++)
-                {// here flag-click
+                {
                     if (OptionRegim.regim != Regim.RegimEditFigures)
                     {
                         if (FigureList[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
@@ -240,11 +226,13 @@ namespace ТриНитиДизайн
                                 RedrawEverything(FigureList, IndexFigure, true, false, canvas);
                             }
                             else
-                            {
+                            {                                
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
-                                IndexFigure = i;
+                                IndexFigure = i;                                
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
                                 RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+                                if(OptionRegim.regim == Regim.RegimFigure)
+                                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points,OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                             }                            
                             break;
                         }
@@ -259,6 +247,12 @@ namespace ТриНитиДизайн
                                 IndexFigure = i;
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, true);
                                 RedrawEverything(FigureList, IndexFigure, false, true, canvas);
+                            }
+                            else
+                            {
+                                FigureList[IndexFigure].PointForAddingPoints = new Point(x, y);
+                                canvas.Children.Remove(FigureList[IndexFigure].NewPointEllipse);
+                                FigureList[IndexFigure].DrawEllipse(clickedP,OptionColor.ColorSelection, OptionDrawLine.SizeEllipseForPoints, canvas,false);
                             }
                             break;
                         }
@@ -292,13 +286,17 @@ namespace ТриНитиДизайн
 
         public void ChangeFiguresColor(List<Figure> FigureList, Canvas canvas)
         {
+            if (FirstGladFigure != -1)
+            {
+                FigureList[FirstGladFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+            }
             if(SecondGladFigure != -1)
             {
                 FigureList[SecondGladFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
             }
             if(OptionRegim.regim == Regim.RegimGlad)
             {
-                FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw,false);
+                FigureList[FirstGladFigure].ChangeFigureColor(OptionColor.ColorDraw,false);
                 FigureList[SecondGladFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
             }
             else if (OptionRegim.regim == Regim.RegimEditFigures)
@@ -308,6 +306,43 @@ namespace ТриНитиДизайн
             else
             {
                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
+            }
+        }
+
+        public Figure Cepochka(Figure figure, double step, Canvas canvas)
+        {
+            Figure resultFigure = new Figure(canvas);
+            for (int i = 0; i < figure.Points.Count - 1; i++)
+            {
+                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                double x;
+                double y;
+                x = figure.Points[i + 1].X - figure.Points[i].X;
+                y = figure.Points[i + 1].Y - figure.Points[i].Y;
+                double distance = step;
+                Vector vect = new Vector(x, y);
+                double length = vect.Length;
+                while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
+                {
+                    vect.Normalize();
+                    vect *= distance;
+                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                    distance += step;
+                }
+            }
+            return resultFigure;
+        }
+
+        public void ExitFromRisuiRegim()
+        {
+            if (OptionRegim.regim == Regim.RegimRisui)
+            {
+                ListFigure = TempListFigure.ToList<Figure>();
+                IndexFigure = TempIndexFigure;
+                LinesForGlad = TempLinesForGlad.ToList<Figure>();
+                RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                LoadPreviousRegim(true);
+                ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
             }
         }
     }

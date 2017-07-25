@@ -30,8 +30,8 @@ namespace ТриНитиДизайн
             double step = (Double)OptionSetka.MasshtabSetka;
             if (step != 0)
             {
-                for (double i = -step * 3; i < MainCanvas.ActualWidth + 0; i += (step * 3))
-                    for (double j = -step * 3; j < MainCanvas.ActualHeight + 0; j += (step * 3))
+                for (double i = -step * 2; i < MainCanvas.ActualWidth + 0; i += (step * 2))
+                    for (double j = -step * 2; j < MainCanvas.ActualHeight + 0; j += (step * 2))
                     {
                         SetkaFigure.Shapes.Add(SetDot(new Point(i, j)));
                     }
@@ -58,21 +58,21 @@ namespace ТриНитиДизайн
             if (OptionSetka.isDotOnGrid && OptionSetka.MasshtabSetka != 0)
             {
                 Point pointOnGrid = new Point();
-                if (point.X % (step * 3) > (step * 3 / 2))
+                if (point.X % (step * 2) > step)
                 {
-                    pointOnGrid.X = point.X - (point.X % (step * 3)) + step * 3;
+                    pointOnGrid.X = point.X - (point.X % (step * 2)) + step * 2;
                 }
                 else
                 {
-                    pointOnGrid.X = point.X - (point.X % (step * 3));
+                    pointOnGrid.X = point.X - (point.X % (step * 2));
                 }
-                if (point.Y % (step * 3) > (step * 3 / 2))
+                if (point.Y % (step * 2) > step)
                 {
-                    pointOnGrid.Y = point.Y - (point.Y % (step * 3)) + step * 3;
+                    pointOnGrid.Y = point.Y - (point.Y % (step * 2)) + step * 2;
                 }
                 else
                 {
-                    pointOnGrid.Y = point.Y - (point.Y % (step * 3));
+                    pointOnGrid.Y = point.Y - (point.Y % (step * 2));
                 }
                 return pointOnGrid;
             }

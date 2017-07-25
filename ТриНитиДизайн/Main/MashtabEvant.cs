@@ -43,6 +43,7 @@ namespace ТриНитиДизайн
 
         private void MashtabMainButtonEvant(object sender, RoutedEventArgs e)
         {
+            ExitFromRisuiRegim();
             if (tabControl1.Visibility == Visibility.Visible)
                 tabControl1.Visibility = Visibility.Hidden;
             if (tabControl2.Visibility == Visibility.Visible)

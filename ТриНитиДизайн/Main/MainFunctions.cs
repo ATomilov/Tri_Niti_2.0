@@ -52,9 +52,10 @@ namespace ТриНитиДизайн
             MainCanvas.Children.Clear();
             ListPltFigure.Clear();
             OptionRegim.regim = Regim.RegimDraw;
-            OptionRegim.oldRegim = Regim.RegimFigure;
             TatamiFigures.Clear();
             IndexFigure = 0;
+            CopyFigure = new Figure(MainCanvas);
+            FirstGladFigure = -1;
             SecondGladFigure = -1;
             CloseAllTabs();
             SetToDefault();

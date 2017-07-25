@@ -7,7 +7,7 @@ namespace ТриНитиДизайн
 {
     class CanonicalSplineHelper
     {
-        public PathGeometry CreateSpline(List<Point> pts, double tension, DoubleCollection tensions,
+        public PathGeometry CreateSpline(List<Point> pts, double tension, DoubleCollection tensions, bool isCurve,
                                                   bool isClosed, bool isFilled, double tolerance)
         {
             if (pts == null || pts.Count < 1)
@@ -17,11 +17,26 @@ namespace ТриНитиДизайн
             PathFigure pathFigure = new PathFigure();
             pathFigure.IsClosed = isClosed;
             pathFigure.IsFilled = isFilled;
-            pathFigure.StartPoint = pts[0];
+            
             pathFigure.Segments.Add(polyLineSegment);
             PathGeometry pathGeometry = new PathGeometry();
             pathGeometry.Figures.Add(pathFigure);
 
+            double T1 = tension;
+            double T2 = tension;
+            if (!isCurve)
+            {
+                pathFigure.StartPoint = pts[1];
+                Segment(polyLineSegment.Points, pts[0], pts[1], pts[2], pts[3], T1, T2, tolerance);
+            }
+            else
+            {
+                pathFigure.StartPoint = pts[0];
+                Segment(polyLineSegment.Points, pts[0], pts[0], pts[1], pts[2], T1, T2, tolerance);
+                Segment(polyLineSegment.Points, pts[0], pts[1], pts[2], pts[2], T1, T2, tolerance);
+            }
+
+            /*
             if (pts.Count < 2)
                 return pathGeometry;
 
@@ -48,14 +63,14 @@ namespace ТриНитиДизайн
 
                     if (i == 0)
                     {
-                        Segment(polyLineSegment.Points, isClosed ? pts[pts.Count - 1] : pts[0],
+                        Segment(polyLineSegment.Points, pts[0],
                                                         pts[0], pts[1], pts[2], T1, T2, tolerance);
                     }
 
                     else if (i == pts.Count - 2)
                     {
                         Segment(polyLineSegment.Points, pts[i - 1], pts[i], pts[i + 1],
-                                                        isClosed ? pts[0] : pts[i + 1], T1, T2, tolerance);
+                                                        pts[i + 1], T1, T2, tolerance);
                     }
 
                     else if (i == pts.Count - 1)
@@ -72,7 +87,7 @@ namespace ТриНитиДизайн
                     }
                 }
             }
-
+            */
             return pathGeometry;
         }
 

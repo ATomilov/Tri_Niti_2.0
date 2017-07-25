@@ -31,24 +31,32 @@ namespace ТриНитиДизайн
         double CurrentAngle = 0;
         double TotalAngle = 0;
         double StartAngle;
+        string pathToFile;
         int IndexFigure;
+        int TempIndexFigure;
+        int FirstGladFigure;
         int SecondGladFigure;
+        bool areGladPointsInversed;
         bool startDrawing = true;
         bool deleteControlLine = false;
         bool isResizeRegim = false;
         bool isRotateRegim = false;
         List<Figure> ListFigure;
+        List<Figure> TempListFigure;
         List<Figure> ListPltFigure;
 
         Figure ChoosingRectangle;
         Figure ControlLine;
         Figure SetkaFigure;
+        Figure CopyFigure;
         Shape changedLine;
         Point FarTransformRectangle;
         List<Point> ChosenPts;
         List<Point> CoordinatesOfTransformRectangles = new List<Point>();
+        List<Figure> TempLinesForGlad = new List<Figure>();
         List<Figure> LinesForGlad = new List<Figure>();
         List<Figure> ControlFigures = new List<Figure>();
         List<Figure> TatamiFigures = new List<Figure>();
+
     }
 }

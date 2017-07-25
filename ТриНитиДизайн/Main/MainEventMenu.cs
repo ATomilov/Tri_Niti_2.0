@@ -16,6 +16,8 @@ using Microsoft.Win32;
 using Path = System.Windows.Shapes.Path;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Markup;
+using System.Xml;
 
 namespace ТриНитиДизайн
 {
@@ -32,15 +34,18 @@ namespace ТриНитиДизайн
         private void NewProject(object sender, RoutedEventArgs e)
         {
             ClearEverything(false);
+            this.Title = "Три Нити Дизайн 1.0 ";
         }
 
-        private void SaveProject(object sender, RoutedEventArgs e)
+        private void SaveProjectAs(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "txt files (*.txt)|*.txt";
             Nullable<bool> result = saveFile.ShowDialog();
             if (result == true)
             {
+                this.Title = "Три Нити Дизайн 1.0 - " + saveFile.SafeFileName;
+                pathToFile = saveFile.FileName;
                 string dots = "";
                 for (int i = 0; i < ListFigure.Count; i++)
                 {
@@ -63,6 +68,32 @@ namespace ТриНитиДизайн
             }
         }
 
+        private void SaveProject(object sender, RoutedEventArgs e)
+        {
+            if(pathToFile != null)
+            {
+                string dots = "";
+                for (int i = 0; i < ListFigure.Count; i++)
+                {
+                    ListFigure[i].SaveCurrentShapes();
+                    PrepareForTatami(ListFigure[i], false);
+                    for (int j = 0; j < ListFigure[i].Points.Count; j++)
+                    {
+                        dots += ListFigure[i].Points[j].X;
+                        dots += " ";
+                        dots += ListFigure[i].Points[j].Y;
+                        dots += " ";
+                    }
+                    ListFigure[i].LoadCurrentShapes();
+                    dots += "!";
+                }
+                StreamWriter writer = new StreamWriter(pathToFile);
+                writer.WriteLine(dots);
+                writer.Dispose();
+                writer.Close();
+            }
+        }
+
         private void LoadProject(object sender, RoutedEventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();
@@ -70,6 +101,8 @@ namespace ТриНитиДизайн
             Nullable<bool> result = op.ShowDialog();
             if (result == true)
             {
+                pathToFile = op.FileName;
+                this.Title = "Три Нити Дизайн 1.0 - " + op.SafeFileName;
                 ClearEverything(true);
                 StreamReader reader = new StreamReader(op.OpenFile());
                 string text = reader.ReadToEnd();
@@ -172,6 +205,44 @@ namespace ТриНитиДизайн
         {
             ListFigure[IndexFigure].ClearFigure();
             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+        }
+
+        private void CopyFigureClick(object sender, RoutedEventArgs e)
+        {
+            CopyFigure = new Figure(MainCanvas);
+            if (ListFigure[IndexFigure].Points.Count > 0)
+            {
+                for(int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
+                {
+                    Point p = ListFigure[IndexFigure].Points[i];
+                    if (i != ListFigure[IndexFigure].Points.Count - 1)
+                    {
+                        Shape sh;
+                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
+                        Shape newSh = DeepCopy(sh);
+                        CopyFigure.AddShape(newSh, p);
+                    }
+                    CopyFigure.Points.Add(p);
+                }
+                CopyFigure.PointStart = ListFigure[IndexFigure].Points[0];
+                CopyFigure.PointEnd = ListFigure[IndexFigure].Points[ListFigure[IndexFigure].Points.Count - 1];
+            }
+        }
+
+       public Shape DeepCopy(Shape element)
+       {
+           string shapestring = XamlWriter.Save(element);
+           StringReader stringReader = new StringReader(shapestring);
+           XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
+           Shape DeepCopyobject = (Shape)XamlReader.Load(xmlTextReader);
+           return DeepCopyobject;
+       }
+
+        private void PasteFigureClick(object sender, RoutedEventArgs e)
+        {
+            CopyFigure.ChangeFigureColor(OptionColor.ColorSelection, false);
+            ListFigure.Add(CopyFigure);
+            CopyFigure = new Figure(MainCanvas);
         }
 
         private void OpenFile(object sender, RoutedEventArgs e)

@@ -23,7 +23,7 @@ namespace ТриНитиДизайн
         public MainWindow()
         {
             InitializeComponent();
-            
+            CopyFigure = new Figure(MainCanvas);
             ControlLine = new Figure(MainCanvas);
             ChosenPts = new List<Point>();
         }
@@ -73,6 +73,7 @@ namespace ТриНитиДизайн
 
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
+            ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();
@@ -84,6 +85,7 @@ namespace ТриНитиДизайн
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
+            ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = true;
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();

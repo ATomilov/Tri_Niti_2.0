@@ -236,35 +236,9 @@ namespace ТриНитиДизайн
             CurCanvas.Children.Add(shape);
             return shape;
         }
-
-        public Figure Cepochka(Figure figure, double step, Canvas canvas)
-        {
-            Figure resultFigure = new Figure(canvas);
-            for (int i = 0; i < figure.Points.Count - 1; i++)
-            {
-                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                double x;
-                double y;
-                x = figure.Points[i + 1].X - figure.Points[i].X;
-                y = figure.Points[i + 1].Y - figure.Points[i].Y;
-                double distance = step;
-                Vector vect = new Vector(x, y);
-                double length = vect.Length;
-                while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
-                {
-                    vect.Normalize();
-                    vect *= distance;
-                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                    distance += step;
-                }
-            }
-            return resultFigure;
-        }
-
-
+        
         public void CalculateParallelLines(Point a, Point b, Figure StartLines, List<Figure> ListControlLines, List<Figure> ListTatamiFigures, Canvas CurCanvas)            //отрисовка параллельных задающих линий
         {
-            ControlLine.Points.Clear();
             TatamiShapesCount = 0;
             ListControlLines.Clear();
             ListTatamiFigures.Clear();
@@ -283,10 +257,10 @@ namespace ТриНитиДизайн
             double x3;
             double y3;
 
-            int step = OptionTatami.StepLine;        //шаг задающих прямых
-            int lineDistance = 10000;
-            int distanceFull = 0;
-            int numberOfLines = 5000 / step;                        //надо подумать над количеством линий
+            double step = OptionTatami.StepLine * 0.2;        //шаг задающих прямых
+            double lineDistance = 2000;
+            double distanceFull = 0;
+            double numberOfLines = 1000/ step;                        //надо подумать над количеством линий
 
             Vector vectControlLine = new Vector();                  //вектор первоначальной задающей прямой
             vectControlLine.X = (x2 - x1);
@@ -326,6 +300,7 @@ namespace ТриНитиДизайн
 
         private void MakeTatami(List<Figure> ListControlLines, List<Figure> ListTatamiFigures, Canvas CurCanvas)                    //создание татами
         {
+            //Следующий код неоптимален, при оригинальных параметрах шага работает очень медленно
             CurCanvas.Children.Clear();
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //алгоритм создания стежков на параллельных отрезках, точки начала и конца - пересечение изначальных отрезков и задающих прямых
             {
@@ -346,7 +321,7 @@ namespace ТриНитиДизайн
                         y = ListControlLines[i].Points[j + 1].Y - ListControlLines[i].Points[j].Y;
                         ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, true, 4);
                     }
-                    double step = OptionTatami.StepStegok;
+                    double step = OptionTatami.StepStegok*0.2;              
                     double distance = step;
                     Vector vect = new Vector(x, y);
                     double length = vect.Length;
@@ -377,36 +352,5 @@ namespace ТриНитиДизайн
                 }
             }
         }
-
-        public void DrawTatami(List<Figure>ListTatamiFigures,int tatamiClicked,Canvas CurCanvas)                         //рисование татами, tatamiClicked - для выделения части татами красным цветом
-        {
-            CurCanvas.Children.Clear();
-            for (int i = 0; i < TatamiShapesCount + 1; i++)
-            {
-                for (int j = 0; j < ListTatamiFigures[i].Points.Count - 1; j++)
-                {
-                    if (i == tatamiClicked)                 //выбранное татами рисуем красным
-                    {
-                        SetLine(ListTatamiFigures[i].Points[j], ListTatamiFigures[i].Points[j + 1], "red", CurCanvas);
-                    }
-                    else
-                    {
-                        SetLine(ListTatamiFigures[i].Points[j], ListTatamiFigures[i].Points[j + 1], "normal", CurCanvas);
-                    }
-                }
-                /*
-                if (i != TatamiShapesCount)                   //для непрерываного татами как в программе
-                {
-                    if (ListTatamiFigures[i].Points.Count != 0 && ListTatamiFigures[i].Points.Count != 0)
-                    SetLine(ListTatamiFigures[i].Points[ListTatamiFigures[i].Points.Count - 1], ListTatamiFigures[i+1].Points[0], "blue",CurCanvas);
-                }
-                 */
-            }
-            for (int i = 0; i < TatamiShapesCount + 1; i++)               //точки на татами
-            {
-                ListTatamiFigures[i].DrawAllRectangles(4, OptionColor.ColorOpacity);
-            }
-        }
-
     }
 }

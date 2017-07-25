@@ -9,7 +9,7 @@ namespace ТриНитиДизайн
     public static class OptionRegim
     {
         public static Regim regim = Regim.RegimDraw;
-        public static Regim oldRegim = Regim.RegimFigure;
+
     }
 
     public enum Regim
@@ -28,6 +28,7 @@ namespace ТриНитиДизайн
         ZoomIn = 11,
         ZoomOut = 12,
         ResizeFigure = 13,
-        RotateFigure = 14
+        RotateFigure = 14,
+        RegimRisui = 15
     }
 }

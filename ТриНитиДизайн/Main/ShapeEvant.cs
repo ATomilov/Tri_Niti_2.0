@@ -22,6 +22,7 @@ namespace ТриНитиДизайн
 
         private void ShapeMainButtonEvant(object sender, RoutedEventArgs e)
         {
+            ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
@@ -46,13 +47,16 @@ namespace ТриНитиДизайн
 
         private void DygaButtonEvent(object sender, RoutedEventArgs e)
         {
-            OptionRegim.regim = Regim.RegimDuga;
+            MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
             DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorChoosingRec, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
         }
 
         private void KrivaiaButtonEvent(object sender, RoutedEventArgs e)
         {
+            MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
             DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
         }
 
         private void SgladitButtonEvent(object sender, RoutedEventArgs e)
@@ -74,19 +78,21 @@ namespace ТриНитиДизайн
 
         private void PointAddedButtonEvent(object sender, RoutedEventArgs e)
         {
-
-
+            //AddPointToFigure(ListFigure[IndexFigure], MainCanvas);
+            ReverseFigure(ListFigure[IndexFigure], MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
         }
+
         private void PointDeleteButtonEvent(object sender, RoutedEventArgs e)
         {
-
-
+            DeletePointFromFigure(ListFigure[IndexFigure], MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
         }
 
         private void RazrivButtonEvent(object sender, RoutedEventArgs e)
         {
-
-
+            SplitFigureInTwo(ListFigure[IndexFigure], MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
         }
     }
     }

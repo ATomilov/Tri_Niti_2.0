@@ -19,6 +19,7 @@ namespace ТриНитиДизайн
 {
     public class Figure
     {
+        public Regim regimFigure;
         public List<Shape> Shapes;
         public List<Shape> InvShapes;
         public List<Point> Points;
@@ -34,15 +35,19 @@ namespace ТриНитиДизайн
         public Dictionary<Shape, Shape> DictionaryInvLines;
         public Point PointStart;
         public Point PointEnd;
+        public Point EllipsePoint;
+        public Point PointForAddingPoints;
         public double angle;
         public double scaleX;
         public double scaleY;
         public Canvas canvas;
+        public Ellipse NewPointEllipse;
         public Rectangle SelectedRectangle;
         public Rectangle RectangleOfFigure;
         public bool PreparedForTatami;
         public Figure(Canvas _canvas)
         {
+            regimFigure = Regim.RegimFigure;
             Shapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
@@ -95,7 +100,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void DeleteShape(Shape shape,Point p)
+        public void DeleteShape(Shape shape, Point p)
         {
             Shapes.Remove(shape);// ??? point
             DictionaryPointLines.Remove(p);
@@ -332,10 +337,6 @@ namespace ТриНитиДизайн
 
         }
 
-        
-
-
-
         public void Rotate(double angle)
         {
             // отрисовка
@@ -432,7 +433,11 @@ namespace ТриНитиДизайн
                 {
                     if(shape is Path)
                     {
-                        shape.Stroke = OptionColor.ColorKrivaya;
+                        Path ph = (Path)shape;
+                        if (ph.MinHeight == 5)
+                            shape.Stroke = OptionColor.ColorKrivaya;
+                        else
+                            shape.Stroke = OptionColor.ColorChoosingRec;
                     }
                     else
                     {
@@ -496,15 +501,37 @@ namespace ТриНитиДизайн
         {
             double x = (a.X + b.X)/2;
             double y = (a.Y + b.Y) / 2;
+            DrawEllipse(new Point(x, y),OptionColor.ColorSelection, OptionDrawLine.SizeWidthAndHeightRectangle, _canvas,true);
+        }
+
+        public void DrawDots(List<Point> pts, double size, Brush color, Canvas _canvas)
+        {
+            for (int i = 0; i < pts.Count; i++)
+            {
+                DrawEllipse(pts[i], color, OptionDrawLine.RisuiRegimDots, _canvas, false);
+            }
+        }
+
+        public void DrawEllipse(Point p, Brush color, double size, Canvas _canvas,bool gladEllipse)
+        {
             Ellipse ell = new Ellipse();
-            ell.Height = OptionDrawLine.SizeWidthAndHeightRectangle;
-            ell.Width = OptionDrawLine.SizeWidthAndHeightRectangle;
-            ell.Stroke = OptionColor.ColorSelection;
-            ell.Fill = OptionColor.ColorSelection;
-            Canvas.SetLeft(ell, x - OptionDrawLine.SizeWidthAndHeightRectangle/2);
-            Canvas.SetTop(ell, y - OptionDrawLine.SizeWidthAndHeightRectangle/2);
-            Shapes.Add(ell);
-            _canvas.Children.Add(ell);
+            ell.Height = size;
+            ell.Width = size;
+            ell.Stroke = color;
+            ell.Fill = color;
+            Canvas.SetLeft(ell, p.X - size / 2);
+            Canvas.SetTop(ell, p.Y - size / 2);
+            if (gladEllipse)
+            {
+                Shapes.Add(ell);
+                _canvas.Children.Add(ell);
+            }
+            else
+            {
+                EllipsePoint = new Point(p.X, p.Y);
+                NewPointEllipse = ell;
+                _canvas.Children.Add(NewPointEllipse);
+            }
         }
 
         public Point GetCenter()
@@ -561,7 +588,6 @@ namespace ТриНитиДизайн
                 SelectedRectangle = (Rectangle)sender;
             }
         }
-
-
+        
     }
 }
