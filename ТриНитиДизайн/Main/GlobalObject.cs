@@ -38,9 +38,12 @@ namespace ТриНитиДизайн
         int SecondGladFigure;
         bool areGladPointsInversed;
         bool startDrawing = true;
-        bool deleteControlLine = false;
         bool isResizeRegim = false;
         bool isRotateRegim = false;
+        Rectangle firstRec;
+        Rectangle lastRec;
+        Rectangle chRec;
+        Line lastLine;
         List<Figure> ListFigure;
         List<Figure> TempListFigure;
         List<Figure> ListPltFigure;

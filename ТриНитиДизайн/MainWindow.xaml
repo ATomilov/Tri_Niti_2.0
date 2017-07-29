@@ -86,7 +86,7 @@
                     <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/fileopen.png" />
                 </Button.Background>
             </Button>
-            <Button  Width="25" Content="" Click="SaveFile">
+            <Button  Width="25" Content="" Click="SaveProjectAs">
                 <Button.Background>
                     <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/skachat_nora_roberts_nezavershennye_dela_v_formate_fb2_4017_0.jpg" />
                 </Button.Background>

@@ -28,6 +28,7 @@ namespace ТриНитиДизайн
             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
             ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
             LoadPreviousRegim(false);
+            DrawInvisibleRectangles(MainCanvas);
             ChosenPts = new List<Point>();
             CloseAllTabs();
             MainCanvas.Cursor = SwordCursor;   
@@ -143,11 +144,20 @@ namespace ТриНитиДизайн
                         Point p1 = new Point(lineCon.X1, lineCon.Y1);
                         Point p2 = new Point(lineCon.X2, lineCon.Y2);
                         CalculateParallelLines(p1, p2, ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
-                        TatamiFigures[0].ChangeFigureColor(OptionColor.ColorDraw, false);
+                        //TODO:при добавлении динамического массива фигур переделать снизу
                         for (int i = 0; i < TatamiFigures.Count; i++)
                         {
-                            ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                            if (TatamiFigures[i].Points.Count > 0)
+                            {
+                                ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                            }
+                            else
+                            {
+                                TatamiFigures.RemoveAt(i);
+                                i--;
+                            }
                         }
+                        TatamiFigures[0].ChangeFigureColor(OptionColor.ColorDraw, false);
                         ListFigure.RemoveAt(IndexFigure + TatamiFigures.Count);
                         IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
                         RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
@@ -200,22 +210,33 @@ namespace ТриНитиДизайн
                     Point p1 = new Point(lineCon.X1, lineCon.Y1);
                     Point p2 = new Point(lineCon.X2, lineCon.Y2);
                     CalculateParallelLines(p1, p2, ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
+                    //TODO:при добавлении динамического массива фигур переделать снизу
                     for (int i = 0; i < TatamiFigures.Count; i++)
                     {
-                        TatamiFigures[i].ChangeFigureColor(OptionColor.ColorGlad, false);
-                        ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                        if (TatamiFigures[i].Points.Count > 0)
+                        {
+                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorGlad, false);
+                            ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                        }
+                        else
+                        {
+                            TatamiFigures.RemoveAt(i);
+                            i--;
+                        }
                     }
                     ListFigure.RemoveAt(IndexFigure + TatamiFigures.Count);
                     IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
                     RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+                    Point pfirstRec = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2, Canvas.GetTop(firstRec) + firstRec.Height / 2);
+                    Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
+                    SetLine(pfirstRec, TatamiFigures[0].PointStart, "blue", MainCanvas);
                     for (int i = 0; i < TatamiFigures.Count; i++)                                   //два раза перебор одного и того же массива
                     {
                         TatamiFigures[i].DrawDots(TatamiFigures[i].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
                         if (i != TatamiFigures.Count - 1)
-                            if (TatamiFigures[i].PointEnd.X != 0 && TatamiFigures[i].PointEnd.Y != 0 &&
-                                TatamiFigures[i + 1].PointStart.X != 0 && TatamiFigures[i + 1].PointStart.Y != 0)
-                                SetLine(TatamiFigures[i].PointEnd, TatamiFigures[i + 1].PointStart, "blue", MainCanvas);
+                            SetLine(TatamiFigures[i].PointEnd, TatamiFigures[i + 1].PointStart, "blue", MainCanvas);
                     }
+                    SetLine(TatamiFigures[TatamiFigures.Count-1].PointEnd, pLastRec, "blue", MainCanvas);
                     TatamiFigures.Clear();
                     OptionRegim.regim = Regim.RegimRisui;
                 }
@@ -237,13 +258,16 @@ namespace ТриНитиДизайн
                 ListFigure.Remove(secondFigure);
                 IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
                 RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+                Point pfirstRec = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2, Canvas.GetTop(firstRec) + firstRec.Height / 2);
+                Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
+                SetLine(pfirstRec, LinesForGlad[0].PointStart, "blue", MainCanvas);
                 for (int i = 0; i < LinesForGlad.Count; i++)
                 {
                     LinesForGlad[i].DrawDots(LinesForGlad[i].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
                     if(i != LinesForGlad.Count - 1)
-                        if (LinesForGlad[i].PointEnd != null && LinesForGlad[i + 1].PointStart != null)
-                            SetLine(LinesForGlad[i].PointEnd, LinesForGlad[i + 1].PointStart, "blue", MainCanvas);
+                        SetLine(LinesForGlad[i].PointEnd, LinesForGlad[i + 1].PointStart, "blue", MainCanvas);
                 }
+                SetLine(LinesForGlad[LinesForGlad.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
                 OptionRegim.regim = Regim.RegimRisui;
             }
             if (OptionRegim.regim == Regim.RegimCepochka)

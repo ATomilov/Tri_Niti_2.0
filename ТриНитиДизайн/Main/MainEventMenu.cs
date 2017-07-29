@@ -23,14 +23,6 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow
     {
-        private void SaveFile(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog op = new SaveFileDialog();
-            op.Filter = "Проект Три Нити Дизайн| *.tri";
-            op.ShowDialog();
-        }
-
-
         private void NewProject(object sender, RoutedEventArgs e)
         {
             ClearEverything(false);
@@ -264,7 +256,6 @@ namespace ТриНитиДизайн
             set.ShowInTaskbar = false;
             set.ShowDialog();
         }
-
 
         private void OpenAbout(object sender, RoutedEventArgs e)
         {

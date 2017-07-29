@@ -23,7 +23,12 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseRightButtonDown(object sender, MouseButtonEventArgs e)         //при нажатии на праую кнопку мыши
         {
             Mouse.Capture(MainCanvas);
-            if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
+            if (OptionRegim.regim == Regim.RegimFigure && e.OriginalSource is Rectangle)
+            {
+                Rectangle rect = (Rectangle)e.OriginalSource;
+                ChooseFirstOrLastRectangle(rect, false, MainCanvas);
+            }
+            else if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
                 BreakFigureOrMakeGladFigure(ListFigure, e.OriginalSource,MainCanvas);
             ExitFromRisuiRegim();
         }
@@ -45,6 +50,7 @@ namespace ТриНитиДизайн
                         line.StrokeThickness = OptionDrawLine.StrokeThickness;
                         line.Stroke = OptionColor.ColorChoosingRec;
                         MainCanvas.Children.Add(line);
+                        lastLine = line;
                         startDrawing = false;
                     }
                 }
@@ -78,9 +84,9 @@ namespace ТриНитиДизайн
                     {
                         if(!startDrawing)
                         {
-                            MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                            MainCanvas.Children.Remove(chRec);
                         }
-                        DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas), MainCanvas);
+                        chRec = DrawChoosingRectangle(ChoosingRectangle.Points[0], e.GetPosition(MainCanvas), MainCanvas);
                         startDrawing = false;
                     }
                 }
@@ -218,20 +224,22 @@ namespace ТриНитиДизайн
                 {
                     if (startDrawing)
                     {
-                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                        MainCanvas.Children.Remove(lastRec);
                     }
                     else
                     {
-                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
-                        MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                        MainCanvas.Children.Remove(lastLine);
+                        MainCanvas.Children.Remove(lastRec);
                     }
                 }
-                if (ListFigure[IndexFigure].Points.Count == 1 && !startDrawing)
+                if (ListFigure[IndexFigure].Points.Count ==1)
                 {
-                    MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
+                    lastRec.StrokeThickness = OptionDrawLine.StrokeThickness;
+                    if(!startDrawing)
+                        MainCanvas.Children.Remove(lastLine);
                 }
                 Point point = FindClosestDot(e.GetPosition(MainCanvas));
-                ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true, OptionDrawLine.SizeWidthAndHeightRectangle);
+                lastRec = ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true, OptionDrawLine.SizeWidthAndHeightRectangle);
             }
             startDrawing = true;
         }
@@ -256,7 +264,6 @@ namespace ТриНитиДизайн
                         {
                             if (LinesForGlad[i].Shapes.Contains(ell))
                             {
-                                //TODO: убрать этот коммент
                                 LinesForGlad[i].RemoveFigure(MainCanvas);
                                 LinesForGlad[i].Shapes.Clear();
                                 LinesForGlad.Remove(LinesForGlad[i]);
@@ -272,41 +279,65 @@ namespace ТриНитиДизайн
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
             }
-            if (OptionRegim.regim == Regim.RegimDraw || OptionRegim.regim == Regim.RegimFigure)
+            if (OptionRegim.regim == Regim.RegimDraw)
             {
                 ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
             }
+            if (OptionRegim.regim == Regim.RegimFigure)
+            {
+                bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(MainCanvas), ListFigure, e.OriginalSource, MainCanvas);
+                if(!isNewFigureClicked && e.OriginalSource is Rectangle)
+                {
+                    Rectangle rect = (Rectangle)e.OriginalSource;
+                    ChooseFirstOrLastRectangle(rect, true, MainCanvas);
+                }
+            }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
-                ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
+                MainCanvas.Children.Remove(chRec);
+                bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
                 ChosenPts.Clear();
                 ListFigure[IndexFigure].PointsCount.Clear();
                 ChoosingRectangle.Points.Clear();
                 if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
-                    double x2;
-                    double y2;
-                    Shape clickedShape = (Shape)e.OriginalSource;
-                    if (e.OriginalSource is Line)
+                    if (!isNewFigureClicked)
                     {
-                        Line clickedLine = (Line)clickedShape;
-                        x2 = clickedLine.X2;
-                        y2 = clickedLine.Y2;
-                    }
-                    else
-                    {
-                        Path path = (Path)clickedShape;
-                        PathGeometry myPathGeometry = (PathGeometry)path.Data;
-                        Point p;
-                        Point tg;
-                        myPathGeometry.GetPointAtFractionLength(1, out p, out tg);
-                        x2 = p.X;
-                        y2 = p.Y;
-                    }
-                    Shape sh;
-                    var keyLine = ListFigure[IndexFigure].DictionaryInvLines.FirstOrDefault(x => x.Value == clickedShape);
-                    if (keyLine.Key != null)
-                    {
+                        double x2 = 0;
+                        double y2 = 0;
+                        Shape clickedShape = (Shape)e.OriginalSource;
+                        if (clickedShape.StrokeThickness == 1)
+                        {
+                            Shape sha;
+                            ListFigure[IndexFigure].DictionaryInvLines.TryGetValue(clickedShape, out sha);
+                            clickedShape = sha;
+                        }
+                        if (e.OriginalSource is Line)
+                        {
+                            Line clickedLine = (Line)clickedShape;
+                            x2 = clickedLine.X2;
+                            y2 = clickedLine.Y2;
+                        }
+                        else if (e.OriginalSource is Path)
+                        {
+                            Path path = (Path)clickedShape;
+                            PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                            Point p;
+                            Point tg;
+                            int secondPoint;
+                            if (ListFigure[IndexFigure].ReversedShapes.Contains(clickedShape))
+                            {
+                                secondPoint = 0;
+                                ListFigure[IndexFigure].ReversedShapes.Remove(clickedShape);
+                            }
+                            else
+                                secondPoint = 1;
+                            myPathGeometry.GetPointAtFractionLength(secondPoint, out p, out tg);
+                            x2 = p.X;
+                            y2 = p.Y;
+                        }
+                        Shape sh;
+                        var keyLine = ListFigure[IndexFigure].DictionaryInvLines.FirstOrDefault(x => x.Value == clickedShape);
                         if (keyLine.Key.Stroke == OptionColor.ColorKrivaya)
                         {
                             OptionRegim.regim = Regim.RegimKrivaya;
@@ -442,6 +473,5 @@ namespace ТриНитиДизайн
             }
             ExitFromRisuiRegim();
         }
-        
     }
 }

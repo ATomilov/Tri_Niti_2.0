@@ -28,6 +28,7 @@ namespace ТриНитиДизайн
             OptionDrawLine.SizeRectangleForTransform /= 2;
             OptionDrawLine.SizeEllipseForPoints /= 2;
             OptionDrawLine.RisuiRegimDots /= 2;
+            OptionDrawLine.StrokeThicknessMainRec /= 2;
             foreach (Figure fig in ListFigure)
             {
                 foreach(Shape sh in fig.Shapes)
@@ -93,6 +94,7 @@ namespace ТриНитиДизайн
             OptionDrawLine.SizeRectangleForTransform *= 2;
             OptionDrawLine.SizeEllipseForPoints *= 2;
             OptionDrawLine.RisuiRegimDots *= 2;
+            OptionDrawLine.StrokeThicknessMainRec *= 2;
             foreach (Figure fig in ListFigure)
             {
                 foreach (Shape sh in fig.Shapes)

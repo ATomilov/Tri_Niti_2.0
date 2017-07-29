@@ -20,6 +20,8 @@ namespace ТриНитиДизайн
     public class Figure
     {
         public Regim regimFigure;
+        //лист ReversedShapes в будущем следует убрать
+        public List<Shape> ReversedShapes;
         public List<Shape> Shapes;
         public List<Shape> InvShapes;
         public List<Point> Points;
@@ -49,6 +51,7 @@ namespace ТриНитиДизайн
         {
             regimFigure = Regim.RegimFigure;
             Shapes = new List<Shape>();
+            ReversedShapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             tempShapes = new List<Shape>();
@@ -183,6 +186,7 @@ namespace ТриНитиДизайн
             tempInvShapes = new List<Shape>();
             tempPoints = new List<Point>();
             Shapes = new List<Shape>();
+            ReversedShapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             PointsCount = new List<int>();
@@ -362,7 +366,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void AddPoint(Point New,Brush brush, bool addRec, double recSize)
+        public Rectangle AddPoint(Point New,Brush brush, bool addRec, double recSize)
         {
             if (Points.Count == 0)
             {
@@ -405,13 +409,15 @@ namespace ТриНитиДизайн
                 Canvas.SetLeft(rec, New.X - recSize / 2);
                 Canvas.SetTop(rec, New.Y - recSize / 2);
                 rec.Stroke = OptionColor.ColorSelection;
-                rec.StrokeThickness = OptionDrawLine.StrokeThickness;
+                rec.Fill = OptionColor.ColorOpacity;
+                rec.StrokeThickness = OptionDrawLine.StrokeThicknessMainRec;
                 canvas.Children.Add(rec);
                 DictionaryRecPoint.Add(rec, New);
-                rec.MouseDown += new MouseButtonEventHandler(PointMouseClick);
+                //rec.MouseDown += new MouseButtonEventHandler(PointMouseClick);
+                return rec;
             }
-
-            canvas.MouseMove += new MouseEventHandler(PointMouseMove);
+            return null;
+            //canvas.MouseMove += new MouseEventHandler(PointMouseMove);
             //Подписать поинт на изменение координат
         }
 

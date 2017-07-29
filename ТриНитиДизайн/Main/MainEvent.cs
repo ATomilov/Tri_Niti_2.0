@@ -30,12 +30,17 @@ namespace ТриНитиДизайн
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (MessageBox.Show("Сохранить последний проект?", "Сообщение", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
-            {
-                OpenFileDialog op = new OpenFileDialog();
-                op.Filter = "Проект Три Нити Дизайн| *.tri";
-                op.ShowDialog();
-            }
+            string sMessageBoxText = "Сохранить последний проект?";
+            string sCaption = "Сообщение";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNoCancel;
+
+            MessageBoxResult rsltMessageBox = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox);
+
+            if (rsltMessageBox == MessageBoxResult.Yes)
+                SaveProject(null, null);
+            else if (rsltMessageBox == MessageBoxResult.Cancel)
+                e.Cancel = true;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

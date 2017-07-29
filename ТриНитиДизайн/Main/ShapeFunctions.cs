@@ -47,17 +47,22 @@ namespace ТриНитиДизайн
             double x0 = thirdDot.X, y0 = thirdDot.Y;
             double x1 = firstDot.X, y1 = firstDot.Y;
             double x2 = secondDot.X, y2 = secondDot.Y;
+            double xc = -0.5 * (y0 * (x1 * x1 + y1 * y1 - x2 * x2 - y2 * y2) + y1 * (x2 * x2 + y2 * y2 - x0 * x0 - y0 * y0) +
+                y2 * (x0 * x0 + y0 * y0 - x1 * x1 - y1 * y1)) / (x0 * (y1 - y2) + x1 * (y2 - y0) + x2 * (y0 - y1));
+            double yc = 0.5 * (x0 * (x1 * x1 + y1 * y1 - x2 * x2 - y2 * y2) + x1 * (x2 * x2 + y2 * y2 - x0 * x0 - y0 * y0) +
+                x2 * (x0 * x0 + y0 * y0 - x1 * x1 - y1 * y1)) / (x0 * (y1 - y2) + x1 * (y2 - y0) + x2 * (y0 - y1));
+            Vector vect1 = new Vector(x1 - xc, y1 - yc);
+            Vector vect2 = new Vector(x2 - xc, y2 - yc);
+            double atan = Math.Atan2(vect1.X * vect2.Y - vect1.Y * vect2.X, vect1.X * vect2.X + vect1.Y * vect2.Y);
+            double radius = FindLength(firstDot, new Point(xc, yc));
             double height = - ((y2 - y1) * x0 - (x2 - x1) * y0 + x2 * y1 - y2 * x1) / dist;
             if (height < 0)
             {
                 arc.SweepDirection = SweepDirection.Clockwise;
-                height = -height;
+                atan = -atan;
             }
-            double radius = height / 2 + (dist * dist) / (8 * height);
-            if (height > radius)
+            if (atan > 0)
                 arc.IsLargeArc = true;
-            if (radius < 0)
-                return prevSh;
             arc.Size = new Size(radius, radius);
             pathFigure.Segments.Add(arc);
             pathGeometry.Figures.Add(pathFigure);
@@ -86,10 +91,26 @@ namespace ТриНитиДизайн
                     Point tg;
                     var points = new List<Point>();
                     double step = 50;
-                    for (var j = 1; j < step; j++)
+                    Shape invSh;
+                    fig.DictionaryInvLines.TryGetValue(sh, out invSh);
+
+                    if (ListFigure[IndexFigure].ReversedShapes.Contains(invSh))
                     {
-                        myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
-                        fig.Points.Insert(j + i, p);
+                        int ind = 1;
+                        for (var j = 49; j > 0; j--)
+                        {
+                            myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
+                            fig.Points.Insert(ind + i, p);
+                            ind++;
+                        }
+                    }
+                    else
+                    {
+                        for (var j = 1; j < step; j++)
+                        {
+                            myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
+                            fig.Points.Insert(j + i, p);
+                        }
                     }
                 }
             }
@@ -109,7 +130,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void DrawChoosingRectangle(Point p1, Point p2, Canvas canvas)
+        public Rectangle DrawChoosingRectangle(Point p1, Point p2, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
             rec.Height = Math.Abs(p2.Y - p1.Y);
@@ -137,6 +158,7 @@ namespace ТриНитиДизайн
             rec.Stroke = OptionColor.ColorChoosingRec;
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             canvas.Children.Add(rec);
+            return rec;
         }
 
         public void DrawAllChosenLines(Figure fig, Brush brush, Canvas canvas)
@@ -181,7 +203,11 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
+                        Shape invSh;
+                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
                         newFig.AddShape(sh, p);
+                        if (fig.ReversedShapes.Contains(invSh))
+                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
                     }
                     if (i == 0)
                         newFig.PointStart = p;
@@ -198,7 +224,11 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
+                        Shape invSh;
+                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
                         newFig.AddShape(sh, p);
+                        if (fig.ReversedShapes.Contains(invSh))
+                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
                     }
                     if (i == fig.PointsCount[0])
                         newFig.PointStart = p;
@@ -270,6 +300,7 @@ namespace ТриНитиДизайн
                 }
                 newFig.Points.Add(p);
             }
+            newFig.ReversedShapes = newFig.InvShapes.ToList<Shape>();
             newFig.PointStart = fig.PointEnd;
             newFig.PointEnd = fig.PointStart;
             ListFigure.Insert(IndexFigure, newFig);
@@ -289,7 +320,11 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
+                        Shape invSh;
+                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
                         newFig.AddShape(sh, p);
+                        if (fig.ReversedShapes.Contains(invSh))
+                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
                     }
                     if (i == 0)
                         newFig.PointStart = p;
@@ -306,7 +341,11 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
+                        Shape invSh;
+                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
                         newFig.AddShape(sh, p);
+                        if (fig.ReversedShapes.Contains(invSh))
+                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
                     }
                     if (i == fig.Points.Count - 1)
                         newFig.PointEnd = p;
@@ -349,6 +388,10 @@ namespace ТриНитиДизайн
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
                                 newFig.AddShape(prevShape, fig.Points[i]);
+                                Shape invSh;
+                                fig.DictionaryInvLines.TryGetValue(prevShape, out invSh);
+                                if (fig.ReversedShapes.Contains(invSh))
+                                    newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
                             }
                         }
                         else
@@ -357,13 +400,19 @@ namespace ТриНитиДизайн
                             if (i != fig.Points.Count - 1 && !nextDotDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
-                                newFig.AddShape(prevShape, p);
+                                newFig.AddShape(prevShape, fig.Points[i]);
+                                Shape invSh;
+                                fig.DictionaryInvLines.TryGetValue(prevShape, out invSh);
+                                if (fig.ReversedShapes.Contains(invSh))
+                                    newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
                             }
                             newFig.PointEnd = p;
                             newFig.Points.Add(p);
                         }
                     }
                 }
+                if(newFig.Points.Count > 0)
+                    newFig.PointStart = newFig.Points[0];
                 ListFigure.Insert(IndexFigure, newFig);
                 ListFigure.Remove(fig);
             }

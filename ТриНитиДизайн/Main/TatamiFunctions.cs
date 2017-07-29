@@ -260,7 +260,7 @@ namespace ТриНитиДизайн
             double step = OptionTatami.StepLine * 0.2;        //шаг задающих прямых
             double lineDistance = 2000;
             double distanceFull = 0;
-            double numberOfLines = 1000/ step;                        //надо подумать над количеством линий
+            double numberOfLines = 2000/ step;                        //надо подумать над количеством линий
 
             Vector vectControlLine = new Vector();                  //вектор первоначальной задающей прямой
             vectControlLine.X = (x2 - x1);

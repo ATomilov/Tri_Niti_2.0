@@ -78,8 +78,7 @@ namespace ТриНитиДизайн
 
         private void PointAddedButtonEvent(object sender, RoutedEventArgs e)
         {
-            //AddPointToFigure(ListFigure[IndexFigure], MainCanvas);
-            ReverseFigure(ListFigure[IndexFigure], MainCanvas);
+            AddPointToFigure(ListFigure[IndexFigure], MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
         }
 
@@ -95,4 +94,4 @@ namespace ТриНитиДизайн
             RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
         }
     }
-    }
+}
