@@ -19,16 +19,33 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
             ListFigure[IndexFigure].PointsCount.Clear();
             RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
-            ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
             LoadPreviousRegim(false);
             DrawInvisibleRectangles(MainCanvas);
+            if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                if (ListFigure[FirstGladFigure].tempPoints.Count > 0)
+                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                else
+                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+
+                if (ListFigure[SecondGladFigure].tempPoints.Count > 0)
+                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                else
+                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+            }
+            else
+            {
+                if (ListFigure[IndexFigure].tempPoints.Count > 0)
+                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                else
+                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+            }
             ChosenPts = new List<Point>();
             CloseAllTabs();
             MainCanvas.Cursor = SwordCursor;   
@@ -111,6 +128,8 @@ namespace ТриНитиДизайн
                         IndexFigure = ListFigure.IndexOf(newFig);
                         ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                         RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                        OptionRegim.regim = Regim.RegimTatami;
+                        DrawInvisibleRectangles(MainCanvas);
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                     }
                     else
@@ -144,6 +163,9 @@ namespace ТриНитиДизайн
                         Point p1 = new Point(lineCon.X1, lineCon.Y1);
                         Point p2 = new Point(lineCon.X2, lineCon.Y2);
                         CalculateParallelLines(p1, p2, ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
+                        ListFigure[IndexFigure].RemoveFigure(MainCanvas);
+                        ControlLine.RemoveFigure(MainCanvas);
+                        ListFigure.RemoveAt(IndexFigure);
                         //TODO:при добавлении динамического массива фигур переделать снизу
                         for (int i = 0; i < TatamiFigures.Count; i++)
                         {
@@ -157,10 +179,10 @@ namespace ТриНитиДизайн
                                 i--;
                             }
                         }
-                        TatamiFigures[0].ChangeFigureColor(OptionColor.ColorDraw, false);
-                        ListFigure.RemoveAt(IndexFigure + TatamiFigures.Count);
                         IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
-                        RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                        DrawFirstAndLastRectangle();
+                        ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
+                        DrawInvisibleRectangles(MainCanvas);
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                         TatamiFigures.Clear();
                         OptionRegim.regim = Regim.RegimFigure;
@@ -172,7 +194,9 @@ namespace ТриНитиДизайн
                         Figure firstFigure = ListFigure[FirstGladFigure];
                         Figure secondFigure = ListFigure[SecondGladFigure];
                         FirstGladFigure = -1;
-                        SecondGladFigure = -1; 
+                        SecondGladFigure = -1;
+                        firstFigure.RemoveFigure(MainCanvas);
+                        secondFigure.RemoveFigure(MainCanvas);
                         LinesForGlad[0].ChangeFigureColor(OptionColor.ColorDraw, false);
                         for (int i = 0; i < LinesForGlad.Count; i++)
                         {
@@ -181,17 +205,18 @@ namespace ТриНитиДизайн
                         ListFigure.Remove(firstFigure);
                         ListFigure.Remove(secondFigure);
                         IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
-                        RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                         LinesForGlad.Clear();
                         OptionRegim.regim = Regim.RegimFigure;
                         ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
+                        DrawInvisibleRectangles(MainCanvas);
+                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                     }
                     if (OptionRegim.regim == Regim.RegimCepochka)
                     {
                         ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2, MainCanvas);
                         OptionRegim.regim = Regim.RegimFigure;
                         ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
+                        DrawInvisibleRectangles(MainCanvas);
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                     }
                 }
@@ -210,6 +235,9 @@ namespace ТриНитиДизайн
                     Point p1 = new Point(lineCon.X1, lineCon.Y1);
                     Point p2 = new Point(lineCon.X2, lineCon.Y2);
                     CalculateParallelLines(p1, p2, ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
+                    ListFigure[IndexFigure].RemoveFigure(MainCanvas);
+                    ControlLine.RemoveFigure(MainCanvas);
+                    ListFigure.RemoveAt(IndexFigure);
                     //TODO:при добавлении динамического массива фигур переделать снизу
                     for (int i = 0; i < TatamiFigures.Count; i++)
                     {
@@ -224,9 +252,7 @@ namespace ТриНитиДизайн
                             i--;
                         }
                     }
-                    ListFigure.RemoveAt(IndexFigure + TatamiFigures.Count);
                     IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
-                    RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
                     Point pfirstRec = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2, Canvas.GetTop(firstRec) + firstRec.Height / 2);
                     Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
                     SetLine(pfirstRec, TatamiFigures[0].PointStart, "blue", MainCanvas);
@@ -249,6 +275,8 @@ namespace ТриНитиДизайн
                 CalculateGladLines(ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
                 Figure firstFigure = ListFigure[FirstGladFigure];
                 Figure secondFigure = ListFigure[SecondGladFigure];
+                firstFigure.RemoveFigure(MainCanvas);
+                secondFigure.RemoveFigure(MainCanvas);
                 for (int i = 0; i < LinesForGlad.Count; i++)
                 {
                     LinesForGlad[i].ChangeFigureColor(OptionColor.ColorGlad, false);
@@ -257,7 +285,6 @@ namespace ТриНитиДизайн
                 ListFigure.Remove(firstFigure);
                 ListFigure.Remove(secondFigure);
                 IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
-                RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
                 Point pfirstRec = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2, Canvas.GetTop(firstRec) + firstRec.Height / 2);
                 Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
                 SetLine(pfirstRec, LinesForGlad[0].PointStart, "blue", MainCanvas);

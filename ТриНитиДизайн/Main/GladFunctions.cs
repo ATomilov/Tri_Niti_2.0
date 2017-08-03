@@ -84,7 +84,9 @@ namespace ТриНитиДизайн
                 gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
                 gladLines[1].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
             }
-
+            ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+            ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+            DrawInvisibleRectangles(canvas);
         }
 
         public void FindGladControlLine(Figure LineControl,List<Figure> gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
@@ -256,6 +258,8 @@ namespace ТриНитиДизайн
 
         public void CalculateGladLines(Figure firstFigure,Figure secondFigure,List<Figure> gladLines, List<Figure> ListControlLines,Canvas canvas)
         {
+            foreach (Figure fig in gladLines)
+                fig.RemoveFigure(canvas);
             if (gladLines.Count != 2)
             {
                 SortAndDeleteControlGladLines(gladLines);
@@ -309,8 +313,9 @@ namespace ТриНитиДизайн
 
         private void MakeGlad(List<Figure> gladLines, List<Figure> ListControlLines, Canvas canvas)
         {
+
+            double step = 25;
             gladLines.Clear();
-            canvas.Children.Clear();
             for (int i = 0; i < gladShapesCount + 1; i++)
             {
                 bool firstPoint = true;
@@ -321,12 +326,11 @@ namespace ТриНитиДизайн
                     {
                         if(firstPoint)
                         {
-                            gladLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, true, (OptionDrawLine.SizeWidthAndHeightRectangle/2));
+                            gladLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false, 0);
                             firstPoint = false;
                         }
                         double x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
                         double y = ListControlLines[i].Points[j + 1].Y - ListControlLines[i].Points[j].Y;
-                        double step = 25;
                         double distance = step;
                         Vector vect = new Vector(x, y);
                         double length = vect.Length;
@@ -334,10 +338,10 @@ namespace ТриНитиДизайн
                         {
                             vect.Normalize();
                             vect *= distance;
-                            gladLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, true, (OptionDrawLine.SizeWidthAndHeightRectangle / 2));
+                            gladLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, false, 0);
                             distance += step;
                         }
-                        gladLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.ColorSelection, true, (OptionDrawLine.SizeWidthAndHeightRectangle/2));
+                        gladLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.ColorSelection, false, 0);
                     }
                 }
             }

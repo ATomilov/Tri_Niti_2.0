@@ -23,7 +23,6 @@ namespace ТриНитиДизайн
         {
             canvas.Children.Clear();
             SetkaFigure.AddFigure(canvas);
-            double size = OptionDrawLine.SizeWidthAndHeightRectangle;
             for(int i = 0; i < FigureList.Count;i++)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
@@ -33,14 +32,13 @@ namespace ТриНитиДизайн
                     {
                         if (rectanglesOn)
                         {
-                            FigureList[i].DrawAllRectangles(size, OptionColor.ColorOpacity);
+                            FigureList[i].DrawAllRectangles();
                         }
                         else
                         {
                             if (FigureList[i].Points.Count > 0)
                             {
-                                firstRec = DrawRectangle(FigureList[i].PointStart, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
-                                lastRec = DrawRectangle(FigureList[i].PointEnd,false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
+                                DrawFirstAndLastRectangle();
                             }
                         }
                     }
@@ -56,10 +54,46 @@ namespace ТриНитиДизайн
             }
         }
 
+        public void DrawFirstAndLastRectangle()
+        {
+            MainCanvas.Children.Remove(lastRec);
+            MainCanvas.Children.Remove(firstRec);
+            firstRec = DrawRectangle(ListFigure[IndexFigure].PointStart, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas);
+            lastRec = DrawRectangle(ListFigure[IndexFigure].PointEnd, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, MainCanvas);
+        }
+
         public void DrawInvisibleRectangles(Canvas canvas)
         {
-            for (int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
-                DrawRectangle(ListFigure[IndexFigure].Points[i], true, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+            if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                List<Point> firstPts = new List<Point>();
+                List<Point> secondPts = new List<Point>();
+                if (ListFigure[FirstGladFigure].tempPoints.Count > 0)
+                    firstPts = ListFigure[FirstGladFigure].tempPoints;
+                else
+                    firstPts = ListFigure[FirstGladFigure].Points;
+
+                if (ListFigure[SecondGladFigure].tempPoints.Count > 0)
+                    secondPts = ListFigure[SecondGladFigure].tempPoints;
+                else
+                    secondPts = ListFigure[SecondGladFigure].Points;
+
+                for (int i = 0; i < firstPts.Count; i++)
+                    DrawRectangle(firstPts[i], true, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                for (int i = 0; i < secondPts.Count; i++)
+                    DrawRectangle(secondPts[i], true, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+            }
+            else
+            {
+                List<Point> pts = new List<Point>();
+                if (ListFigure[IndexFigure].tempPoints.Count > 0)
+                    pts = ListFigure[IndexFigure].tempPoints;
+                else
+                    pts = ListFigure[IndexFigure].Points;
+
+                for (int i = 0; i < pts.Count; i++)
+                    DrawRectangle(pts[i], true, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+            }
         }
         
         private Rectangle DrawRectangle(Point p, bool invRectangles,double thickness , Brush brush, Canvas canvas)
@@ -250,7 +284,6 @@ namespace ТриНитиДизайн
 
         public bool ChooseFigureByClicking(Point clickedP, List<Figure> FigureList, Object clickedShape, Canvas canvas)
         {
-            
             if(clickedShape is Rectangle)
             {
                 if(OptionRegim.regim == Regim.RegimDraw)
@@ -442,7 +475,44 @@ namespace ТриНитиДизайн
                 LinesForGlad = TempLinesForGlad.ToList<Figure>();
                 RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
                 LoadPreviousRegim(true);
-                ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                DrawInvisibleRectangles(MainCanvas);
+                if(OptionRegim.regim == Regim.RegimGlad)
+                {
+                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                }
+                else
+                {
+                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                }
+                
+            }
+        }
+
+        public void LoadPreviousRegim(bool isRisui)
+        {
+            OptionRegim.regim = ListFigure[IndexFigure].regimFigure;
+            ChangeFiguresColor(ListFigure, MainCanvas);
+            if (OptionRegim.regim == Regim.RegimTatami)
+            {
+                if (!isRisui)
+                {
+                    ListFigure[IndexFigure].SaveCurrentShapes();
+                    PrepareForTatami(ListFigure[IndexFigure], true);
+                }
+                ControlLine.AddFigure(MainCanvas);
+            }
+            if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                if (!isRisui)
+                {
+                    ListFigure[IndexFigure].SaveCurrentShapes();
+                    ListFigure[SecondGladFigure].SaveCurrentShapes();
+                    PrepareForTatami(ListFigure[IndexFigure], true);
+                    PrepareForTatami(ListFigure[SecondGladFigure], true);
+                }
+                foreach (Figure sh in LinesForGlad)
+                    sh.AddFigure(MainCanvas);
             }
         }
     }

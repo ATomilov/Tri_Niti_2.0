@@ -63,3 +63,6 @@ D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.g.cs
 D:\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Razorvat.baml
+C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\WriteableBitmapEx.Wpf.dll
+C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\WriteableBitmapEx.Wpf.pdb
+C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\WriteableBitmapEx.Wpf.xml

@@ -30,6 +30,8 @@ namespace ТриНитиДизайн
         ResizeFigure = 13,
         RotateFigure = 14,
         RegimRisui = 15,
-        RegimNull = 16
+        RegimMoveRect = 16,
+        RegimNull = 17
+
     }
 }

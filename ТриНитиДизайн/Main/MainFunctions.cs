@@ -51,7 +51,7 @@ namespace ТриНитиДизайн
                 ListFigure.Add(new Figure(MainCanvas));
             MainCanvas.Children.Clear();
             ListPltFigure.Clear();
-            OptionRegim.regim = Regim.RegimDraw;
+            OptionRegim.regim = Regim.RegimNull;
             TatamiFigures.Clear();
             IndexFigure = 0;
             CopyFigure = new Figure(MainCanvas);

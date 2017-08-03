@@ -53,6 +53,7 @@ namespace ТриНитиДизайн
         Figure SetkaFigure;
         Figure CopyFigure;
         Shape changedLine;
+        Shape changedLine2;
         Point FarTransformRectangle;
         List<Point> ChosenPts;
         List<Point> CoordinatesOfTransformRectangles = new List<Point>();

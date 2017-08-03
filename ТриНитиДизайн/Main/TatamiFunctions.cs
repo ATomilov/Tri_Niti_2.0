@@ -300,8 +300,7 @@ namespace ТриНитиДизайн
 
         private void MakeTatami(List<Figure> ListControlLines, List<Figure> ListTatamiFigures, Canvas CurCanvas)                    //создание татами
         {
-            //Следующий код неоптимален, при оригинальных параметрах шага работает очень медленно
-            CurCanvas.Children.Clear();
+            double step = OptionTatami.StepStegok * 0.2;
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //алгоритм создания стежков на параллельных отрезках, точки начала и конца - пересечение изначальных отрезков и задающих прямых
             {
                 bool turnAround = false;
@@ -313,18 +312,19 @@ namespace ТриНитиДизайн
                     {
                         x = ListControlLines[i].Points[j].X - ListControlLines[i].Points[j + 1].X;
                         y = ListControlLines[i].Points[j].Y - ListControlLines[i].Points[j + 1].Y;
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, true, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false, 4);
+                        //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
                     }
                     else
                     {
                         x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
                         y = ListControlLines[i].Points[j + 1].Y - ListControlLines[i].Points[j].Y;
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, true, 4);
-                    }
-                    double step = OptionTatami.StepStegok*0.2;              
-                    double distance = step;
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false, 4);
+                        //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j + 1]);
+                    }     
                     Vector vect = new Vector(x, y);
                     double length = vect.Length;
+                    double distance = step;
                     vect = -vect;
                     while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
                     {
@@ -332,25 +332,55 @@ namespace ТриНитиДизайн
                         vect *= distance;
                         if (!turnAround)
                         {
-                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, true, 4);
+                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, false, 4);
+                            //ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y));
                         }
                         else
                         {
-                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y), OptionColor.ColorSelection, true, 4);
+                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y), OptionColor.ColorSelection, false, 4);
+                            //ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y));
+
                         }
                         distance += step;
                     }
                     if (!turnAround)        //конец отрезка
                     {
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, true, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false, 4);
+                       // ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j+1]);
                     }
                     else
                     {
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j],OptionColor.ColorSelection, true, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false, 4);
+                        //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
                     }
                     turnAround = !turnAround;               //меняем направление вектора
                 }
             }
+            //Test(ListTatamiFigures);
         }
+        /*
+        private void Test(List<Figure> ListTatamiFigures)
+        {
+            MainCanvas.Children.Clear();
+            WriteableBitmap writeableBmp = BitmapFactory.New(1600,900);
+            for (int j = 0; j < ListTatamiFigures.Count; j++)
+            {
+                if (ListTatamiFigures[j].Points.Count > 0)
+                {
+                    List<Point> pts = new List<Point>(ListTatamiFigures[j].Points);
+                    for (int i = 0; i < pts.Count - 1; i++)
+                    {
+                        writeableBmp.DrawLineAa((int)pts[i].X, (int)pts[i].Y, (int)pts[i + 1].X, (int)pts[i + 1].Y, Colors.Red);
+                    }
+                }
+            }
+
+            Image waveform = new Image();
+            waveform.Stretch = Stretch.None;
+            waveform.Source = writeableBmp;
+            MainCanvas.Children.Add(waveform);
+
+        }
+         */
     }
 }

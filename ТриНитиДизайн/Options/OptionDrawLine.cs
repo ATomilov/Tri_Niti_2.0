@@ -18,6 +18,6 @@ namespace ТриНитиДизайн
 
         public static double SizeRectangleForTransform = 10;
         public static double SizeEllipseForPoints = 6;
-        public static double RisuiRegimDots = 2;
+        public static double RisuiRegimDots = 2.5;
     }
 }

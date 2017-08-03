@@ -68,12 +68,12 @@ namespace ТриНитиДизайн
         private void SelectPointNextButtonEvent(object sender, RoutedEventArgs e)
         {
             ChooseNextRectangle(ListFigure[IndexFigure], false, MainCanvas);
-            ListFigure[IndexFigure].DrawAllRectangles(OptionDrawLine.SizeWidthAndHeightRectangle, OptionColor.ColorOpacity);
+            ListFigure[IndexFigure].ChangeRectangleColor();
         }
         private void SelectPointPrevButtonEvent(object sender, RoutedEventArgs e)
         {
             ChooseNextRectangle(ListFigure[IndexFigure], true, MainCanvas);
-            ListFigure[IndexFigure].DrawAllRectangles(OptionDrawLine.SizeWidthAndHeightRectangle, OptionColor.ColorOpacity);
+            ListFigure[IndexFigure].ChangeRectangleColor();
         }
 
         private void PointAddedButtonEvent(object sender, RoutedEventArgs e)

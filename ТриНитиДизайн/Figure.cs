@@ -45,7 +45,6 @@ namespace ТриНитиДизайн
         public Canvas canvas;
         public Ellipse NewPointEllipse;
         public Rectangle SelectedRectangle;
-        public Rectangle RectangleOfFigure;
         public bool PreparedForTatami;
         public Figure(Canvas _canvas)
         {
@@ -58,6 +57,7 @@ namespace ТриНитиДизайн
             tempInvShapes = new List<Shape>();
             tempPoints = new List<Point>();
             PointsCount = new List<int>();
+            RectangleOfFigures = new List<Rectangle>();
             PreparedForTatami = false;
             angle = 0;
             scaleX = 1;
@@ -103,7 +103,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void DeleteShape(Shape shape, Point p)
+        public void DeleteShape(Shape shape, Point p, Canvas curCanvas)
         {
             Shapes.Remove(shape);// ??? point
             DictionaryPointLines.Remove(p);
@@ -111,7 +111,7 @@ namespace ТриНитиДизайн
             DictionaryInvLines.TryGetValue(shape, out sh);
             InvShapes.Remove(sh);
             DictionaryInvLines.Remove(shape);
-            canvas.Children.Remove(sh);
+            curCanvas.Children.Remove(sh);
         }
 
         public void AddLine(Point point1, Point point2, Brush brush)
@@ -139,8 +139,10 @@ namespace ТриНитиДизайн
         }
 
         
-        public void DrawAllRectangles(double size,Brush brush)
+        public void DrawAllRectangles()
         {
+            RectangleOfFigures.Clear();
+            double size = OptionDrawLine.SizeWidthAndHeightRectangle;
             foreach(Point p in Points)
             {
                 Rectangle rec = new Rectangle();
@@ -149,21 +151,21 @@ namespace ТриНитиДизайн
                 Canvas.SetLeft(rec, p.X - size/2);
                 Canvas.SetTop(rec, p.Y - size/2);
                 rec.Stroke = OptionColor.ColorSelection;
-                rec.Fill = brush;
+                rec.Fill = OptionColor.ColorOpacity;
                 rec.StrokeThickness = OptionDrawLine.StrokeThickness;
+                RectangleOfFigures.Add(rec);
                 canvas.Children.Add(rec);
             }
-            foreach(int i in PointsCount)
+        }
+
+        public void ChangeRectangleColor()
+        {
+            for(int i = 0; i < Points.Count;i++)
             {
-                Rectangle rec = new Rectangle();
-                rec.Height = size;
-                rec.Width = size;
-                Canvas.SetLeft(rec, Points[i].X - size / 2);
-                Canvas.SetTop(rec, Points[i].Y - size / 2);
-                rec.Stroke = OptionColor.ColorSelection;
-                rec.Fill = OptionColor.ColorSelection;
-                rec.StrokeThickness = OptionDrawLine.StrokeThickness;
-                canvas.Children.Add(rec);
+                if (PointsCount.Contains(i))
+                    RectangleOfFigures[i].Fill = OptionColor.ColorSelection;
+                else
+                    RectangleOfFigures[i].Fill = OptionColor.ColorOpacity;
             }
         }
 

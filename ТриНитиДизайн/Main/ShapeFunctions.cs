@@ -71,6 +71,19 @@ namespace ТриНитиДизайн
             return myPath;
         }
 
+        public Line SetLine(Point p1, Point p2, Canvas canvas)
+        {
+            Line line = new Line();
+            line.X1 = p1.X;
+            line.Y1 = p1.Y;
+            line.X2 = p2.X;
+            line.Y2 = p2.Y;
+            line.StrokeThickness = OptionDrawLine.StrokeThickness;
+            line.Stroke = OptionColor.ColorDraw;
+            canvas.Children.Add(line);
+            return line;
+        }
+
         public void PrepareForTatami(Figure fig, bool isColorChanged)
         {
             if (OptionRegim.regim != Regim.RegimCepochka)
@@ -124,7 +137,7 @@ namespace ТриНитиДизайн
                 {
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
-                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]]);
+                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]],canvas);
                     fig.AddLine(fig.Points[fig.PointsCount[i]], fig.Points[fig.PointsCount[i + 1]], OptionColor.ColorDraw);
                 }
             }
@@ -279,7 +292,7 @@ namespace ТриНитиДизайн
                     }
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
-                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]]);
+                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]],MainCanvas);
                     SetSpline(0.7, newList,false, MainCanvas);
                     fig.AddShape((Shape)MainCanvas.Children[MainCanvas.Children.Count - 1], fig.Points[fig.PointsCount[i]]);
                 }
@@ -418,31 +431,5 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void LoadPreviousRegim(bool isRisui)
-        {
-            OptionRegim.regim = ListFigure[IndexFigure].regimFigure;
-            ChangeFiguresColor(ListFigure, MainCanvas);
-            if (OptionRegim.regim == Regim.RegimTatami)
-            {
-                if (!isRisui)
-                {
-                    ListFigure[IndexFigure].SaveCurrentShapes();
-                    PrepareForTatami(ListFigure[IndexFigure], true);
-                }
-                ControlLine.AddFigure(MainCanvas);
-            }
-            if (OptionRegim.regim == Regim.RegimGlad)
-            {
-                if (!isRisui)
-                {
-                    ListFigure[IndexFigure].SaveCurrentShapes();
-                    ListFigure[SecondGladFigure].SaveCurrentShapes();
-                    PrepareForTatami(ListFigure[IndexFigure], true);
-                    PrepareForTatami(ListFigure[SecondGladFigure], true);
-                }
-                foreach (Figure sh in LinesForGlad)
-                    sh.AddFigure(MainCanvas);
-            }
-        }
     }
 }
