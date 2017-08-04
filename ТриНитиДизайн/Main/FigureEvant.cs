@@ -24,8 +24,9 @@ namespace ТриНитиДизайн
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
             ListFigure[IndexFigure].PointsCount.Clear();
-            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             LoadPreviousRegim(false);
+            DrawFirstAndLastRectangle();
             DrawInvisibleRectangles(MainCanvas);
             if (OptionRegim.regim == Regim.RegimGlad)
             {
@@ -127,7 +128,8 @@ namespace ТриНитиДизайн
                         ListFigure.Add(newFig);
                         IndexFigure = ListFigure.IndexOf(newFig);
                         ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                        RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                        RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                        DrawFirstAndLastRectangle();
                         OptionRegim.regim = Regim.RegimTatami;
                         DrawInvisibleRectangles(MainCanvas);
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
@@ -303,7 +305,8 @@ namespace ТриНитиДизайн
                 TempIndexFigure = IndexFigure;
                 ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep*0.2, MainCanvas);
                 ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorGlad, false);
-                RedrawEverything(ListFigure, IndexFigure, true, false, MainCanvas);
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                DrawFirstAndLastRectangle();
                 ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
                 OptionRegim.regim = Regim.RegimRisui;
             }

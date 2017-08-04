@@ -90,7 +90,7 @@ namespace ТриНитиДизайн
                         changedLine2 = SetLine(e.GetPosition(MainCanvas), ChosenPts[2], MainCanvas);
                     }
                     
-                    firstRec = DrawRectangle(e.GetPosition(MainCanvas), false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, MainCanvas);
+                    firstRec = DrawRectangle(e.GetPosition(MainCanvas), false,false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, MainCanvas);
                 }
                 if (OptionRegim.regim == Regim.RegimEditFigures)
                 {
@@ -123,7 +123,7 @@ namespace ТриНитиДизайн
                     MainCanvas.UpdateLayout();
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-                if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)//поворот при режиме ресайз для проверки корректности перехода в режим ресайз при моей логике (upd: поворот теперь не работает, ибо не переходит в нужный режим)
+                if (OptionRegim.regim == Regim.RegimCursor)//поворот при режиме ресайз для проверки корректности перехода в режим ресайз при моей логике (upd: поворот теперь не работает, ибо не переходит в нужный режим)
                 {
                     //double dx = NewMousePosition.X - ListFigure[IndexFigure].GetCenter().X;
                     //double dy = NewMousePosition.Y - ListFigure[IndexFigure].GetCenter().Y;
@@ -171,7 +171,7 @@ namespace ТриНитиДизайн
                     FindGladControlLine(ControlLine, LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
                 }
             }
-            if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
+            if (OptionRegim.regim == Regim.RegimCursor)
             {
                 CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints(ListFigure[IndexFigure].angle);
             }
@@ -179,7 +179,7 @@ namespace ТриНитиДизайн
             {
                 if (ChoosingRectangle.Points.Count > 0)
                 {
-                    RedrawEverything(ListFigure, IndexFigure, false, true, MainCanvas);
+                    RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
                     Point UpperLeftCorner = new Point();
                     Point LowerRightCorner = new Point();
                     if(e.GetPosition(MainCanvas).X < ChoosingRectangle.Points[0].X)
@@ -442,7 +442,7 @@ namespace ТриНитиДизайн
                 }
 
             }
-            if (OptionRegim.regim == Regim.RegimSelectFigureToEdit)
+            if (OptionRegim.regim == Regim.RegimCursor)
             {
                 CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 

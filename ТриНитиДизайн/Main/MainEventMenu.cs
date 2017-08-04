@@ -117,7 +117,7 @@ namespace ТриНитиДизайн
                         ListFigure[i].AddPoint(p,OptionColor.ColorSelection,false,OptionDrawLine.SizeWidthAndHeightRectangle);
                     }
                 }
-                RedrawEverything(ListFigure, IndexFigure, true, true, MainCanvas);
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             }
 
         }
@@ -196,7 +196,8 @@ namespace ТриНитиДизайн
         private void DeleteFigureClick(object sender, RoutedEventArgs e)
         {
             ListFigure[IndexFigure].ClearFigure();
-            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+
         }
 
         private void CopyFigureClick(object sender, RoutedEventArgs e)
@@ -243,13 +244,7 @@ namespace ТриНитиДизайн
             op.Filter = "Проект Три Нити Дизайн| *.tri";
             op.ShowDialog();
         }
-        private void OpenWindowsColor(object sender, RoutedEventArgs e)
-        {
-            WindowColors window = new WindowColors();
-            window.ShowDialog();
-        }
-
-
+        
         private void OpenSetting(object sender, RoutedEventArgs e)
         {
             Setting set = new Setting();
@@ -262,6 +257,23 @@ namespace ТриНитиДизайн
             About ab = new About();
             ab.ShowInTaskbar = false;
             ab.ShowDialog();
+        }
+
+        private void ShowSpecialWindow(object sender, RoutedEventArgs e)
+        {
+            if (ListFigure[IndexFigure].Points.Count > 0)
+            {
+                var SpecialWindow = new View.SpecialWindowWhenSelectedFigure();
+                SpecialWindow.ShowDialog();
+                if (OptionRegim.regim == Regim.RegimDrawStegki)
+                {
+                    CursorMenuDrawStegki();
+                }
+                if (OptionRegim.regim == Regim.RegimDrawInColor)
+                {
+                    CursorMenuDrawInColor();
+                }
+            }
         }
     }    
 }

@@ -52,6 +52,8 @@ namespace ТриНитиДизайн
             MainCanvas.Children.Clear();
             ListPltFigure.Clear();
             OptionRegim.regim = Regim.RegimNull;
+            OptionColor.ColorNewBackground = Brushes.LightSkyBlue;
+            OptionColor.ColorNewDraw = Brushes.Violet;
             TatamiFigures.Clear();
             IndexFigure = 0;
             CopyFigure = new Figure(MainCanvas);
@@ -60,6 +62,22 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             SetToDefault();
             MainCanvas.Cursor = NormalCursor;
+        }
+
+        public void CursorMenuDrawInColor()
+        {
+            TempListFigure = ListFigure.ToList<Figure>();
+            MainCanvas.Children.Clear();
+            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorNewDraw, false);
+            MainCanvas.Background = OptionColor.ColorNewBackground;
+            ListFigure[IndexFigure].AddFigure(MainCanvas);
+        }
+
+        public void CursorMenuDrawStegki()
+        {
+            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorKrivaya, false);
+            MainCanvas.Children.Remove(lastRec);
+            MainCanvas.Children.Remove(firstRec);
         }
 
         public bool ShowAcceptMessage(int choice)

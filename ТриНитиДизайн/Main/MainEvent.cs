@@ -82,8 +82,9 @@ namespace ТриНитиДизайн
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();
-            RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
             OptionRegim.regim = Regim.RegimDraw;
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
             ChangeFiguresColor(ListFigure, MainCanvas);
             MainCanvas.Cursor = HandCursor;            
         }
@@ -94,17 +95,14 @@ namespace ТриНитиДизайн
             Edit_Menu.IsEnabled = true;
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();
-            RedrawEverything(ListFigure, IndexFigure, true, true, MainCanvas);
-            OptionRegim.regim = Regim.RegimSelectFigureToEdit;
+            OptionRegim.regim = Regim.RegimCursor;
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
             ChangeFiguresColor(ListFigure, MainCanvas);
             ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             MainCanvas.Cursor = NormalCursor;
         }
-        private void ShowSpecialWindow(object sender, RoutedEventArgs e)
-        {
-            var SpecialWindow = new View.SpecialWindowWhenSelectedFigure();
-            SpecialWindow.ShowDialog();
-        }
+        
 
     }
 }

@@ -78,7 +78,6 @@
                 <MenuItem Header="Татами" IsChecked="True" IsCheckable="True" />
             </MenuItem>
             <MenuItem Header="Справка" Click="OpenAbout" />
-            <!--<MenuItem Header="Цвета" Click="OpenWindowsColor"  />-->
         </Menu>
         <ToolBar Height="26" Margin="0,17,0,0" Name="toolBarPanel1" VerticalAlignment="Top" Background="White">
             <Button  Width="25" Content="" Click="OpenFile">

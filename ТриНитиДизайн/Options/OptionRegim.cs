@@ -20,7 +20,7 @@ namespace ТриНитиДизайн
         RegimKrivaya = 3,
         RegimCepochka = 4,
         RegimEditFigures = 5,
-        RegimSelectFigureToEdit = 6,
+        RegimCursor= 6,
         RegimDuga = 7,
         RegimLomanaya = 8,
         RegimFigure = 9,
@@ -31,7 +31,9 @@ namespace ТриНитиДизайн
         RotateFigure = 14,
         RegimRisui = 15,
         RegimMoveRect = 16,
-        RegimNull = 17
+        RegimDrawInColor = 17,
+        RegimDrawStegki = 18,
+        RegimNull = 19
 
     }
 }

@@ -20,15 +20,14 @@ namespace ТриНитиДизайн
     /// </summary>
     public partial class WindowColors : Window
     {
-
         Brush brush;
         Polyline lines = new Polyline();
 
         public WindowColors()
         {
             InitializeComponent();
-            Rect_main.Fill = OptionColor.ColorBackground;
-            lines.Stroke = OptionColor.ColorDraw;
+            Rect_main.Fill = OptionColor.ColorNewBackground;
+            lines.Stroke = OptionColor.ColorSelection;
             MakeColorRectangles();
             MakeLine();
         }
@@ -97,8 +96,8 @@ namespace ТриНитиДизайн
 
         private void button_accept_Click(object sender, RoutedEventArgs e)              //если нажимаем создать, то цвет канвы меняется (цвет линий тоже должен меняться, но почему-то не работает)
         {
-            OptionColor.ColorBackground = Rect_main.Fill;
-            OptionColor.ColorDraw = lines.Stroke;
+            OptionColor.ColorNewBackground = Rect_main.Fill;
+            OptionColor.ColorNewDraw = lines.Stroke;
             this.Close();
         }
 
@@ -126,12 +125,10 @@ namespace ТриНитиДизайн
             }
         }
 
-        private void button_delete_Click(object sender, RoutedEventArgs e)                      //при нажатии на удалить - возврат к стандартным цветам канвы и линий, если они бы нормально работали
+        private void button_delete_Click(object sender, RoutedEventArgs e)                      //при нажатии на удалить - возврат к фиолетовому цвету линий
         {
-            OptionColor.ColorBackground = System.Windows.Media.Brushes.White;
-            OptionColor.ColorDraw = System.Windows.Media.Brushes.Black;
+            OptionColor.ColorNewDraw = Brushes.Violet;
             this.Close();
         }
-
     }
 }

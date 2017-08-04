@@ -5,14 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ТриНитиДизайн.View"
         mc:Ignorable="d"
-        Title="" Height="222" Width="300
-        " ResizeMode="NoResize">
+        Title="" Height="225" Width="200" ResizeMode="NoResize">
     <Grid>
-        <Button Content="Прорисовать стежки" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Prorisovat_Stezhki"/>
-        <Button Content="Прорисовать в цвете" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Prorisovat_v_tsvete"/>
-        <Button Content="Сохранить в файл" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Sokhranit_v_fayl"/>
-        <Button Content="Отшить" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Otshit"/>
-        <Button Content="Отменить" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="272" Height="30" Click="Otmenit"/>
+        <Button Content="Прорисовать стежки" HorizontalAlignment="Center" Margin="0,12,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Prorisovat_Stezhki"/>
+        <Button Content="Прорисовать в цвете" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Prorisovat_v_tsvete"/>
+        <Button Content="Сохранить в файл" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Sokhranit_v_fayl"/>
+        <Button Content="Отшить" HorizontalAlignment="Center" Margin="0,114,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Otshit"/>
+        <Button Content="Отменить" HorizontalAlignment="Center" Margin="0,148,0,0" VerticalAlignment="Top" Width="90" Height="28" Click="Otmenit"/>
 
     </Grid>
 </Window>

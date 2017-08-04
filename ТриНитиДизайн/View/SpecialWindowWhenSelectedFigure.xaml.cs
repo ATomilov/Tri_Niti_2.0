@@ -25,12 +25,14 @@ namespace ТриНитиДизайн.View
 
         private void Prorisovat_Stezhki(object sender, RoutedEventArgs e)
         {
-
+            OptionRegim.regim = Regim.RegimDrawStegki;
+            this.Close();
         }
 
         private void Prorisovat_v_tsvete(object sender, RoutedEventArgs e)
         {
-
+            OptionRegim.regim = Regim.RegimDrawInColor;
+            this.Close();
         }
 
         private void Sokhranit_v_fayl(object sender, RoutedEventArgs e)

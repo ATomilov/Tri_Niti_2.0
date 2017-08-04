@@ -19,29 +19,16 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, bool AllRectanglesOff,bool rectanglesOn, Canvas canvas)
+        public void RedrawEverything(List<Figure> FigureList,int ChosenFigure, bool AllRectanglesOn, Canvas canvas)
         {
             canvas.Children.Clear();
             SetkaFigure.AddFigure(canvas);
             for(int i = 0; i < FigureList.Count;i++)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
-                if (!AllRectanglesOff)
+                if (AllRectanglesOn && i == ChosenFigure)
                 {
-                    if (i == ChosenFigure)
-                    {
-                        if (rectanglesOn)
-                        {
-                            FigureList[i].DrawAllRectangles();
-                        }
-                        else
-                        {
-                            if (FigureList[i].Points.Count > 0)
-                            {
-                                DrawFirstAndLastRectangle();
-                            }
-                        }
-                    }
+                    FigureList[i].DrawAllRectangles();
                 }
             }
             if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami)
@@ -58,8 +45,11 @@ namespace ТриНитиДизайн
         {
             MainCanvas.Children.Remove(lastRec);
             MainCanvas.Children.Remove(firstRec);
-            firstRec = DrawRectangle(ListFigure[IndexFigure].PointStart, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas);
-            lastRec = DrawRectangle(ListFigure[IndexFigure].PointEnd, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, MainCanvas);
+            bool isRegimCursor = false;
+            if (OptionRegim.regim == Regim.RegimCursor)
+                isRegimCursor = true;
+            firstRec = DrawRectangle(ListFigure[IndexFigure].PointStart, false, isRegimCursor, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas);
+            lastRec = DrawRectangle(ListFigure[IndexFigure].PointEnd, false, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, MainCanvas);
         }
 
         public void DrawInvisibleRectangles(Canvas canvas)
@@ -79,9 +69,9 @@ namespace ТриНитиДизайн
                     secondPts = ListFigure[SecondGladFigure].Points;
 
                 for (int i = 0; i < firstPts.Count; i++)
-                    DrawRectangle(firstPts[i], true, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    DrawRectangle(firstPts[i], true,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
                 for (int i = 0; i < secondPts.Count; i++)
-                    DrawRectangle(secondPts[i], true, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    DrawRectangle(secondPts[i], true,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
             }
             else
             {
@@ -92,11 +82,11 @@ namespace ТриНитиДизайн
                     pts = ListFigure[IndexFigure].Points;
 
                 for (int i = 0; i < pts.Count; i++)
-                    DrawRectangle(pts[i], true, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    DrawRectangle(pts[i], true,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
             }
         }
         
-        private Rectangle DrawRectangle(Point p, bool invRectangles,double thickness , Brush brush, Canvas canvas)
+        private Rectangle DrawRectangle(Point p, bool invRectangles,bool smallRec, double thickness , Brush brush, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
             if (!invRectangles)
@@ -108,6 +98,11 @@ namespace ТриНитиДизайн
             {
                 rec.Height = OptionDrawLine.SizeWidthAndHeightInvRectangle;
                 rec.Width = OptionDrawLine.SizeWidthAndHeightInvRectangle;
+            }
+            if (smallRec)
+            {
+                rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle/1.5;
+                rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle/1.5;
             }
             Canvas.SetLeft(rec, p.X - rec.Height / 2);
             Canvas.SetTop(rec, p.Y - rec.Width / 2);
@@ -227,7 +222,8 @@ namespace ТриНитиДизайн
                             ListFigure[IndexFigure].LoadCurrentShapes();
                         }
                         ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
-                        RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                        RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                        DrawFirstAndLastRectangle();
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                         break;
                     }
@@ -250,8 +246,8 @@ namespace ТриНитиДизайн
                     Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
                     canvas.Children.Remove(lastRec);
                     canvas.Children.Remove(firstRec);
-                    firstRec = DrawRectangle(pLastRec, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
-                    lastRec = DrawRectangle(pfirstRec, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
+                    firstRec = DrawRectangle(pLastRec, false,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    lastRec = DrawRectangle(pfirstRec, false,false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
                 }
                 else
                 {
@@ -269,8 +265,8 @@ namespace ТриНитиДизайн
                     Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
                     canvas.Children.Remove(lastRec);
                     canvas.Children.Remove(firstRec);
-                    firstRec = DrawRectangle(pLastRec, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
-                    lastRec = DrawRectangle(pfirstRec, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
+                    firstRec = DrawRectangle(pLastRec, false,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    lastRec = DrawRectangle(pfirstRec, false,false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
                 }
                 else
                 {
@@ -286,15 +282,21 @@ namespace ТриНитиДизайн
         {
             if(clickedShape is Rectangle)
             {
-                if(OptionRegim.regim == Regim.RegimDraw)
+                Rectangle rect = (Rectangle)clickedShape;
+                double x = Canvas.GetLeft(rect) + rect.ActualHeight / 2;
+                double y = Canvas.GetTop(rect) + rect.ActualWidth / 2;
+                if (new Point(x, y) == ListFigure[IndexFigure].PointStart)
                 {
-                    Rectangle rect = (Rectangle)clickedShape;
-                    double x = Canvas.GetLeft(rect) + rect.ActualHeight/2;
-                    double y = Canvas.GetTop(rect) + rect.ActualWidth/2;
-                    if(new Point(x,y) == ListFigure[IndexFigure].PointStart)
+                    if (OptionRegim.regim == Regim.RegimDraw)
                     {
                         ReverseFigure(ListFigure[IndexFigure], canvas);
-                        RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+                        RedrawEverything(FigureList, IndexFigure, false, canvas);
+                        DrawFirstAndLastRectangle();
+                    }
+                    else if (OptionRegim.regim == Regim.RegimCursor)
+                    {
+                        WindowColors window = new WindowColors();
+                        window.ShowDialog();
                     }
                 }
             }
@@ -346,11 +348,11 @@ namespace ТриНитиДизайн
                         {
                             if (IndexFigure == i)
                             {
-                                if (OptionRegim.regim != Regim.RegimFigure)
+                                if (OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimCursor)
                                 {
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
                                     IndexFigure = FigureList.Count - 1;
-                                    RedrawEverything(FigureList, IndexFigure, true, false, canvas);
+                                    RedrawEverything(FigureList, IndexFigure, false, canvas);
                                 }
                                 return true;
                             }
@@ -359,7 +361,8 @@ namespace ТриНитиДизайн
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                                 IndexFigure = i;                                
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
-                                RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+                                RedrawEverything(FigureList, IndexFigure, false, canvas);
+                                DrawFirstAndLastRectangle();
                                 if(OptionRegim.regim == Regim.RegimFigure)
                                     ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points,OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                                 return false;
@@ -376,7 +379,7 @@ namespace ТриНитиДизайн
                                 IndexFigure = i;
                                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, true);
                                 FigureList[IndexFigure].PointsCount.Clear();
-                                RedrawEverything(FigureList, IndexFigure, false, true, canvas);
+                                RedrawEverything(FigureList, IndexFigure, true, canvas);
                                 return true;
                             }
                             else
@@ -391,12 +394,12 @@ namespace ТриНитиДизайн
                 }
                 return false;
             }
-            else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimSelectFigureToEdit)
+            else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimCursor)
             {
                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                 FigureList.Add(new Figure(MainCanvas));
                 IndexFigure = FigureList.Count - 1;
-                RedrawEverything(FigureList, IndexFigure, false, false, canvas);
+                RedrawEverything(FigureList, IndexFigure, false, canvas);
             }
             return false;
             //else if (OptionRegim.regim == Regim.RegimSelectFigureToEdit) //переход в режим ресайз (пока работает в этом режиме поворот, так как пока не понятно как переходить в режим поворот)
@@ -473,7 +476,8 @@ namespace ТриНитиДизайн
                 ListFigure = TempListFigure.ToList<Figure>();
                 IndexFigure = TempIndexFigure;
                 LinesForGlad = TempLinesForGlad.ToList<Figure>();
-                RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                DrawFirstAndLastRectangle();
                 LoadPreviousRegim(true);
                 DrawInvisibleRectangles(MainCanvas);
                 if(OptionRegim.regim == Regim.RegimGlad)
@@ -486,6 +490,22 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                 }
                 
+            }
+            else if(OptionRegim.regim == Regim.RegimDrawStegki)
+            {
+                OptionRegim.regim = Regim.RegimCursor;
+                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw,false);
+                DrawFirstAndLastRectangle();
+            }
+            else if(OptionRegim.regim == Regim.RegimDrawInColor)
+            {
+                OptionRegim.regim = Regim.RegimCursor;
+                ListFigure = TempListFigure.ToList<Figure>();
+                MainCanvas.Background = OptionColor.ColorBackground;
+                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                DrawFirstAndLastRectangle();
             }
         }
 
