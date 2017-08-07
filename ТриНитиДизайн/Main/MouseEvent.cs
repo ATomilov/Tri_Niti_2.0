@@ -64,7 +64,7 @@ namespace ТриНитиДизайн
                     MainCanvas.Children.Remove(ListFigure[IndexFigure].NewPointEllipse);
                     MainCanvas.Children.Remove(changedLine);
                     ChosenPts.Insert(1, e.GetPosition(MainCanvas));
-                    changedLine = SetSpline(0.75, ChosenPts, true, MainCanvas);
+                    changedLine = SetSpline(5, 0.75, ChosenPts, true, OptionColor.ColorKrivaya, MainCanvas);
                     ChosenPts.RemoveAt(1);
                 }
 
@@ -73,7 +73,7 @@ namespace ТриНитиДизайн
                     MainCanvas.Children.Remove(ListFigure[IndexFigure].NewPointEllipse);
                     MainCanvas.Children.Remove(changedLine);
                     ChosenPts[2] = e.GetPosition(MainCanvas);
-                    changedLine = SetArc(ChosenPts[0], ChosenPts[1], ChosenPts[2], changedLine, MainCanvas);
+                    changedLine = SetArc(OptionColor.ColorChoosingRec, ChosenPts[0], ChosenPts[1], ChosenPts[2], MainCanvas);
                 }
                 if (OptionRegim.regim == Regim.RegimMoveRect)
                 {
@@ -219,9 +219,9 @@ namespace ТриНитиДизайн
                 ListFigure[IndexFigure].Points.Insert(ListFigure[IndexFigure].PointsCount[0], e.GetPosition(MainCanvas));
 
                 if (ListFigure[IndexFigure].PointsCount[0] != 0)
-                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0]);
-                if (ListFigure[IndexFigure].PointsCount[0] != ListFigure[IndexFigure].Points.Count - 1)    
-                    ListFigure[IndexFigure].AddShape(changedLine2, e.GetPosition(MainCanvas));
+                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], e.GetPosition(MainCanvas));
+                if (ListFigure[IndexFigure].PointsCount[0] != ListFigure[IndexFigure].Points.Count - 1)
+                    ListFigure[IndexFigure].AddShape(changedLine2, e.GetPosition(MainCanvas), e.GetPosition(MainCanvas));
 
                 if (ListFigure[IndexFigure].PointsCount[0] == ListFigure[IndexFigure].Points.Count - 1)
                     ListFigure[IndexFigure].PointEnd = e.GetPosition(MainCanvas);
@@ -235,7 +235,7 @@ namespace ТриНитиДизайн
             {
                 if (ChosenPts.Count > 1)
                 {
-                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0]);
+                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0],e.GetPosition(MainCanvas));
                     ChosenPts.Clear();
                     OptionRegim.regim = Regim.RegimEditFigures;
                 }
@@ -358,15 +358,7 @@ namespace ТриНитиДизайн
                             PathGeometry myPathGeometry = (PathGeometry)path.Data;
                             Point p;
                             Point tg;
-                            int secondPoint;
-                            if (ListFigure[IndexFigure].ReversedShapes.Contains(clickedShape))
-                            {
-                                secondPoint = 0;
-                                ListFigure[IndexFigure].ReversedShapes.Remove(clickedShape);
-                            }
-                            else
-                                secondPoint = 1;
-                            myPathGeometry.GetPointAtFractionLength(secondPoint, out p, out tg);
+                            myPathGeometry.GetPointAtFractionLength(1, out p, out tg);
                             x2 = p.X;
                             y2 = p.Y;
                         }

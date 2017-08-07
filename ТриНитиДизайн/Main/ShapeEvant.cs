@@ -61,7 +61,7 @@ namespace ТриНитиДизайн
 
         private void SgladitButtonEvent(object sender, RoutedEventArgs e)
         {
-            MakeSpline(ListFigure[IndexFigure], MainCanvas);
+            MakeSpline(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
         }
 

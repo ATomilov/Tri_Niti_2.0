@@ -20,8 +20,6 @@ namespace ТриНитиДизайн
     public class Figure
     {
         public Regim regimFigure;
-        //лист ReversedShapes в будущем следует убрать
-        public List<Shape> ReversedShapes;
         public List<Shape> Shapes;
         public List<Shape> InvShapes;
         public List<Point> Points;
@@ -30,10 +28,10 @@ namespace ТриНитиДизайн
         public List<Point> tempPoints;
         public List<int> PointsCount;
         public List<Rectangle> RectangleOfFigures;
-        public Dictionary<Rectangle, Point> DictionaryRecPoint;
         public Dictionary<Point, Shape> tempDictionaryPointLines;
         public Dictionary<Shape, Shape> tempDictionaryInvLines;
         public Dictionary<Point, Shape> DictionaryPointLines;
+        public Dictionary<Point, Point> DictionaryShapeControlPoints;
         public Dictionary<Shape, Shape> DictionaryInvLines;
         public Point PointStart;
         public Point PointEnd;
@@ -50,7 +48,6 @@ namespace ТриНитиДизайн
         {
             regimFigure = Regim.RegimFigure;
             Shapes = new List<Shape>();
-            ReversedShapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             tempShapes = new List<Shape>();
@@ -63,19 +60,18 @@ namespace ТриНитиДизайн
             scaleX = 1;
             scaleY = 1;
             canvas = _canvas;
-            DictionaryRecPoint = new Dictionary<Rectangle, Point>();
-            //DictionaryPointLines = new Dictionary<Rectangle, Tuple<Line, Line>>();
-            //DictionaryPointLines = new Dictionary<Rectangle, Pair<Line, Line>>();
+            DictionaryShapeControlPoints = new Dictionary<Point, Point>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
             DictionaryInvLines = new Dictionary<Shape, Shape>();
             tempDictionaryPointLines = new Dictionary<Point, Shape>();
             tempDictionaryInvLines = new Dictionary<Shape, Shape>();
         }
 
-        public void AddShape(Shape shape,Point p)
+        public void AddShape(Shape shape,Point p, Point controlPoint)
         {
             Shapes.Add(shape);
             DictionaryPointLines.Add(p, shape);
+            DictionaryShapeControlPoints.Add(p, controlPoint);
             if (shape is Path)
             {
                 Path pth = (Path)shape;
@@ -107,6 +103,7 @@ namespace ТриНитиДизайн
         {
             Shapes.Remove(shape);// ??? point
             DictionaryPointLines.Remove(p);
+            DictionaryShapeControlPoints.Remove(p);
             Shape sh;
             DictionaryInvLines.TryGetValue(shape, out sh);
             InvShapes.Remove(sh);
@@ -188,13 +185,12 @@ namespace ТриНитиДизайн
             tempInvShapes = new List<Shape>();
             tempPoints = new List<Point>();
             Shapes = new List<Shape>();
-            ReversedShapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             PointsCount = new List<int>();
             angle = 0;
             PreparedForTatami = false;
-            DictionaryRecPoint = new Dictionary<Rectangle, Point>();
+            DictionaryShapeControlPoints = new Dictionary<Point, Point>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
             DictionaryInvLines = new Dictionary<Shape, Shape>();
             tempDictionaryPointLines = new Dictionary<Point, Shape>();
@@ -218,44 +214,6 @@ namespace ТриНитиДизайн
             DictionaryInvLines = new Dictionary<Shape, Shape>(tempDictionaryInvLines);
             DictionaryPointLines = new Dictionary<Point, Shape>(tempDictionaryPointLines);
             PreparedForTatami = false;
-        }
-
-        public void SetDot(Point centerPoint, string type, Canvas CurCanvas)         //отрисовка точки, red - красная, blue - зеленая, grid - точка сетки
-        {
-            Path myPath = new Path();
-            EllipseGeometry myEllipse = new EllipseGeometry();
-            myEllipse.Center = centerPoint;
-            myEllipse.RadiusX = 3;
-            myEllipse.RadiusY = 3;
-            if (type.Equals("red"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Red;
-                myPath.Fill = System.Windows.Media.Brushes.Red;
-            }
-            if (type.Equals("blue"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Blue;
-                myPath.Fill = System.Windows.Media.Brushes.Blue;
-            }
-            if (type.Equals("green"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Green;
-                myPath.Fill = System.Windows.Media.Brushes.Green;
-            }
-            if (type.Equals("black"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.RoyalBlue;
-                myPath.Fill = System.Windows.Media.Brushes.Black;
-            }
-            if (type.Equals("grid"))
-            {
-                myPath.Stroke = System.Windows.Media.Brushes.Black;
-                myEllipse.RadiusX = 1;
-                myEllipse.RadiusY = 1;
-            }
-
-            myPath.Data = myEllipse;
-            CurCanvas.Children.Add(myPath);
         }
 
         public List<Point> DrawOutSideRectanglePoints()
@@ -414,13 +372,9 @@ namespace ТриНитиДизайн
                 rec.Fill = OptionColor.ColorOpacity;
                 rec.StrokeThickness = OptionDrawLine.StrokeThicknessMainRec;
                 canvas.Children.Add(rec);
-                DictionaryRecPoint.Add(rec, New);
-                //rec.MouseDown += new MouseButtonEventHandler(PointMouseClick);
                 return rec;
             }
             return null;
-            //canvas.MouseMove += new MouseEventHandler(PointMouseMove);
-            //Подписать поинт на изменение координат
         }
 
         public Line GetLine(Point start, Point end)
@@ -442,7 +396,7 @@ namespace ТриНитиДизайн
                     if(shape is Path)
                     {
                         Path ph = (Path)shape;
-                        if (ph.MinHeight == 5)
+                        if (ph.MinHeight > 0)
                             shape.Stroke = OptionColor.ColorKrivaya;
                         else
                             shape.Stroke = OptionColor.ColorChoosingRec;
@@ -560,42 +514,5 @@ namespace ТриНитиДизайн
             return new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
         }
 
-        private void PointMouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed )
-            {
-                if (SelectedRectangle !=null)
-                {
-                    Point point = DictionaryRecPoint[SelectedRectangle];
-                    SelectedRectangle.Stroke = OptionColor.ColorSelection;
-
-                    Canvas.SetLeft(SelectedRectangle, e.GetPosition(canvas).X - 4);
-                    Canvas.SetTop(SelectedRectangle, e.GetPosition(canvas).Y - 4);
-                    /*
-                    Line l1 = DictionaryPointLines[SelectedRectangle].First;
-                    Line l2 = DictionaryPointLines[SelectedRectangle].Second;
-                    if (l1 != null)
-                    {
-                        l1.X2 = point.X;
-                        l1.Y2 = point.Y;
-                    }
-                    if (l2 != null)
-                    {
-                        l2.X1 = point.X;
-                        l2.Y1 = point.Y;
-                    }
-                    */
-                }
-            }
-        }
-
-        private void PointMouseClick(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                SelectedRectangle = (Rectangle)sender;
-            }
-        }
-        
     }
 }

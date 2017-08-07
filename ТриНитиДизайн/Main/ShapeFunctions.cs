@@ -19,11 +19,11 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public Shape SetSpline(double tension,List<Point> TPoint,bool isCurve, Canvas canvas)
+        public Shape SetSpline(double minHeight, double tension,List<Point> TPoint,bool isCurve, Brush brush, Canvas canvas)
         {
             Path myPath = new Path();
-            myPath.MinHeight = 5;
-            myPath.Stroke = OptionColor.ColorKrivaya;
+            myPath.MinHeight = minHeight;
+            myPath.Stroke = brush;
             myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
             PathGeometry myPathGeometry = new PathGeometry();
             CanonicalSplineHelper spline = new CanonicalSplineHelper();
@@ -33,10 +33,10 @@ namespace ТриНитиДизайн
             return myPath;
         }
 
-        public Shape SetArc(Point firstDot,Point secondDot, Point thirdDot, Shape prevSh, Canvas canvas)
+        public Shape SetArc(Brush brush, Point firstDot,Point secondDot, Point thirdDot, Canvas canvas)
         {
             Path myPath = new Path();
-            myPath.Stroke = OptionColor.ColorChoosingRec;
+            myPath.Stroke = brush;
             myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
             PathGeometry pathGeometry = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
@@ -104,26 +104,10 @@ namespace ТриНитиДизайн
                     Point tg;
                     var points = new List<Point>();
                     double step = 50;
-                    Shape invSh;
-                    fig.DictionaryInvLines.TryGetValue(sh, out invSh);
-
-                    if (ListFigure[IndexFigure].ReversedShapes.Contains(invSh))
+                    for (var j = 1; j < step; j++)
                     {
-                        int ind = 1;
-                        for (var j = 49; j > 0; j--)
-                        {
-                            myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
-                            fig.Points.Insert(ind + i, p);
-                            ind++;
-                        }
-                    }
-                    else
-                    {
-                        for (var j = 1; j < step; j++)
-                        {
-                            myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
-                            fig.Points.Insert(j + i, p);
-                        }
+                        myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
+                        fig.Points.Insert(j + i, p);
                     }
                 }
             }
@@ -216,11 +200,9 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Shape invSh;
-                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
-                        newFig.AddShape(sh, p);
-                        if (fig.ReversedShapes.Contains(invSh))
-                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
+                        Point contP;
+                        fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
+                        newFig.AddShape(sh, p, contP);
                     }
                     if (i == 0)
                         newFig.PointStart = p;
@@ -237,11 +219,9 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Shape invSh;
-                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
-                        newFig.AddShape(sh, p);
-                        if (fig.ReversedShapes.Contains(invSh))
-                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
+                        Point contP;
+                        fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
+                        newFig.AddShape(sh, p, contP);
                     }
                     if (i == fig.PointsCount[0])
                         newFig.PointStart = p;
@@ -255,7 +235,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        public void MakeSpline(Figure fig, Canvas canvas)
+        public void MakeSpline(Figure fig,Brush brush, Canvas canvas)
         {
             for (int i = 0; i < fig.PointsCount.Count - 1; i++)
             {
@@ -293,8 +273,8 @@ namespace ТриНитиДизайн
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
                     fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]],MainCanvas);
-                    SetSpline(0.7, newList,false, MainCanvas);
-                    fig.AddShape((Shape)MainCanvas.Children[MainCanvas.Children.Count - 1], fig.Points[fig.PointsCount[i]]);
+                    sh = SetSpline(10, 0.7, newList, false, brush, MainCanvas);
+                    fig.AddShape(sh, fig.Points[fig.PointsCount[i]],new Point(-500,-500));
                 }
             }
         }
@@ -302,6 +282,9 @@ namespace ТриНитиДизайн
         public void ReverseFigure(Figure fig, Canvas canvas)
         {
             Figure newFig = new Figure(canvas);
+            List<Point> ptsForCurves = new List<Point>();
+            Dictionary<Point, Shape> tempDicShape = new Dictionary<Point, Shape>();
+            Dictionary<Point, Point> tempDicContPoints = new Dictionary<Point, Point>();
             for (int i = fig.Points.Count - 1; i >= 0; i--)
             {
                 Point p = fig.Points[i];
@@ -309,13 +292,55 @@ namespace ТриНитиДизайн
                 {
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[i - 1], out sh);
-                    newFig.AddShape(sh, p);
+                    Point contP;
+                    fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i - 1], out contP);
+                    if(sh is Path)
+                    {
+                        if (sh.MinHeight == 10)
+                        {
+                            if (!newFig.PointsCount.Contains(fig.Points.Count - i))
+                                newFig.PointsCount.Add(fig.Points.Count - i);
+                            if (!newFig.PointsCount.Contains(fig.Points.Count - i - 1))
+                                newFig.PointsCount.Add(fig.Points.Count - i - 1);
+                        }
+                        else
+                        {
+                            ptsForCurves.Add(p);
+                            ptsForCurves.Add(fig.Points[i - 1]);
+                            tempDicShape.Add(p, sh);
+                            tempDicContPoints.Add(p, contP);
+                        }
+                    }
+                    newFig.AddShape(sh, p, contP);
                 }
                 newFig.Points.Add(p);
             }
-            newFig.ReversedShapes = newFig.InvShapes.ToList<Shape>();
             newFig.PointStart = fig.PointEnd;
             newFig.PointEnd = fig.PointStart;
+            newFig.PointsCount.Sort();
+            if (newFig.PointsCount.Count > 0)
+                MakeSpline(newFig, OptionColor.ColorDraw, canvas);
+
+            for (int i = 0; i < ptsForCurves.Count; i+=2 )
+            {
+                Shape sh;
+                newFig.DictionaryPointLines.TryGetValue(ptsForCurves[i], out sh);
+                newFig.DeleteShape(sh, ptsForCurves[i], canvas);
+                tempDicShape.TryGetValue(ptsForCurves[i], out sh);
+                Point contP;
+                tempDicContPoints.TryGetValue(ptsForCurves[i], out contP);
+                if (sh.MinHeight == 5)
+                {
+                    List<Point> pts = new List<Point>();
+                    pts.Add(ptsForCurves[i]);
+                    pts.Add(contP);
+                    pts.Add(ptsForCurves[i + 1]);
+                    sh = SetSpline(5, 0.75, pts, true, OptionColor.ColorDraw, canvas);
+                }
+                else
+                    sh = SetArc(OptionColor.ColorDraw, ptsForCurves[i], ptsForCurves[i + 1], contP, canvas);
+                newFig.AddShape(sh, ptsForCurves[i], contP);
+            }
             ListFigure.Insert(IndexFigure, newFig);
             ListFigure.Remove(fig);
         }
@@ -333,11 +358,9 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Shape invSh;
-                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
-                        newFig.AddShape(sh, p);
-                        if (fig.ReversedShapes.Contains(invSh))
-                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
+                        Point contP;
+                        fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
+                        newFig.AddShape(sh, p, contP);
                     }
                     if (i == 0)
                         newFig.PointStart = p;
@@ -354,11 +377,9 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Shape invSh;
-                        fig.DictionaryInvLines.TryGetValue(sh, out invSh);
-                        newFig.AddShape(sh, p);
-                        if (fig.ReversedShapes.Contains(invSh))
-                            newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
+                        Point contP;
+                        fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
+                        newFig.AddShape(sh, p, contP);
                     }
                     if (i == fig.Points.Count - 1)
                         newFig.PointEnd = p;
@@ -400,11 +421,9 @@ namespace ТриНитиДизайн
                             if (i != fig.Points.Count - 1 && !nextDotDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
-                                newFig.AddShape(prevShape, fig.Points[i]);
-                                Shape invSh;
-                                fig.DictionaryInvLines.TryGetValue(prevShape, out invSh);
-                                if (fig.ReversedShapes.Contains(invSh))
-                                    newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
+                                Point contP;
+                                fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i], out contP);
+                                newFig.AddShape(prevShape, fig.Points[i], contP);
                             }
                         }
                         else
@@ -413,11 +432,9 @@ namespace ТриНитиДизайн
                             if (i != fig.Points.Count - 1 && !nextDotDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
-                                newFig.AddShape(prevShape, fig.Points[i]);
-                                Shape invSh;
-                                fig.DictionaryInvLines.TryGetValue(prevShape, out invSh);
-                                if (fig.ReversedShapes.Contains(invSh))
-                                    newFig.ReversedShapes.Add(newFig.InvShapes[newFig.InvShapes.Count - 1]);
+                                Point contP;
+                                fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i], out contP);
+                                newFig.AddShape(prevShape, fig.Points[i], contP);
                             }
                             newFig.PointEnd = p;
                             newFig.Points.Add(p);
