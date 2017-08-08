@@ -23,7 +23,7 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseRightButtonDown(object sender, MouseButtonEventArgs e)         //при нажатии на праую кнопку мыши
         {
             Mouse.Capture(MainCanvas);
-            if ((OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
+            if ((OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad || OptionRegim.regim == Regim.RegimCepochka)
                 && e.OriginalSource is Rectangle)
             {
                 Rectangle rect = (Rectangle)e.OriginalSource;
@@ -64,7 +64,7 @@ namespace ТриНитиДизайн
                     MainCanvas.Children.Remove(ListFigure[IndexFigure].NewPointEllipse);
                     MainCanvas.Children.Remove(changedLine);
                     ChosenPts.Insert(1, e.GetPosition(MainCanvas));
-                    changedLine = SetSpline(5, 0.75, ChosenPts, true, OptionColor.ColorKrivaya, MainCanvas);
+                    changedLine = SetSpline(5, 0.75, ChosenPts, true,false, OptionColor.ColorKrivaya, MainCanvas);
                     ChosenPts.RemoveAt(1);
                 }
 
@@ -275,7 +275,7 @@ namespace ТриНитиДизайн
         void CanvasTest_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)          //левая кнопка мыши
         {
             Mouse.Capture(MainCanvas);
-            if ((OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad)
+            if ((OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimGlad || OptionRegim.regim == Regim.RegimCepochka)
                 && e.OriginalSource is Rectangle)
             {
                 Rectangle rect = (Rectangle)e.OriginalSource;

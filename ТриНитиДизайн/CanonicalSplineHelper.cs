@@ -8,7 +8,7 @@ namespace ТриНитиДизайн
     class CanonicalSplineHelper
     {
         public PathGeometry CreateSpline(List<Point> pts, double tension, DoubleCollection tensions, bool isCurve,
-                                                  bool isClosed, bool isFilled, double tolerance)
+                                                  bool isClosed, bool isFilled,bool isCepochka, double tolerance)
         {
             if (pts == null || pts.Count < 1)
                 return null;
@@ -24,70 +24,74 @@ namespace ТриНитиДизайн
 
             double T1 = tension;
             double T2 = tension;
-            if (!isCurve)
+            if (!isCepochka)
             {
-                pathFigure.StartPoint = pts[1];
-                Segment(polyLineSegment.Points, pts[0], pts[1], pts[2], pts[3], T1, T2, tolerance);
+                if (!isCurve)
+                {
+                    pathFigure.StartPoint = pts[1];
+                    Segment(polyLineSegment.Points, pts[0], pts[1], pts[2], pts[3], T1, T2, tolerance);
+                }
+                else
+                {
+                    pathFigure.StartPoint = pts[0];
+                    Segment(polyLineSegment.Points, pts[0], pts[0], pts[1], pts[2], T1, T2, tolerance);
+                    Segment(polyLineSegment.Points, pts[0], pts[1], pts[2], pts[2], T1, T2, tolerance);
+                }
             }
             else
             {
                 pathFigure.StartPoint = pts[0];
-                Segment(polyLineSegment.Points, pts[0], pts[0], pts[1], pts[2], T1, T2, tolerance);
-                Segment(polyLineSegment.Points, pts[0], pts[1], pts[2], pts[2], T1, T2, tolerance);
-            }
+                if (pts.Count < 2)
+                    return pathGeometry;
 
-            /*
-            if (pts.Count < 2)
-                return pathGeometry;
-
-            else if (pts.Count == 2)
-            {
-                if (!isClosed)
+                else if (pts.Count == 2)
                 {
-                    Segment(polyLineSegment.Points, pts[0], pts[0], pts[1], pts[1], tension, tension, tolerance);
+                    if (!isClosed)
+                    {
+                        Segment(polyLineSegment.Points, pts[0], pts[0], pts[1], pts[1], tension, tension, tolerance);
+                    }
+                    else
+                    {
+                        Segment(polyLineSegment.Points, pts[1], pts[0], pts[1], pts[0], tension, tension, tolerance);
+                        Segment(polyLineSegment.Points, pts[0], pts[1], pts[0], pts[1], tension, tension, tolerance);
+                    }
                 }
                 else
                 {
-                    Segment(polyLineSegment.Points, pts[1], pts[0], pts[1], pts[0], tension, tension, tolerance);
-                    Segment(polyLineSegment.Points, pts[0], pts[1], pts[0], pts[1], tension, tension, tolerance);
-                }
-            }
-            else
-            {
-                bool useTensionCollection = tensions != null && tensions.Count > 0;
+                    bool useTensionCollection = tensions != null && tensions.Count > 0;
 
-                for (int i = 0; i < pts.Count; i++)
-                {
-                    double T1 = useTensionCollection ? tensions[i % tensions.Count] : tension;
-                    double T2 = useTensionCollection ? tensions[(i + 1) % tensions.Count] : tension;
-
-                    if (i == 0)
+                    for (int i = 0; i < pts.Count; i++)
                     {
-                        Segment(polyLineSegment.Points, pts[0],
-                                                        pts[0], pts[1], pts[2], T1, T2, tolerance);
-                    }
+                        T1 = useTensionCollection ? tensions[i % tensions.Count] : tension;
+                        T2 = useTensionCollection ? tensions[(i + 1) % tensions.Count] : tension;
 
-                    else if (i == pts.Count - 2)
-                    {
-                        Segment(polyLineSegment.Points, pts[i - 1], pts[i], pts[i + 1],
-                                                        pts[i + 1], T1, T2, tolerance);
-                    }
-
-                    else if (i == pts.Count - 1)
-                    {
-                        if (isClosed)
+                        if (i == 0)
                         {
-                            Segment(polyLineSegment.Points, pts[i - 1], pts[i], pts[0], pts[1], T1, T2, tolerance);
+                            Segment(polyLineSegment.Points, pts[0],
+                                                            pts[0], pts[1], pts[2], T1, T2, tolerance);
+                        }
+
+                        else if (i == pts.Count - 2)
+                        {
+                            Segment(polyLineSegment.Points, pts[i - 1], pts[i], pts[i + 1],
+                                                            pts[i + 1], T1, T2, tolerance);
+                        }
+
+                        else if (i == pts.Count - 1)
+                        {
+                            if (isClosed)
+                            {
+                                Segment(polyLineSegment.Points, pts[i - 1], pts[i], pts[0], pts[1], T1, T2, tolerance);
+                            }
+                        }
+
+                        else
+                        {
+                            Segment(polyLineSegment.Points, pts[i - 1], pts[i], pts[i + 1], pts[i + 2], T1, T2, tolerance);
                         }
                     }
-
-                    else
-                    {
-                        Segment(polyLineSegment.Points, pts[i - 1], pts[i], pts[i + 1], pts[i + 2], T1, T2, tolerance);
-                    }
                 }
             }
-            */
             return pathGeometry;
         }
 

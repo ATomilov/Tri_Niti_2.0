@@ -215,6 +215,7 @@ namespace ТриНитиДизайн
                     }
                     if (OptionRegim.regim == Regim.RegimCepochka)
                     {
+                        ListFigure[IndexFigure].RemoveFigure(MainCanvas);
                         ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2, MainCanvas);
                         OptionRegim.regim = Regim.RegimFigure;
                         ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;

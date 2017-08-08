@@ -447,24 +447,29 @@ namespace ТриНитиДизайн
 
         public Figure Cepochka(Figure figure, double step, Canvas canvas)
         {
+            Shape pathCepochka = SetSpline(0, 0.01, figure.Points, false, true, OptionColor.ColorDraw, canvas);
+            
             Figure resultFigure = new Figure(canvas);
-            for (int i = 0; i < figure.Points.Count - 1; i++)
+            Path path = (Path)pathCepochka;
+            PathGeometry myPathGeometry = (PathGeometry)path.Data;
+            double distance = 0;
+            foreach (var f in myPathGeometry.Figures)
+                foreach (var s in f.Segments)
+                    if (s is PolyLineSegment)
+                    {
+                        PointCollection pts = ((PolyLineSegment)s).Points;
+                        for (int i = 0; i < pts.Count - 1;i++)
+                        {
+                            distance += FindLength(pts[i], pts[i + 1]);
+                        }
+                    }
+            int steps = Convert.ToInt32(distance / step);
+            Point p;
+            Point tg;
+            for (double j = 0; j <= steps; j++)
             {
-                resultFigure.AddPoint(figure.Points[i], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                double x;
-                double y;
-                x = figure.Points[i + 1].X - figure.Points[i].X;
-                y = figure.Points[i + 1].Y - figure.Points[i].Y;
-                double distance = step;
-                Vector vect = new Vector(x, y);
-                double length = vect.Length;
-                while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
-                {
-                    vect.Normalize();
-                    vect *= distance;
-                    resultFigure.AddPoint(new Point(figure.Points[i].X + vect.X, figure.Points[i].Y + vect.Y), OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                    distance += step;
-                }
+                myPathGeometry.GetPointAtFractionLength(j / steps, out p, out tg);
+                resultFigure.AddPoint(p, OptionColor.ColorDraw, false, 0);
             }
             return resultFigure;
         }

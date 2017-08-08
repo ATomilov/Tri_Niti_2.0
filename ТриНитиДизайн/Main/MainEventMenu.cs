@@ -230,7 +230,7 @@ namespace ТриНитиДизайн
                             pts.Add(ptsForCurves[z]);
                             pts.Add(contP);
                             pts.Add(ptsForCurves[z + 1]);
-                            sh = SetSpline(5, 0.75, pts, true, OptionColor.ColorSelection, MainCanvas);
+                            sh = SetSpline(5, 0.75, pts, true,false, OptionColor.ColorSelection, MainCanvas);
                         }
                         else
                             sh = SetArc(OptionColor.ColorSelection, ptsForCurves[z], ptsForCurves[z + 1], contP, MainCanvas);

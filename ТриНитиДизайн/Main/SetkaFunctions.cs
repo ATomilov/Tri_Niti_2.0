@@ -39,7 +39,6 @@ namespace ТриНитиДизайн
             SetkaFigure.AddFigure(MainCanvas);
         }
 
-
         public Path SetDot(Point centerPoint)         
         {
             System.Windows.Shapes.Path myPath = new System.Windows.Shapes.Path();

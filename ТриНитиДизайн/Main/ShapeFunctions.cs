@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public Shape SetSpline(double minHeight, double tension,List<Point> TPoint,bool isCurve, Brush brush, Canvas canvas)
+        public Shape SetSpline(double minHeight, double tension,List<Point> TPoint,bool isCurve,bool isCepochka, Brush brush, Canvas canvas)
         {
             Path myPath = new Path();
             myPath.MinHeight = minHeight;
@@ -27,9 +27,10 @@ namespace ТриНитиДизайн
             myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
             PathGeometry myPathGeometry = new PathGeometry();
             CanonicalSplineHelper spline = new CanonicalSplineHelper();
-            myPathGeometry = spline.CreateSpline(TPoint, tension, null,isCurve, false, false, 0.25);
+            myPathGeometry = spline.CreateSpline(TPoint, tension, null,isCurve, false, false, isCepochka, 0.25);
             myPath.Data = myPathGeometry;
-            canvas.Children.Add(myPath);
+            if(!isCepochka)
+                canvas.Children.Add(myPath);
             return myPath;
         }
 
@@ -273,7 +274,7 @@ namespace ТриНитиДизайн
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
                     fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]],MainCanvas);
-                    sh = SetSpline(10, 0.7, newList, false, brush, MainCanvas);
+                    sh = SetSpline(10, 0.7, newList, false,false, brush, MainCanvas);
                     fig.AddShape(sh, fig.Points[fig.PointsCount[i]],new Point(-500,-500));
                 }
             }
@@ -335,7 +336,7 @@ namespace ТриНитиДизайн
                     pts.Add(ptsForCurves[i]);
                     pts.Add(contP);
                     pts.Add(ptsForCurves[i + 1]);
-                    sh = SetSpline(5, 0.75, pts, true, OptionColor.ColorDraw, canvas);
+                    sh = SetSpline(5, 0.75, pts, true,false, OptionColor.ColorDraw, canvas);
                 }
                 else
                     sh = SetArc(OptionColor.ColorDraw, ptsForCurves[i], ptsForCurves[i + 1], contP, canvas);
