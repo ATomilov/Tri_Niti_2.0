@@ -31,6 +31,7 @@ namespace ТриНитиДизайн
         double CurrentAngle = 0;
         double TotalAngle = 0;
         double StartAngle;
+        double t;
         string pathToFile;
         int IndexFigure;
         int TempIndexFigure;
@@ -54,6 +55,7 @@ namespace ТриНитиДизайн
         Figure CopyFigure;
         Shape changedLine;
         Shape changedLine2;
+        Point prevPoint;
         Point FarTransformRectangle;
         List<Point> ChosenPts;
         List<Point> CoordinatesOfTransformRectangles = new List<Point>();

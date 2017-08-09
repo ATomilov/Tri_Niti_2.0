@@ -32,55 +32,13 @@ namespace ТриНитиДизайн
         private void SaveProjectAs(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = "txt files (*.txt)|*.txt";
+            saveFile.Filter = "prj files (*.prj)|*.prj";
             Nullable<bool> result = saveFile.ShowDialog();
             if (result == true)
             {
                 this.Title = "Три Нити Дизайн 1.0 - " + saveFile.SafeFileName;
                 pathToFile = saveFile.FileName;
-                string dots = "";
-                for (int i = 0; i < ListFigure.Count; i++)
-                {
-                    if (ListFigure[i].Points.Count > 0)
-                    {
-                        dots += ListFigure[i].Points[0].X;
-                        dots += " ";
-                        dots += ListFigure[i].Points[0].Y;
-                        dots += " ";
-                        for (int j = 1; j < ListFigure[i].Points.Count; j++)
-                        {
-                            Shape sh;
-                            ListFigure[i].DictionaryPointLines.TryGetValue(ListFigure[i].Points[j - 1], out sh);
-                            if (sh is Path)
-                            {
-                                if (sh.MinHeight == 10)
-                                    dots += "S";
-                                else
-                                {
-                                    if (sh.MinHeight == 5)
-                                        dots += "C";
-                                    else
-                                        dots += "A";
-
-                                    Point contP;
-                                    ListFigure[i].DictionaryShapeControlPoints.TryGetValue(ListFigure[i].Points[j - 1], out contP);
-                                    dots += " ";
-                                    dots += contP.X;
-                                    dots += " ";
-                                    dots += contP.Y;
-                                }
-                            }
-                            else
-                                dots += "L";
-                            dots += " ";
-                            dots += ListFigure[i].Points[j].X;
-                            dots += " ";
-                            dots += ListFigure[i].Points[j].Y;
-                            dots += " ";
-                        }
-                        dots += "!";
-                    }
-                }
+                string dots = SavingFigures();
                 StreamWriter writer = new StreamWriter(saveFile.OpenFile());
                 writer.WriteLine(dots);
                 writer.Dispose();
@@ -92,49 +50,7 @@ namespace ТриНитиДизайн
         {
             if(pathToFile != null)
             {
-                string dots = "";
-                for (int i = 0; i < ListFigure.Count; i++)
-                {
-                    if (ListFigure[i].Points.Count > 0)
-                    {
-                        dots += ListFigure[i].Points[0].X;
-                        dots += " ";
-                        dots += ListFigure[i].Points[0].Y;
-                        dots += " ";
-                        for (int j = 1; j < ListFigure[i].Points.Count; j++)
-                        {
-                            Shape sh;
-                            ListFigure[i].DictionaryPointLines.TryGetValue(ListFigure[i].Points[j - 1], out sh);
-                            if (sh is Path)
-                            {
-                                if (sh.MinHeight == 10)
-                                    dots += "S";
-                                else
-                                {
-                                    if (sh.MinHeight == 5)
-                                        dots += "C";
-                                    else
-                                        dots += "A";
-
-                                    Point contP;
-                                    ListFigure[i].DictionaryShapeControlPoints.TryGetValue(ListFigure[i].Points[j - 1], out contP);
-                                    dots += " ";
-                                    dots += contP.X;
-                                    dots += " ";
-                                    dots += contP.Y;
-                                }
-                            }
-                            else
-                                dots += "L";
-                            dots += " ";
-                            dots += ListFigure[i].Points[j].X;
-                            dots += " ";
-                            dots += ListFigure[i].Points[j].Y;
-                            dots += " ";
-                        }
-                        dots += "!";
-                    }
-                }
+                string dots = SavingFigures();
                 StreamWriter writer = new StreamWriter(pathToFile);
                 writer.WriteLine(dots);
                 writer.Dispose();
@@ -145,7 +61,7 @@ namespace ТриНитиДизайн
         private void LoadProject(object sender, RoutedEventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();
-            op.Filter = "txt files| *.txt";
+            op.Filter = "prj files| *.prj";
             Nullable<bool> result = op.ShowDialog();
             if (result == true)
             {
@@ -154,7 +70,7 @@ namespace ТриНитиДизайн
                 ClearEverything(true);
                 StreamReader reader = new StreamReader(op.OpenFile());
                 string text = reader.ReadToEnd();
-                string pattern = @"([0-9]| |-|,|C|A|S|L)+!";
+                string pattern = @"([0-9]| |-|,|C|A|L)+!";
                 Regex rgx = new Regex(pattern);
                 MatchCollection matches = rgx.Matches(text);
                 if(matches.Count == 0)
@@ -170,76 +86,45 @@ namespace ТриНитиДизайн
                     Point p = new Point(Double.Parse(elements[0]), Double.Parse(elements[1]));
                     ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                     int j = 2;
-                    List<Point> ptsForCurves = new List<Point>();
-                    Dictionary<Point, string> tempDicShape = new Dictionary<Point, string>();
-                    Dictionary<Point, Point> tempDicContPoints = new Dictionary<Point, Point>();
+                    bool isLastPointLine = true;
                     while(!elements[j].Equals("!"))
                     {
                         if(elements[j].Equals("L"))
                         {
+                            isLastPointLine = true;
                             p = new Point(Double.Parse(elements[j+1]), Double.Parse(elements[j+2]));
                             ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                         }
                         else if(elements[j].Equals("C"))
                         {
-                            ptsForCurves.Add(p);
-                            tempDicContPoints.Add(p, new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2])));
-                            tempDicShape.Add(p, "C");
-                            j+=2;
-                            p = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            ptsForCurves.Add(p);
-                            ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                            isLastPointLine = false;
+                            Point firstContPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                            Point secondContPoint = new Point(Double.Parse(elements[j + 3]), Double.Parse(elements[j + 4]));
+                            j+=4;
+                            Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                            Shape sh = SetBezier(OptionColor.ColorSelection,p, firstContPoint, secondContPoint, p1,MainCanvas);
+                            ListFigure[i].AddShape(sh, p, new Tuple<Point, Point>(firstContPoint, secondContPoint));
+                            p = p1;
+                            ListFigure[i].Points.Add(p);
+                            ListFigure[i].PointEnd = ListFigure[i].Points[ListFigure[i].Points.Count - 1];
                         }
                         else if (elements[j].Equals("A"))
                         {
-                            ptsForCurves.Add(p);
-                            tempDicContPoints.Add(p, new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2])));
-                            tempDicShape.Add(p, "A");
+                            isLastPointLine = false;
+                            Point contPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
                             j += 2;
-                            p = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            ptsForCurves.Add(p);
-                            ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                        }
-                        else if (elements[j].Equals("S"))
-                        {
-                            p = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                            int index = ListFigure[i].Points.IndexOf(p);
-                            if (!ListFigure[i].PointsCount.Contains(index - 1))
-                                ListFigure[i].PointsCount.Add(index - 1);
-                            if (!ListFigure[i].PointsCount.Contains(index))
-                                ListFigure[i].PointsCount.Add(index);
+                            Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                            Shape sh = SetArc(OptionColor.ColorSelection, p, p1, contPoint, MainCanvas);
+                            ListFigure[i].AddShape(sh, p, new Tuple<Point, Point>(contPoint, new Point()));
+                            p = p1;
+                            ListFigure[i].Points.Add(p);
+                            ListFigure[i].PointEnd = ListFigure[i].Points[ListFigure[i].Points.Count - 1];
                         }
                         j += 3;
-                    }
-                    if (ListFigure[i].PointsCount.Count > 0)
-                        MakeSpline(ListFigure[i], OptionColor.ColorSelection, MainCanvas);
-
-                    for (int z = 0; z < ptsForCurves.Count; z += 2)
-                    {
-                        Shape sh;
-                        ListFigure[i].DictionaryPointLines.TryGetValue(ptsForCurves[z], out sh);
-                        ListFigure[i].DeleteShape(sh, ptsForCurves[z], MainCanvas);
-                        string type;
-                        tempDicShape.TryGetValue(ptsForCurves[z], out type);
-                        Point contP;
-                        tempDicContPoints.TryGetValue(ptsForCurves[z], out contP);
-                        if (type.Equals("C"))
-                        {
-                            List<Point> pts = new List<Point>();
-                            pts.Add(ptsForCurves[z]);
-                            pts.Add(contP);
-                            pts.Add(ptsForCurves[z + 1]);
-                            sh = SetSpline(5, 0.75, pts, true,false, OptionColor.ColorSelection, MainCanvas);
-                        }
-                        else
-                            sh = SetArc(OptionColor.ColorSelection, ptsForCurves[z], ptsForCurves[z + 1], contP, MainCanvas);
-                        ListFigure[i].AddShape(sh, ptsForCurves[z], contP);
                     }
                 }
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             }
-
         }
 
         private void LoadPLT(object sender, RoutedEventArgs e)
@@ -332,7 +217,7 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
-                        Point contP;
+                        Tuple<Point,Point> contP;
                         ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(p, out contP);
                         Shape newSh = DeepCopy(sh);
                         CopyFigure.AddShape(newSh, p, contP);

@@ -31,7 +31,7 @@ namespace ТриНитиДизайн
         public Dictionary<Point, Shape> tempDictionaryPointLines;
         public Dictionary<Shape, Shape> tempDictionaryInvLines;
         public Dictionary<Point, Shape> DictionaryPointLines;
-        public Dictionary<Point, Point> DictionaryShapeControlPoints;
+        public Dictionary<Point, Tuple<Point,Point>> DictionaryShapeControlPoints;
         public Dictionary<Shape, Shape> DictionaryInvLines;
         public Point PointStart;
         public Point PointEnd;
@@ -60,18 +60,18 @@ namespace ТриНитиДизайн
             scaleX = 1;
             scaleY = 1;
             canvas = _canvas;
-            DictionaryShapeControlPoints = new Dictionary<Point, Point>();
+            DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point,Point>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
             DictionaryInvLines = new Dictionary<Shape, Shape>();
             tempDictionaryPointLines = new Dictionary<Point, Shape>();
             tempDictionaryInvLines = new Dictionary<Shape, Shape>();
         }
 
-        public void AddShape(Shape shape,Point p, Point controlPoint)
+        public void AddShape(Shape shape,Point p, Tuple<Point,Point> contPts)
         {
             Shapes.Add(shape);
             DictionaryPointLines.Add(p, shape);
-            DictionaryShapeControlPoints.Add(p, controlPoint);
+            DictionaryShapeControlPoints.Add(p, contPts);
             if (shape is Path)
             {
                 Path pth = (Path)shape;
@@ -190,7 +190,7 @@ namespace ТриНитиДизайн
             PointsCount = new List<int>();
             angle = 0;
             PreparedForTatami = false;
-            DictionaryShapeControlPoints = new Dictionary<Point, Point>();
+            DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point, Point>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
             DictionaryInvLines = new Dictionary<Shape, Shape>();
             tempDictionaryPointLines = new Dictionary<Point, Shape>();

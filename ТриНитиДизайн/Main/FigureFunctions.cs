@@ -447,8 +447,7 @@ namespace ТриНитиДизайн
 
         public Figure Cepochka(Figure figure, double step, Canvas canvas)
         {
-            Shape pathCepochka = SetSpline(0, 0.01, figure.Points, false, true, OptionColor.ColorDraw, canvas);
-            
+            Shape pathCepochka = SetSpline(0.01, figure.Points);
             Figure resultFigure = new Figure(canvas);
             Path path = (Path)pathCepochka;
             PathGeometry myPathGeometry = (PathGeometry)path.Data;

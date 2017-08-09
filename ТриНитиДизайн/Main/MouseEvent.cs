@@ -63,9 +63,8 @@ namespace ТриНитиДизайн
                 {
                     MainCanvas.Children.Remove(ListFigure[IndexFigure].NewPointEllipse);
                     MainCanvas.Children.Remove(changedLine);
-                    ChosenPts.Insert(1, e.GetPosition(MainCanvas));
-                    changedLine = SetSpline(5, 0.75, ChosenPts, true,false, OptionColor.ColorKrivaya, MainCanvas);
-                    ChosenPts.RemoveAt(1);
+                    ChangeBezierPoints(ChosenPts, e.GetPosition(MainCanvas));
+                    changedLine = SetBezier(OptionColor.ColorKrivaya, ChosenPts[0], ChosenPts[1], ChosenPts[2], ChosenPts[3], MainCanvas);
                 }
 
                 if (OptionRegim.regim == Regim.RegimDuga)
@@ -216,12 +215,12 @@ namespace ТриНитиДизайн
             }
             if(OptionRegim.regim == Regim.RegimMoveRect)
             {
+                //TODO: скопированная фигура нестабильна - нужно исправить
                 ListFigure[IndexFigure].Points.Insert(ListFigure[IndexFigure].PointsCount[0], e.GetPosition(MainCanvas));
-
                 if (ListFigure[IndexFigure].PointsCount[0] != 0)
-                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], e.GetPosition(MainCanvas));
+                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], new Tuple<Point,Point>(new Point(),new Point()));
                 if (ListFigure[IndexFigure].PointsCount[0] != ListFigure[IndexFigure].Points.Count - 1)
-                    ListFigure[IndexFigure].AddShape(changedLine2, e.GetPosition(MainCanvas), e.GetPosition(MainCanvas));
+                    ListFigure[IndexFigure].AddShape(changedLine2, e.GetPosition(MainCanvas), new Tuple<Point, Point>(new Point(), new Point()));
 
                 if (ListFigure[IndexFigure].PointsCount[0] == ListFigure[IndexFigure].Points.Count - 1)
                     ListFigure[IndexFigure].PointEnd = e.GetPosition(MainCanvas);
@@ -235,7 +234,10 @@ namespace ТриНитиДизайн
             {
                 if (ChosenPts.Count > 1)
                 {
-                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0],e.GetPosition(MainCanvas));
+                    if (OptionRegim.regim == Regim.RegimKrivaya)
+                        ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], new Tuple<Point,Point>(ChosenPts[1],ChosenPts[2]));
+                    else
+                        ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], new Tuple<Point,Point>(e.GetPosition(MainCanvas), new Point()));
                     ChosenPts.Clear();
                     OptionRegim.regim = Regim.RegimEditFigures;
                 }
@@ -340,7 +342,7 @@ namespace ТриНитиДизайн
                         double x2 = 0;
                         double y2 = 0;
                         Shape clickedShape = (Shape)e.OriginalSource;
-                        if (clickedShape.StrokeThickness == 1)
+                        if (clickedShape.StrokeThickness == OptionDrawLine.StrokeThickness)
                         {
                             Shape sha;
                             ListFigure[IndexFigure].DictionaryInvLines.TryGetValue(clickedShape, out sha);
@@ -369,10 +371,10 @@ namespace ТриНитиДизайн
                             OptionRegim.regim = Regim.RegimKrivaya;
                             var point = ListFigure[IndexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
                             ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
-                            ListFigure[IndexFigure].DeleteShape(sh, point.Key,MainCanvas);
+                            ChosenPts = PrepareForBezier((Shape)e.OriginalSource, e.GetPosition(MainCanvas), point.Key, new Point(x2,y2));
+
+                            ListFigure[IndexFigure].DeleteShape(sh, point.Key, MainCanvas);
                             changedLine = sh;
-                            ChosenPts.Add(point.Key);
-                            ChosenPts.Add(new Point(x2, y2));
                         }
                         if (keyLine.Key.Stroke == OptionColor.ColorChoosingRec)
                         {

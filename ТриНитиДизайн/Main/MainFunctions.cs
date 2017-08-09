@@ -44,6 +44,60 @@ namespace ТриНитиДизайн
 
         }
 
+        public string SavingFigures()
+        {
+            string dots = "";
+            for (int i = 0; i < ListFigure.Count; i++)
+            {
+                if (ListFigure[i].Points.Count > 0)
+                {
+                    dots += ListFigure[i].Points[0].X;
+                    dots += " ";
+                    dots += ListFigure[i].Points[0].Y;
+                    dots += " ";
+                    for (int j = 1; j < ListFigure[i].Points.Count; j++)
+                    {
+                        Shape sh;
+                        ListFigure[i].DictionaryPointLines.TryGetValue(ListFigure[i].Points[j - 1], out sh);
+                        if (sh is Path)
+                        {
+                            Tuple<Point,Point> contP;
+                            ListFigure[i].DictionaryShapeControlPoints.TryGetValue(ListFigure[i].Points[j - 1], out contP);
+                            if (sh.MinHeight == 5)
+                            {
+                                dots += "C";
+                                dots += " ";
+                                dots += contP.Item1.X;
+                                dots += " ";
+                                dots += contP.Item1.Y;
+                                dots += " ";
+                                dots += contP.Item2.X;
+                                dots += " ";
+                                dots += contP.Item2.Y;
+                            }
+                            else
+                            {
+                                dots += "A";
+                                dots += " ";
+                                dots += contP.Item1.X;
+                                dots += " ";
+                                dots += contP.Item1.Y;
+                            }
+                        }
+                        else
+                            dots += "L";
+                        dots += " ";
+                        dots += ListFigure[i].Points[j].X;
+                        dots += " ";
+                        dots += ListFigure[i].Points[j].Y;
+                        dots += " ";
+                    }
+                    dots += "!";
+                }
+            }
+            return dots;
+        }
+
         private void ClearEverything(bool isListEmpty)
         {
             ListFigure.Clear();

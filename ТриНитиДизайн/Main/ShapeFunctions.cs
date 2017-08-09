@@ -19,18 +19,15 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public Shape SetSpline(double minHeight, double tension,List<Point> TPoint,bool isCurve,bool isCepochka, Brush brush, Canvas canvas)
+        public Shape SetSpline(double tension,List<Point> TPoint)
         {
             Path myPath = new Path();
-            myPath.MinHeight = minHeight;
-            myPath.Stroke = brush;
+            myPath.Stroke = OptionColor.ColorDraw;
             myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
             PathGeometry myPathGeometry = new PathGeometry();
             CanonicalSplineHelper spline = new CanonicalSplineHelper();
-            myPathGeometry = spline.CreateSpline(TPoint, tension, null,isCurve, false, false, isCepochka, 0.25);
+            myPathGeometry = spline.CreateSpline(TPoint, tension, null, false, false, 0.25);
             myPath.Data = myPathGeometry;
-            if(!isCepochka)
-                canvas.Children.Add(myPath);
             return myPath;
         }
 
@@ -68,6 +65,26 @@ namespace ТриНитиДизайн
             pathFigure.Segments.Add(arc);
             pathGeometry.Figures.Add(pathFigure);
             myPath.Data = pathGeometry;
+            canvas.Children.Add(myPath);
+            return myPath;
+        }
+
+        public Shape SetBezier(Brush brush, Point firstDot, Point controlDot1, Point controlDot2, Point lastDot, Canvas canvas)
+        {
+            Path myPath = new Path();
+            myPath.MinHeight = 5;
+            myPath.Stroke = brush;
+            myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
+            PathGeometry myPathGeometry = new PathGeometry();
+            PathFigure myPathFigure = new PathFigure();
+            BezierSegment myArcSegment = new BezierSegment();
+            myPathFigure.StartPoint = firstDot;
+            myArcSegment.Point1 = controlDot1;
+            myArcSegment.Point2 = controlDot2;
+            myArcSegment.Point3 = lastDot;
+            myPathFigure.Segments.Add(myArcSegment);
+            myPathGeometry.Figures.Add(myPathFigure);
+            myPath.Data = myPathGeometry;
             canvas.Children.Add(myPath);
             return myPath;
         }
@@ -112,6 +129,93 @@ namespace ТриНитиДизайн
                     }
                 }
             }
+        }
+
+        public List<Point> PrepareForBezier(Shape clickedShape, Point clickedPoint, Point firstShapeDot, Point secondShapeDot)
+        {
+            List<Point> bezierPoints = new List<Point>();
+            if(clickedShape is Line)
+            {
+                Line ln = (Line)clickedShape;
+                Point firstDot = new Point(ln.X1,ln.Y1);
+                Point secondDot = new Point(ln.X2, ln.Y2);
+                Vector vect = (secondDot - firstDot) / 3;
+                firstDot += vect;
+                secondDot -= vect;
+                bezierPoints.Add(firstShapeDot);
+                bezierPoints.Add(firstDot);
+                bezierPoints.Add(secondDot);
+                bezierPoints.Add(secondShapeDot);
+            }
+            else
+            {
+                Tuple<Point, Point> contPts;
+                ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(firstShapeDot, out contPts);
+                bezierPoints.Add(firstShapeDot);
+                bezierPoints.Add(contPts.Item1);
+                bezierPoints.Add(contPts.Item2);
+                bezierPoints.Add(secondShapeDot);
+            }
+            t = FindT(bezierPoints[0], bezierPoints[1], bezierPoints[2], bezierPoints[3], clickedPoint);
+            prevPoint = clickedPoint;
+            return bezierPoints;
+        }
+
+        public List<Point> ChangeBezierPoints(List<Point> bezierPts, Point currentPosition)
+        {
+            double weight;
+            if (t <= 1.0 / 6.0) weight = 0;
+            else if (t <= 0.5) weight = (Math.Pow((6 * t - 1) / 2.0, 3)) / 2;
+            else if (t <= 5.0 / 6.0) weight = (1 - Math.Pow((6 * (1 - t) - 1) / 2.0, 3)) / 2 + 0.5;
+            else weight = 1;
+
+            Point delta = new Point(currentPosition.X - prevPoint.X, currentPosition.Y - prevPoint.Y);
+            Point offset0 = new Point(((1 - weight) / (3 * t * (1 - t) * (1 - t))) * delta.X, ((1 - weight) / (3 * t * (1 - t) * (1 - t))) * delta.Y);
+            Point offset1 = new Point((weight / (3 * t * t * (1 - t))) * delta.X, (weight / (3 * t * t * (1 - t))) * delta.Y);
+
+            bezierPts[1] = new Point(bezierPts[1].X + offset0.X, bezierPts[1].Y + offset0.Y);
+            bezierPts[2] = new Point(bezierPts[2].X + offset1.X, bezierPts[2].Y + offset1.Y);
+            prevPoint = currentPosition;
+            return bezierPts;
+        }
+
+        private double FindT(Point firstDot, Point controlDot1, Point controlDot2, Point lastDot, Point clickedDot)
+        {
+            double _t = 0;
+            List<Point> pts = new List<Point>();
+            Point A = firstDot;
+            Point B = controlDot1;
+            Point C = controlDot2;
+            Point D = lastDot;
+            pts.Add(A);
+            for (double i = 1; i < 500; i++)
+            {
+                double divide = i / 500;
+                Point E = Lerp(A, B, divide);
+                Point F = Lerp(B, C, divide);
+                Point G = Lerp(C, D, divide);
+                Point H = Lerp(E, F, divide);
+                Point J = Lerp(F, G, divide);
+                Point K = Lerp(H, J, divide);
+                pts.Add(K);
+            }
+            pts.Add(D);
+            double distance = Double.MaxValue;
+            for (int i = 0; i < pts.Count; i++)
+            {
+                if (FindLength(pts[i], clickedDot) < distance)
+                {
+                    distance = FindLength(pts[i], clickedDot);
+                    _t = (double)i / 500;
+                }
+            }
+            return _t;
+        }
+
+        private Point Lerp(Point A, Point B, double x)
+        {
+            double s = 1 - x;
+            return new Point(A.X * s + B.X * x, A.Y * s + B.Y * x);
         }
 
         public void MakeLomanaya(Figure fig, Canvas canvas)
@@ -201,7 +305,7 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Point contP;
+                        Tuple<Point,Point> contP;
                         fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
                         newFig.AddShape(sh, p, contP);
                     }
@@ -220,7 +324,7 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Point contP;
+                        Tuple<Point, Point> contP;
                         fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
                         newFig.AddShape(sh, p, contP);
                     }
@@ -274,8 +378,14 @@ namespace ТриНитиДизайн
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
                     fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]],MainCanvas);
-                    sh = SetSpline(10, 0.7, newList, false,false, brush, MainCanvas);
-                    fig.AddShape(sh, fig.Points[fig.PointsCount[i]],new Point(-500,-500));
+                    double SX1 = 0.7 * (newList[2].X - newList[0].X) / 3 + newList[1].X;
+                    double SY1 = 0.7 * (newList[2].Y - newList[0].Y) / 3 + newList[1].Y;
+                    double SX2 = newList[2].X - 0.7 * (newList[3].X - newList[1].X) / 3;
+                    double SY2 = newList[2].Y  - 0.7 * (newList[3].Y - newList[1].Y) / 3;
+                    Point controlPoint1 = new Point(SX1,SY1);
+                    Point controlPoint2 = new Point(SX2,SY2);
+                    sh = SetBezier(OptionColor.ColorKrivaya, newList[1],controlPoint1,controlPoint2,newList[2],canvas);
+                    fig.AddShape(sh, fig.Points[fig.PointsCount[i]], new Tuple<Point,Point>(controlPoint1,controlPoint2));
                 }
             }
         }
@@ -283,9 +393,6 @@ namespace ТриНитиДизайн
         public void ReverseFigure(Figure fig, Canvas canvas)
         {
             Figure newFig = new Figure(canvas);
-            List<Point> ptsForCurves = new List<Point>();
-            Dictionary<Point, Shape> tempDicShape = new Dictionary<Point, Shape>();
-            Dictionary<Point, Point> tempDicContPoints = new Dictionary<Point, Point>();
             for (int i = fig.Points.Count - 1; i >= 0; i--)
             {
                 Point p = fig.Points[i];
@@ -293,23 +400,18 @@ namespace ТриНитиДизайн
                 {
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[i - 1], out sh);
-                    Point contP;
+                    Tuple<Point,Point> contP;
                     fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i - 1], out contP);
                     if(sh is Path)
                     {
-                        if (sh.MinHeight == 10)
+                        if (sh.MinHeight == 5)
                         {
-                            if (!newFig.PointsCount.Contains(fig.Points.Count - i))
-                                newFig.PointsCount.Add(fig.Points.Count - i);
-                            if (!newFig.PointsCount.Contains(fig.Points.Count - i - 1))
-                                newFig.PointsCount.Add(fig.Points.Count - i - 1);
+                            contP = new Tuple<Point,Point>(contP.Item2,contP.Item1);
+                            sh = SetBezier(OptionColor.ColorDraw,p,contP.Item1,contP.Item2,fig.Points[i-1],canvas);
                         }
                         else
                         {
-                            ptsForCurves.Add(p);
-                            ptsForCurves.Add(fig.Points[i - 1]);
-                            tempDicShape.Add(p, sh);
-                            tempDicContPoints.Add(p, contP);
+                            sh = SetArc(OptionColor.ColorDraw,p,fig.Points[i-1],contP.Item1,canvas);
                         }
                     }
                     newFig.AddShape(sh, p, contP);
@@ -318,32 +420,9 @@ namespace ТриНитиДизайн
             }
             newFig.PointStart = fig.PointEnd;
             newFig.PointEnd = fig.PointStart;
-            newFig.PointsCount.Sort();
-            if (newFig.PointsCount.Count > 0)
-                MakeSpline(newFig, OptionColor.ColorDraw, canvas);
-
-            for (int i = 0; i < ptsForCurves.Count; i+=2 )
-            {
-                Shape sh;
-                newFig.DictionaryPointLines.TryGetValue(ptsForCurves[i], out sh);
-                newFig.DeleteShape(sh, ptsForCurves[i], canvas);
-                tempDicShape.TryGetValue(ptsForCurves[i], out sh);
-                Point contP;
-                tempDicContPoints.TryGetValue(ptsForCurves[i], out contP);
-                if (sh.MinHeight == 5)
-                {
-                    List<Point> pts = new List<Point>();
-                    pts.Add(ptsForCurves[i]);
-                    pts.Add(contP);
-                    pts.Add(ptsForCurves[i + 1]);
-                    sh = SetSpline(5, 0.75, pts, true,false, OptionColor.ColorDraw, canvas);
-                }
-                else
-                    sh = SetArc(OptionColor.ColorDraw, ptsForCurves[i], ptsForCurves[i + 1], contP, canvas);
-                newFig.AddShape(sh, ptsForCurves[i], contP);
-            }
             ListFigure.Insert(IndexFigure, newFig);
             ListFigure.Remove(fig);
+            
         }
 
         public void AddPointToFigure(Figure fig, Canvas canvas)
@@ -359,7 +438,7 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Point contP;
+                        Tuple<Point,Point> contP;
                         fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
                         newFig.AddShape(sh, p, contP);
                     }
@@ -378,7 +457,7 @@ namespace ТриНитиДизайн
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Point contP;
+                        Tuple<Point,Point> contP;
                         fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
                         newFig.AddShape(sh, p, contP);
                     }
@@ -422,7 +501,7 @@ namespace ТриНитиДизайн
                             if (i != fig.Points.Count - 1 && !nextDotDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
-                                Point contP;
+                                Tuple<Point, Point> contP;
                                 fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i], out contP);
                                 newFig.AddShape(prevShape, fig.Points[i], contP);
                             }
@@ -433,7 +512,7 @@ namespace ТриНитиДизайн
                             if (i != fig.Points.Count - 1 && !nextDotDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
-                                Point contP;
+                                Tuple<Point, Point> contP;
                                 fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i], out contP);
                                 newFig.AddShape(prevShape, fig.Points[i], contP);
                             }
@@ -448,6 +527,5 @@ namespace ТриНитиДизайн
                 ListFigure.Remove(fig);
             }
         }
-
     }
 }
