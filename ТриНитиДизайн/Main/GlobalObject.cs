@@ -57,6 +57,7 @@ namespace ТриНитиДизайн
         Shape changedLine2;
         Point prevPoint;
         Point FarTransformRectangle;
+        Tuple<Point, Point> tempContPts;
         List<Point> ChosenPts;
         List<Point> CoordinatesOfTransformRectangles = new List<Point>();
         List<Figure> TempLinesForGlad = new List<Figure>();

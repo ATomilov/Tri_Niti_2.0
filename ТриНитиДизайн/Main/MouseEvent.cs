@@ -78,17 +78,13 @@ namespace ТриНитиДизайн
                 {
                     MainCanvas.Children.Remove(ListFigure[IndexFigure].NewPointEllipse);
                     MainCanvas.Children.Remove(firstRec);
+
                     if (ListFigure[IndexFigure].PointsCount[0] != 0)
-                    {
-                        MainCanvas.Children.Remove(changedLine);
-                        changedLine = SetLine(ChosenPts[0], e.GetPosition(MainCanvas), MainCanvas);
-                    }
+                        changedLine = ManipulateShape(changedLine, ChosenPts[0], e.GetPosition(MainCanvas), true, MainCanvas);
+
                     if (ListFigure[IndexFigure].PointsCount[0] != ListFigure[IndexFigure].Points.Count)
-                    {
-                        MainCanvas.Children.Remove(changedLine2);
-                        changedLine2 = SetLine(e.GetPosition(MainCanvas), ChosenPts[2], MainCanvas);
-                    }
-                    
+                        changedLine2 = ManipulateShape(changedLine2, e.GetPosition(MainCanvas), ChosenPts[2], false, MainCanvas);
+
                     firstRec = DrawRectangle(e.GetPosition(MainCanvas), false,false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, MainCanvas);
                 }
                 if (OptionRegim.regim == Regim.RegimEditFigures)
@@ -218,9 +214,9 @@ namespace ТриНитиДизайн
                 //TODO: скопированная фигура нестабильна - нужно исправить
                 ListFigure[IndexFigure].Points.Insert(ListFigure[IndexFigure].PointsCount[0], e.GetPosition(MainCanvas));
                 if (ListFigure[IndexFigure].PointsCount[0] != 0)
-                    ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], new Tuple<Point,Point>(new Point(),new Point()));
+                    AddManipulatedShape(changedLine, ChosenPts[0],ChosenPts[0],true, MainCanvas);
                 if (ListFigure[IndexFigure].PointsCount[0] != ListFigure[IndexFigure].Points.Count - 1)
-                    ListFigure[IndexFigure].AddShape(changedLine2, e.GetPosition(MainCanvas), new Tuple<Point, Point>(new Point(), new Point()));
+                    AddManipulatedShape(changedLine2, e.GetPosition(MainCanvas),ChosenPts[1],false, MainCanvas);
 
                 if (ListFigure[IndexFigure].PointsCount[0] == ListFigure[IndexFigure].Points.Count - 1)
                     ListFigure[IndexFigure].PointEnd = e.GetPosition(MainCanvas);
@@ -228,6 +224,8 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].PointStart = e.GetPosition(MainCanvas);
 
                 ListFigure[IndexFigure].RectangleOfFigures.Insert(ListFigure[IndexFigure].PointsCount[0], firstRec);
+                RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+                ListFigure[IndexFigure].ChangeRectangleColor();
                 OptionRegim.regim = Regim.RegimEditFigures;
             }
             if (OptionRegim.regim == Regim.RegimKrivaya || OptionRegim.regim == Regim.RegimDuga)
@@ -348,6 +346,8 @@ namespace ТриНитиДизайн
                             ListFigure[IndexFigure].DictionaryInvLines.TryGetValue(clickedShape, out sha);
                             clickedShape = sha;
                         }
+                        if (clickedShape == null)
+                            return;
                         if (e.OriginalSource is Line)
                         {
                             Line clickedLine = (Line)clickedShape;
@@ -366,6 +366,8 @@ namespace ТриНитиДизайн
                         }
                         Shape sh;
                         var keyLine = ListFigure[IndexFigure].DictionaryInvLines.FirstOrDefault(x => x.Value == clickedShape);
+                        if (keyLine.Key == null)
+                            return;
                         if (keyLine.Key.Stroke == OptionColor.ColorKrivaya)
                         {
                             OptionRegim.regim = Regim.RegimKrivaya;
@@ -415,13 +417,12 @@ namespace ТриНитиДизайн
                         if (ListFigure[IndexFigure].PointsCount[0] != 0)
                         {
                             ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(ChosenPts[0], out sh);
-                            ListFigure[IndexFigure].DeleteShape(sh, ChosenPts[0], MainCanvas);
                             changedLine = sh;
                         }
                         if (ListFigure[IndexFigure].PointsCount[0] != ListFigure[IndexFigure].Points.Count - 1)
                         {
                             ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(ChosenPts[1], out sh);
-                            ListFigure[IndexFigure].DeleteShape(sh, ChosenPts[1], MainCanvas);
+                            ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(ChosenPts[1], out tempContPts);
                             changedLine2 = sh;
                         }
                         ListFigure[IndexFigure].Points.RemoveAt(index);

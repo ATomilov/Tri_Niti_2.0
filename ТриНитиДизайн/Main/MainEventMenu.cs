@@ -202,7 +202,6 @@ namespace ТриНитиДизайн
         {
             ListFigure[IndexFigure].ClearFigure();
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-
         }
 
         private void CopyFigureClick(object sender, RoutedEventArgs e)

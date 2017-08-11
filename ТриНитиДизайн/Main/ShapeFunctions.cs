@@ -179,6 +179,48 @@ namespace ТриНитиДизайн
             return bezierPts;
         }
 
+        public Shape ManipulateShape(Shape manipulatedShape, Point shapeOriginPoint, Point currentPosition, bool isDotUnmoved, Canvas canvas)
+        {
+            canvas.Children.Remove(manipulatedShape);
+            if (manipulatedShape is Line)
+            {
+                manipulatedShape = SetLine(shapeOriginPoint, currentPosition, canvas);
+            }
+            else
+            {
+                Tuple<Point, Point> contPts;
+                if (isDotUnmoved)
+                    ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(shapeOriginPoint, out contPts);
+                else
+                    contPts = tempContPts;
+
+                if (manipulatedShape.Stroke == OptionColor.ColorKrivaya)
+                    manipulatedShape = SetBezier(OptionColor.ColorKrivaya, shapeOriginPoint, contPts.Item1, contPts.Item2, currentPosition, canvas);
+                else
+                    manipulatedShape = SetArc(OptionColor.ColorChoosingRec, shapeOriginPoint, currentPosition, contPts.Item1, canvas);
+
+            }
+            return manipulatedShape;
+        }
+
+        public void AddManipulatedShape(Shape manipulatedShape,Point shapeNewPoint, Point shapeOriginalPoint, bool isDotUnmoved, Canvas canvas)
+        {
+            Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+            if (manipulatedShape is Line)
+                contPts = new Tuple<Point, Point>(new Point(), new Point());
+            else
+            {
+                if (isDotUnmoved)
+                    ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(shapeOriginalPoint, out contPts);
+                else
+                    contPts = tempContPts;
+            }
+            Shape sh;
+            ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(shapeOriginalPoint, out sh);
+            ListFigure[IndexFigure].DeleteShape(sh, shapeOriginalPoint, canvas);
+            ListFigure[IndexFigure].AddShape(manipulatedShape, shapeNewPoint, contPts);
+        }
+
         private double FindT(Point firstDot, Point controlDot1, Point controlDot2, Point lastDot, Point clickedDot)
         {
             double _t = 0;

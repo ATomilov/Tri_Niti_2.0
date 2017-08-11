@@ -19,7 +19,6 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-
         public void SetGrid()          
         {
             if(SetkaFigure != null)
@@ -80,7 +79,6 @@ namespace ТриНитиДизайн
                 return point;
             }
         }
-
 
     }
 }
