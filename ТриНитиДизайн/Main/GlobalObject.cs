@@ -54,16 +54,14 @@ namespace ТриНитиДизайн
         Figure SetkaFigure;
         Figure CopyFigure;
         Shape changedLine;
-        Shape changedLine2;
         Point prevPoint;
         Point FarTransformRectangle;
-        Tuple<Point, Point> tempContPts;
         List<Point> ChosenPts;
         List<Point> CoordinatesOfTransformRectangles = new List<Point>();
         List<Figure> TempLinesForGlad = new List<Figure>();
         List<Figure> LinesForGlad = new List<Figure>();
         List<Figure> ControlFigures = new List<Figure>();
         List<Figure> TatamiFigures = new List<Figure>();
-
+        List<ChangedShape> listChangedShapes = new List<ChangedShape>();
     }
 }

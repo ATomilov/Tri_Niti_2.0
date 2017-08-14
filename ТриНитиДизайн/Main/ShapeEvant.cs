@@ -43,6 +43,7 @@ namespace ТриНитиДизайн
             OptionRegim.regim = Regim.RegimEditFigures;
             MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+            ListFigure[IndexFigure].ChangeRectangleColor();
         }
 
         private void DygaButtonEvent(object sender, RoutedEventArgs e)
@@ -50,6 +51,7 @@ namespace ТриНитиДизайн
             MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
             DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorChoosingRec, MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+            ListFigure[IndexFigure].ChangeRectangleColor();
         }
 
         private void KrivaiaButtonEvent(object sender, RoutedEventArgs e)
@@ -57,12 +59,14 @@ namespace ТриНитиДизайн
             MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
             DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+            ListFigure[IndexFigure].ChangeRectangleColor();
         }
 
         private void SgladitButtonEvent(object sender, RoutedEventArgs e)
         {
             MakeSpline(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+            ListFigure[IndexFigure].ChangeRectangleColor();
         }
 
         private void SelectPointNextButtonEvent(object sender, RoutedEventArgs e)

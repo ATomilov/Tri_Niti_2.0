@@ -48,8 +48,10 @@ namespace ТриНитиДизайн
             bool isRegimCursor = false;
             if (OptionRegim.regim == Regim.RegimCursor)
                 isRegimCursor = true;
-            firstRec = DrawRectangle(ListFigure[IndexFigure].PointStart, false, isRegimCursor, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas);
-            lastRec = DrawRectangle(ListFigure[IndexFigure].PointEnd, false, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, MainCanvas);
+            firstRec = GeometryHelper.DrawRectangle(ListFigure[IndexFigure].PointStart, false, isRegimCursor, 
+                OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas);
+            lastRec = GeometryHelper.DrawRectangle(ListFigure[IndexFigure].PointEnd, false, false,
+                OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, MainCanvas);
         }
 
         public void DrawInvisibleRectangles(Canvas canvas)
@@ -69,9 +71,9 @@ namespace ТриНитиДизайн
                     secondPts = ListFigure[SecondGladFigure].Points;
 
                 for (int i = 0; i < firstPts.Count; i++)
-                    DrawRectangle(firstPts[i], true,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    GeometryHelper.DrawRectangle(firstPts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
                 for (int i = 0; i < secondPts.Count; i++)
-                    DrawRectangle(secondPts[i], true,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    GeometryHelper.DrawRectangle(secondPts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
             }
             else
             {
@@ -82,39 +84,9 @@ namespace ТриНитиДизайн
                     pts = ListFigure[IndexFigure].Points;
 
                 for (int i = 0; i < pts.Count; i++)
-                    DrawRectangle(pts[i], true,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    GeometryHelper.DrawRectangle(pts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
             }
-        }
-        
-        private Rectangle DrawRectangle(Point p, bool invRectangles,bool smallRec, double thickness , Brush brush, Canvas canvas)
-        {
-            Rectangle rec = new Rectangle();
-            if (!invRectangles)
-            {
-                rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle;
-                rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle;
-            }
-            else
-            {
-                rec.Height = OptionDrawLine.SizeWidthAndHeightInvRectangle;
-                rec.Width = OptionDrawLine.SizeWidthAndHeightInvRectangle;
-            }
-            if (smallRec)
-            {
-                rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle/1.5;
-                rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle/1.5;
-            }
-            Canvas.SetLeft(rec, p.X - rec.Height / 2);
-            Canvas.SetTop(rec, p.Y - rec.Width / 2);
-
-            rec.Fill = brush;
-            rec.Stroke = OptionColor.ColorSelection;
-            rec.StrokeThickness = thickness;
-            if (invRectangles)
-                rec.Opacity = 0;
-            canvas.Children.Add(rec);
-            return rec;
-        }
+        }        
         
         public void BreakFigureOrMakeGladFigure(List<Figure> FigureList, Object clickedShape, Canvas canvas)
         {
@@ -246,8 +218,8 @@ namespace ТриНитиДизайн
                     Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
                     canvas.Children.Remove(lastRec);
                     canvas.Children.Remove(firstRec);
-                    firstRec = DrawRectangle(pLastRec, false,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
-                    lastRec = DrawRectangle(pfirstRec, false,false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
+                    firstRec = GeometryHelper.DrawRectangle(pLastRec, false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    lastRec = GeometryHelper.DrawRectangle(pfirstRec, false, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
                 }
                 else
                 {
@@ -265,8 +237,8 @@ namespace ТриНитиДизайн
                     Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
                     canvas.Children.Remove(lastRec);
                     canvas.Children.Remove(firstRec);
-                    firstRec = DrawRectangle(pLastRec, false,false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
-                    lastRec = DrawRectangle(pfirstRec, false,false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
+                    firstRec = GeometryHelper.DrawRectangle(pLastRec, false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    lastRec = GeometryHelper.DrawRectangle(pfirstRec, false, false, OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, canvas);
                 }
                 else
                 {

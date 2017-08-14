@@ -86,23 +86,20 @@ namespace ТриНитиДизайн
                     Point p = new Point(Double.Parse(elements[0]), Double.Parse(elements[1]));
                     ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                     int j = 2;
-                    bool isLastPointLine = true;
                     while(!elements[j].Equals("!"))
                     {
                         if(elements[j].Equals("L"))
                         {
-                            isLastPointLine = true;
                             p = new Point(Double.Parse(elements[j+1]), Double.Parse(elements[j+2]));
                             ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
                         }
                         else if(elements[j].Equals("C"))
                         {
-                            isLastPointLine = false;
                             Point firstContPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
                             Point secondContPoint = new Point(Double.Parse(elements[j + 3]), Double.Parse(elements[j + 4]));
                             j+=4;
                             Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            Shape sh = SetBezier(OptionColor.ColorSelection,p, firstContPoint, secondContPoint, p1,MainCanvas);
+                            Shape sh = GeometryHelper.SetBezier(OptionColor.ColorSelection,p, firstContPoint, secondContPoint, p1,MainCanvas);
                             ListFigure[i].AddShape(sh, p, new Tuple<Point, Point>(firstContPoint, secondContPoint));
                             p = p1;
                             ListFigure[i].Points.Add(p);
@@ -110,11 +107,10 @@ namespace ТриНитиДизайн
                         }
                         else if (elements[j].Equals("A"))
                         {
-                            isLastPointLine = false;
                             Point contPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
                             j += 2;
                             Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            Shape sh = SetArc(OptionColor.ColorSelection, p, p1, contPoint, MainCanvas);
+                            Shape sh = GeometryHelper.SetArc(OptionColor.ColorSelection, p, p1, contPoint, MainCanvas);
                             ListFigure[i].AddShape(sh, p, new Tuple<Point, Point>(contPoint, new Point()));
                             p = p1;
                             ListFigure[i].Points.Add(p);
