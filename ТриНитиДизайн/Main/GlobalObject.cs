@@ -63,5 +63,6 @@ namespace ТриНитиДизайн
         List<Figure> ControlFigures = new List<Figure>();
         List<Figure> TatamiFigures = new List<Figure>();
         List<ChangedShape> listChangedShapes = new List<ChangedShape>();
+        List<Line> centerLines = new List<Line>();
     }
 }

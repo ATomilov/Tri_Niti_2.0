@@ -39,7 +39,6 @@ namespace ТриНитиДизайн
                 ConLine.Points.Add(p2);
                 found = FindControlLine(StartLines, ConLine, CurCanvas,true);
             }
-
         }
 
         public bool FindControlLine(Figure StartLines, Figure ConLine, Canvas CurCanvas,bool isFirstLine)

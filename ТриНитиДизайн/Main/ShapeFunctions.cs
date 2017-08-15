@@ -93,6 +93,10 @@ namespace ТриНитиДизайн
         public List<Point> ChangeBezierPoints(List<Point> bezierPts, Point currentPosition)
         {
             double weight;
+            if (t == 0)
+                t = 0.05;
+            if (t == 1)
+                t = 0.95;
             if (t <= 1.0 / 6.0) weight = 0;
             else if (t <= 0.5) weight = (Math.Pow((6 * t - 1) / 2.0, 3)) / 2;
             else if (t <= 5.0 / 6.0) weight = (1 - Math.Pow((6 * (1 - t) - 1) / 2.0, 3)) / 2 + 0.5;
@@ -169,6 +173,67 @@ namespace ТриНитиДизайн
                 }
             }
             return _t;
+        }
+
+        private List<Point> ApproximateCurveDivsionPoint(Point firstDot, Point controlDot1, Point controlDot2, Point lastDot, Point clickedDot)
+        {
+            List<Point> curvePoints = new List<Point>();
+            Point A = firstDot;
+            Point B = controlDot1;
+            Point C = controlDot2;
+            Point D = lastDot;
+            double distance = Double.MaxValue;
+            for (double i = 1; i < 500; i++)
+            {
+                double divide = i / 500;
+                Point E = Lerp(A, B, divide);
+                Point F = Lerp(B, C, divide);
+                Point G = Lerp(C, D, divide);
+                Point H = Lerp(E, F, divide);
+                Point J = Lerp(F, G, divide);
+                Point K = Lerp(H, J, divide);
+                if(FindLength(K,clickedDot) < distance)
+                {
+                    curvePoints.Clear();
+                    distance = FindLength(K, clickedDot);
+                    curvePoints.Add(E);
+                    curvePoints.Add(H);
+                    curvePoints.Add(J);
+                    curvePoints.Add(G);
+                }
+            }
+            curvePoints.Insert(0, A);
+            curvePoints.Insert(3, clickedDot);
+            curvePoints.Add(lastDot);
+            return curvePoints;
+        }
+
+        private List<Point> ApproximateArcDivisionPoint(Shape arcShape, Point firstPoint, Point secondPoint, Point clickedPoint)
+        {
+            Path path = (Path)arcShape;
+            PathGeometry myPathGeometry = (PathGeometry)path.Data;
+            List<Point> arcPoints = new List<Point>();
+            arcPoints.Add(firstPoint);
+            Point p;
+            Point tg;
+            double distance = Double.MaxValue;
+            double fraction = 0;
+            for (double j = 1; j <= 100; j++)
+            {
+                myPathGeometry.GetPointAtFractionLength(j / 100.0, out p, out tg);
+                if(FindLength(clickedPoint,p) < distance)
+                {
+                    distance = FindLength(clickedPoint, p);
+                    fraction = j / 100.0;
+                }
+            }
+            myPathGeometry.GetPointAtFractionLength(fraction / 2, out p, out tg);
+            arcPoints.Add(p);
+            arcPoints.Add(clickedPoint);
+            myPathGeometry.GetPointAtFractionLength((1 - fraction) / 2 + fraction, out p, out tg);
+            arcPoints.Add(p);
+            arcPoints.Add(secondPoint);
+            return arcPoints;
         }
 
         private Point Lerp(Point A, Point B, double x)
@@ -385,45 +450,42 @@ namespace ТриНитиДизайн
         {
             if (canvas.Children.Contains(fig.NewPointEllipse))
             {
-                Figure newFig = new Figure(canvas);
+                fig.PointsCount.Clear();
                 int index = fig.Points.IndexOf(fig.PointForAddingPoints);
-                for (int i = 0; i <= index; i++)
+                fig.Points.Insert(index + 1, fig.EllipsePoint);
+                Shape sh;
+                fig.DictionaryPointLines.TryGetValue(fig.Points[index], out sh);
+                if (sh is Line)
                 {
-                    Point p = fig.Points[i];
-                    if (i != index)
-                    {
-                        Shape sh;
-                        fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Tuple<Point,Point> contP;
-                        fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
-                        newFig.AddShape(sh, p, contP);
-                    }
-                    if (i == 0)
-                        newFig.PointStart = p;
-                    if (i == index)
-                        newFig.PointEnd = p;
-                    newFig.Points.Add(p);
+                    fig.DeleteShape(sh, fig.Points[index], canvas);
+                    Line ln = new Line();
+                    ln = GeometryHelper.SetLine(OptionColor.ColorDraw, fig.Points[index], fig.EllipsePoint,false, canvas);
+                    fig.AddShape(ln, fig.Points[index], new Tuple<Point, Point>(new Point(), new Point()));
+                    ln = GeometryHelper.SetLine(OptionColor.ColorDraw, fig.EllipsePoint, fig.Points[index + 2], false, canvas);
+                    fig.AddShape(ln, fig.EllipsePoint, new Tuple<Point, Point>(new Point(), new Point()));
                 }
-                newFig.AddPoint(fig.EllipsePoint, OptionColor.ColorDraw, true, OptionDrawLine.SizeWidthAndHeightRectangle);
-                newFig.AddPoint(fig.Points[index + 1], OptionColor.ColorDraw, true, OptionDrawLine.SizeWidthAndHeightRectangle);
-                for (int i = index + 1; i < fig.Points.Count; i++)
+                else if(sh.Stroke == OptionColor.ColorKrivaya)
                 {
-                    Point p = fig.Points[i];
-                    if (i != fig.Points.Count - 1)
-                    {
-                        Shape sh;
-                        fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
-                        Tuple<Point,Point> contP;
-                        fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
-                        newFig.AddShape(sh, p, contP);
-                    }
-                    if (i == fig.Points.Count - 1)
-                        newFig.PointEnd = p;
-                    if (i != index + 1)
-                        newFig.Points.Add(p);
+                    Tuple<Point, Point> contPts;
+                    fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[index], out contPts);
+                    List<Point> curvePts = ApproximateCurveDivsionPoint(fig.Points[index], contPts.Item1, contPts.Item2, fig.Points[index + 2], fig.EllipsePoint);
+                    fig.DeleteShape(sh, fig.Points[index], canvas);
+                    Shape newCurve;
+                    newCurve = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, curvePts[0], curvePts[1], curvePts[2], curvePts[3], canvas);
+                    fig.AddShape(newCurve, fig.Points[index], new Tuple<Point, Point>(curvePts[1], curvePts[2]));
+                    newCurve = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, curvePts[3], curvePts[4], curvePts[5], curvePts[6], canvas);
+                    fig.AddShape(newCurve, fig.EllipsePoint, new Tuple<Point, Point>(curvePts[4], curvePts[5]));
                 }
-                ListFigure.Insert(IndexFigure, newFig);
-                ListFigure.Remove(fig);
+                else
+                {
+                    fig.DeleteShape(sh, fig.Points[index], canvas);
+                    List<Point> arcPts = ApproximateArcDivisionPoint(sh, fig.Points[index], fig.Points[index + 2], fig.EllipsePoint);
+                    Shape newArc;
+                    newArc = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, arcPts[0], arcPts[2], arcPts[1], canvas);
+                    fig.AddShape(newArc, fig.Points[index], new Tuple<Point, Point>(arcPts[2], new Point()));
+                    newArc = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, arcPts[2], arcPts[4], arcPts[3], canvas);
+                    fig.AddShape(newArc, fig.EllipsePoint, new Tuple<Point, Point>(arcPts[4], new Point()));
+                }
             }
         }
         

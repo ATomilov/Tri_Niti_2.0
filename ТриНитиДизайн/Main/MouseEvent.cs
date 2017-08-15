@@ -218,7 +218,6 @@ namespace ТриНитиДизайн
                         ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], new Tuple<Point,Point>(ChosenPts[1],ChosenPts[2]));
                     else
                         ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], new Tuple<Point,Point>(e.GetPosition(MainCanvas), new Point()));
-                    ChosenPts.Clear();
                     OptionRegim.regim = Regim.RegimEditFigures;
                 }
             }

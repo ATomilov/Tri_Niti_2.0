@@ -116,6 +116,7 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             SetToDefault();
             MainCanvas.Cursor = NormalCursor;
+            SetkaFigure.AddFigure(MainCanvas);
         }
 
         public void CursorMenuDrawInColor()

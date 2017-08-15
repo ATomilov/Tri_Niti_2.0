@@ -19,13 +19,26 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
+        private void SetCenter(object sender, RoutedEventArgs e)
+        {
+            MenuItem check = (MenuItem)sender;
+            SetCenter(check.IsChecked);
+        }
+
+        private void UnsetCenter(object sender, RoutedEventArgs e)
+        {
+            MenuItem check = (MenuItem)sender;
+            SetCenter(check.IsChecked);
+        }
+
         private void SetItemSetka1(object sender, RoutedEventArgs e)
         {
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
-                    if (item is MenuItem && !ReferenceEquals(item, check))
+                    if (item is MenuItem && !ReferenceEquals(item, check) &&
+                        !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 0;
                 SetGrid();
@@ -113,7 +126,8 @@ namespace ТриНитиДизайн
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
-                    if (item is MenuItem && !ReferenceEquals(item, check))
+                    if (item is MenuItem && !ReferenceEquals(item, check) &&
+                        !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 5;
                 SetGrid();
@@ -125,7 +139,8 @@ namespace ТриНитиДизайн
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
-                    if (item is MenuItem && !ReferenceEquals(item, check))
+                    if (item is MenuItem && !ReferenceEquals(item, check) &&
+                        !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 10;
                 SetGrid();
@@ -137,7 +152,8 @@ namespace ТриНитиДизайн
             if (check.IsChecked == true)
             {
                 foreach (MenuItem item in MenuSetka.Items)
-                    if (item is MenuItem && !ReferenceEquals(item, check))
+                    if (item is MenuItem && !ReferenceEquals(item, check) &&
+                        !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
                         item.IsChecked = false;
                 OptionSetka.MasshtabSetka = 20;
                 SetGrid();

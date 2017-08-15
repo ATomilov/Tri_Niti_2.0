@@ -38,6 +38,28 @@ namespace ТриНитиДизайн
             SetkaFigure.AddFigure(MainCanvas);
         }
 
+        public void SetCenter(bool isCenterSet)
+        {
+            if(isCenterSet)
+            {
+                double height = 900;
+                double width = 1600;
+                Line verticalLine = new Line();
+                verticalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(width / 2, 0),
+                    new Point(width / 2, height),true, MainCanvas);
+                Line horizontalLine = new Line();
+                horizontalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(0, height / 2), 
+                    new Point(width, height / 2),true, MainCanvas);
+                centerLines.Add(verticalLine);
+                centerLines.Add(horizontalLine);
+            }
+            else
+            {
+                MainCanvas.Children.Remove(centerLines[0]);
+                MainCanvas.Children.Remove(centerLines[1]);
+            }
+        }
+
         public Path SetDot(Point centerPoint)         
         {
             System.Windows.Shapes.Path myPath = new System.Windows.Shapes.Path();

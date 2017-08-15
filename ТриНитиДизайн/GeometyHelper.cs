@@ -69,7 +69,7 @@ namespace ТриНитиДизайн
             return myPath;
         }
 
-        public static Line SetLine(Point p1, Point p2, Canvas canvas)
+        public static Line SetLine(Brush brush, Point p1, Point p2, bool isDashed, Canvas canvas)
         {
             Line line = new Line();
             line.X1 = p1.X;
@@ -77,7 +77,14 @@ namespace ТриНитиДизайн
             line.X2 = p2.X;
             line.Y2 = p2.Y;
             line.StrokeThickness = OptionDrawLine.StrokeThickness;
-            line.Stroke = OptionColor.ColorDraw;
+            if(isDashed)
+            {
+                DoubleCollection dashes = new DoubleCollection();
+                dashes.Add(3);
+                dashes.Add(3);
+                line.StrokeDashArray = dashes;
+            }
+            line.Stroke = brush;
             canvas.Children.Add(line);
             return line;
         }

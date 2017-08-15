@@ -44,6 +44,7 @@ namespace ТриНитиДизайн
         public Ellipse NewPointEllipse;
         public Rectangle SelectedRectangle;
         public bool PreparedForTatami;
+
         public Figure(Canvas _canvas)
         {
             regimFigure = Regim.RegimFigure;
@@ -134,7 +135,6 @@ namespace ТриНитиДизайн
             InvShapes.Add(newLine);
             DictionaryInvLines.Add(shape, newLine);
         }
-
         
         public void DrawAllRectangles()
         {
@@ -177,8 +177,7 @@ namespace ТриНитиДизайн
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;
             canvas.Children.Add(rec);
         }
-
-
+        
         public void ClearFigure()
         {
             tempShapes = new List<Shape>();
@@ -513,6 +512,5 @@ namespace ТриНитиДизайн
             }
             return new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
         }
-
     }
 }

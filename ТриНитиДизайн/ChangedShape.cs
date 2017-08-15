@@ -71,11 +71,17 @@ namespace ТриНитиДизайн
                     false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
             }
             if(changedShape is Line)
-                changedShape = GeometryHelper.SetLine(firstPoint, secondPoint, canvas);
+                changedShape = GeometryHelper.SetLine(OptionColor.ColorDraw, firstPoint, secondPoint,false, canvas);
             else
             {
                 if (changedShape.Stroke == OptionColor.ColorKrivaya)
+                {
+                    if(status.Equals("second"))
+                        secondControlPoint += delta;
+                    else if (status.Equals("first"))
+                        firstControlPoint += delta;
                     changedShape = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, firstPoint, firstControlPoint, secondControlPoint, secondPoint, canvas);
+                }
                 else
                     changedShape = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, firstPoint, secondPoint, firstControlPoint, canvas);
             }

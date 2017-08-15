@@ -23,6 +23,8 @@ namespace ТриНитиДизайн
         {
             canvas.Children.Clear();
             SetkaFigure.AddFigure(canvas);
+            foreach (Line ln in centerLines)
+                canvas.Children.Add(ln);
             for(int i = 0; i < FigureList.Count;i++)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз

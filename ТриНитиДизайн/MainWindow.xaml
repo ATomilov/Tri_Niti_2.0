@@ -24,11 +24,6 @@
                 MouseLeftButtonDown="CanvasTest_MouseLeftButtonDown"
                 MouseLeftButtonUp="CanvasTest_MouseLeftButtonUp" Grid.RowSpan="2"
             >
-            <Canvas.CacheMode>
-
-                <BitmapCache EnableClearType="False" RenderAtScale="8"/>
-
-            </Canvas.CacheMode>
         </Canvas>
         <Menu Height="Auto" Name="menu1" VerticalAlignment="Top" FontFamily="Verdana" FontSize="12" Background="White">
             <MenuItem Header="Файл">
@@ -40,9 +35,6 @@
                 <Separator/>
                 <MenuItem Header="Загрузить рисунок" Click="LoadPLT" />
                 <MenuItem Header="Удалить рисунок" Click="DeletePLT"/>
-                <Separator/>
-                <MenuItem Header="Создать каталог" />
-                <Separator/>
                 <MenuItem Header="Выход" />
             </MenuItem>
             <MenuItem x:Name="Edit_Menu" Header="Редактировать" IsEnabled="False">
@@ -64,7 +56,7 @@
                 <MenuItem Header="Обновить" />-->
             </MenuItem>
             <MenuItem Header="Настройки" Name="MenuSetka" >
-                <MenuItem Header="Показать центр" />
+                <MenuItem Header="Показать центр"  IsCheckable="True" Unchecked="UnsetCenter" Checked="SetCenter"/>
                 <MenuItem Header="Нет сетки" IsCheckable="True" IsChecked="True" Checked="SetItemSetka1"/>
                 <MenuItem Header="Сетка 0.1 мм" IsCheckable="True" Checked="SetItemSetka2"/>
                 <MenuItem Header="Сетка 0.2 мм" IsCheckable="True" Checked="SetItemSetka3"/>
