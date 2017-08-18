@@ -26,6 +26,7 @@ namespace ТриНитиДизайн
         private void NewProject(object sender, RoutedEventArgs e)
         {
             ClearEverything(false);
+            pathToFile = null;
             this.Title = "Три Нити Дизайн 1.0 ";
         }
 
@@ -38,7 +39,9 @@ namespace ТриНитиДизайн
             {
                 this.Title = "Три Нити Дизайн 1.0 - " + saveFile.SafeFileName;
                 pathToFile = saveFile.FileName;
-                string dots = SavingFigures();
+                string dots = "";
+                for (int i = 0; i < ListFigure.Count; i++)
+                    dots+= SavingFigures(ListFigure[i]);
                 StreamWriter writer = new StreamWriter(saveFile.OpenFile());
                 writer.WriteLine(dots);
                 writer.Dispose();
@@ -50,12 +53,16 @@ namespace ТриНитиДизайн
         {
             if(pathToFile != null)
             {
-                string dots = SavingFigures();
+                string dots = "";
+                for (int i = 0; i < ListFigure.Count; i++)
+                    dots += SavingFigures(ListFigure[i]);
                 StreamWriter writer = new StreamWriter(pathToFile);
                 writer.WriteLine(dots);
                 writer.Dispose();
                 writer.Close();
             }
+            else
+                SaveProjectAs(null, null);
         }
 
         private void LoadProject(object sender, RoutedEventArgs e)
@@ -74,50 +81,12 @@ namespace ТриНитиДизайн
                 Regex rgx = new Regex(pattern);
                 MatchCollection matches = rgx.Matches(text);
                 if(matches.Count == 0)
-                {
                     ListFigure.Add(new Figure(MainCanvas));
-                }
                 for (int i = 0; i < matches.Count; i++)
-                {           
-                    ListFigure.Add(new Figure(MainCanvas));
+                {
                     string newStuff = matches[i].Value;
-                    pattern = @" ";
-                    String[] elements = Regex.Split(newStuff, pattern);
-                    Point p = new Point(Double.Parse(elements[0]), Double.Parse(elements[1]));
-                    ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                    int j = 2;
-                    while(!elements[j].Equals("!"))
-                    {
-                        if(elements[j].Equals("L"))
-                        {
-                            p = new Point(Double.Parse(elements[j+1]), Double.Parse(elements[j+2]));
-                            ListFigure[i].AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                        }
-                        else if(elements[j].Equals("C"))
-                        {
-                            Point firstContPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            Point secondContPoint = new Point(Double.Parse(elements[j + 3]), Double.Parse(elements[j + 4]));
-                            j+=4;
-                            Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            Shape sh = GeometryHelper.SetBezier(OptionColor.ColorSelection,p, firstContPoint, secondContPoint, p1,MainCanvas);
-                            ListFigure[i].AddShape(sh, p, new Tuple<Point, Point>(firstContPoint, secondContPoint));
-                            p = p1;
-                            ListFigure[i].Points.Add(p);
-                            ListFigure[i].PointEnd = ListFigure[i].Points[ListFigure[i].Points.Count - 1];
-                        }
-                        else if (elements[j].Equals("A"))
-                        {
-                            Point contPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            j += 2;
-                            Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                            Shape sh = GeometryHelper.SetArc(OptionColor.ColorSelection, p, p1, contPoint, MainCanvas);
-                            ListFigure[i].AddShape(sh, p, new Tuple<Point, Point>(contPoint, new Point()));
-                            p = p1;
-                            ListFigure[i].Points.Add(p);
-                            ListFigure[i].PointEnd = ListFigure[i].Points[ListFigure[i].Points.Count - 1];
-                        }
-                        j += 3;
-                    }
+                    Figure fig = LoadingFigure(newStuff);
+                    ListFigure.Add(fig);
                 }
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             }
@@ -131,9 +100,7 @@ namespace ТриНитиДизайн
             if (result == true)
             {
                 foreach (Figure fig in ListPltFigure)
-                {
                     fig.RemoveFigure(MainCanvas);
-                }
                 ListPltFigure.Clear();
                 StreamReader reader = new StreamReader(op.OpenFile());
                 string text = reader.ReadToEnd();
@@ -186,9 +153,7 @@ namespace ТриНитиДизайн
         private void DeletePLT(object sender, RoutedEventArgs e)
         {
             foreach(Figure fig in ListPltFigure)
-            {
                 fig.RemoveFigure(MainCanvas);
-            }
             ListPltFigure.Clear();
             
             ListPltFigure.Add(new Figure(MainCanvas));
@@ -196,8 +161,25 @@ namespace ТриНитиДизайн
 
         private void DeleteFigureClick(object sender, RoutedEventArgs e)
         {
-            ListFigure[IndexFigure].ClearFigure();
+            if (ListFigure[IndexFigure].Points.Count > 1)
+            {
+                DeletedFigure = DeepCopyFigure(ListFigure[IndexFigure]);
+                restore_button.IsEnabled = true;
+                ListFigure[IndexFigure] = new Figure(MainCanvas);
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            }
+        }
+
+        private void RestoreFigureClick(object sender, RoutedEventArgs e)
+        {
+            restore_button.IsEnabled = false;
+            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+            ListFigure.Add(DeletedFigure);
+            IndexFigure = ListFigure.IndexOf(DeletedFigure);
+            DeletedFigure = new Figure(MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
         }
 
         private void CopyFigureClick(object sender, RoutedEventArgs e)
@@ -205,39 +187,80 @@ namespace ТриНитиДизайн
             CopyFigure = new Figure(MainCanvas);
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
-                for(int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
-                {
-                    Point p = ListFigure[IndexFigure].Points[i];
-                    if (i != ListFigure[IndexFigure].Points.Count - 1)
-                    {
-                        Shape sh;
-                        ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
-                        Tuple<Point,Point> contP;
-                        ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(p, out contP);
-                        Shape newSh = DeepCopy(sh);
-                        CopyFigure.AddShape(newSh, p, contP);
-                    }
-                    CopyFigure.Points.Add(p);
-                }
-                CopyFigure.PointStart = ListFigure[IndexFigure].Points[0];
-                CopyFigure.PointEnd = ListFigure[IndexFigure].Points[ListFigure[IndexFigure].Points.Count - 1];
+                CopyFigure = DeepCopyFigure(ListFigure[IndexFigure]);
             }
         }
-
-       public Shape DeepCopy(Shape element)
-       {
-           string shapestring = XamlWriter.Save(element);
-           StringReader stringReader = new StringReader(shapestring);
-           XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
-           Shape DeepCopyobject = (Shape)XamlReader.Load(xmlTextReader);
-           return DeepCopyobject;
-       }
 
         private void PasteFigureClick(object sender, RoutedEventArgs e)
         {
             CopyFigure.ChangeFigureColor(OptionColor.ColorSelection, false);
             ListFigure.Add(CopyFigure);
             CopyFigure = new Figure(MainCanvas);
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+        }
+
+        private void CopyFigureFromClick(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "ell files (*.ell)|*.ell";
+            Nullable<bool> result = saveFile.ShowDialog();
+            if (result == true)
+            {
+                this.Title = "Три Нити Дизайн 1.0 - " + saveFile.SafeFileName;
+                pathToFile = saveFile.FileName;
+                string dots;
+                dots = SavingFigures(ListFigure[IndexFigure]);
+                StreamWriter writer = new StreamWriter(saveFile.OpenFile());
+                writer.WriteLine(dots);
+                writer.Dispose();
+                writer.Close();
+            }
+        }
+
+        private void PasteFigureFromClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Filter = "ell files| *.ell";
+            Nullable<bool> result = op.ShowDialog();
+            if (result == true)
+            {
+                pathToFile = op.FileName;
+                this.Title = "Три Нити Дизайн 1.0 - " + op.SafeFileName;
+                StreamReader reader = new StreamReader(op.OpenFile());
+                string text = reader.ReadToEnd();
+                string pattern = @"([0-9]| |-|,|C|A|L)+!";
+                Regex rgx = new Regex(pattern);
+                MatchCollection matches = rgx.Matches(text);
+                for (int i = 0; i < matches.Count; i++)
+                {
+                    string newStuff = matches[i].Value;
+                    Figure fig = LoadingFigure(newStuff);
+                    fig.ChangeFigureColor(OptionColor.ColorDraw, false);
+                    ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+                    ListFigure.Add(fig);
+                    IndexFigure = ListFigure.IndexOf(fig);
+                }
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            }
+        }
+
+        private void RefreshImageClick(object sender, RoutedEventArgs e)
+        {
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+        }
+
+        private void CreatePltClick(object sender, RoutedEventArgs e)
+        {
+            Figure newFig = DeepCopyFigure(ListFigure[IndexFigure]);
+            newFig.ChangeFigureColor(OptionColor.ColorPltFigure, false);
+            ListPltFigure.Add(newFig);
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
         }
 
         private void OpenFile(object sender, RoutedEventArgs e)

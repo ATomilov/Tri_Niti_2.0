@@ -482,9 +482,9 @@ namespace ТриНитиДизайн
                     List<Point> arcPts = ApproximateArcDivisionPoint(sh, fig.Points[index], fig.Points[index + 2], fig.EllipsePoint);
                     Shape newArc;
                     newArc = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, arcPts[0], arcPts[2], arcPts[1], canvas);
-                    fig.AddShape(newArc, fig.Points[index], new Tuple<Point, Point>(arcPts[2], new Point()));
+                    fig.AddShape(newArc, fig.Points[index], new Tuple<Point, Point>(arcPts[1], new Point()));
                     newArc = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, arcPts[2], arcPts[4], arcPts[3], canvas);
-                    fig.AddShape(newArc, fig.EllipsePoint, new Tuple<Point, Point>(arcPts[4], new Point()));
+                    fig.AddShape(newArc, arcPts[2], new Tuple<Point, Point>(arcPts[3], new Point()));
                 }
             }
         }

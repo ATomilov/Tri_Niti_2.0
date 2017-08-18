@@ -180,14 +180,17 @@ namespace ТриНитиДизайн
         
         public void ClearFigure()
         {
-            tempShapes = new List<Shape>();
-            tempInvShapes = new List<Shape>();
-            tempPoints = new List<Point>();
+            PointStart = new Point();
+            PointEnd = new Point();
+            regimFigure = Regim.RegimFigure;
             Shapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
+            tempShapes = new List<Shape>();
+            tempInvShapes = new List<Shape>();
+            tempPoints = new List<Point>();
             PointsCount = new List<int>();
-            angle = 0;
+            RectangleOfFigures = new List<Rectangle>();
             PreparedForTatami = false;
             DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point, Point>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();

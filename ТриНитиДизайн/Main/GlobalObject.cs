@@ -53,6 +53,7 @@ namespace ТриНитиДизайн
         Figure ControlLine;
         Figure SetkaFigure;
         Figure CopyFigure;
+        Figure DeletedFigure;
         Shape changedLine;
         Point prevPoint;
         Point FarTransformRectangle;

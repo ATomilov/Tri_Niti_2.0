@@ -437,7 +437,8 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimCursor)
             {
-                CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                if(ListFigure[IndexFigure].Points.Count > 0)
+                    CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
                     //по идее в этом моменте надо менять флаг режима поворота, не снимая выделения с фигуры

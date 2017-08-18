@@ -14,6 +14,9 @@ using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
 using Path = System.Windows.Shapes.Path;
+using System.Text.RegularExpressions;
+using System.Windows.Markup;
+using System.Xml;
 
 namespace ТриНитиДизайн
 {
@@ -44,58 +47,131 @@ namespace ТриНитиДизайн
 
         }
 
-        public string SavingFigures()
+        public string SavingFigures(Figure fig)
         {
             string dots = "";
-            for (int i = 0; i < ListFigure.Count; i++)
+            if (fig.Points.Count > 0)
             {
-                if (ListFigure[i].Points.Count > 0)
+                dots += fig.Points[0].X;
+                dots += " ";
+                dots += fig.Points[0].Y;
+                dots += " ";
+                for (int j = 1; j < fig.Points.Count; j++)
                 {
-                    dots += ListFigure[i].Points[0].X;
-                    dots += " ";
-                    dots += ListFigure[i].Points[0].Y;
-                    dots += " ";
-                    for (int j = 1; j < ListFigure[i].Points.Count; j++)
+                    Shape sh;
+                    fig.DictionaryPointLines.TryGetValue(fig.Points[j - 1], out sh);
+                    if (sh is Path)
                     {
-                        Shape sh;
-                        ListFigure[i].DictionaryPointLines.TryGetValue(ListFigure[i].Points[j - 1], out sh);
-                        if (sh is Path)
+                        Tuple<Point, Point> contP;
+                        fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[j - 1], out contP);
+                        if (sh.MinHeight == 5)
                         {
-                            Tuple<Point,Point> contP;
-                            ListFigure[i].DictionaryShapeControlPoints.TryGetValue(ListFigure[i].Points[j - 1], out contP);
-                            if (sh.MinHeight == 5)
-                            {
-                                dots += "C";
-                                dots += " ";
-                                dots += contP.Item1.X;
-                                dots += " ";
-                                dots += contP.Item1.Y;
-                                dots += " ";
-                                dots += contP.Item2.X;
-                                dots += " ";
-                                dots += contP.Item2.Y;
-                            }
-                            else
-                            {
-                                dots += "A";
-                                dots += " ";
-                                dots += contP.Item1.X;
-                                dots += " ";
-                                dots += contP.Item1.Y;
-                            }
+                            dots += "C";
+                            dots += " ";
+                            dots += contP.Item1.X;
+                            dots += " ";
+                            dots += contP.Item1.Y;
+                            dots += " ";
+                            dots += contP.Item2.X;
+                            dots += " ";
+                            dots += contP.Item2.Y;
                         }
                         else
-                            dots += "L";
-                        dots += " ";
-                        dots += ListFigure[i].Points[j].X;
-                        dots += " ";
-                        dots += ListFigure[i].Points[j].Y;
-                        dots += " ";
+                        {
+                            dots += "A";
+                            dots += " ";
+                            dots += contP.Item1.X;
+                            dots += " ";
+                            dots += contP.Item1.Y;
+                        }
                     }
-                    dots += "!";
+                    else
+                        dots += "L";
+                    dots += " ";
+                    dots += fig.Points[j].X;
+                    dots += " ";
+                    dots += fig.Points[j].Y;
+                    dots += " ";
                 }
+                dots += "!";
             }
             return dots;
+        }
+
+        public Figure DeepCopyFigure(Figure figureToCopy)
+        {
+            Figure newFigure = new Figure(MainCanvas);
+            {
+                for (int i = 0; i < figureToCopy.Points.Count; i++)
+                {
+                    Point p = figureToCopy.Points[i];
+                    if (i != figureToCopy.Points.Count - 1)
+                    {
+                        Shape sh;
+                        figureToCopy.DictionaryPointLines.TryGetValue(p, out sh);
+                        Tuple<Point, Point> contP;
+                        figureToCopy.DictionaryShapeControlPoints.TryGetValue(p, out contP);
+                        Shape newSh = DeepCopy(sh);
+                        newFigure.AddShape(newSh, p, contP);
+                    }
+                    newFigure.Points.Add(p);
+                }
+                newFigure.PointStart = figureToCopy.Points[0];
+                newFigure.PointEnd = figureToCopy.Points[figureToCopy.Points.Count - 1];
+            }
+            return newFigure;
+        }
+
+        public Shape DeepCopy(Shape element)
+        {
+            string shapestring = XamlWriter.Save(element);
+            StringReader stringReader = new StringReader(shapestring);
+            XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
+            Shape DeepCopyobject = (Shape)XamlReader.Load(xmlTextReader);
+            return DeepCopyobject;
+        }
+
+        public Figure LoadingFigure(string newStuff)
+        {
+            Figure fig = new Figure(MainCanvas);
+            string pattern = @" ";
+            String[] elements = Regex.Split(newStuff, pattern);
+            Point p = new Point(Double.Parse(elements[0]), Double.Parse(elements[1]));
+            fig.AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+            int j = 2;
+            while (!elements[j].Equals("!"))
+            {
+                if (elements[j].Equals("L"))
+                {
+                    p = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                    fig.AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                }
+                else if (elements[j].Equals("C"))
+                {
+                    Point firstContPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                    Point secondContPoint = new Point(Double.Parse(elements[j + 3]), Double.Parse(elements[j + 4]));
+                    j += 4;
+                    Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                    Shape sh = GeometryHelper.SetBezier(OptionColor.ColorSelection, p, firstContPoint, secondContPoint, p1, MainCanvas);
+                    fig.AddShape(sh, p, new Tuple<Point, Point>(firstContPoint, secondContPoint));
+                    p = p1;
+                    fig.Points.Add(p);
+                    fig.PointEnd = fig.Points[fig.Points.Count - 1];
+                }
+                else if (elements[j].Equals("A"))
+                {
+                    Point contPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                    j += 2;
+                    Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
+                    Shape sh = GeometryHelper.SetArc(OptionColor.ColorSelection, p, p1, contPoint, MainCanvas);
+                    fig.AddShape(sh, p, new Tuple<Point, Point>(contPoint, new Point()));
+                    p = p1;
+                    fig.Points.Add(p);
+                    fig.PointEnd = fig.Points[fig.Points.Count - 1];
+                }
+                j += 3;
+            }
+            return fig;
         }
 
         private void ClearEverything(bool isListEmpty)
@@ -110,6 +186,8 @@ namespace ТриНитиДизайн
             OptionColor.ColorNewDraw = Brushes.Violet;
             TatamiFigures.Clear();
             IndexFigure = 0;
+            Edit_Menu.IsEnabled = false;
+            DeletedFigure = new Figure(MainCanvas);
             CopyFigure = new Figure(MainCanvas);
             FirstGladFigure = -1;
             SecondGladFigure = -1;

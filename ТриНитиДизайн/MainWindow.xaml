@@ -35,11 +35,12 @@
                 <Separator/>
                 <MenuItem Header="Загрузить рисунок" Click="LoadPLT" />
                 <MenuItem Header="Удалить рисунок" Click="DeletePLT"/>
+                <Separator/>
                 <MenuItem Header="Выход" />
             </MenuItem>
             <MenuItem x:Name="Edit_Menu" Header="Редактировать" IsEnabled="False">
                 <MenuItem Header="Удалить"  Click="DeleteFigureClick"/>
-                <MenuItem Header="Восстановить" />
+                <MenuItem x:Name="restore_button" Header="Восстановить" Click="RestoreFigureClick" IsEnabled="False"/>
                 <Separator/>
                 <!--<MenuItem Header="Отменить" />
                 <MenuItem Header="Вернуть" />
@@ -48,15 +49,15 @@
                 <MenuItem Header="Копировать" Click="CopyFigureClick"/>
                 <MenuItem Header="Вставить" Click="PasteFigureClick"/>
                 <Separator/>
-                <MenuItem Header="Копировать в..." />
-                <MenuItem Header="Вставить из..." />
+                <MenuItem Header="Копировать в..." Click="CopyFigureFromClick"/>
+                <MenuItem Header="Вставить из..." Click="PasteFigureFromClick"/>
                 <Separator/>
-                <MenuItem Header="Создать рисунок" />
-                <!--<MenuItem Header="Выбрать цвет" />
-                <MenuItem Header="Обновить" />-->
+                <MenuItem Header="Создать рисунок" Click="CreatePltClick"/>
+                <MenuItem Header="Обновить" Click="RefreshImageClick"/>
             </MenuItem>
             <MenuItem Header="Настройки" Name="MenuSetka" >
                 <MenuItem Header="Показать центр"  IsCheckable="True" Unchecked="UnsetCenter" Checked="SetCenter"/>
+                <Separator/>
                 <MenuItem Header="Нет сетки" IsCheckable="True" IsChecked="True" Checked="SetItemSetka1"/>
                 <MenuItem Header="Сетка 0.1 мм" IsCheckable="True" Checked="SetItemSetka2"/>
                 <MenuItem Header="Сетка 0.2 мм" IsCheckable="True" Checked="SetItemSetka3"/>
@@ -66,7 +67,9 @@
                 <MenuItem Header="Сетка 5.0 мм" IsCheckable="True" Checked="SetItemSetka7"/>
                 <MenuItem Header="Сетка 10 мм" IsCheckable="True" Checked="SetItemSetka8"/>
                 <MenuItem Header="Сетка 20 мм" IsCheckable="True" Checked="SetItemSetka9"/>
+                <Separator/>
                 <MenuItem Header="Рисовать по сетке" IsCheckable="True" Checked="SetDotOnGrid"/>
+                <Separator/>
                 <MenuItem Header="Обновить картинку"/>
             </MenuItem>
             <MenuItem Header="Установки" Click="OpenSetting" />

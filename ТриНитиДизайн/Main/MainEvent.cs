@@ -25,6 +25,7 @@ namespace ТриНитиДизайн
             InitializeComponent();
             CopyFigure = new Figure(MainCanvas);
             ControlLine = new Figure(MainCanvas);
+            DeletedFigure = new Figure(MainCanvas);
             ChosenPts = new List<Point>();
         }
 
@@ -91,6 +92,10 @@ namespace ТриНитиДизайн
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
+            if(DeletedFigure.Points.Count > 0)
+                restore_button.IsEnabled = true;
+            else
+                restore_button.IsEnabled = false;
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = true;
             CloseAllTabs();
@@ -102,7 +107,5 @@ namespace ТриНитиДизайн
             ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             MainCanvas.Cursor = NormalCursor;
         }
-        
-
     }
 }
