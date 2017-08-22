@@ -81,6 +81,15 @@ namespace ТриНитиДизайн
                     ManipulateShapes(delta);
                     prevPoint = e.GetPosition(MainCanvas);
                 }
+                if (OptionRegim.regim == Regim.RegimCursorMoveRect)
+                {
+                    MainCanvas.Children.Remove(chRec);
+                    Vector delta = e.GetPosition(MainCanvas) - prevPoint;
+                    MoveFigureRectangle(chRec, delta, MainCanvas);
+                    MoveFigureRectangle(firstRec, delta, MainCanvas);
+                    MoveFigureRectangle(lastRec, delta, MainCanvas);
+                    prevPoint = e.GetPosition(MainCanvas);
+                }
                 if (OptionRegim.regim == Regim.RegimEditFigures)
                 {
                     if (ChoosingRectangle.Points.Count > 0)
@@ -159,9 +168,20 @@ namespace ТриНитиДизайн
                     FindGladControlLine(ControlLine, LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
                 }
             }
-            if (OptionRegim.regim == Regim.RegimCursor)
+            if (OptionRegim.regim == Regim.RegimCursorMoveRect)
             {
-                CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints(ListFigure[IndexFigure].angle);
+                OptionRegim.regim = Regim.RegimCursor;
+                if(chRec != null)
+                {
+                    MoveFigureToNewPosition();
+                    RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                    DrawFirstAndLastRectangle();
+                }
+                else
+                {
+
+                }
+                CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
@@ -201,6 +221,7 @@ namespace ТриНитиДизайн
                     }
                     ListFigure[IndexFigure].ChangeRectangleColor();
                 }
+                chRec = new Rectangle();
             }
             if(OptionRegim.regim == Regim.RegimMoveRect)
             {
@@ -437,14 +458,21 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimCursor)
             {
-                if(ListFigure[IndexFigure].Points.Count > 0)
-                    CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(MainCanvas), ListFigure, e.OriginalSource, MainCanvas);
                 if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
-                    //по идее в этом моменте надо менять флаг режима поворота, не снимая выделения с фигуры
-                    //isRotateRegim = true;
-                    //ChooseFigureByClicking(ListFigure, e.OriginalSource, MainCanvas);
-
+                    if (isNewFigureClicked)
+                    {
+                        foreach (Rectangle rec in ListFigure[IndexFigure].RectangleOfFigures)
+                            MainCanvas.Children.Remove(rec);
+                        prevPoint = e.GetPosition(MainCanvas);
+                        InitiliazeFigureRectangle();
+                        OptionRegim.regim = Regim.RegimCursorMoveRect;
+                    }
+                    else
+                    {
+                        CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                    }
                 }
                 if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
                 {
@@ -507,12 +535,6 @@ namespace ТриНитиДизайн
                         ListFigure[IndexFigure].ScaleVertical(0, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
                     }
                     //ListFigure[IndexFigure].ScaleVertical(2, 1, CoordinatesOfTransformRectangles[4]);
-                }
-                else
-                {
-                    //isResizeRegim = true;
-                    ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
-                    //CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }
             }
             if(OptionRegim.regim == Regim.ZoomIn)

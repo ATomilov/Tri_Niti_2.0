@@ -57,6 +57,7 @@ namespace ТриНитиДизайн
             {
                 MainCanvas.Children.Remove(centerLines[0]);
                 MainCanvas.Children.Remove(centerLines[1]);
+                centerLines.Clear();
             }
         }
 

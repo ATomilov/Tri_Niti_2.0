@@ -67,6 +67,7 @@
     <Compile Include="GeometyHelper.cs" />
     <Compile Include="Main\CanvasAssistant.cs" />
     <Compile Include="Figure.cs" />
+    <Compile Include="Main\CursorFunctions.cs" />
     <Compile Include="Main\MainFunctions.cs" />
     <Compile Include="Main\FigureFunctions.cs" />
     <Compile Include="Main\MashtabFunctions.cs" />

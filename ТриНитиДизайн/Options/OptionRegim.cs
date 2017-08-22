@@ -33,7 +33,8 @@ namespace ТриНитиДизайн
         RegimMoveRect = 16,
         RegimDrawInColor = 17,
         RegimDrawStegki = 18,
-        RegimNull = 19
+        RegimCursorMoveRect = 19,
+        RegimNull = 20
 
     }
 }
