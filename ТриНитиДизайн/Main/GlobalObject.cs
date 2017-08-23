@@ -26,11 +26,6 @@ namespace ТриНитиДизайн
         Cursor ArrowCursor;
         Cursor ZoomInCursor;
         Cursor ZoomOutCursor;
-        double MousePositionX;
-        double MousePositionY;
-        double CurrentAngle = 0;
-        double TotalAngle = 0;
-        double StartAngle;
         double t;
         string pathToFile;
         int IndexFigure;
@@ -39,8 +34,6 @@ namespace ТриНитиДизайн
         int SecondGladFigure;
         bool areGladPointsInversed;
         bool startDrawing = true;
-        bool isResizeRegim = false;
-        bool isRotateRegim = false;
         Rectangle firstRec;
         Rectangle lastRec;
         Rectangle chRec;
@@ -56,7 +49,6 @@ namespace ТриНитиДизайн
         Figure DeletedFigure;
         Shape changedLine;
         Point prevPoint;
-        Point FarTransformRectangle;
         List<Point> ChosenPts;
         List<Point> CoordinatesOfTransformRectangles = new List<Point>();
         List<Figure> TempLinesForGlad = new List<Figure>();

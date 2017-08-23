@@ -37,9 +37,6 @@ namespace ТриНитиДизайн
         public Point PointEnd;
         public Point EllipsePoint;
         public Point PointForAddingPoints;
-        public double angle;
-        public double scaleX;
-        public double scaleY;
         public Canvas canvas;
         public Ellipse NewPointEllipse;
         public Rectangle SelectedRectangle;
@@ -57,9 +54,6 @@ namespace ТриНитиДизайн
             PointsCount = new List<int>();
             RectangleOfFigures = new List<Rectangle>();
             PreparedForTatami = false;
-            angle = 0;
-            scaleX = 1;
-            scaleY = 1;
             canvas = _canvas;
             DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point,Point>>();
             DictionaryPointLines = new Dictionary<Point, Shape>();
@@ -206,52 +200,25 @@ namespace ТриНитиДизайн
             PreparedForTatami = false;
         }
 
-        public List<Point> DrawOutSideRectanglePoints()
+        public void DrawOutSideRectanglePoints()
         {
             RectangleOfFigures.Clear();
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
-            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d, 20);
-            PointsOutSideRectangle.Add(a);
-            PointsOutSideRectangle.Add(b);
-            PointsOutSideRectangle.Add(c);
-            PointsOutSideRectangle.Add(d);
-            PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
-            PointsOutSideRectangle.Add(new Point((b.X + c.X) / 2, (b.Y + c.Y) / 2));
-            PointsOutSideRectangle.Add(new Point((c.X + d.X) / 2, (c.Y + d.Y) / 2));
+            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d, 10);
             PointsOutSideRectangle.Add(new Point((d.X + a.X) / 2, (d.Y + a.Y) / 2));
+            PointsOutSideRectangle.Add(d);
+            PointsOutSideRectangle.Add(new Point((c.X + d.X) / 2, (c.Y + d.Y) / 2));
+            PointsOutSideRectangle.Add(c);
+            PointsOutSideRectangle.Add(new Point((b.X + c.X) / 2, (b.Y + c.Y) / 2));
+            PointsOutSideRectangle.Add(b);
+            PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
+            PointsOutSideRectangle.Add(a);
             foreach(Point p in PointsOutSideRectangle)
             {
                 RectangleOfFigures.Add(DrawRectangle(p, canvas));
             }
-            return PointsOutSideRectangle;
         }
-
-        /*
-        public List<Point> DrawOutSideRectanglePoints(double _angle)
-        {
-            List<Point> PointsOutSideRectangle = new List<Point>();
-            Point a, b, c, d;
-            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d,20);
-            PointsOutSideRectangle.Add(a);
-            PointsOutSideRectangle.Add(b);
-            PointsOutSideRectangle.Add(c);
-            PointsOutSideRectangle.Add(d);
-            PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
-            PointsOutSideRectangle.Add(new Point((b.X + c.X) / 2, (b.Y + c.Y) / 2));
-            PointsOutSideRectangle.Add(new Point((c.X + d.X) / 2, (c.Y + d.Y) / 2));
-            PointsOutSideRectangle.Add(new Point((d.X + a.X) / 2, (d.Y + a.Y) / 2));
-            foreach (Point p in PointsOutSideRectangle)
-            {
-                Rectangle rec = DrawRectangle(p, canvas);
-                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
-                rec.RenderTransform = rotate;
-                rec.MouseDown += new MouseButtonEventHandler(PointOfRectangleOutSide_MouseDown);
-                rec.MouseMove += new MouseEventHandler(PointOfRectangleOutSide_MouseMove);
-            }
-            return PointsOutSideRectangle;
-        }
-        */
 
         public Rectangle DrawRectangle(Point p, Canvas canvas)
         {
@@ -271,25 +238,13 @@ namespace ТриНитиДизайн
         {
             // отрисовка
             Point a, b, c, d;
-            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d,20);
+            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d,10);
             foreach (Shape shape in Shapes)
             {
                 RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
                 shape.RenderTransform = rotate;
             }
-            this.angle = angle;
             //DrawOutSideRectangle(GetCenter(), FindLength(a, d), FindLength(a, b));
-        }
-
-        public void ScaleVertical(double _scaleX, double _scaleY, Point center)
-        {
-            scaleX += _scaleX;
-            scaleY += _scaleY;
-            foreach (Shape shape in Shapes)
-            {
-                ScaleTransform scale = new ScaleTransform(scaleX, scaleY, center.X, center.Y);
-                shape.RenderTransform = scale;
-            }
         }
 
         public Rectangle AddPoint(Point New,Brush brush, bool addRec, double recSize)

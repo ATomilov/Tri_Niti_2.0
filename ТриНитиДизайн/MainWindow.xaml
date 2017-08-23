@@ -166,7 +166,7 @@
             TabIndex="4" 
             VerticalAlignment="Top" 
             Width="320" 
-            Visibility="Visible" 
+            Visibility="Collapsed" 
             BorderBrush="#00932929" 
             Opacity="1">
             <Grid Margin="0,0,0,-2">

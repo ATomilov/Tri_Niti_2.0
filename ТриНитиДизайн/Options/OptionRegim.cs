@@ -9,7 +9,6 @@ namespace ТриНитиДизайн
     public static class OptionRegim
     {
         public static Regim regim = Regim.RegimNull;
-
     }
 
     public enum Regim
@@ -34,7 +33,8 @@ namespace ТриНитиДизайн
         RegimDrawInColor = 17,
         RegimDrawStegki = 18,
         RegimCursorMoveRect = 19,
-        RegimNull = 20
+        RegimScaleFigure = 20,
+        RegimNull = 21
 
     }
 }

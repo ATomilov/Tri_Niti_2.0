@@ -25,6 +25,7 @@ namespace ТриНитиДизайн
         public void CloseAllTabs()
         {
             expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
             if (tabControl1.Visibility == Visibility.Visible)
                 tabControl1.Visibility = Visibility.Hidden;
             if (tabControl2.Visibility == Visibility.Visible)
@@ -195,23 +196,7 @@ namespace ТриНитиДизайн
             SetToDefault();
             MainCanvas.Cursor = NormalCursor;
             SetkaFigure.AddFigure(MainCanvas);
-        }
-
-        public void CursorMenuDrawInColor()
-        {
-            TempListFigure = ListFigure.ToList<Figure>();
-            MainCanvas.Children.Clear();
-            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorNewDraw, false);
-            MainCanvas.Background = OptionColor.ColorNewBackground;
-            ListFigure[IndexFigure].AddFigure(MainCanvas);
-        }
-
-        public void CursorMenuDrawStegki()
-        {
-            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorKrivaya, false);
-            MainCanvas.Children.Remove(lastRec);
-            MainCanvas.Children.Remove(firstRec);
-        }
+        }        
 
         public bool ShowAcceptMessage(int choice)
         {

@@ -83,7 +83,6 @@ namespace ТриНитиДизайн
                 }
                 if (OptionRegim.regim == Regim.RegimCursorMoveRect)
                 {
-                    MainCanvas.Children.Remove(chRec);
                     Vector delta = e.GetPosition(MainCanvas) - prevPoint;
                     MoveFigureRectangle(chRec, delta, MainCanvas);
                     MoveFigureRectangle(firstRec, delta, MainCanvas);
@@ -121,15 +120,10 @@ namespace ТриНитиДизайн
                     MainCanvas.UpdateLayout();
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-                if (OptionRegim.regim == Regim.RegimCursor)//поворот при режиме ресайз для проверки корректности перехода в режим ресайз при моей логике (upd: поворот теперь не работает, ибо не переходит в нужный режим)
+                if (OptionRegim.regim == Regim.RegimScaleFigure)
                 {
-                    //double dx = NewMousePosition.X - ListFigure[IndexFigure].GetCenter().X;
-                    //double dy = NewMousePosition.Y - ListFigure[IndexFigure].GetCenter().Y;
-                    //double new_angle = Math.Atan2(dy, dx);
-                    //CurrentAngle = new_angle;
-                    //CurrentAngle *= 180 / Math.PI;
-                    //ListFigure[IndexFigure].Rotate(CurrentAngle);
-                    //ListFigure[IndexFigure].ScaleVertical(2, CoordinatesOfTransformRectangles[4]);
+                    MainCanvas.Children.Remove(chRec);
+                    MoveScalingRectangle(e.GetPosition(MainCanvas),MainCanvas);
                 }
                 if (OptionRegim.regim == Regim.RotateFigure)//работа с изменением размера
                 {
@@ -148,7 +142,6 @@ namespace ТриНитиДизайн
         private void CanvasTest_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(null);
-            //TotalAngle = CurrentAngle;
             if (OptionRegim.regim == Regim.RegimTatami && !startDrawing)
             {
                 if (ControlLine.Points.Count == 1)
@@ -171,7 +164,7 @@ namespace ТриНитиДизайн
             if (OptionRegim.regim == Regim.RegimCursorMoveRect)
             {
                 OptionRegim.regim = Regim.RegimCursor;
-                if(chRec != null)
+                if (chRec != null)
                 {
                     MoveFigureToNewPosition();
                     RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
@@ -181,7 +174,15 @@ namespace ТриНитиДизайн
                 {
 
                 }
-                CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+            }
+            if (OptionRegim.regim == Regim.RegimScaleFigure)
+            {
+                OptionRegim.regim = Regim.RegimCursor;
+                ScaleTransformFigure();
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                DrawFirstAndLastRectangle();
+                ListFigure[IndexFigure].DrawOutSideRectanglePoints();
             }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
@@ -466,75 +467,21 @@ namespace ТриНитиДизайн
                         foreach (Rectangle rec in ListFigure[IndexFigure].RectangleOfFigures)
                             MainCanvas.Children.Remove(rec);
                         prevPoint = e.GetPosition(MainCanvas);
-                        InitiliazeFigureRectangle();
+                        InitializeFigureRectangle(0);
                         OptionRegim.regim = Regim.RegimCursorMoveRect;
                     }
                     else
-                    {
-                        CoordinatesOfTransformRectangles = ListFigure[IndexFigure].DrawOutSideRectanglePoints();
-                    }
+                        ListFigure[IndexFigure].DrawOutSideRectanglePoints();
                 }
                 if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
                 {
-                    Point OldCursorPosition = e.GetPosition(MainCanvas);
-                    double dx = OldCursorPosition.X - ListFigure[IndexFigure].GetCenter().X;
-                    double dy = OldCursorPosition.Y - ListFigure[IndexFigure].GetCenter().Y;
-                    StartAngle = Math.Atan2(dy, dx);
-                    Rectangle CurrentRec = (Rectangle)e.OriginalSource;
-                    int CurrentIndex = 0;
-                    double CurrentRecX, CurrentRecY;
-                    CurrentRecX = Canvas.GetLeft(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform) / 2);
-                    CurrentRecY = Canvas.GetTop(CurrentRec) + ((OptionDrawLine.SizeRectangleForTransform) / 2);
-                    for (int i = 0; i < CoordinatesOfTransformRectangles.Count; i++)
-                    {
-                        if (CurrentRecX == CoordinatesOfTransformRectangles[i].X && CurrentRecY == CoordinatesOfTransformRectangles[i].Y)
-                        {
-                            CurrentIndex = i;
-                        }
-                    }
-                    if (CurrentIndex < 2)
-                    {
-                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
-                        //foreach (Figure fig in ListFigure)
-                        //{
-                        //    foreach (Shape sh in fig.Shapes)
-                        //    {
-                        //        sh.StrokeThickness /= 0.1;
-                        //    }
-                        //}
-                        //foreach (Figure fig in LinesForGlad)
-                        //{
-                        //    foreach (Shape sh in fig.Shapes)
-                        //    {
-                        //        sh.StrokeThickness /= 2;
-                        //    }
-                        //}
-                        //foreach (Shape sh in ControlLine.Shapes)
-                        //{
-                        //    sh.StrokeThickness /= 2;
-                        //}
-                    }
-                    if (CurrentIndex >= 2 && CurrentIndex <= 3)
-                    {
-                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
-                    }
-                    if (CurrentIndex == 4)
-                    {
-                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, 0, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
-                    }
-                    if (CurrentIndex == 6)
-                    {
-                        ListFigure[IndexFigure].ScaleVertical(OptionScale.scaleX, 0, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
-                    }
-                    if (CurrentIndex == 7)
-                    {
-                        ListFigure[IndexFigure].ScaleVertical(0, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex - 2]);
-                    }
-                    if (CurrentIndex == 5)
-                    {
-                        ListFigure[IndexFigure].ScaleVertical(0, OptionScale.scaleY, CoordinatesOfTransformRectangles[CurrentIndex + 2]);
-                    }
-                    //ListFigure[IndexFigure].ScaleVertical(2, 1, CoordinatesOfTransformRectangles[4]);
+                    Rectangle rec = (Rectangle)e.OriginalSource;
+                    string[] statuses = {"north","northeast","east","southeast","south","southwest","west","northwest"};
+                    int index = ListFigure[IndexFigure].RectangleOfFigures.IndexOf(rec);
+                    InitializeScaling(statuses[index]);
+                    OptionRegim.regim = Regim.RegimScaleFigure;
+                    foreach (Rectangle rect in ListFigure[IndexFigure].RectangleOfFigures)
+                        MainCanvas.Children.Remove(rect);
                 }
             }
             if(OptionRegim.regim == Regim.ZoomIn)
