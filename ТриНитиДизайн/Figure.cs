@@ -200,8 +200,12 @@ namespace ТриНитиДизайн
             PreparedForTatami = false;
         }
 
-        public void DrawOutSideRectanglePoints()
+        public void DrawOutSideRectanglePoints(Brush brush, bool isScale, bool rememberLastRect)
         {
+            Point lastPoint = new Point();
+            if (rememberLastRect)
+                lastPoint = new Point(Canvas.GetLeft(RectangleOfFigures[8]) + RectangleOfFigures[8].Height/2,
+                    Canvas.GetTop(RectangleOfFigures[8]) + RectangleOfFigures[8].Height/2);
             RectangleOfFigures.Clear();
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
@@ -214,13 +218,17 @@ namespace ТриНитиДизайн
             PointsOutSideRectangle.Add(b);
             PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
             PointsOutSideRectangle.Add(a);
+            if (rememberLastRect)
+                PointsOutSideRectangle.Add(lastPoint);
+            else if (!isScale)
+                PointsOutSideRectangle.Add(GetCenter());
             foreach(Point p in PointsOutSideRectangle)
             {
-                RectangleOfFigures.Add(DrawRectangle(p, canvas));
+                RectangleOfFigures.Add(DrawRectangle(p,brush, canvas));
             }
         }
 
-        public Rectangle DrawRectangle(Point p, Canvas canvas)
+        public Rectangle DrawRectangle(Point p,Brush brush, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
             rec.Height = OptionDrawLine.SizeRectangleForTransform;
@@ -229,22 +237,9 @@ namespace ТриНитиДизайн
             Canvas.SetTop(rec, p.Y - OptionDrawLine.SizeRectangleForTransform / 2);
             rec.Stroke = OptionColor.ColorSelection;
             rec.StrokeThickness = OptionDrawLine.StrokeThickness;
-            rec.Fill = Brushes.Black;
+            rec.Fill = brush;
             canvas.Children.Add(rec);
             return rec;
-        }
-
-        public void Rotate(double angle)
-        {
-            // отрисовка
-            Point a, b, c, d;
-            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d,10);
-            foreach (Shape shape in Shapes)
-            {
-                RotateTransform rotate = new RotateTransform(angle, GetCenter().X, GetCenter().Y);
-                shape.RenderTransform = rotate;
-            }
-            //DrawOutSideRectangle(GetCenter(), FindLength(a, d), FindLength(a, b));
         }
 
         public Rectangle AddPoint(Point New,Brush brush, bool addRec, double recSize)
@@ -432,7 +427,23 @@ namespace ТриНитиДизайн
         {
             Point max = new Point(Int32.MinValue, Int32.MinValue);
             Point min = new Point(Int32.MaxValue, Int32.MaxValue);
-            foreach (Point p in Points)
+            List<Point> allPoints = new List<Point>(Points);
+            foreach (Shape sh in Shapes)
+                if (sh is Path)
+                {
+                    Path path = (Path)sh;
+                    PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                    Point p;
+                    Point tg;
+                    var points = new List<Point>();
+                    double step = 50;
+                    for (var j = 1; j < step; j++)
+                    {
+                        myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
+                        allPoints.Add(p);
+                    }
+                }
+            foreach (Point p in allPoints)
             {
                 if (p.X > max.X)
                     max.X = p.X;

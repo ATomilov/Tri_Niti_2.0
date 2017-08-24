@@ -104,7 +104,7 @@ namespace ТриНитиДизайн
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
             ChangeFiguresColor(ListFigure, MainCanvas);
-            ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+            ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
             MainCanvas.Cursor = NormalCursor;
         }
     }

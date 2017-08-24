@@ -482,7 +482,7 @@ namespace ТриНитиДизайн
                 MainCanvas.Background = OptionColor.ColorBackground;
                 ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-                ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
                 DrawFirstAndLastRectangle();
             }
         }

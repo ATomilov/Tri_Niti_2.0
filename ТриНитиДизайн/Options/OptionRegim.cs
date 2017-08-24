@@ -34,7 +34,8 @@ namespace ТриНитиДизайн
         RegimDrawStegki = 18,
         RegimCursorMoveRect = 19,
         RegimScaleFigure = 20,
-        RegimNull = 21
+        RegimChangeRotatingCenter = 21,
+        RegimNull = 22
 
     }
 }

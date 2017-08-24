@@ -15,11 +15,13 @@ namespace ТриНитиДизайн
         List<Point> ptsRec = new List<Point>();
         Vector tVect;
         Point startVector;
+        double angle;
 
         public void InitializeFigureRectangle(int length)
         {
             ptsRec.Clear();
             chRec = new Rectangle();
+            chRec.MaxHeight = 100000;
             Point a;
             Point b;
             Point c;
@@ -52,6 +54,97 @@ namespace ТриНитиДизайн
             InitializeFigureRectangle(0);
             tVect = new Vector();
             startVector = new Point();
+        }
+
+        public void RotateRotatingRectangle(Point currentPos,Point centerPoint, Point firstPos, Canvas canvas)
+        {
+            Vector vect1 = new Vector(currentPos.X - centerPoint.X, currentPos.Y - centerPoint.Y);
+            Vector vect2 = new Vector(firstPos.X - centerPoint.X, firstPos.Y - centerPoint.Y);
+            angle = - Vector.AngleBetween(vect1, vect2);
+
+            canvas.Children.Remove(chRec);
+            Vector originalVect = ptsRec[2] - ptsRec[0];
+            Vector newVect = centerPoint - ptsRec[0];
+            double scaleX = newVect.X / originalVect.X;
+            double scaleY = newVect.Y / originalVect.Y;
+            chRec.RenderTransformOrigin = new Point(scaleX, scaleY);
+            chRec.RenderTransform = new RotateTransform(angle);
+            canvas.Children.Add(chRec);
+
+            angle = angle * (Math.PI / 180);
+            Point firstRecPos = RotatePoint(angle, ListFigure[IndexFigure].PointStart, centerPoint);
+            canvas.Children.Remove(firstRec);
+            Canvas.SetLeft(firstRec, firstRecPos.X - firstRec.Width/2);
+            Canvas.SetTop(firstRec, firstRecPos.Y - firstRec.Width / 2);
+            canvas.Children.Add(firstRec);
+
+            Point secondRecPos = RotatePoint(angle, ListFigure[IndexFigure].PointEnd, centerPoint);
+            canvas.Children.Remove(lastRec);
+            Canvas.SetLeft(lastRec, secondRecPos.X - lastRec.Width / 2);
+            Canvas.SetTop(lastRec, secondRecPos.Y - lastRec.Width / 2);
+            canvas.Children.Add(lastRec);
+        }
+
+        private Point RotatePoint(double newAngle, Point origin, Point centerPoint)
+        {
+            double s = Math.Sin(angle);
+            double c = Math.Cos(angle);
+
+            Point p = origin;
+            p.X -= centerPoint.X;
+            p.Y -= centerPoint.Y;
+
+            double xnew = p.X * c - p.Y * s;
+            double ynew = p.X * s + p.Y * c;
+
+            p.X = xnew + centerPoint.X;
+            p.Y = ynew + centerPoint.Y;
+            return p;
+        }
+
+        public void RotateFigure(Point centerPoint)
+        {
+            chRec = new Rectangle();
+            for (int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
+            {
+                Point p = ListFigure[IndexFigure].Points[i];
+                Point rotatedP = RotatePoint(angle, p, centerPoint);
+                if (i != ListFigure[IndexFigure].Points.Count - 1)
+                {
+                    Point nextP = ListFigure[IndexFigure].Points[i + 1];
+                    Point rotatedNextP = RotatePoint(angle, nextP, centerPoint);
+                    Shape sh;
+                    Shape newSh;
+                    Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+                    ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
+                    if (sh is Line)
+                        newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, rotatedP, rotatedNextP, false, MainCanvas);
+                    else
+                    {
+                        ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(p, out contPts);
+                        if (sh.MinHeight == 5)
+                        {
+                            Point rotatedContPoint1 = RotatePoint(angle, contPts.Item1, centerPoint);
+                            Point rotatedContPoint2 = RotatePoint(angle, contPts.Item2, centerPoint);
+                            contPts = new Tuple<Point, Point>(rotatedContPoint1, rotatedContPoint2);
+                            newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, rotatedP, contPts.Item1,
+                                contPts.Item2, rotatedNextP, MainCanvas);
+                        }
+                        else
+                        {
+                            Point rotatedContPoint = RotatePoint(angle, contPts.Item1, centerPoint);
+                            contPts = new Tuple<Point, Point>(rotatedContPoint, new Point());
+                            newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, rotatedP, rotatedNextP,
+                                contPts.Item1, MainCanvas);
+                        }
+                    }
+                    ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
+                    ListFigure[IndexFigure].AddShape(newSh, rotatedP, contPts);
+                }
+                ListFigure[IndexFigure].Points[i] = rotatedP;
+            }
+            ListFigure[IndexFigure].PointStart = ListFigure[IndexFigure].Points[0];
+            ListFigure[IndexFigure].PointEnd = ListFigure[IndexFigure].Points[ListFigure[IndexFigure].Points.Count - 1];
         }
 
         public void MoveScalingRectangle(Point currentPosition, Canvas canvas)
@@ -195,6 +288,7 @@ namespace ТриНитиДизайн
 
         public void MoveFigureRectangle(Rectangle rec, Vector delta, Canvas canvas)
         {
+            chRec.MaxHeight = 99999;
             canvas.Children.Remove(rec);
             Point p = new Point();
             p.X = Canvas.GetLeft(rec);
@@ -207,7 +301,6 @@ namespace ТриНитиДизайн
 
         public void MoveFigureToNewPosition()
         {
-            chRec = new Rectangle();
             Point newPointStart = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2,
                 Canvas.GetTop(firstRec) + firstRec.Height / 2);
             Vector figureVect = newPointStart - ListFigure[IndexFigure].PointStart;

@@ -125,16 +125,19 @@ namespace ТриНитиДизайн
                     MainCanvas.Children.Remove(chRec);
                     MoveScalingRectangle(e.GetPosition(MainCanvas),MainCanvas);
                 }
-                if (OptionRegim.regim == Regim.RotateFigure)//работа с изменением размера
+                if (OptionRegim.regim == Regim.RotateFigure)
                 {
-                    //for (int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
-                    //{
-                    //    Point CurrentPoint = ListFigure[IndexFigure].Points[i];
-                    //    CurrentPoint.Y += NewMousePosition.Y;
-                    //    ListFigure[IndexFigure].Points[i] = CurrentPoint;
-                    //}
-                    //RedrawEverything(ListFigure, IndexFigure, false, false, MainCanvas);
-                    //ListFigure[IndexFigure].ScaleVertical(2);
+                    Rectangle centerRect = ListFigure[IndexFigure].RectangleOfFigures[8];
+                    Point centerPoint = new Point(Canvas.GetLeft(centerRect) + centerRect.Width / 2, Canvas.GetTop(centerRect) + centerRect.Width / 2);
+                    RotateRotatingRectangle(e.GetPosition(MainCanvas), centerPoint,prevPoint, MainCanvas);
+                }
+                if(OptionRegim.regim == Regim.RegimChangeRotatingCenter)
+                {
+                    Rectangle centerRect = ListFigure[IndexFigure].RectangleOfFigures[8];
+                    MainCanvas.Children.Remove(centerRect);
+                    Canvas.SetTop(centerRect, e.GetPosition(MainCanvas).Y - centerRect.Height / 2);
+                    Canvas.SetLeft(centerRect, e.GetPosition(MainCanvas).X - centerRect.Height / 2);
+                    MainCanvas.Children.Add(centerRect);
                 }
             }
         }
@@ -164,25 +167,38 @@ namespace ТриНитиДизайн
             if (OptionRegim.regim == Regim.RegimCursorMoveRect)
             {
                 OptionRegim.regim = Regim.RegimCursor;
-                if (chRec != null)
+                if (chRec.MaxHeight == 99999)
                 {
                     MoveFigureToNewPosition();
                     RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                     DrawFirstAndLastRectangle();
+                    ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
                 }
+                else if(ListFigure[IndexFigure].RectangleOfFigures[0].Fill == OptionColor.ColorSelection)
+                    ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorChoosingRec, false,false);
                 else
-                {
-
-                }
-                ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                    ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
+            }
+            if (OptionRegim.regim == Regim.RotateFigure)
+            {
+                Rectangle centerRect = ListFigure[IndexFigure].RectangleOfFigures[8];
+                Point centerPoint = new Point(Canvas.GetLeft(centerRect) + centerRect.Width / 2, Canvas.GetTop(centerRect) + centerRect.Width / 2);
+                RotateFigure(centerPoint);
+                OptionRegim.regim = Regim.RegimCursor;
+                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                DrawFirstAndLastRectangle();
+                ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorChoosingRec, false,true);
             }
             if (OptionRegim.regim == Regim.RegimScaleFigure)
             {
                 OptionRegim.regim = Regim.RegimCursor;
-                ScaleTransformFigure();
+                if (ListFigure[IndexFigure].Points.Count > 1)
+                {
+                    ScaleTransformFigure();
+                }
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                 DrawFirstAndLastRectangle();
-                ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
             }
             if (OptionRegim.regim == Regim.RegimEditFigures)
             {
@@ -231,6 +247,10 @@ namespace ТриНитиДизайн
                 ListFigure[IndexFigure].ChangeRectangleColor();
                 listChangedShapes.Clear();
                 OptionRegim.regim = Regim.RegimEditFigures;
+            }
+            if(OptionRegim.regim == Regim.RegimChangeRotatingCenter)
+            {
+                OptionRegim.regim = Regim.RegimCursor;
             }
             if (OptionRegim.regim == Regim.RegimKrivaya || OptionRegim.regim == Regim.RegimDuga)
             {
@@ -445,7 +465,6 @@ namespace ТриНитиДизайн
                             ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
                             listChangedShapes.Add(chShape);
                         }
-                        
                         prevPoint = e.GetPosition(MainCanvas);
                         OptionRegim.regim = Regim.RegimMoveRect;
                     }
@@ -455,7 +474,6 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].PointsCount.Clear();
                     ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
                 }
-
             }
             if (OptionRegim.regim == Regim.RegimCursor)
             {
@@ -471,17 +489,33 @@ namespace ТриНитиДизайн
                         OptionRegim.regim = Regim.RegimCursorMoveRect;
                     }
                     else
-                        ListFigure[IndexFigure].DrawOutSideRectanglePoints();
+                        ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
                 }
                 if (e.OriginalSource is Rectangle && ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForTransform)
                 {
                     Rectangle rec = (Rectangle)e.OriginalSource;
-                    string[] statuses = {"north","northeast","east","southeast","south","southwest","west","northwest"};
-                    int index = ListFigure[IndexFigure].RectangleOfFigures.IndexOf(rec);
-                    InitializeScaling(statuses[index]);
-                    OptionRegim.regim = Regim.RegimScaleFigure;
-                    foreach (Rectangle rect in ListFigure[IndexFigure].RectangleOfFigures)
-                        MainCanvas.Children.Remove(rect);
+                    if (rec.Fill == OptionColor.ColorSelection)
+                    {
+                        string[] statuses = { "north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest" };
+                        int index = ListFigure[IndexFigure].RectangleOfFigures.IndexOf(rec);
+                        InitializeScaling(statuses[index]);
+                        OptionRegim.regim = Regim.RegimScaleFigure;
+                        foreach (Rectangle rect in ListFigure[IndexFigure].RectangleOfFigures)
+                            MainCanvas.Children.Remove(rect);
+                    }
+                    else
+                    {
+                        if (ListFigure[IndexFigure].RectangleOfFigures.IndexOf(rec) == 8)
+                            OptionRegim.regim = Regim.RegimChangeRotatingCenter;
+                        else
+                        {
+                            OptionRegim.regim = Regim.RotateFigure;
+                            foreach (Rectangle rect in ListFigure[IndexFigure].RectangleOfFigures)
+                                MainCanvas.Children.Remove(rect);
+                            InitializeFigureRectangle(0);
+                            prevPoint = e.GetPosition(MainCanvas);
+                        }
+                    }
                 }
             }
             if(OptionRegim.regim == Regim.ZoomIn)
