@@ -466,8 +466,9 @@ namespace ТриНитиДизайн
                         index = 11;
                     else
                         index = i * (i % 2);
+
                     ImageBrush image = new ImageBrush(new BitmapImage(
-    new Uri(@"C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\Images\arrow" + index + ".gif", UriKind.Relative)));
+    new Uri(@"pack://application:,,,/Images/arrow" + index + ".gif", UriKind.Absolute)));
                     transRectangles[i].Fill = image;
                     transRectangles[i].StrokeThickness = 0;
                 }

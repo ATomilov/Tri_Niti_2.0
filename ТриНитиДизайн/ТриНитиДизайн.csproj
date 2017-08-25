@@ -249,6 +249,15 @@
     <Resource Include="Cursors\Zoom-in.cur" />
     <Resource Include="Cursors\Zoom-out.cur" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow0.gif" />
+    <Resource Include="Images\arrow1.gif" />
+    <Resource Include="Images\arrow10.gif" />
+    <Resource Include="Images\arrow11.gif" />
+    <Resource Include="Images\arrow3.gif" />
+    <Resource Include="Images\arrow5.gif" />
+    <Resource Include="Images\arrow7.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
