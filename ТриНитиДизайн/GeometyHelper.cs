@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -115,6 +116,21 @@ namespace ТриНитиДизайн
             rec.StrokeThickness = thickness;
             if (invRectangles)
                 rec.Opacity = 0;
+            canvas.Children.Add(rec);
+            return rec;
+        }
+
+        public static Rectangle DrawTransformingRectangle(Point p, double size, Canvas canvas)
+        {
+            Rectangle rec = new Rectangle();
+            rec.Cursor = Cursors.Cross;
+            rec.Height = size;
+            rec.Width = rec.Height;
+            Canvas.SetLeft(rec, p.X - size / 2);
+            Canvas.SetTop(rec, p.Y - size / 2);
+            rec.Stroke = OptionColor.ColorSelection;
+            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
+            rec.Fill = OptionColor.ColorSelection;
             canvas.Children.Add(rec);
             return rec;
         }

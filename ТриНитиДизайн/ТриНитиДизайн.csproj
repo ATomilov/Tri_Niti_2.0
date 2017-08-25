@@ -95,11 +95,11 @@
     <Compile Include="View\Cepochka.xaml.cs">
       <DependentUpon>Cepochka.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ConnectionElements.xaml.cs">
-      <DependentUpon>ConnectionElements.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Glad.xaml.cs">
       <DependentUpon>Glad.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\JoinCursor.xaml.cs">
+      <DependentUpon>JoinCursor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Razorvat.xaml.cs">
       <DependentUpon>Razorvat.xaml</DependentUpon>
@@ -109,9 +109,6 @@
     </Compile>
     <Compile Include="View\SpecialWindowWhenSelectedFigure.xaml.cs">
       <DependentUpon>SpecialWindowWhenSelectedFigure.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Stechki.xaml.cs">
-      <DependentUpon>Stechki.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tatami.xaml.cs">
       <DependentUpon>Tatami.xaml</DependentUpon>
@@ -142,13 +139,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ConnectionElements.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Glad.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\JoinCursor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Razorvat.xaml">
       <SubType>Designer</SubType>
@@ -159,10 +156,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SpecialWindowWhenSelectedFigure.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Stechki.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

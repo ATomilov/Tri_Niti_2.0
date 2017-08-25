@@ -28,6 +28,7 @@ namespace ТриНитиДизайн
         public List<Point> tempPoints;
         public List<int> PointsCount;
         public List<Rectangle> RectangleOfFigures;
+        public List<Figure> groupFigures;
         public Dictionary<Point, Shape> tempDictionaryPointLines;
         public Dictionary<Shape, Shape> tempDictionaryInvLines;
         public Dictionary<Point, Shape> DictionaryPointLines;
@@ -53,6 +54,7 @@ namespace ТриНитиДизайн
             tempPoints = new List<Point>();
             PointsCount = new List<int>();
             RectangleOfFigures = new List<Rectangle>();
+            groupFigures = new List<Figure>();
             PreparedForTatami = false;
             canvas = _canvas;
             DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point,Point>>();
@@ -166,6 +168,7 @@ namespace ТриНитиДизайн
             PointEnd = new Point();
             regimFigure = Regim.RegimFigure;
             Shapes = new List<Shape>();
+            groupFigures = new List<Figure>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             tempShapes = new List<Shape>();
@@ -199,49 +202,7 @@ namespace ТриНитиДизайн
             DictionaryPointLines = new Dictionary<Point, Shape>(tempDictionaryPointLines);
             PreparedForTatami = false;
         }
-
-        public void DrawOutSideRectanglePoints(Brush brush, bool isScale, bool rememberLastRect)
-        {
-            Point lastPoint = new Point();
-            if (rememberLastRect)
-                lastPoint = new Point(Canvas.GetLeft(RectangleOfFigures[8]) + RectangleOfFigures[8].Height/2,
-                    Canvas.GetTop(RectangleOfFigures[8]) + RectangleOfFigures[8].Height/2);
-            RectangleOfFigures.Clear();
-            List<Point> PointsOutSideRectangle = new List<Point>();
-            Point a, b, c, d;
-            GetFourPointsOfOutSideRectangle(out a, out b, out c, out d, 10);
-            PointsOutSideRectangle.Add(new Point((d.X + a.X) / 2, (d.Y + a.Y) / 2));
-            PointsOutSideRectangle.Add(d);
-            PointsOutSideRectangle.Add(new Point((c.X + d.X) / 2, (c.Y + d.Y) / 2));
-            PointsOutSideRectangle.Add(c);
-            PointsOutSideRectangle.Add(new Point((b.X + c.X) / 2, (b.Y + c.Y) / 2));
-            PointsOutSideRectangle.Add(b);
-            PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
-            PointsOutSideRectangle.Add(a);
-            if (rememberLastRect)
-                PointsOutSideRectangle.Add(lastPoint);
-            else if (!isScale)
-                PointsOutSideRectangle.Add(GetCenter());
-            foreach(Point p in PointsOutSideRectangle)
-            {
-                RectangleOfFigures.Add(DrawRectangle(p,brush, canvas));
-            }
-        }
-
-        public Rectangle DrawRectangle(Point p,Brush brush, Canvas canvas)
-        {
-            Rectangle rec = new Rectangle();
-            rec.Height = OptionDrawLine.SizeRectangleForTransform;
-            rec.Width = rec.Height;
-            Canvas.SetLeft(rec, p.X - OptionDrawLine.SizeRectangleForTransform / 2);
-            Canvas.SetTop(rec, p.Y - OptionDrawLine.SizeRectangleForTransform / 2);
-            rec.Stroke = OptionColor.ColorSelection;
-            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
-            rec.Fill = brush;
-            canvas.Children.Add(rec);
-            return rec;
-        }
-
+        
         public Rectangle AddPoint(Point New,Brush brush, bool addRec, double recSize)
         {
             if (Points.Count == 0)
@@ -349,8 +310,9 @@ namespace ТриНитиДизайн
             }
         }
         
-        public void GetFourPointsOfOutSideRectangle(out Point a, out Point b, out Point c, out Point d, int length)
+        public List<Point> GetFourPointsOfOutSideRectangle(int length)
         {
+            List<Point> pts = new List<Point>();
             Point max = new Point(Double.MinValue, Double.MinValue);
             Point min = new Point(Double.MaxValue, Double.MaxValue);
             List<Point> allPoints = new List<Point>(Points);
@@ -380,10 +342,11 @@ namespace ТриНитиДизайн
                 if (p.Y < min.Y)
                     min.Y = p.Y;
             }
-            a = new Point(min.X - length, min.Y - length);
-            b = new Point(min.X - length, max.Y + length);
-            c = new Point(max.X + length, max.Y + length);
-            d = new Point(max.X + length, min.Y - length);
+            pts.Add(new Point(min.X - length, min.Y - length));
+            pts.Add(new Point(min.X - length, max.Y + length));
+            pts.Add(new Point(max.X + length, max.Y + length));
+            pts.Add(new Point(max.X + length, min.Y - length));
+            return pts;
         }
 
         public void SetMiddleControlLine(Point a, Point b, Canvas _canvas)

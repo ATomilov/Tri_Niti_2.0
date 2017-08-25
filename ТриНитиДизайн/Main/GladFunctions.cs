@@ -22,7 +22,7 @@ namespace ТриНитиДизайн
         int gladShapesCount = 0;
         int oldGladHits = 0;
 
-        public void ShowJoinMessage(List<Figure>gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
+        public void ShowJoinGladMessage(List<Figure>gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
         {
             string sMessageBoxText = "Соединить?";
             string sCaption = "Окно";
@@ -60,7 +60,7 @@ namespace ТриНитиДизайн
                     }
             }
         }
-
+        
         private void AddFirstGladLines(List<Figure> gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
         {
             gladShapesCount = 0;

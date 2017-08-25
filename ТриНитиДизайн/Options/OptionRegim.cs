@@ -35,7 +35,11 @@ namespace ТриНитиДизайн
         RegimCursorMoveRect = 19,
         RegimScaleFigure = 20,
         RegimChangeRotatingCenter = 21,
-        RegimNull = 22
+        RegimCursorJoinChain = 22,
+        RegimCursorJoinTransposition = 23,
+        RegimCursorJoinShiftDots = 24,
+        RegimCursorJoinShiftElements = 25,
+        RegimNull = 26
 
     }
 }

@@ -90,7 +90,7 @@ namespace ТриНитиДизайн
             }
         }        
         
-        public void BreakFigureOrMakeGladFigure(List<Figure> FigureList, Object clickedShape, Canvas canvas)
+        public void BreakFigureOrMakeJoinedFigure(List<Figure> FigureList, Object clickedShape, Canvas canvas)
         {
             if (clickedShape is Line || clickedShape is Path)
             {
@@ -108,7 +108,7 @@ namespace ТриНитиДизайн
                     for (int i = 0; i < FigureList.Count; i++)
                     {
                         var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == path);
-                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);      //TODO: улучшить
+                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
                         if (point.Value != null)
                         {
                             x = point.Key.X;
@@ -121,16 +121,21 @@ namespace ТриНитиДизайн
                 {
                     for (int i = 0; i < ListFigure.Count; i++)
                     {
-                        if (OptionRegim.regim == Regim.RegimFigure)
+                        if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimCursor)
                         {
                             if (i != IndexFigure)
                             {
                                 if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
                                 {
-                                    FirstGladFigure = IndexFigure;
-                                    SecondGladFigure = i;
                                     ListFigure[i].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
-                                    ShowJoinMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+                                    if (OptionRegim.regim == Regim.RegimFigure)
+                                    {
+                                        FirstGladFigure = IndexFigure;
+                                        SecondGladFigure = i;
+                                        ShowJoinGladMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
+                                    }
+                                    else
+                                        ShowJoinCursorMessage(ListFigure[IndexFigure], ListFigure[i],MainCanvas);
                                     break;
                                 }
                             }
@@ -482,7 +487,7 @@ namespace ТриНитиДизайн
                 MainCanvas.Background = OptionColor.ColorBackground;
                 ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-                ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
+                DrawOutsideRectangles(true, false, MainCanvas);
                 DrawFirstAndLastRectangle();
             }
         }

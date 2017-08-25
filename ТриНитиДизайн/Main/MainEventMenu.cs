@@ -179,7 +179,7 @@ namespace ТриНитиДизайн
             DeletedFigure = new Figure(MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
-            ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
+            DrawOutsideRectangles(true, false, MainCanvas);
         }
 
         private void CopyFigureClick(object sender, RoutedEventArgs e)
@@ -198,7 +198,7 @@ namespace ТриНитиДизайн
             CopyFigure = new Figure(MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
-            ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
+            DrawOutsideRectangles(true, false, MainCanvas);
         }
 
         private void CopyFigureFromClick(object sender, RoutedEventArgs e)
@@ -250,7 +250,7 @@ namespace ТриНитиДизайн
         {
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
-            ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
+            DrawOutsideRectangles(true, false, MainCanvas);
         }
 
         private void CreatePltClick(object sender, RoutedEventArgs e)
@@ -260,7 +260,7 @@ namespace ТриНитиДизайн
             ListPltFigure.Add(newFig);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
-            ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
+            DrawOutsideRectangles(true, false, MainCanvas);
         }
 
         private void OpenFile(object sender, RoutedEventArgs e)

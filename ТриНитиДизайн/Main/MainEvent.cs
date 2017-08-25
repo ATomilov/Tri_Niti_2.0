@@ -66,6 +66,7 @@ namespace ТриНитиДизайн
             ZoomInCursor = new Cursor(sri4.Stream);
             System.Windows.Resources.StreamResourceInfo sri5 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Zoom-out.cur", UriKind.Relative));
             ZoomOutCursor = new Cursor(sri5.Stream);
+
             mainGrid.Cursor = NormalCursor;
             MainCanvas.Cursor = NormalCursor;
 
@@ -104,7 +105,7 @@ namespace ТриНитиДизайн
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
             ChangeFiguresColor(ListFigure, MainCanvas);
-            ListFigure[IndexFigure].DrawOutSideRectanglePoints(OptionColor.ColorSelection, true,false);
+            DrawOutsideRectangles(true, false, MainCanvas);
             MainCanvas.Cursor = NormalCursor;
         }
     }

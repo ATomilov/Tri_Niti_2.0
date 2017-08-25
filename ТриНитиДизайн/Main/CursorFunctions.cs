@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace ТриНитиДизайн
@@ -22,23 +24,15 @@ namespace ТриНитиДизайн
             ptsRec.Clear();
             chRec = new Rectangle();
             chRec.MaxHeight = 100000;
-            Point a;
-            Point b;
-            Point c;
-            Point d;
-            ListFigure[IndexFigure].GetFourPointsOfOutSideRectangle(out a, out b, out c, out d, length);
-            ptsRec.Add(a);
-            ptsRec.Add(b);
-            ptsRec.Add(c);
-            ptsRec.Add(d);
-            chRec.Height = Math.Abs(b.Y - a.Y);
-            chRec.Width = Math.Abs(c.X - b.X);
+            ptsRec = ListFigure[IndexFigure].GetFourPointsOfOutSideRectangle(length);
+            chRec.Height = Math.Abs(ptsRec[1].Y - ptsRec[0].Y);
+            chRec.Width = Math.Abs(ptsRec[2].X - ptsRec[1].X);
             DoubleCollection dashes = new DoubleCollection();
             dashes.Add(2);
             dashes.Add(2);
             chRec.StrokeDashArray = dashes;
-            Canvas.SetLeft(chRec, a.X);
-            Canvas.SetTop(chRec, a.Y);
+            Canvas.SetLeft(chRec, ptsRec[0].X);
+            Canvas.SetTop(chRec, ptsRec[0].Y);
             chRec.Stroke = OptionColor.ColorChoosingRec;
             chRec.StrokeThickness = OptionDrawLine.StrokeThickness;
 
@@ -149,6 +143,7 @@ namespace ТриНитиДизайн
 
         public void MoveScalingRectangle(Point currentPosition, Canvas canvas)
         {
+            SetScalingCursor();
             Vector vect = new Vector();
             Vector originalVector = new Vector();
             double scale;
@@ -210,6 +205,16 @@ namespace ТриНитиДизайн
             }
             ScaleRectangles(firstRec, ListFigure[IndexFigure].PointStart, startVector, tVect, canvas);
             ScaleRectangles(lastRec, ListFigure[IndexFigure].PointEnd, startVector, tVect, canvas);
+        }
+
+        private void SetScalingCursor()
+        {
+            if (status.Equals("north") || status.Equals("south"))
+                MainCanvas.Cursor = Cursors.SizeNS;
+            else if (status.Equals("east") || status.Equals("west"))
+                MainCanvas.Cursor = Cursors.SizeWE;
+            else
+                MainCanvas.Cursor = Cursors.SizeAll;
         }
 
         private void ScaleRectangles(Rectangle rec,Point origin, Point startVectorPoint, Vector transformVect,Canvas canvas)
@@ -413,6 +418,142 @@ namespace ТриНитиДизайн
             if (p1.Y > p2.Y)
                 vect.Y = -vect.Y;
             return vect;
+        }
+
+        public void DrawOutsideRectangles(bool isScale, bool rememberLastRect, Canvas canvas)
+        {
+            Point lastPoint = new Point();
+            if (rememberLastRect)
+                lastPoint = new Point(Canvas.GetLeft(transRectangles[8]) + transRectangles[8].Height / 2,
+                    Canvas.GetTop(transRectangles[8]) + transRectangles[8].Height / 2);
+            transRectangles = new List<Rectangle>();
+            List<Point> PointsOutSideRectangle = new List<Point>();
+            Point a, b, c, d;
+            List<Point> pts = GetFourOutsidePointsForGroup(10);
+            a = pts[0];
+            b = pts[1];
+            c = pts[2];
+            d = pts[3];
+            PointsOutSideRectangle.Add(new Point((d.X + a.X) / 2, (d.Y + a.Y) / 2));
+            PointsOutSideRectangle.Add(d);
+            PointsOutSideRectangle.Add(new Point((c.X + d.X) / 2, (c.Y + d.Y) / 2));
+            PointsOutSideRectangle.Add(c);
+            PointsOutSideRectangle.Add(new Point((b.X + c.X) / 2, (b.Y + c.Y) / 2));
+            PointsOutSideRectangle.Add(b);
+            PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
+            PointsOutSideRectangle.Add(a);
+            double size = OptionDrawLine.SizeRectangleForRotation;
+            if (rememberLastRect)
+                PointsOutSideRectangle.Add(lastPoint);
+            else if (!isScale)
+                PointsOutSideRectangle.Add(GetCenterForGroup(pts));
+            else
+                size = OptionDrawLine.SizeRectangleForScale;
+            foreach (Point p in PointsOutSideRectangle)
+            {
+                transRectangles.Add(GeometryHelper.DrawTransformingRectangle(p, size, canvas));
+            }
+            if (!isScale)
+            {
+                for (int i = 0; i < transRectangles.Count; i++)
+                {
+                    int index;
+                    if (i == 0 || i == 4)
+                        index = 0;
+                    else if (i == 2 || i == 6)
+                        index = 10;
+                    else if (i == 8)
+                        index = 11;
+                    else
+                        index = i * (i % 2);
+                    ImageBrush image = new ImageBrush(new BitmapImage(
+    new Uri(@"C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\Images\arrow" + index + ".gif", UriKind.Relative)));
+                    transRectangles[i].Fill = image;
+                    transRectangles[i].StrokeThickness = 0;
+                }
+            }
+        }
+
+        private List<Point> GetFourOutsidePointsForGroup(int length)
+        {
+            List<Point> pts = new List<Point>();
+            pts = ListFigure[IndexFigure].GetFourPointsOfOutSideRectangle(length);
+
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+                foreach (Point p in fig.GetFourPointsOfOutSideRectangle(length))
+                    pts.Add(p);
+
+            Point max = new Point(Double.MinValue, Double.MinValue);
+            Point min = new Point(Double.MaxValue, Double.MaxValue);
+
+            foreach (Point p in pts)
+            {
+                if (p.X > max.X)
+                    max.X = p.X;
+                if (p.Y > max.Y)
+                    max.Y = p.Y;
+                if (p.X < min.X)
+                    min.X = p.X;
+                if (p.Y < min.Y)
+                    min.Y = p.Y;
+            }
+            pts.Clear();
+            pts.Add(new Point(min.X, min.Y));
+            pts.Add(new Point(min.X, max.Y));
+            pts.Add(new Point(max.X, max.Y));
+            pts.Add(new Point(max.X, min.Y));
+            return pts;
+        }
+
+        private Point GetCenterForGroup(List<Point> pts)
+        {
+            return new Point((pts[2].X + pts[0].X) / 2, (pts[2].Y + pts[0].Y) / 2);
+        }
+
+        public void ShowJoinCursorMessage(Figure firstFigure, Figure secondFigure,Canvas canvas)
+        {
+            var JoinCursorWindow = new View.JoinCursor();
+            JoinCursorWindow.ShowDialog();
+            secondFigure.ChangeFigureColor(OptionColor.ColorSelection, false);
+
+            if (OptionRegim.regim == Regim.RegimCursorJoinChain)
+                JoinChain(firstFigure, secondFigure);
+
+            else if (OptionRegim.regim == Regim.RegimCursorJoinTransposition)
+                JoinTransposition(firstFigure, secondFigure);
+
+            else if (OptionRegim.regim == Regim.RegimCursorJoinShiftDots)
+                JoinShiftDots(firstFigure, secondFigure);
+
+            else if (OptionRegim.regim == Regim.RegimCursorJoinShiftElements)
+                JoinShiftElements(firstFigure, secondFigure);
+
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
+            DrawOutsideRectangles(true, false, canvas);
+            OptionRegim.regim = Regim.RegimCursor;
+        }
+
+        public void JoinChain(Figure firstFigure, Figure secondFigure)
+        {
+            
+        }
+
+        public void JoinTransposition(Figure firstFigure, Figure secondFigure)
+        {
+            firstFigure.groupFigures.Add(secondFigure);
+            secondFigure.groupFigures.Add(firstFigure);
+            secondFigure.ChangeFigureColor(OptionColor.ColorDraw, false);
+        }
+
+        public void JoinShiftDots(Figure firstFigure, Figure secondFigure)
+        {
+            secondFigure.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+        }
+
+        public void JoinShiftElements(Figure firstFigure, Figure secondFigure)
+        {
+            secondFigure.ChangeFigureColor(OptionColor.ColorDraw, false);
         }
     }
 }

@@ -40,7 +40,8 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness = 1;
             OptionDrawLine.SizeWidthAndHeightRectangle = 8;
             OptionDrawLine.InvisibleStrokeThickness = 10;
-            OptionDrawLine.SizeRectangleForTransform = 10;
+            OptionDrawLine.SizeRectangleForScale = 10;
+            OptionDrawLine.SizeRectangleForRotation = 15;
             OptionSetka.Masshtab = 1;
             OptionSetka.Angle = 0;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);

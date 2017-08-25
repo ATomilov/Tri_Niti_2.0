@@ -35,16 +35,13 @@ C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\Т�
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\ТриНитиДизайн.pdb
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\About.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Setting.baml
-C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Stechki.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Tatami.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\About.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\MainWindow.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Cepochka.g.cs
-C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\ConnectionElements.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Glad.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Setting.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\SpecialWindowWhenSelectedFigure.g.cs
-C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Stechki.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Tatami.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.g.cs
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\App.g.cs
@@ -52,7 +49,6 @@ C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\ТриНитиДизайн_MarkupCompile.lref
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\MainWindow.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Cepochka.baml
-C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\ConnectionElements.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\Glad.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\SpecialWindowWhenSelectedFigure.baml
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\WindowColors.baml
@@ -66,3 +62,5 @@ C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\WriteableBitmapEx.Wpf.dll
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\WriteableBitmapEx.Wpf.pdb
 C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\bin\Debug\WriteableBitmapEx.Wpf.xml
+C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\JoinCursor.baml
+C:\Users\Gibsman\Documents\Tri_Niti_2.0\ТриНитиДизайн\obj\x86\Debug\View\JoinCursor.g.cs

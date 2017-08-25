@@ -25,7 +25,8 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness /= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle /= 2;
             OptionDrawLine.InvisibleStrokeThickness /= 2;
-            OptionDrawLine.SizeRectangleForTransform /= 2;
+            OptionDrawLine.SizeRectangleForScale /= 2;
+            OptionDrawLine.SizeRectangleForRotation /= 2;
             OptionDrawLine.SizeEllipseForPoints /= 2;
             OptionDrawLine.RisuiRegimDots /= 2;
             OptionDrawLine.StrokeThicknessMainRec /= 2;
@@ -91,7 +92,8 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness *= 2;
             OptionDrawLine.SizeWidthAndHeightRectangle *= 2;
             OptionDrawLine.InvisibleStrokeThickness *= 2;
-            OptionDrawLine.SizeRectangleForTransform *= 2;
+            OptionDrawLine.SizeRectangleForScale *= 2;
+            OptionDrawLine.SizeRectangleForRotation *= 2;
             OptionDrawLine.SizeEllipseForPoints *= 2;
             OptionDrawLine.RisuiRegimDots *= 2;
             OptionDrawLine.StrokeThicknessMainRec *= 2;
@@ -159,7 +161,7 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness = stroke;
             OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
             OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
-            OptionDrawLine.SizeRectangleForTransform = sizerectanglefortransform;
+            OptionDrawLine.SizeRectangleForScale = sizerectanglefortransform;
             foreach (Figure fig in ListFigure)
             {
                 foreach (Shape sh in fig.Shapes)
@@ -193,7 +195,7 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThickness = stroke;
             OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
             OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
-            OptionDrawLine.SizeRectangleForTransform = sizerectanglefortransform;
+            OptionDrawLine.SizeRectangleForScale = sizerectanglefortransform;
             foreach (Figure fig in ListFigure)
             {
                 foreach (Shape sh in fig.Shapes)

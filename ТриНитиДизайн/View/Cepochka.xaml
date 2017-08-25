@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ТриНитиДизайн.View"
         mc:Ignorable="d"
-        Title="Цепочка" Height="141" Width="160
-        " ResizeMode="NoResize">
+        Title="Цепочка" Height="150" Width="160" ResizeMode="NoResize">
     <Grid>
         <Label Content="Длина шага" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <TextBox Name="textbox1" HorizontalAlignment="Left" Height="23" Margin="95,14,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="45"/>
