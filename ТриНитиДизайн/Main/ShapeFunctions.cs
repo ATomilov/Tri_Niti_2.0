@@ -542,11 +542,9 @@ namespace ТриНитиДизайн
                 if (newFig.Points.Count > 0)
                 {
                     newFig.PointStart = newFig.Points[0];
-                    ListFigure.Insert(IndexFigure, newFig);
                 }
+                ListFigure.Insert(IndexFigure, newFig);
                 ListFigure.Remove(fig);
-                if (ListFigure.Count == 0)
-                    ListFigure.Add(new Figure(MainCanvas));
             }
         }
     }

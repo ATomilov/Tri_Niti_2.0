@@ -55,13 +55,11 @@ namespace ТриНитиДизайн
         {
             OptionRegim.regim = Regim.ZoomIn;
             MainCanvas.Cursor = ZoomInCursor;
-            //Plus(MainCanvas);
         }
         private void MinusButtonEvent(object sender, RoutedEventArgs e)
         {
             OptionRegim.regim = Regim.ZoomOut;
             MainCanvas.Cursor = ZoomOutCursor;
-            //Minus(MainCanvas);
         }
 
         private void PrevVidButtonEvent(object sender, RoutedEventArgs e)
@@ -71,7 +69,7 @@ namespace ТриНитиДизайн
 
         private void MashtabFigureButtonEvent(object sender, RoutedEventArgs e)
         {
-            ListFigure[IndexFigure].AddFigure(MainCanvas);
+
         }
 
         private void MashtabVidButtonEvent(object sender, RoutedEventArgs e)

@@ -483,7 +483,7 @@ namespace ТриНитиДизайн
                 bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(MainCanvas), ListFigure, e.OriginalSource, MainCanvas);
                 if (e.OriginalSource is Line || e.OriginalSource is Path)
                 {
-                    if (isNewFigureClicked)
+                    if (!isNewFigureClicked)
                     {
                         foreach (Rectangle rec in transRectangles)
                             MainCanvas.Children.Remove(rec);

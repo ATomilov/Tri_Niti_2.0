@@ -24,7 +24,7 @@ namespace ТриНитиДизайн
             ptsRec.Clear();
             chRec = new Rectangle();
             chRec.MaxHeight = 100000;
-            ptsRec = ListFigure[IndexFigure].GetFourPointsOfOutSideRectangle(length);
+            ptsRec = GetFourOutsidePointsForGroup(0);
             chRec.Height = Math.Abs(ptsRec[1].Y - ptsRec[0].Y);
             chRec.Width = Math.Abs(ptsRec[2].X - ptsRec[1].X);
             DoubleCollection dashes = new DoubleCollection();
@@ -99,46 +99,49 @@ namespace ТриНитиДизайн
         public void RotateFigure(Point centerPoint)
         {
             chRec = new Rectangle();
-            for (int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
             {
-                Point p = ListFigure[IndexFigure].Points[i];
-                Point rotatedP = RotatePoint(angle, p, centerPoint);
-                if (i != ListFigure[IndexFigure].Points.Count - 1)
+                for (int i = 0; i < fig.Points.Count; i++)
                 {
-                    Point nextP = ListFigure[IndexFigure].Points[i + 1];
-                    Point rotatedNextP = RotatePoint(angle, nextP, centerPoint);
-                    Shape sh;
-                    Shape newSh;
-                    Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
-                    ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
-                    if (sh is Line)
-                        newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, rotatedP, rotatedNextP, false, MainCanvas);
-                    else
+                    Point p = fig.Points[i];
+                    Point rotatedP = RotatePoint(angle, p, centerPoint);
+                    if (i != fig.Points.Count - 1)
                     {
-                        ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(p, out contPts);
-                        if (sh.MinHeight == 5)
-                        {
-                            Point rotatedContPoint1 = RotatePoint(angle, contPts.Item1, centerPoint);
-                            Point rotatedContPoint2 = RotatePoint(angle, contPts.Item2, centerPoint);
-                            contPts = new Tuple<Point, Point>(rotatedContPoint1, rotatedContPoint2);
-                            newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, rotatedP, contPts.Item1,
-                                contPts.Item2, rotatedNextP, MainCanvas);
-                        }
+                        Point nextP = fig.Points[i + 1];
+                        Point rotatedNextP = RotatePoint(angle, nextP, centerPoint);
+                        Shape sh;
+                        Shape newSh;
+                        Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+                        fig.DictionaryPointLines.TryGetValue(p, out sh);
+                        if (sh is Line)
+                            newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, rotatedP, rotatedNextP, false, MainCanvas);
                         else
                         {
-                            Point rotatedContPoint = RotatePoint(angle, contPts.Item1, centerPoint);
-                            contPts = new Tuple<Point, Point>(rotatedContPoint, new Point());
-                            newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, rotatedP, rotatedNextP,
-                                contPts.Item1, MainCanvas);
+                            fig.DictionaryShapeControlPoints.TryGetValue(p, out contPts);
+                            if (sh.MinHeight == 5)
+                            {
+                                Point rotatedContPoint1 = RotatePoint(angle, contPts.Item1, centerPoint);
+                                Point rotatedContPoint2 = RotatePoint(angle, contPts.Item2, centerPoint);
+                                contPts = new Tuple<Point, Point>(rotatedContPoint1, rotatedContPoint2);
+                                newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, rotatedP, contPts.Item1,
+                                    contPts.Item2, rotatedNextP, MainCanvas);
+                            }
+                            else
+                            {
+                                Point rotatedContPoint = RotatePoint(angle, contPts.Item1, centerPoint);
+                                contPts = new Tuple<Point, Point>(rotatedContPoint, new Point());
+                                newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, rotatedP, rotatedNextP,
+                                    contPts.Item1, MainCanvas);
+                            }
                         }
+                        fig.DeleteShape(sh, p, MainCanvas);
+                        fig.AddShape(newSh, rotatedP, contPts);
                     }
-                    ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
-                    ListFigure[IndexFigure].AddShape(newSh, rotatedP, contPts);
+                    fig.Points[i] = rotatedP;
                 }
-                ListFigure[IndexFigure].Points[i] = rotatedP;
+                fig.PointStart = fig.Points[0];
+                fig.PointEnd = fig.Points[fig.Points.Count - 1];
             }
-            ListFigure[IndexFigure].PointStart = ListFigure[IndexFigure].Points[0];
-            ListFigure[IndexFigure].PointEnd = ListFigure[IndexFigure].Points[ListFigure[IndexFigure].Points.Count - 1];
         }
 
         public void MoveScalingRectangle(Point currentPosition, Canvas canvas)
@@ -229,46 +232,49 @@ namespace ТриНитиДизайн
         public void ScaleTransformFigure()
         {
             chRec = new Rectangle();
-            for (int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
             {
-                Point p = ListFigure[IndexFigure].Points[i];
-                Point scaledP = GetScaledPoint(p, startVector, tVect);
-                if (i != ListFigure[IndexFigure].Points.Count - 1)
+                for (int i = 0; i < fig.Points.Count; i++)
                 {
-                    Point nextP = ListFigure[IndexFigure].Points[i + 1];
-                    Point scaledNextP = GetScaledPoint(nextP, startVector, tVect);
-                    Shape sh;
-                    Shape newSh;
-                    Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
-                    ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
-                    if (sh is Line)
-                        newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, scaledP, scaledNextP, false, MainCanvas);
-                    else
+                    Point p = fig.Points[i];
+                    Point scaledP = GetScaledPoint(p, startVector, tVect);
+                    if (i != fig.Points.Count - 1)
                     {
-                        ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(p, out contPts);
-                        if (sh.MinHeight == 5)
-                        {
-                            Point scaledContPoint1 = GetScaledPoint(contPts.Item1, startVector, tVect);
-                            Point scaledContPoint2 = GetScaledPoint(contPts.Item2, startVector, tVect);
-                            contPts = new Tuple<Point, Point>(scaledContPoint1, scaledContPoint2);
-                            newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, scaledP, contPts.Item1,
-                                contPts.Item2, scaledNextP, MainCanvas);
-                        }
+                        Point nextP = fig.Points[i + 1];
+                        Point scaledNextP = GetScaledPoint(nextP, startVector, tVect);
+                        Shape sh;
+                        Shape newSh;
+                        Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+                        fig.DictionaryPointLines.TryGetValue(p, out sh);
+                        if (sh is Line)
+                            newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, scaledP, scaledNextP, false, MainCanvas);
                         else
                         {
-                            Point scaledContPoint = GetScaledPoint(contPts.Item1, startVector, tVect);
-                            contPts = new Tuple<Point, Point>(scaledContPoint, new Point());
-                            newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, scaledP, scaledNextP,
-                                contPts.Item1, MainCanvas);
+                            fig.DictionaryShapeControlPoints.TryGetValue(p, out contPts);
+                            if (sh.MinHeight == 5)
+                            {
+                                Point scaledContPoint1 = GetScaledPoint(contPts.Item1, startVector, tVect);
+                                Point scaledContPoint2 = GetScaledPoint(contPts.Item2, startVector, tVect);
+                                contPts = new Tuple<Point, Point>(scaledContPoint1, scaledContPoint2);
+                                newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, scaledP, contPts.Item1,
+                                    contPts.Item2, scaledNextP, MainCanvas);
+                            }
+                            else
+                            {
+                                Point scaledContPoint = GetScaledPoint(contPts.Item1, startVector, tVect);
+                                contPts = new Tuple<Point, Point>(scaledContPoint, new Point());
+                                newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, scaledP, scaledNextP,
+                                    contPts.Item1, MainCanvas);
+                            }
                         }
+                        fig.DeleteShape(sh, p, MainCanvas);
+                        fig.AddShape(newSh, scaledP, contPts);
                     }
-                    ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
-                    ListFigure[IndexFigure].AddShape(newSh, scaledP, contPts);
+                    fig.Points[i] = scaledP;
                 }
-                ListFigure[IndexFigure].Points[i] = scaledP;
+                fig.PointStart = fig.Points[0];
+                fig.PointEnd = fig.Points[fig.Points.Count - 1];
             }
-            ListFigure[IndexFigure].PointStart = ListFigure[IndexFigure].Points[0];
-            ListFigure[IndexFigure].PointEnd = ListFigure[IndexFigure].Points[ListFigure[IndexFigure].Points.Count - 1];
         }
 
         private Point GetScaledPoint(Point origin, Point startVectorPoint, Vector transformVect)
@@ -306,58 +312,64 @@ namespace ТриНитиДизайн
 
         public void MoveFigureToNewPosition()
         {
-            Point newPointStart = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2,
-                Canvas.GetTop(firstRec) + firstRec.Height / 2);
-            Vector figureVect = newPointStart - ListFigure[IndexFigure].PointStart;
-            for(int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
+            Point newPointStart = new Point(Canvas.GetLeft(chRec), Canvas.GetTop(chRec));
+            Vector figureVect = newPointStart - ptsRec[0];
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
             {
-                Point p = ListFigure[IndexFigure].Points[i];
-                if (i != ListFigure[IndexFigure].Points.Count - 1)
+                for (int i = 0; i < fig.Points.Count; i++)
                 {
-                    Point nextP = ListFigure[IndexFigure].Points[i + 1];
-                    Shape sh;
-                    Shape newSh;
-                    Tuple<Point,Point> contPts = new Tuple<Point,Point>(new Point(),new Point());
-                    ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
-                    if(sh is Line)
-                        newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, p + figureVect, nextP + figureVect, false, MainCanvas);
-                    else
+                    Point p = fig.Points[i];
+                    if (i != fig.Points.Count - 1)
                     {
-                        ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(p, out contPts);
-                        if(sh.MinHeight == 5)
-                        {
-                            contPts = new Tuple<Point, Point>(contPts.Item1 + figureVect, contPts.Item2 + figureVect);
-                            newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, p + figureVect, contPts.Item1,
-                                contPts.Item2,nextP + figureVect, MainCanvas);
-                        }
+                        Point nextP = fig.Points[i + 1];
+                        Shape sh;
+                        Shape newSh;
+                        Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+                        fig.DictionaryPointLines.TryGetValue(p, out sh);
+                        if (sh is Line)
+                            newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, p + figureVect, nextP + figureVect, false, MainCanvas);
                         else
                         {
-                            contPts = new Tuple<Point, Point>(contPts.Item1 + figureVect, new Point());
-                            newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, p + figureVect, nextP + figureVect,
-                                contPts.Item1, MainCanvas);
+                            fig.DictionaryShapeControlPoints.TryGetValue(p, out contPts);
+                            if (sh.MinHeight == 5)
+                            {
+                                contPts = new Tuple<Point, Point>(contPts.Item1 + figureVect, contPts.Item2 + figureVect);
+                                newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, p + figureVect, contPts.Item1,
+                                    contPts.Item2, nextP + figureVect, MainCanvas);
+                            }
+                            else
+                            {
+                                contPts = new Tuple<Point, Point>(contPts.Item1 + figureVect, new Point());
+                                newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, p + figureVect, nextP + figureVect,
+                                    contPts.Item1, MainCanvas);
+                            }
                         }
+                        fig.DeleteShape(sh, p, MainCanvas);
+                        fig.AddShape(newSh, p + figureVect, contPts);
                     }
-                    ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
-                    ListFigure[IndexFigure].AddShape(newSh, p + figureVect, contPts);
+                    fig.Points[i] += figureVect;
                 }
-                ListFigure[IndexFigure].Points[i] += figureVect;
+                fig.PointStart += figureVect;
+                fig.PointEnd += figureVect;
             }
-            ListFigure[IndexFigure].PointStart += figureVect;
-            ListFigure[IndexFigure].PointEnd += figureVect;
         }
 
         public void CursorMenuDrawInColor()
         {
             TempListFigure = ListFigure.ToList<Figure>();
             MainCanvas.Children.Clear();
-            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorNewDraw, false);
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            {
+                fig.ChangeFigureColor(OptionColor.ColorNewDraw, false);
+                fig.AddFigure(MainCanvas);
+            }
             MainCanvas.Background = OptionColor.ColorNewBackground;
-            ListFigure[IndexFigure].AddFigure(MainCanvas);
         }
 
         public void CursorMenuDrawStegki()
         {
-            ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorKrivaya, false);
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+                fig.ChangeFigureColor(OptionColor.ColorKrivaya, false);
             MainCanvas.Children.Remove(lastRec);
             MainCanvas.Children.Remove(firstRec);
         }
@@ -466,19 +478,19 @@ namespace ТриНитиДизайн
                         index = 11;
                     else
                         index = i * (i % 2);
-
                     ImageBrush image = new ImageBrush(new BitmapImage(
     new Uri(@"pack://application:,,,/Images/arrow" + index + ".gif", UriKind.Absolute)));
                     transRectangles[i].Fill = image;
                     transRectangles[i].StrokeThickness = 0;
                 }
             }
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+                fig.ChangeFigureColor(OptionColor.ColorDraw, false);
         }
 
         private List<Point> GetFourOutsidePointsForGroup(int length)
         {
             List<Point> pts = new List<Point>();
-            pts = ListFigure[IndexFigure].GetFourPointsOfOutSideRectangle(length);
 
             foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
                 foreach (Point p in fig.GetFourPointsOfOutSideRectangle(length))
@@ -529,10 +541,10 @@ namespace ТриНитиДизайн
             else if (OptionRegim.regim == Regim.RegimCursorJoinShiftElements)
                 JoinShiftElements(firstFigure, secondFigure);
 
+            OptionRegim.regim = Regim.RegimCursor;
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, canvas);
-            OptionRegim.regim = Regim.RegimCursor;
         }
 
         public void JoinChain(Figure firstFigure, Figure secondFigure)
@@ -542,8 +554,13 @@ namespace ТриНитиДизайн
 
         public void JoinTransposition(Figure firstFigure, Figure secondFigure)
         {
-            firstFigure.groupFigures.Add(secondFigure);
-            secondFigure.groupFigures.Add(firstFigure);
+            List<Figure> group = new List<Figure>(firstFigure.groupFigures);
+            foreach (Figure fig in group)
+                if(fig != secondFigure)
+                    fig.groupFigures.Add(secondFigure);
+            foreach (Figure fig in group)
+                if (fig != secondFigure)
+                    secondFigure.groupFigures.Add(fig);
             secondFigure.ChangeFigureColor(OptionColor.ColorDraw, false);
         }
 

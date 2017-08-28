@@ -46,7 +46,6 @@ namespace ТриНитиДизайн
             OptionSetka.Angle = 0;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             MainCanvas.RenderTransform = scaleTransform;
-
         }
 
         public string SavingFigures(Figure fig)

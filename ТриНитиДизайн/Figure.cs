@@ -55,6 +55,7 @@ namespace ТриНитиДизайн
             PointsCount = new List<int>();
             RectangleOfFigures = new List<Rectangle>();
             groupFigures = new List<Figure>();
+            groupFigures.Add(this);
             PreparedForTatami = false;
             canvas = _canvas;
             DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point,Point>>();
@@ -169,6 +170,7 @@ namespace ТриНитиДизайн
             regimFigure = Regim.RegimFigure;
             Shapes = new List<Shape>();
             groupFigures = new List<Figure>();
+            groupFigures.Add(this);
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             tempShapes = new List<Shape>();
