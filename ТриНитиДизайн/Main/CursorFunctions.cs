@@ -15,6 +15,7 @@ namespace ТриНитиДизайн
     {
         string status;
         List<Point> ptsRec = new List<Point>();
+        List<Rectangle> movingFigurePoints = new List<Rectangle>();
         Vector tVect;
         Point startVector;
         double angle;
@@ -35,11 +36,16 @@ namespace ТриНитиДизайн
             Canvas.SetTop(chRec, ptsRec[0].Y);
             chRec.Stroke = OptionColor.ColorChoosingRec;
             chRec.StrokeThickness = OptionDrawLine.StrokeThickness;
-
-            firstRec = GeometryHelper.DrawRectangle(ListFigure[IndexFigure].PointStart, false, true,
-                OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas);
-            lastRec = GeometryHelper.DrawRectangle(ListFigure[IndexFigure].PointEnd, false, false,
-                OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, MainCanvas);
+            movingFigurePoints.Clear();
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            {
+                movingFigurePoints.Add(GeometryHelper.DrawRectangle(fig.PointStart, false, true,
+                    OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas));
+                movingFigurePoints.Add(GeometryHelper.DrawRectangle(fig.PointEnd, false, false,
+                    OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas));
+            }
+            foreach (Rectangle rec in movingFigurePoints)
+                MainCanvas.Children.Remove(rec);
         }
 
         public void InitializeScaling(string newStatus)
@@ -66,17 +72,21 @@ namespace ТриНитиДизайн
             canvas.Children.Add(chRec);
 
             angle = angle * (Math.PI / 180);
-            Point firstRecPos = RotatePoint(angle, ListFigure[IndexFigure].PointStart, centerPoint);
-            canvas.Children.Remove(firstRec);
-            Canvas.SetLeft(firstRec, firstRecPos.X - firstRec.Width/2);
-            Canvas.SetTop(firstRec, firstRecPos.Y - firstRec.Width / 2);
-            canvas.Children.Add(firstRec);
 
-            Point secondRecPos = RotatePoint(angle, ListFigure[IndexFigure].PointEnd, centerPoint);
-            canvas.Children.Remove(lastRec);
-            Canvas.SetLeft(lastRec, secondRecPos.X - lastRec.Width / 2);
-            Canvas.SetTop(lastRec, secondRecPos.Y - lastRec.Width / 2);
-            canvas.Children.Add(lastRec);
+            for(int i = 0; i < movingFigurePoints.Count; i ++)
+            {
+                Point startPoint;
+
+                if(i%2 == 0)
+                    startPoint = ListFigure[IndexFigure].groupFigures[i/2].PointStart;
+                else
+                    startPoint = ListFigure[IndexFigure].groupFigures[i/2].PointEnd;
+                Point recPosition = RotatePoint(angle, startPoint, centerPoint);
+                canvas.Children.Remove(movingFigurePoints[i]);
+                Canvas.SetLeft(movingFigurePoints[i], recPosition.X - movingFigurePoints[i].Width / 2);
+                Canvas.SetTop(movingFigurePoints[i], recPosition.Y - movingFigurePoints[i].Width / 2);
+                canvas.Children.Add(movingFigurePoints[i]);
+            }
         }
 
         private Point RotatePoint(double newAngle, Point origin, Point centerPoint)
@@ -99,6 +109,9 @@ namespace ТриНитиДизайн
         public void RotateFigure(Point centerPoint)
         {
             chRec = new Rectangle();
+            foreach (Rectangle rec in movingFigurePoints)
+                MainCanvas.Children.Remove(rec);
+            movingFigurePoints.Clear();
             foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
             {
                 for (int i = 0; i < fig.Points.Count; i++)
@@ -206,8 +219,15 @@ namespace ТриНитиДизайн
                 else
                     tVect = new Vector(1, scale);
             }
-            ScaleRectangles(firstRec, ListFigure[IndexFigure].PointStart, startVector, tVect, canvas);
-            ScaleRectangles(lastRec, ListFigure[IndexFigure].PointEnd, startVector, tVect, canvas);
+            for (int i = 0; i < movingFigurePoints.Count; i++)
+            {
+                Point startPoint;
+                if (i % 2 == 0)
+                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointStart;
+                else
+                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointEnd;
+                ScaleRectangles(movingFigurePoints[i], startPoint, startVector, tVect, canvas);
+            }
         }
 
         private void SetScalingCursor()
@@ -232,6 +252,9 @@ namespace ТриНитиДизайн
         public void ScaleTransformFigure()
         {
             chRec = new Rectangle();
+            foreach (Rectangle rec in movingFigurePoints)
+                MainCanvas.Children.Remove(rec);
+            movingFigurePoints.Clear();
             foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
             {
                 for (int i = 0; i < fig.Points.Count; i++)
@@ -310,11 +333,18 @@ namespace ТриНитиДизайн
             canvas.Children.Add(rec);
         }
 
-        public void MoveFigureToNewPosition()
+        public void MoveFigureToNewPosition(bool isShiftElements, List<Figure> group, Vector figureVect)
         {
-            Point newPointStart = new Point(Canvas.GetLeft(chRec), Canvas.GetTop(chRec));
-            Vector figureVect = newPointStart - ptsRec[0];
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            if (!isShiftElements)
+            {
+                group = ListFigure[IndexFigure].groupFigures;
+                foreach (Rectangle rec in movingFigurePoints)
+                    MainCanvas.Children.Remove(rec);
+                movingFigurePoints.Clear();
+                Point newPointStart = new Point(Canvas.GetLeft(chRec), Canvas.GetTop(chRec));
+                figureVect = newPointStart - ptsRec[0];
+            }
+            foreach (Figure fig in group)
             {
                 for (int i = 0; i < fig.Points.Count; i++)
                 {
@@ -525,9 +555,12 @@ namespace ТриНитиДизайн
 
         public void ShowJoinCursorMessage(Figure firstFigure, Figure secondFigure,Canvas canvas)
         {
+            foreach (Figure fig in secondFigure.groupFigures)
+                fig.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
             var JoinCursorWindow = new View.JoinCursor();
             JoinCursorWindow.ShowDialog();
-            secondFigure.ChangeFigureColor(OptionColor.ColorSelection, false);
+            foreach(Figure fig in secondFigure.groupFigures)
+                fig.ChangeFigureColor(OptionColor.ColorSelection, false);
 
             if (OptionRegim.regim == Regim.RegimCursorJoinChain)
                 JoinChain(firstFigure, secondFigure);
@@ -549,29 +582,116 @@ namespace ТриНитиДизайн
 
         public void JoinChain(Figure firstFigure, Figure secondFigure)
         {
-            
+            Point start = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1].PointEnd;
+            Point end = secondFigure.groupFigures[0].PointStart;
+            Vector newFigVect = end - start;
+            newFigVect /= 5;
+            Figure newFigure = new Figure(MainCanvas);
+            Point p = start;
+            for(int i = 0; i < 6; i++)
+            {
+                newFigure.AddPoint(p, OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                p += newFigVect;
+            }
+            ListFigure.Add(newFigure);
+
+            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
+            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
+
+            foreach (Figure fig in group1)
+            {
+                fig.groupFigures.Add(newFigure);
+                foreach (Figure fig2 in group2)
+                    fig.groupFigures.Add(fig2);
+            }
+
+            foreach (Figure fig in group2)
+            {
+                newFigure.groupFigures.Add(fig);
+                fig.groupFigures.Insert(0, newFigure);
+                for (int i = group1.Count - 1; i > -1; i--)
+                    fig.groupFigures.Insert(0, group1[i]);
+            }
+
+            for (int i = group1.Count - 1; i > -1; i--)
+                newFigure.groupFigures.Insert(0, group1[i]);
+
         }
 
         public void JoinTransposition(Figure firstFigure, Figure secondFigure)
         {
-            List<Figure> group = new List<Figure>(firstFigure.groupFigures);
-            foreach (Figure fig in group)
-                if(fig != secondFigure)
-                    fig.groupFigures.Add(secondFigure);
-            foreach (Figure fig in group)
-                if (fig != secondFigure)
-                    secondFigure.groupFigures.Add(fig);
-            secondFigure.ChangeFigureColor(OptionColor.ColorDraw, false);
+            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
+            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
+
+            foreach (Figure fig in group1)
+                foreach (Figure fig2 in group2)
+                    fig.groupFigures.Add(fig2);
+
+            foreach (Figure fig in group2)
+                for (int i = group1.Count - 1; i > -1; i--)
+                    fig.groupFigures.Insert(0, group1[i]);
         }
 
         public void JoinShiftDots(Figure firstFigure, Figure secondFigure)
         {
-            secondFigure.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+            Figure lastFigureInGroup = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1];
+            Figure firstFigureInGroup = secondFigure.groupFigures[0];
+            Point start = lastFigureInGroup.PointEnd;
+            Point end = firstFigureInGroup.PointStart;
+            Point middle = new Point();
+            middle.X = (start.X + end.X) / 2;
+            middle.Y = (start.Y + end.Y) / 2;
+            Shape sh;
+            lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], out sh);
+            lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], MainCanvas);
+            lastFigureInGroup.Points.Remove(start);
+            lastFigureInGroup.PointEnd = lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 1];
+            lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, 0);
+
+            firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
+            firstFigureInGroup.DeleteShape(sh, end, MainCanvas);
+            firstFigureInGroup.Points.Remove(end);
+            sh = GeometryHelper.SetLine(OptionColor.ColorDraw, middle, firstFigureInGroup.Points[0], false, MainCanvas);
+            firstFigureInGroup.AddShape(sh, middle, null);
+            firstFigureInGroup.PointStart = middle;
+            firstFigureInGroup.Points.Insert(0, middle);
+
+            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
+            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
+
+            foreach (Figure fig in group1)
+            {
+                foreach (Figure fig2 in group2)
+                    fig.groupFigures.Add(fig2);
+            }
+
+            foreach (Figure fig in group2)
+            {
+                for (int i = group1.Count - 1; i > -1; i--)
+                    fig.groupFigures.Insert(0, group1[i]);
+            }
         }
 
         public void JoinShiftElements(Figure firstFigure, Figure secondFigure)
         {
-            secondFigure.ChangeFigureColor(OptionColor.ColorDraw, false);
+            Point start = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1].PointEnd;
+            Point end = secondFigure.groupFigures[0].PointStart;
+            Vector newFigVect = start - end;
+            MoveFigureToNewPosition(true, secondFigure.groupFigures, newFigVect);
+            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
+            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
+
+            foreach (Figure fig in group1)
+            {
+                foreach (Figure fig2 in group2)
+                    fig.groupFigures.Add(fig2);
+            }
+
+            foreach (Figure fig in group2)
+            {
+                for (int i = group1.Count - 1; i > -1; i--)
+                    fig.groupFigures.Insert(0, group1[i]);
+            }
         }
     }
 }

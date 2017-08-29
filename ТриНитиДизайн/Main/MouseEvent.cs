@@ -86,8 +86,8 @@ namespace ТриНитиДизайн
                 {
                     Vector delta = e.GetPosition(MainCanvas) - prevPoint;
                     MoveFigureRectangle(chRec, delta, MainCanvas);
-                    MoveFigureRectangle(firstRec, delta, MainCanvas);
-                    MoveFigureRectangle(lastRec, delta, MainCanvas);
+                    foreach (Rectangle rec in movingFigurePoints)
+                        MoveFigureRectangle(rec, delta, MainCanvas);
                     prevPoint = e.GetPosition(MainCanvas);
                 }
                 if (OptionRegim.regim == Regim.RegimEditFigures)
@@ -170,7 +170,7 @@ namespace ТриНитиДизайн
                 OptionRegim.regim = Regim.RegimCursor;
                 if (chRec.MaxHeight == 99999)
                 {
-                    MoveFigureToNewPosition();
+                    MoveFigureToNewPosition(false, null,new Vector());
                     RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                     DrawFirstAndLastRectangle();
                     DrawOutsideRectangles(true, false, MainCanvas);

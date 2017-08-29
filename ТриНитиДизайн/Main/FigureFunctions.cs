@@ -48,12 +48,20 @@ namespace ТриНитиДизайн
             MainCanvas.Children.Remove(lastRec);
             MainCanvas.Children.Remove(firstRec);
             bool isRegimCursor = false;
+            double mainThickness = OptionDrawLine.StrokeThicknessMainRec;
+            Point start = ListFigure[IndexFigure].PointStart;
+            Point end = ListFigure[IndexFigure].PointEnd;
             if (OptionRegim.regim == Regim.RegimCursor)
+            {
                 isRegimCursor = true;
-            firstRec = GeometryHelper.DrawRectangle(ListFigure[IndexFigure].PointStart, false, isRegimCursor, 
+                mainThickness = OptionDrawLine.StrokeThickness;
+                start = ListFigure[IndexFigure].groupFigures[0].PointStart;
+                end = ListFigure[IndexFigure].groupFigures[ListFigure[IndexFigure].groupFigures.Count - 1].PointEnd;
+            }
+            firstRec = GeometryHelper.DrawRectangle(start, false, isRegimCursor, 
                 OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas);
-            lastRec = GeometryHelper.DrawRectangle(ListFigure[IndexFigure].PointEnd, false, false,
-                OptionDrawLine.StrokeThicknessMainRec, OptionColor.ColorOpacity, MainCanvas);
+            lastRec = GeometryHelper.DrawRectangle(end, false, false,
+                mainThickness, OptionColor.ColorOpacity, MainCanvas);
         }
 
         public void DrawInvisibleRectangles(Canvas canvas)
@@ -127,7 +135,6 @@ namespace ТриНитиДизайн
                             {
                                 if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
                                 {
-                                    ListFigure[i].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
                                     if (OptionRegim.regim == Regim.RegimFigure)
                                     {
                                         FirstGladFigure = IndexFigure;
@@ -262,8 +269,8 @@ namespace ТриНитиДизайн
             if(clickedShape is Rectangle)
             {
                 Rectangle rect = (Rectangle)clickedShape;
-                double x = Canvas.GetLeft(rect) + rect.ActualHeight / 2;
-                double y = Canvas.GetTop(rect) + rect.ActualWidth / 2;
+                double x = Canvas.GetLeft(rect) + rect.Width / 2;
+                double y = Canvas.GetTop(rect) + rect.Width / 2;
                 if (new Point(x, y) == ListFigure[IndexFigure].PointStart)
                 {
                     if (OptionRegim.regim == Regim.RegimDraw)

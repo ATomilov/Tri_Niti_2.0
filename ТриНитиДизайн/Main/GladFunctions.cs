@@ -35,6 +35,23 @@ namespace ТриНитиДизайн
             {
                 case MessageBoxResult.OK:
                     {
+                        if (!firstFigure.groupFigures.Contains(secondFigure))
+                        {
+                            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
+                            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
+                            foreach (Figure fig in group1)
+                                fig.groupFigures.Remove(firstFigure);
+                            firstFigure.groupFigures.Clear();
+                            firstFigure.groupFigures.Add(firstFigure);
+
+                            foreach (Figure fig in group2)
+                                fig.groupFigures.Remove(secondFigure);
+                            secondFigure.groupFigures.Clear();
+                            secondFigure.groupFigures.Add(secondFigure);
+
+                            firstFigure.groupFigures.Add(secondFigure);
+                            secondFigure.groupFigures.Insert(0, firstFigure);
+                        }
                         OptionRegim.regim = Regim.RegimGlad;                        
                         ListFigure[IndexFigure].regimFigure = Regim.RegimGlad;
                         ListFigure[SecondGladFigure].regimFigure = Regim.RegimGlad;
