@@ -18,15 +18,97 @@ namespace ТриНитиДизайн.View
     /// </summary>
     public partial class Razorvat : Window
     {
-        public Razorvat()
+        List<Figure> currentList;
+        int index;
+        Rectangle firstRec;
+        Rectangle lastRec;
+        Canvas canvas;
+
+        public Razorvat(List<Figure> _currentList, int _index, Canvas _canvas)
         {
             InitializeComponent();
+            currentList = _currentList;
+            index = _index;
+            canvas = _canvas;
+            firstRec = GeometryHelper.DrawRectangle(currentList[index].PointStart, false, true,
+                OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+            lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
+                OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
         }
 
         private void OpenWindowsColor(object sender, RoutedEventArgs e)
         {
             WindowColors window = new WindowColors();
             window.ShowDialog();
+        }
+
+        private void yes_button_Click(object sender, RoutedEventArgs e)
+        {
+            canvas.Children.Remove(firstRec);
+            canvas.Children.Remove(lastRec);
+            List<Figure> group = new List<Figure>(currentList);
+            Figure brokenFigure = currentList[index];
+            for (int i = 0; i < index; i++ )
+            {
+                Figure fig = group[i];
+                for (int j = index; j < group.Count; j++)
+                {
+                    Figure figureToDelete = group[j];
+                    fig.groupFigures.Remove(figureToDelete);
+                }
+            }
+            for (int i = index + 1; i < group.Count; i++)
+            {
+                Figure fig = group[i];
+                for (int j = 0; j <= index; j++)
+                {
+                    Figure figureToDelete = group[j];
+                    fig.groupFigures.Remove(figureToDelete);
+                }
+            }
+            brokenFigure.groupFigures.Clear();
+            brokenFigure.groupFigures.Add(brokenFigure);
+
+            this.Close();
+        }
+
+        private void no_button_Click(object sender, RoutedEventArgs e)
+        {
+            canvas.Children.Remove(firstRec);
+            canvas.Children.Remove(lastRec);
+            this.Close();
+        }
+
+        private void previous_button_Click(object sender, RoutedEventArgs e)
+        {
+            if(index !=0)
+            {
+                canvas.Children.Remove(firstRec);
+                canvas.Children.Remove(lastRec);
+                currentList[index].ChangeFigureColor(OptionColor.ColorDraw, false);
+                index--;
+                currentList[index].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+                firstRec = GeometryHelper.DrawRectangle(currentList[index].PointStart, false, true,
+                OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+                lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
+                    OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+            }
+        }
+
+        private void next_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (index != currentList.Count - 1)
+            {
+                canvas.Children.Remove(firstRec);
+                canvas.Children.Remove(lastRec);
+                currentList[index].ChangeFigureColor(OptionColor.ColorDraw, false);
+                index++;
+                currentList[index].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+                firstRec = GeometryHelper.DrawRectangle(currentList[index].PointStart, false, true,
+                OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+                lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
+                    OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+            }
         }
     }
 }

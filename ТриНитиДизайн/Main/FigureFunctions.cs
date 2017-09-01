@@ -129,22 +129,37 @@ namespace ТриНитиДизайн
                 {
                     for (int i = 0; i < ListFigure.Count; i++)
                     {
-                        if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimCursor)
+                        if (OptionRegim.regim == Regim.RegimFigure)
                         {
                             if (i != IndexFigure)
                             {
                                 if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
                                 {
-                                    if (OptionRegim.regim == Regim.RegimFigure)
-                                    {
-                                        FirstGladFigure = IndexFigure;
-                                        SecondGladFigure = i;
-                                        ShowJoinGladMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
-                                    }
-                                    else
-                                        ShowJoinCursorMessage(ListFigure[IndexFigure], ListFigure[i],MainCanvas);
+                                    FirstGladFigure = IndexFigure;
+                                    SecondGladFigure = i;
+                                    ShowJoinGladMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
                                     break;
                                 }
+                            }
+                        }
+                        else if (OptionRegim.regim == Regim.RegimCursor)
+                        {
+                            if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                            {
+                                if (ListFigure[IndexFigure].groupFigures.Count > 1)
+                                {
+                                    foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+                                    {
+                                        if (ListFigure.IndexOf(fig) == i)
+                                        {
+                                            ShowBreakCursorMessage(fig, MainCanvas);
+                                            return;
+                                        }
+                                    }
+                                }
+                                if (i != IndexFigure)
+                                    ShowJoinCursorMessage(ListFigure[IndexFigure], ListFigure[i], MainCanvas);
+                                break;
                             }
                         }
                         if (OptionRegim.regim == Regim.RegimGlad)

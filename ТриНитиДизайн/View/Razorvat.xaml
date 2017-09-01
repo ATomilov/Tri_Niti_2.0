@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ТриНитиДизайн.View"
         mc:Ignorable="d"
-        Title="Разорвать?" Height="127" Width="343" ResizeMode="NoResize">
+        Title="Разорвать?" Height="110" Width="175" ResizeMode="NoResize">
     <Grid>
-        <Button Content="&lt;&lt;-" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="95" Height="30"/>
-        <Button Content="-&gt;&gt;" HorizontalAlignment="Left" Margin="230,10,0,0" VerticalAlignment="Top" Width="95" Height="30"/>
-        <Button Click="OpenWindowsColor" Content="Цвет" HorizontalAlignment="Left" Margin="120,10,0,0" VerticalAlignment="Top" Width="95" Height="30"/>
-        <Button Content="Да" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="145" Height="30"/>
-        <Button Content="Нет" HorizontalAlignment="Left" Margin="180,55,0,0" VerticalAlignment="Top" Width="145" Height="30"/>
+        <Button x:Name="previous_button" Content="&lt;&lt;-" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="38" Height="25" Click="previous_button_Click"/>
+        <Button x:Name="next_button" Content="-&gt;&gt;" HorizontalAlignment="Left" Margin="113,10,0,0" VerticalAlignment="Top" Width="38" Height="25" Click="next_button_Click"/>
+        <Button Click="OpenWindowsColor" Content="Цвет" HorizontalAlignment="Left" Margin="53,10,0,0" VerticalAlignment="Top" Width="55" Height="25"/>
+        <Button x:Name="yes_button" Content="Да" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="68" Height="25" Click="yes_button_Click"/>
+        <Button x:Name="no_button" Content="Нет" HorizontalAlignment="Left" Margin="83,40,0,0" VerticalAlignment="Top" Width="68" Height="25" Click="no_button_Click"/>
 
     </Grid>
 </Window>

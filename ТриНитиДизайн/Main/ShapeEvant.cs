@@ -19,14 +19,17 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-
         private void ShapeMainButtonEvant(object sender, RoutedEventArgs e)
         {
+            if (OptionRegim.regim == Regim.RegimCursor)
+            {
+                IndexFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[0]);
+            }
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
-             if (ListFigure[IndexFigure].PreparedForTatami)
+            if (ListFigure[IndexFigure].PreparedForTatami)
             {
                 ListFigure[IndexFigure].LoadCurrentShapes();
             }

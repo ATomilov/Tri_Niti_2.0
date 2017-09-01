@@ -359,6 +359,11 @@ namespace ТриНитиДизайн
                     newFig.Points.Add(p);
                 }
                 newFig.ChangeFigureColor(OptionColor.ColorSelection, false);
+
+                List<Figure> group = new List<Figure>(fig.groupFigures);
+                foreach (Figure figGroup in group)
+                    figGroup.groupFigures.Remove(fig);
+
                 ListFigure.Insert(IndexFigure + 1, newFig);
                 ListFigure.Remove(fig);
             }
@@ -442,6 +447,15 @@ namespace ТриНитиДизайн
             }
             newFig.PointStart = fig.PointEnd;
             newFig.PointEnd = fig.PointStart;
+
+            newFig.groupFigures = fig.groupFigures;
+            List<Figure> group = new List<Figure>(fig.groupFigures);
+            foreach (Figure figGroup in group)
+            {
+                int index = figGroup.groupFigures.IndexOf(fig);
+                figGroup.groupFigures.Insert(index, newFig);
+                figGroup.groupFigures.Remove(fig);
+            }
             ListFigure.Insert(IndexFigure, newFig);
             ListFigure.Remove(fig);
         }
@@ -542,6 +556,15 @@ namespace ТриНитиДизайн
                 if (newFig.Points.Count > 0)
                 {
                     newFig.PointStart = newFig.Points[0];
+                }
+
+                newFig.groupFigures = fig.groupFigures;
+                List<Figure> group = new List<Figure>(fig.groupFigures);
+                foreach (Figure figGroup in group)
+                {
+                    int index = figGroup.groupFigures.IndexOf(fig);
+                    figGroup.groupFigures.Insert(index, newFig);
+                    figGroup.groupFigures.Remove(fig);
                 }
                 ListFigure.Insert(IndexFigure, newFig);
                 ListFigure.Remove(fig);

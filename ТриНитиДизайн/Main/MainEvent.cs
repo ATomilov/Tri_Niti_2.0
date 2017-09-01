@@ -80,6 +80,10 @@ namespace ТриНитиДизайн
 
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
+            if (OptionRegim.regim == Regim.RegimCursor)
+            {
+                IndexFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[0]);
+            }
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();

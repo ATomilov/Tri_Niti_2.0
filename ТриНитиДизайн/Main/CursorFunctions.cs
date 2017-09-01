@@ -557,21 +557,13 @@ namespace ТриНитиДизайн
         {
             foreach (Figure fig in secondFigure.groupFigures)
                 fig.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
-            var JoinCursorWindow = new View.JoinCursor();
+
+            var JoinCursorWindow = new View.JoinCursor(ListFigure, firstFigure, secondFigure, canvas);
             JoinCursorWindow.ShowDialog();
             foreach(Figure fig in secondFigure.groupFigures)
                 fig.ChangeFigureColor(OptionColor.ColorSelection, false);
 
-            if (OptionRegim.regim == Regim.RegimCursorJoinChain)
-                JoinChain(firstFigure, secondFigure);
-
-            else if (OptionRegim.regim == Regim.RegimCursorJoinTransposition)
-                JoinTransposition(firstFigure, secondFigure);
-
-            else if (OptionRegim.regim == Regim.RegimCursorJoinShiftDots)
-                JoinShiftDots(firstFigure, secondFigure);
-
-            else if (OptionRegim.regim == Regim.RegimCursorJoinShiftElements)
+            if (OptionRegim.regim == Regim.RegimCursorJoinShiftElements)
                 JoinShiftElements(firstFigure, secondFigure);
 
             OptionRegim.regim = Regim.RegimCursor;
@@ -580,96 +572,19 @@ namespace ТриНитиДизайн
             DrawOutsideRectangles(true, false, canvas);
         }
 
-        public void JoinChain(Figure firstFigure, Figure secondFigure)
+        public void ShowBreakCursorMessage(Figure fig, Canvas canvas)
         {
-            Point start = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1].PointEnd;
-            Point end = secondFigure.groupFigures[0].PointStart;
-            Vector newFigVect = end - start;
-            newFigVect /= 5;
-            Figure newFigure = new Figure(MainCanvas);
-            Point p = start;
-            for(int i = 0; i < 6; i++)
-            {
-                newFigure.AddPoint(p, OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                p += newFigVect;
-            }
-            ListFigure.Add(newFigure);
+            fig.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+            int index = fig.groupFigures.IndexOf(fig);
+            IndexFigure = ListFigure.IndexOf(fig);
+            var RazorvatWindow = new View.Razorvat(fig.groupFigures, index, MainCanvas);
+            RazorvatWindow.ShowDialog();
 
-            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
-            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
-
-            foreach (Figure fig in group1)
-            {
-                fig.groupFigures.Add(newFigure);
-                foreach (Figure fig2 in group2)
-                    fig.groupFigures.Add(fig2);
-            }
-
-            foreach (Figure fig in group2)
-            {
-                newFigure.groupFigures.Add(fig);
-                fig.groupFigures.Insert(0, newFigure);
-                for (int i = group1.Count - 1; i > -1; i--)
-                    fig.groupFigures.Insert(0, group1[i]);
-            }
-
-            for (int i = group1.Count - 1; i > -1; i--)
-                newFigure.groupFigures.Insert(0, group1[i]);
-
-        }
-
-        public void JoinTransposition(Figure firstFigure, Figure secondFigure)
-        {
-            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
-            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
-
-            foreach (Figure fig in group1)
-                foreach (Figure fig2 in group2)
-                    fig.groupFigures.Add(fig2);
-
-            foreach (Figure fig in group2)
-                for (int i = group1.Count - 1; i > -1; i--)
-                    fig.groupFigures.Insert(0, group1[i]);
-        }
-
-        public void JoinShiftDots(Figure firstFigure, Figure secondFigure)
-        {
-            Figure lastFigureInGroup = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1];
-            Figure firstFigureInGroup = secondFigure.groupFigures[0];
-            Point start = lastFigureInGroup.PointEnd;
-            Point end = firstFigureInGroup.PointStart;
-            Point middle = new Point();
-            middle.X = (start.X + end.X) / 2;
-            middle.Y = (start.Y + end.Y) / 2;
-            Shape sh;
-            lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], out sh);
-            lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], MainCanvas);
-            lastFigureInGroup.Points.Remove(start);
-            lastFigureInGroup.PointEnd = lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 1];
-            lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, 0);
-
-            firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
-            firstFigureInGroup.DeleteShape(sh, end, MainCanvas);
-            firstFigureInGroup.Points.Remove(end);
-            sh = GeometryHelper.SetLine(OptionColor.ColorDraw, middle, firstFigureInGroup.Points[0], false, MainCanvas);
-            firstFigureInGroup.AddShape(sh, middle, null);
-            firstFigureInGroup.PointStart = middle;
-            firstFigureInGroup.Points.Insert(0, middle);
-
-            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
-            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
-
-            foreach (Figure fig in group1)
-            {
-                foreach (Figure fig2 in group2)
-                    fig.groupFigures.Add(fig2);
-            }
-
-            foreach (Figure fig in group2)
-            {
-                for (int i = group1.Count - 1; i > -1; i--)
-                    fig.groupFigures.Insert(0, group1[i]);
-            }
+            OptionRegim.regim = Regim.RegimCursor;
+            ChangeFiguresColor(ListFigure, canvas);
+            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            DrawFirstAndLastRectangle();
+            DrawOutsideRectangles(true, false, canvas);
         }
 
         public void JoinShiftElements(Figure firstFigure, Figure secondFigure)
