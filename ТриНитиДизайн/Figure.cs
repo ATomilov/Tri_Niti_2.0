@@ -40,7 +40,6 @@ namespace ТриНитиДизайн
         public Point PointForAddingPoints;
         public Canvas canvas;
         public Ellipse NewPointEllipse;
-        public Rectangle SelectedRectangle;
         public bool PreparedForTatami;
 
         public Figure(Canvas _canvas)
@@ -205,7 +204,7 @@ namespace ТриНитиДизайн
             PreparedForTatami = false;
         }
         
-        public Rectangle AddPoint(Point New,Brush brush, bool addRec, double recSize)
+        public Rectangle AddPoint(Point New, Brush brush, bool addRec, double recSize)
         {
             if (Points.Count == 0)
             {

@@ -77,6 +77,7 @@ namespace ТриНитиДизайн
             ChooseNextRectangle(ListFigure[IndexFigure], false, MainCanvas);
             ListFigure[IndexFigure].ChangeRectangleColor();
         }
+
         private void SelectPointPrevButtonEvent(object sender, RoutedEventArgs e)
         {
             ChooseNextRectangle(ListFigure[IndexFigure], true, MainCanvas);

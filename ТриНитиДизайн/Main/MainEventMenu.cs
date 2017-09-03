@@ -42,6 +42,7 @@ namespace ТриНитиДизайн
                 string dots = "";
                 for (int i = 0; i < ListFigure.Count; i++)
                     dots+= SavingFigures(ListFigure[i]);
+                dots += SaveGroups(ListFigure);
                 StreamWriter writer = new StreamWriter(saveFile.OpenFile());
                 writer.WriteLine(dots);
                 writer.Dispose();
@@ -56,6 +57,7 @@ namespace ТриНитиДизайн
                 string dots = "";
                 for (int i = 0; i < ListFigure.Count; i++)
                     dots += SavingFigures(ListFigure[i]);
+                dots += SaveGroups(ListFigure);
                 StreamWriter writer = new StreamWriter(pathToFile);
                 writer.WriteLine(dots);
                 writer.Dispose();
@@ -82,12 +84,13 @@ namespace ТриНитиДизайн
                 MatchCollection matches = rgx.Matches(text);
                 if(matches.Count == 0)
                     ListFigure.Add(new Figure(MainCanvas));
-                for (int i = 0; i < matches.Count; i++)
+                for (int i = 0; i < matches.Count - 1; i++)
                 {
                     string newStuff = matches[i].Value;
                     Figure fig = LoadingFigure(newStuff);
                     ListFigure.Add(fig);
                 }
+                LoadGroups(ListFigure, matches[matches.Count - 1].Value);
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             }
         }
@@ -161,11 +164,16 @@ namespace ТриНитиДизайн
 
         private void DeleteFigureClick(object sender, RoutedEventArgs e)
         {
-            if (ListFigure[IndexFigure].Points.Count > 1)
+            if (ListFigure[IndexFigure].Points.Count > 0)
             {
-                DeletedFigure = DeepCopyFigure(ListFigure[IndexFigure]);
+                List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                foreach (Figure fig in group)
+                {
+                    fig.groupFigures.Clear();
+                    DeletedGroup.Add(DeepCopyFigure(fig));
+                    fig.ClearFigure();
+                }
                 restore_button.IsEnabled = true;
-                ListFigure[IndexFigure] = new Figure(MainCanvas);
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             }
         }
@@ -174,9 +182,16 @@ namespace ТриНитиДизайн
         {
             restore_button.IsEnabled = false;
             ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
-            ListFigure.Add(DeletedFigure);
-            IndexFigure = ListFigure.IndexOf(DeletedFigure);
-            DeletedFigure = new Figure(MainCanvas);
+            List<Figure> group = new List<Figure>(DeletedGroup);
+            foreach (Figure fig in DeletedGroup)
+            {
+                fig.groupFigures.Clear();
+                foreach (Figure figGroup in group)
+                    fig.groupFigures.Add(figGroup);
+                ListFigure.Add(fig);
+            }
+            IndexFigure = ListFigure.IndexOf(DeletedGroup[0]);
+            DeletedGroup = new List<Figure>();
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, MainCanvas);
@@ -184,18 +199,29 @@ namespace ТриНитиДизайн
 
         private void CopyFigureClick(object sender, RoutedEventArgs e)
         {
-            CopyFigure = new Figure(MainCanvas);
+            CopyGroup = new List<Figure>();
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
-                CopyFigure = DeepCopyFigure(ListFigure[IndexFigure]);
+                List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                foreach (Figure fig in group)
+                {
+                    CopyGroup.Add(DeepCopyFigure(fig));
+                }
             }
         }
 
         private void PasteFigureClick(object sender, RoutedEventArgs e)
         {
-            CopyFigure.ChangeFigureColor(OptionColor.ColorSelection, false);
-            ListFigure.Add(CopyFigure);
-            CopyFigure = new Figure(MainCanvas);
+            List<Figure> group = new List<Figure>(CopyGroup);
+            foreach (Figure fig in CopyGroup)
+            {
+                fig.ChangeFigureColor(OptionColor.ColorSelection, false);
+                fig.groupFigures.Clear();
+                foreach (Figure figGroup in group)
+                    fig.groupFigures.Add(figGroup);
+                ListFigure.Add(fig);
+            }
+            CopyGroup = new List<Figure>();
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, MainCanvas);
@@ -208,10 +234,9 @@ namespace ТриНитиДизайн
             Nullable<bool> result = saveFile.ShowDialog();
             if (result == true)
             {
-                this.Title = "Три Нити Дизайн 1.0 - " + saveFile.SafeFileName;
-                pathToFile = saveFile.FileName;
-                string dots;
-                dots = SavingFigures(ListFigure[IndexFigure]);
+                string dots = "";
+                foreach(Figure fig in ListFigure[IndexFigure].groupFigures)
+                    dots += SavingFigures(fig);
                 StreamWriter writer = new StreamWriter(saveFile.OpenFile());
                 writer.WriteLine(dots);
                 writer.Dispose();
@@ -226,23 +251,32 @@ namespace ТриНитиДизайн
             Nullable<bool> result = op.ShowDialog();
             if (result == true)
             {
-                pathToFile = op.FileName;
-                this.Title = "Три Нити Дизайн 1.0 - " + op.SafeFileName;
                 StreamReader reader = new StreamReader(op.OpenFile());
                 string text = reader.ReadToEnd();
                 string pattern = @"([0-9]| |-|,|C|A|L)+!";
                 Regex rgx = new Regex(pattern);
                 MatchCollection matches = rgx.Matches(text);
+                List<Figure> group = new List<Figure>();
                 for (int i = 0; i < matches.Count; i++)
                 {
                     string newStuff = matches[i].Value;
                     Figure fig = LoadingFigure(newStuff);
+                    group.Add(fig);
                     fig.ChangeFigureColor(OptionColor.ColorDraw, false);
-                    ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
                     ListFigure.Add(fig);
-                    IndexFigure = ListFigure.IndexOf(fig);
                 }
+                foreach(Figure fig in group)
+                {
+                    fig.groupFigures.Clear();
+                    foreach (Figure newFig in group)
+                        fig.groupFigures.Add(newFig);
+                }
+                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+                IndexFigure = ListFigure.IndexOf(group[0]);
+                
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                DrawOutsideRectangles(true, false, MainCanvas);
+                DrawFirstAndLastRectangle();
             }
         }
 
@@ -255,9 +289,16 @@ namespace ТриНитиДизайн
 
         private void CreatePltClick(object sender, RoutedEventArgs e)
         {
-            Figure newFig = DeepCopyFigure(ListFigure[IndexFigure]);
-            newFig.ChangeFigureColor(OptionColor.ColorPltFigure, false);
-            ListPltFigure.Add(newFig);
+            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            {
+                Figure newFig = DeepCopyFigure(fig);
+                newFig.ChangeFigureColor(OptionColor.ColorPltFigure, false);
+                foreach (Shape sh in newFig.InvShapes)
+                    MainCanvas.Children.Remove(sh);
+                newFig.InvShapes.Clear();
+                newFig.DictionaryInvLines.Clear();
+                ListPltFigure.Add(newFig);
+            }
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, MainCanvas);

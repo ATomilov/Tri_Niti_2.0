@@ -137,6 +137,7 @@ namespace ТриНитиДизайн
                                 {
                                     FirstGladFigure = IndexFigure;
                                     SecondGladFigure = i;
+                                    ListFigure[i].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
                                     ShowJoinGladMessage(LinesForGlad, ListFigure[IndexFigure], ListFigure[SecondGladFigure], MainCanvas);
                                     break;
                                 }
@@ -308,8 +309,32 @@ namespace ТриНитиДизайн
                 if (clickedShape is Line)
                 {
                     Line clickedLine = (Line)clickedShape;
-                    x = clickedLine.X1;
-                    y = clickedLine.Y1;
+                    for (int i = 0; i < FigureList.Count; i++)
+                    {
+                        if (clickedLine.StrokeThickness == 10)
+                        {
+                            var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == clickedLine);
+                            var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
+                            if (point.Value != null)
+                            {
+                                x = point.Key.X;
+                                y = point.Key.Y;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == clickedLine);
+                            x = point.Key.X;
+                            y = point.Key.Y;
+                            if (point.Value != null)
+                            {
+                                x = point.Key.X;
+                                y = point.Key.Y;
+                                break;
+                            }
+                        }
+                    }
                 }
                 else if (clickedShape is Path)
                 {
@@ -401,7 +426,7 @@ namespace ТриНитиДизайн
                         }
                     }
                 }
-                return false;
+                return true;
             }
             else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimCursor)
             {

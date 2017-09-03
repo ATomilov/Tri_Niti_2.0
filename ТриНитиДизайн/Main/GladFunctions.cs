@@ -35,23 +35,22 @@ namespace ТриНитиДизайн
             {
                 case MessageBoxResult.OK:
                     {
-                        if (!firstFigure.groupFigures.Contains(secondFigure))
+                        List<Figure> group = new List<Figure>(firstFigure.groupFigures);
+                        foreach (Figure fig in group)
                         {
-                            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
-                            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
-                            foreach (Figure fig in group1)
+                            if (ListFigure.IndexOf(fig) != FirstGladFigure && ListFigure.IndexOf(fig) != SecondGladFigure)
+                            {
                                 fig.groupFigures.Remove(firstFigure);
-                            firstFigure.groupFigures.Clear();
-                            firstFigure.groupFigures.Add(firstFigure);
-
-                            foreach (Figure fig in group2)
                                 fig.groupFigures.Remove(secondFigure);
-                            secondFigure.groupFigures.Clear();
-                            secondFigure.groupFigures.Add(secondFigure);
-
-                            firstFigure.groupFigures.Add(secondFigure);
-                            secondFigure.groupFigures.Insert(0, firstFigure);
+                            }
                         }
+                        firstFigure.groupFigures.Clear();
+                        firstFigure.groupFigures.Add(firstFigure);
+                        firstFigure.groupFigures.Add(secondFigure);
+                        secondFigure.groupFigures.Clear();
+                        secondFigure.groupFigures.Add(firstFigure);
+                        secondFigure.groupFigures.Add(secondFigure);
+
                         OptionRegim.regim = Regim.RegimGlad;                        
                         ListFigure[IndexFigure].regimFigure = Regim.RegimGlad;
                         ListFigure[SecondGladFigure].regimFigure = Regim.RegimGlad;

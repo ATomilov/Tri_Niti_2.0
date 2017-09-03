@@ -576,10 +576,19 @@ namespace ТриНитиДизайн
         {
             fig.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
             int index = fig.groupFigures.IndexOf(fig);
-            IndexFigure = ListFigure.IndexOf(fig);
+            
             var RazorvatWindow = new View.Razorvat(fig.groupFigures, index, MainCanvas);
             RazorvatWindow.ShowDialog();
-
+            foreach (Figure indFig in ListFigure)
+                if (indFig.Points.Count > 0)
+                {
+                    if (indFig.Points[indFig.Points.Count - 1].X == -31231 && indFig.Points[indFig.Points.Count - 1].Y == 312312)
+                    {
+                        IndexFigure = ListFigure.IndexOf(indFig);
+                        indFig.Points.RemoveAt(indFig.Points.Count - 1);
+                        break;
+                    }
+                }
             OptionRegim.regim = Regim.RegimCursor;
             ChangeFiguresColor(ListFigure, canvas);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);

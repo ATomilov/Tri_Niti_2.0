@@ -44,10 +44,12 @@ namespace ТриНитиДизайн.View
 
         private void yes_button_Click(object sender, RoutedEventArgs e)
         {
+            
             canvas.Children.Remove(firstRec);
             canvas.Children.Remove(lastRec);
             List<Figure> group = new List<Figure>(currentList);
             Figure brokenFigure = currentList[index];
+            brokenFigure.Points.Add(new Point(-31231, 312312));
             for (int i = 0; i < index; i++ )
             {
                 Figure fig = group[i];
@@ -68,7 +70,7 @@ namespace ТриНитиДизайн.View
             }
             brokenFigure.groupFigures.Clear();
             brokenFigure.groupFigures.Add(brokenFigure);
-
+            
             this.Close();
         }
 

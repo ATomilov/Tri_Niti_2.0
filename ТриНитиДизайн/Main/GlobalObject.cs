@@ -45,8 +45,8 @@ namespace ТриНитиДизайн
         Figure ChoosingRectangle;
         Figure ControlLine;
         Figure SetkaFigure;
-        Figure CopyFigure;
-        Figure DeletedFigure;
+        List<Figure> CopyGroup;
+        List<Figure> DeletedGroup;
         Shape changedLine;
         Point prevPoint;
         List<Point> ChosenPts;

@@ -23,9 +23,9 @@ namespace ТриНитиДизайн
         public MainWindow()
         {
             InitializeComponent();
-            CopyFigure = new Figure(MainCanvas);
+            CopyGroup = new List<Figure>();
             ControlLine = new Figure(MainCanvas);
-            DeletedFigure = new Figure(MainCanvas);
+            DeletedGroup = new List<Figure>();
             ChosenPts = new List<Point>();
         }
 
@@ -97,7 +97,7 @@ namespace ТриНитиДизайн
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
-            if(DeletedFigure.Points.Count > 0)
+            if(DeletedGroup.Count > 0)
                 restore_button.IsEnabled = true;
             else
                 restore_button.IsEnabled = false;

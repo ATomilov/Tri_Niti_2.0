@@ -67,6 +67,15 @@ namespace ТриНитиДизайн
                 accepted = ShowAcceptMessage(0);
                 if (accepted)
                 {
+                    List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                    foreach (Figure fig in group)
+                    {
+                        if (ListFigure.IndexOf(fig) != IndexFigure)
+                            fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                    }
+                    ListFigure[IndexFigure].groupFigures.Clear();
+                    ListFigure[IndexFigure].groupFigures.Add(ListFigure[IndexFigure]);
+
                     OptionRegim.regim = Regim.RegimCepochka;
                     ListFigure[IndexFigure].regimFigure = Regim.RegimCepochka;
                     var CepochkaSetting = new View.Cepochka();
@@ -102,6 +111,14 @@ namespace ТриНитиДизайн
                 accepted = ShowAcceptMessage(1);
                 if (accepted)
                 {
+                    List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                    foreach (Figure fig in group)
+                    {
+                        if (ListFigure.IndexOf(fig) != IndexFigure)
+                            fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                    }
+                    ListFigure[IndexFigure].groupFigures.Clear();
+                    ListFigure[IndexFigure].groupFigures.Add(ListFigure[IndexFigure]);
                     Tatami TatamiWindow = new Tatami();
                     TatamiWindow.ShowDialog();
                     if (OptionRegim.regim == Regim.RegimGlad)
@@ -165,6 +182,12 @@ namespace ТриНитиДизайн
                 {
                     if (OptionRegim.regim == Regim.RegimTatami)
                     {
+                        List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                        foreach(Figure fig in group)
+                        {
+                            if (ListFigure.IndexOf(fig) != IndexFigure)
+                                fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                        }
                         Line lineCon = (Line)ControlLine.Shapes[0];
                         Point p1 = new Point(lineCon.X1, lineCon.Y1);
                         Point p2 = new Point(lineCon.X2, lineCon.Y2);
@@ -196,6 +219,15 @@ namespace ТриНитиДизайн
                     }
                     if (OptionRegim.regim == Regim.RegimGlad)
                     {
+                        List<Figure> group = new List<Figure>(ListFigure[FirstGladFigure].groupFigures);
+                        foreach (Figure fig in group)
+                        {
+                            if (ListFigure.IndexOf(fig) != FirstGladFigure && ListFigure.IndexOf(fig) != SecondGladFigure)
+                            {
+                                fig.groupFigures.Remove(ListFigure[FirstGladFigure]);
+                                fig.groupFigures.Remove(ListFigure[SecondGladFigure]);
+                            }
+                        }
                         CalculateGladLines(ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
                         Figure firstFigure = ListFigure[FirstGladFigure];
                         Figure secondFigure = ListFigure[SecondGladFigure];
@@ -219,6 +251,12 @@ namespace ТриНитиДизайн
                     }
                     if (OptionRegim.regim == Regim.RegimCepochka)
                     {
+                        List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                        foreach (Figure fig in group)
+                        {
+                            if (ListFigure.IndexOf(fig) != IndexFigure)
+                                fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                        }
                         ListFigure[IndexFigure].RemoveFigure(MainCanvas);
                         ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2, MainCanvas);
                         OptionRegim.regim = Regim.RegimFigure;

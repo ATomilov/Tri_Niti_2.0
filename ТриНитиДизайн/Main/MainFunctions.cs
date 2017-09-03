@@ -99,6 +99,58 @@ namespace ТриНитиДизайн
             return dots;
         }
 
+        public string SaveGroups(List<Figure> FigureList)
+        {
+            string groups = "";
+            int[] array = new int[FigureList.Count];
+            int groupNum = 1;
+            for (int i = 0; i < FigureList.Count; i++)
+            {
+                if (array[i] == 0 && FigureList[i].Points.Count > 0)
+                {
+                    foreach (Figure fig in FigureList[i].groupFigures)
+                    {
+                        array[FigureList.IndexOf(fig)] = groupNum;
+                    }
+                    groupNum++;
+                }
+            }
+            for (int i = 0; i < array.Length; i++ )
+            {
+                if (array[i] != 0)
+                {
+                    groups += " ";
+                    groups += array[i];
+                }
+            }
+            groups += " ";
+            groups += "!";
+            return groups;
+        }
+
+        public void LoadGroups(List<Figure> FigureList, string groups)
+        {
+            string pattern = @" ";
+            String[] elements = Regex.Split(groups, pattern);
+            int[] groupsNum = new int[FigureList.Count];
+            for (int i = 1; i < elements.Length - 2; i++)
+            {
+                groupsNum[i - 1] = Int32.Parse(elements[i]);
+            }
+            for(int i = 0; i < FigureList.Count; i++)
+            {
+                FigureList[i].groupFigures.Clear();
+                int currentNum = groupsNum[i];
+                for (int j = 0; j < groupsNum.Length; j++)
+                {
+                    if(currentNum == groupsNum[j])
+                    {
+                        FigureList[i].groupFigures.Add(FigureList[j]);
+                    }
+                }
+            }
+        }
+
         public Figure DeepCopyFigure(Figure figureToCopy)
         {
             Figure newFigure = new Figure(MainCanvas);
@@ -188,8 +240,8 @@ namespace ТриНитиДизайн
             TatamiFigures.Clear();
             IndexFigure = 0;
             Edit_Menu.IsEnabled = false;
-            DeletedFigure = new Figure(MainCanvas);
-            CopyFigure = new Figure(MainCanvas);
+            DeletedGroup = new List<Figure>();
+            CopyGroup = new List<Figure>();
             FirstGladFigure = -1;
             SecondGladFigure = -1;
             CloseAllTabs();
