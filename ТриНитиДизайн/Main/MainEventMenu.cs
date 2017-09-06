@@ -146,7 +146,7 @@ namespace ТриНитиДизайн
                     for(int j = 0; j < pts[i].Count;j++)
                     {
                         Point newP = new Point((pts[i][j].X - vect.X), (-pts[i][j].Y - vect.Y));
-                        ListPltFigure[ListPltFigure.Count - 1].AddPoint(newP, OptionColor.ColorPltFigure, false, 8);
+                        ListPltFigure[ListPltFigure.Count - 1].AddPoint(newP, OptionColor.ColorPltFigure, false,false, 8);
                     }
                 }
             }

@@ -190,14 +190,14 @@ namespace ТриНитиДизайн
             string pattern = @" ";
             String[] elements = Regex.Split(newStuff, pattern);
             Point p = new Point(Double.Parse(elements[0]), Double.Parse(elements[1]));
-            fig.AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+            fig.AddPoint(p, OptionColor.ColorSelection, false, true, OptionDrawLine.SizeWidthAndHeightRectangle);
             int j = 2;
             while (!elements[j].Equals("!"))
             {
                 if (elements[j].Equals("L"))
                 {
                     p = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                    fig.AddPoint(p, OptionColor.ColorSelection, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                    fig.AddPoint(p, OptionColor.ColorSelection, false, true, OptionDrawLine.SizeWidthAndHeightRectangle);
                 }
                 else if (elements[j].Equals("C"))
                 {

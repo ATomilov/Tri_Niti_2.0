@@ -293,7 +293,7 @@ namespace ТриНитиДизайн
                         MainCanvas.Children.Remove(lastLine);
                 }
                 Point point = FindClosestDot(e.GetPosition(MainCanvas));
-                lastRec = ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true, OptionDrawLine.SizeWidthAndHeightRectangle);
+                lastRec = ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true,true, OptionDrawLine.SizeWidthAndHeightRectangle);
             }
             startDrawing = true;
         }

@@ -47,7 +47,7 @@ namespace ТриНитиДизайн.View
             Point p = start;
             for (int i = 0; i < 6; i++)
             {
-                newFigure.AddPoint(p, OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                newFigure.AddPoint(p, OptionColor.ColorDraw, false,false, OptionDrawLine.SizeWidthAndHeightRectangle);
                 p += newFigVect;
             }
             currentList.Add(newFigure);
@@ -105,7 +105,7 @@ namespace ТриНитиДизайн.View
             lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], canvas);
             lastFigureInGroup.Points.Remove(start);
             lastFigureInGroup.PointEnd = lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 1];
-            lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, 0);
+            lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false,false, 0);
 
             firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
             firstFigureInGroup.DeleteShape(sh, end, canvas);

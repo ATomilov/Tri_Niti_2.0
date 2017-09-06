@@ -529,7 +529,7 @@ namespace ТриНитиДизайн
                     {
                         if (foundDeletePoint)
                         {
-                            newFig.AddPoint(fig.Points[i], OptionColor.ColorDraw, true, OptionDrawLine.SizeWidthAndHeightRectangle);
+                            newFig.AddPoint(fig.Points[i], OptionColor.ColorDraw, true,false, OptionDrawLine.SizeWidthAndHeightRectangle);
                             if (i != fig.Points.Count - 1 && !nextDotDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
@@ -566,6 +566,7 @@ namespace ТриНитиДизайн
                     figGroup.groupFigures.Insert(index, newFig);
                     figGroup.groupFigures.Remove(fig);
                 }
+                newFig.AddStarForSinglePoint(true);
                 ListFigure.Insert(IndexFigure, newFig);
                 ListFigure.Remove(fig);
             }

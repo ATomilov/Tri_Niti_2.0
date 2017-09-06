@@ -311,14 +311,14 @@ namespace ТриНитиДизайн
                     {
                         x = ListControlLines[i].Points[j].X - ListControlLines[i].Points[j + 1].X;
                         y = ListControlLines[i].Points[j].Y - ListControlLines[i].Points[j + 1].Y;
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false,false, 4);
                         //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
                     }
                     else
                     {
                         x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
                         y = ListControlLines[i].Points[j + 1].Y - ListControlLines[i].Points[j].Y;
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false,false, 4);
                         //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j + 1]);
                     }     
                     Vector vect = new Vector(x, y);
@@ -331,12 +331,14 @@ namespace ТриНитиДизайн
                         vect *= distance;
                         if (!turnAround)
                         {
-                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, false, 4);
+                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y),
+                                OptionColor.ColorSelection, false,false, 4);
                             //ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y));
                         }
                         else
                         {
-                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y), OptionColor.ColorSelection, false, 4);
+                            ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y),
+                                OptionColor.ColorSelection, false,false, 4);
                             //ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y));
 
                         }
@@ -344,12 +346,12 @@ namespace ТриНитиДизайн
                     }
                     if (!turnAround)        //конец отрезка
                     {
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false,false, 4);
                        // ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j+1]);
                     }
                     else
                     {
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false,false, 4);
                         //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
                     }
                     turnAround = !turnAround;               //меняем направление вектора

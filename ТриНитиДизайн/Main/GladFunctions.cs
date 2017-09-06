@@ -87,18 +87,18 @@ namespace ТриНитиДизайн
             if (CheckForGladIntersection(firstFigure.PointStart, secondFigure.PointStart, firstFigure, secondFigure, true, null))
             {
                 areGladPointsInversed = true;
-                gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false, 0);
-                gladLines[0].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
-                gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
-                gladLines[1].AddPoint(secondFigure.PointStart, OptionColor.ColorChoosingRec, false, 0);
+                gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
+                gladLines[0].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
+                gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
+                gladLines[1].AddPoint(secondFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
             }
             else
             {
                 areGladPointsInversed = false;
-                gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false, 0);
-                gladLines[0].AddPoint(secondFigure.PointStart, OptionColor.ColorChoosingRec, false, 0);
-                gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
-                gladLines[1].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false, 0);
+                gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
+                gladLines[0].AddPoint(secondFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
+                gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
+                gladLines[1].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
             }
             ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
             ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
@@ -139,8 +139,8 @@ namespace ТриНитиДизайн
                 if (hits == 2)
                 {
                     Figure fig = new Figure(canvas);
-                    fig.AddPoint(pts[0], OptionColor.ColorChoosingRec, false, 0);
-                    fig.AddPoint(pts[1], OptionColor.ColorChoosingRec, false, 0);
+                    fig.AddPoint(pts[0], OptionColor.ColorChoosingRec, false,false, 0);
+                    fig.AddPoint(pts[1], OptionColor.ColorChoosingRec, false,false, 0);
                     fig.SetMiddleControlLine(pts[0], pts[1], canvas);
                     gladLines.Insert(1, fig);
                 }
@@ -329,7 +329,6 @@ namespace ТриНитиДизайн
 
         private void MakeGlad(List<Figure> gladLines, List<Figure> ListControlLines, Canvas canvas)
         {
-
             double step = 25;
             gladLines.Clear();
             for (int i = 0; i < gladShapesCount + 1; i++)
@@ -342,7 +341,7 @@ namespace ТриНитиДизайн
                     {
                         if(firstPoint)
                         {
-                            gladLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false, 0);
+                            gladLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false,false, 0);
                             firstPoint = false;
                         }
                         double x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
@@ -354,10 +353,11 @@ namespace ТриНитиДизайн
                         {
                             vect.Normalize();
                             vect *= distance;
-                            gladLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y), OptionColor.ColorSelection, false, 0);
+                            gladLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y),
+                                OptionColor.ColorSelection, false,false, 0);
                             distance += step;
                         }
-                        gladLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.ColorSelection, false, 0);
+                        gladLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.ColorSelection, false,false, 0);
                     }
                 }
             }

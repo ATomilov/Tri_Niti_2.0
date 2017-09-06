@@ -204,14 +204,15 @@ namespace ТриНитиДизайн
             PreparedForTatami = false;
         }
         
-        public Rectangle AddPoint(Point New, Brush brush, bool addRec, double recSize)
+        public Rectangle AddPoint(Point New, Brush brush, bool addRec, bool addStar, double recSize)
         {
             if (Points.Count == 0)
             {
                 PointStart = New;
             }
             Points.Add(New);
-            AddPathForSinglePoint();
+            if(addStar)
+                AddStarForSinglePoint(false);
             if (Points.Count > 1)
             {
                 Shape notUsed;
@@ -266,7 +267,7 @@ namespace ТриНитиДизайн
             return line;
         }
 
-        public void AddPathForSinglePoint()
+        public void AddStarForSinglePoint(bool checkForOnePoint)
         {
             if (Points.Count == 1)
             {
@@ -299,7 +300,7 @@ namespace ТриНитиДизайн
                 canvas.Children.Add(myPath);
                 AddShape(myPath, Points[0], null);
             }
-            else if (Points.Count == 2)
+            else if (Points.Count == 2 && !checkForOnePoint)
             {
                 Shape sh;
                 DictionaryPointLines.TryGetValue(Points[0], out sh);
@@ -323,14 +324,10 @@ namespace ТриНитиДизайн
                             shape.Stroke = OptionColor.ColorChoosingRec;
                     }
                     else
-                    {
                         shape.Stroke = brush;
-                    }
                 }
                 else
-                {
                     shape.Stroke = brush;
-                }
             }
         }
 

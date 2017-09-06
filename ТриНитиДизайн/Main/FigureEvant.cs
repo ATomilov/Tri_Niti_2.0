@@ -61,7 +61,7 @@ namespace ТриНитиДизайн
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)
         {
             ExitFromRisuiRegim();
-            if (ListFigure[IndexFigure].Points.Count > 0)
+            if (ListFigure[IndexFigure].Points.Count > 1)
             {
                 bool accepted;
                 accepted = ShowAcceptMessage(0);
@@ -105,7 +105,7 @@ namespace ТриНитиДизайн
         private void TatamiButtonEvent(object sender, RoutedEventArgs e)
         {
             ExitFromRisuiRegim();
-            if (ListFigure[IndexFigure].Points.Count > 0)
+            if (ListFigure[IndexFigure].Points.Count > 1)
             {
                 bool accepted;
                 accepted = ShowAcceptMessage(1);
@@ -126,20 +126,23 @@ namespace ТриНитиДизайн
                         Figure newFig = new Figure(MainCanvas);
                         for (int i = 0; i < ListFigure[FirstGladFigure].Points.Count; i++)
                         {
-                            newFig.AddPoint(ListFigure[FirstGladFigure].Points[i], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                            newFig.AddPoint(ListFigure[FirstGladFigure].Points[i], OptionColor.ColorDraw, false,false,
+                                OptionDrawLine.SizeWidthAndHeightRectangle);
                         }
                         if(areGladPointsInversed)
                         {
                             for(int i = 0; i < ListFigure[SecondGladFigure].Points.Count;i++)
                             {
-                                newFig.AddPoint(ListFigure[SecondGladFigure].Points[i], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                                newFig.AddPoint(ListFigure[SecondGladFigure].Points[i], OptionColor.ColorDraw, false,false,
+                                    OptionDrawLine.SizeWidthAndHeightRectangle);
                             }
                         }
                         else
                         {
                             for (int i = ListFigure[SecondGladFigure].Points.Count - 1; i >= 0; i--)
                             {
-                                newFig.AddPoint(ListFigure[SecondGladFigure].Points[i], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                                newFig.AddPoint(ListFigure[SecondGladFigure].Points[i], OptionColor.ColorDraw, false,false,
+                                    OptionDrawLine.SizeWidthAndHeightRectangle);
                             }
                         }
                         ListFigure.Remove(ListFigure[FirstGladFigure]);
@@ -148,18 +151,21 @@ namespace ТриНитиДизайн
                         SecondGladFigure = -1;
                         ListFigure.Add(newFig);
                         IndexFigure = ListFigure.IndexOf(newFig);
-                        ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                        ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false,
+                            false, OptionDrawLine.SizeWidthAndHeightRectangle);
                         RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                         DrawFirstAndLastRectangle();
                         OptionRegim.regim = Regim.RegimTatami;
                         DrawInvisibleRectangles(MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, 
+                            OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                     }
                     else
                     {
                         if (!ListFigure[IndexFigure].PreparedForTatami)
                         {
-                            ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                            ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false,
+                                false, OptionDrawLine.SizeWidthAndHeightRectangle);
                             ListFigure[IndexFigure].SaveCurrentShapes();
                             PrepareForTatami(ListFigure[IndexFigure], true);
                         }
@@ -180,7 +186,7 @@ namespace ТриНитиДизайн
                 accepted = ShowAcceptMessage(2);
                 if (accepted)
                 {
-                    if (OptionRegim.regim == Regim.RegimTatami)
+                    if (OptionRegim.regim == Regim.RegimTatami && ListFigure[IndexFigure].Points.Count > 1)
                     {
                         List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
                         foreach(Figure fig in group)
@@ -249,7 +255,7 @@ namespace ТриНитиДизайн
                         DrawInvisibleRectangles(MainCanvas);
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                     }
-                    if (OptionRegim.regim == Regim.RegimCepochka)
+                    if (OptionRegim.regim == Regim.RegimCepochka && ListFigure[IndexFigure].Points.Count > 1)
                     {
                         List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
                         foreach (Figure fig in group)
@@ -270,7 +276,7 @@ namespace ТриНитиДизайн
 
         private void RisuiButtonEvent(object sender, RoutedEventArgs e)
         {
-            if (OptionRegim.regim == Regim.RegimTatami)
+            if (OptionRegim.regim == Regim.RegimTatami && ListFigure[IndexFigure].Points.Count > 1)
             {
                 if (ControlLine != null)
                 {
@@ -307,7 +313,7 @@ namespace ТриНитиДизайн
                         if (i != TatamiFigures.Count - 1)
                             SetLine(TatamiFigures[i].PointEnd, TatamiFigures[i + 1].PointStart, "blue", MainCanvas);
                     }
-                    SetLine(TatamiFigures[TatamiFigures.Count-1].PointEnd, pLastRec, "blue", MainCanvas);
+                    SetLine(TatamiFigures[TatamiFigures.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
                     TatamiFigures.Clear();
                     OptionRegim.regim = Regim.RegimRisui;
                 }
@@ -336,17 +342,17 @@ namespace ТриНитиДизайн
                 for (int i = 0; i < LinesForGlad.Count; i++)
                 {
                     LinesForGlad[i].DrawDots(LinesForGlad[i].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
-                    if(i != LinesForGlad.Count - 1)
+                    if (i != LinesForGlad.Count - 1)
                         SetLine(LinesForGlad[i].PointEnd, LinesForGlad[i + 1].PointStart, "blue", MainCanvas);
                 }
                 SetLine(LinesForGlad[LinesForGlad.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
                 OptionRegim.regim = Regim.RegimRisui;
             }
-            if (OptionRegim.regim == Regim.RegimCepochka)
+            if (OptionRegim.regim == Regim.RegimCepochka && ListFigure[IndexFigure].Points.Count > 1)
             {
                 TempListFigure = ListFigure.ToList<Figure>();
                 TempIndexFigure = IndexFigure;
-                ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep*0.2, MainCanvas);
+                ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2, MainCanvas);
                 ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorGlad, false);
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                 DrawFirstAndLastRectangle();

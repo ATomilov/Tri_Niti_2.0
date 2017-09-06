@@ -102,30 +102,8 @@ namespace ТриНитиДизайн
         {
             if (clickedShape is Line || clickedShape is Path)
             {
-                double x = 0;
-                double y = 0;
-                if (clickedShape is Line)
-                {
-                    Line clickedLine = (Line)clickedShape;
-                    x = clickedLine.X1;
-                    y = clickedLine.Y1;
-                }
-                else
-                {
-                    Path path = (Path)clickedShape;
-                    for (int i = 0; i < FigureList.Count; i++)
-                    {
-                        var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == path);
-                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
-                        if (point.Value != null)
-                        {
-                            x = point.Key.X;
-                            y = point.Key.Y;
-                            break;
-                        }
-                    }
-                }
-                if (ListFigure[IndexFigure].Points.Count > 1)
+                Point p = GetPointOfClickedLine((Shape)clickedShape, FigureList);
+                if (ListFigure[IndexFigure].Points.Count > 0)
                 {
                     for (int i = 0; i < ListFigure.Count; i++)
                     {
@@ -133,7 +111,7 @@ namespace ТриНитиДизайн
                         {
                             if (i != IndexFigure)
                             {
-                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(p) == true)
                                 {
                                     FirstGladFigure = IndexFigure;
                                     SecondGladFigure = i;
@@ -145,7 +123,7 @@ namespace ТриНитиДизайн
                         }
                         else if (OptionRegim.regim == Regim.RegimCursor)
                         {
-                            if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                            if (ListFigure[i].DictionaryPointLines.ContainsKey(p) == true)
                             {
                                 if (ListFigure[IndexFigure].groupFigures.Count > 1)
                                 {
@@ -167,7 +145,7 @@ namespace ТриНитиДизайн
                         {
                             if (i == FirstGladFigure || i == SecondGladFigure)
                             {
-                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(p) == true)
                                 {
                                     ListFigure[FirstGladFigure].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
                                     ListFigure[SecondGladFigure].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
@@ -180,7 +158,7 @@ namespace ТриНитиДизайн
                         {
                             if (i == IndexFigure)
                             {
-                                if (ListFigure[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                                if (ListFigure[i].DictionaryPointLines.ContainsKey(p) == true)
                                 {
                                     ListFigure[i].ChangeFigureColor(OptionColor.ColorChoosingRec, false);
                                     ShowBreakMessage();
@@ -304,71 +282,10 @@ namespace ТриНитиДизайн
             }
             else if (clickedShape is Line || clickedShape is Path)
             {
-                double x = 0;
-                double y = 0;
-                if (clickedShape is Line)
-                {
-                    Line clickedLine = (Line)clickedShape;
-                    for (int i = 0; i < FigureList.Count; i++)
-                    {
-                        if (clickedLine.StrokeThickness == 10)
-                        {
-                            var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == clickedLine);
-                            var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
-                            if (point.Value != null)
-                            {
-                                x = point.Key.X;
-                                y = point.Key.Y;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == clickedLine);
-                            x = point.Key.X;
-                            y = point.Key.Y;
-                            if (point.Value != null)
-                            {
-                                x = point.Key.X;
-                                y = point.Key.Y;
-                                break;
-                            }
-                        }
-                    }
-                }
-                else if (clickedShape is Path)
-                {
-                    Path path = (Path)clickedShape;
-                    for(int i = 0; i < FigureList.Count;i++)
-                    {
-                        if (path.StrokeThickness == 10)
-                        {
-                            var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == path);
-                            var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
-                            if (point.Value != null)
-                            {
-                                x = point.Key.X;
-                                y = point.Key.Y;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == path);
-                            x = point.Key.X;
-                            y = point.Key.Y;
-                            if (point.Value != null)
-                            {
-                                x = point.Key.X;
-                                y = point.Key.Y;
-                                break;
-                            }
-                        }
-                    }
-                }
+                Point p = GetPointOfClickedLine((Shape)clickedShape, FigureList);
                 for (int i = 0; i < FigureList.Count; i++)
                 {
-                    if (FigureList[i].DictionaryPointLines.ContainsKey(new Point(x, y)) == true)
+                    if (FigureList[i].DictionaryPointLines.ContainsKey(p) == true)
                     {
                         if (OptionRegim.regim != Regim.RegimCursor)
                         {
@@ -382,7 +299,7 @@ namespace ТриНитиДизайн
                                 }
                                 else if (OptionRegim.regim == Regim.RegimEditFigures)
                                 {
-                                    FigureList[IndexFigure].PointForAddingPoints = new Point(x, y);
+                                    FigureList[IndexFigure].PointForAddingPoints = p;
                                     canvas.Children.Remove(FigureList[IndexFigure].NewPointEllipse);
                                     FigureList[IndexFigure].DrawEllipse(clickedP, OptionColor.ColorSelection, OptionDrawLine.SizeEllipseForPoints, canvas, false);
                                 }
@@ -438,6 +355,73 @@ namespace ТриНитиДизайн
             return false;
         }
 
+        private Point GetPointOfClickedLine(Shape clickedShape, List<Figure> FigureList)
+        {
+            double x = 0;
+            double y = 0;
+            if (clickedShape is Line)
+            {
+                Line clickedLine = (Line)clickedShape;
+                for (int i = 0; i < FigureList.Count; i++)
+                {
+                    if (clickedLine.StrokeThickness == 10)
+                    {
+                        var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == clickedLine);
+                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
+                        if (point.Value != null)
+                        {
+                            x = point.Key.X;
+                            y = point.Key.Y;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == clickedLine);
+                        x = point.Key.X;
+                        y = point.Key.Y;
+                        if (point.Value != null)
+                        {
+                            x = point.Key.X;
+                            y = point.Key.Y;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (clickedShape is Path)
+            {
+                Path path = (Path)clickedShape;
+                for (int i = 0; i < FigureList.Count; i++)
+                {
+                    if (path.StrokeThickness == 10)
+                    {
+                        var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == path);
+                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
+                        if (point.Value != null)
+                        {
+                            x = point.Key.X;
+                            y = point.Key.Y;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == path);
+                        x = point.Key.X;
+                        y = point.Key.Y;
+                        if (point.Value != null)
+                        {
+                            x = point.Key.X;
+                            y = point.Key.Y;
+                            break;
+                        }
+                    }
+                }
+            }
+            return new Point(x, y);
+        }
+
         public void ChangeFiguresColor(List<Figure> FigureList, Canvas canvas)
         {
             for (int i = 0; i < ListFigure.Count; i ++ )
@@ -469,9 +453,7 @@ namespace ТриНитиДизайн
                     {
                         PointCollection pts = ((PolyLineSegment)s).Points;
                         for (int i = 0; i < pts.Count - 1;i++)
-                        {
                             distance += FindLength(pts[i], pts[i + 1]);
-                        }
                     }
             int steps = Convert.ToInt32(distance / step);
             Point p;
@@ -479,7 +461,7 @@ namespace ТриНитиДизайн
             for (double j = 0; j <= steps; j++)
             {
                 myPathGeometry.GetPointAtFractionLength(j / steps, out p, out tg);
-                resultFigure.AddPoint(p, OptionColor.ColorDraw, false, 0);
+                resultFigure.AddPoint(p, OptionColor.ColorDraw, false,false, 0);
             }
             return resultFigure;
         }
