@@ -193,7 +193,6 @@ namespace ТриНитиДизайн
             IndexFigure = ListFigure.IndexOf(DeletedGroup[0]);
             DeletedGroup = new List<Figure>();
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, MainCanvas);
         }
 
@@ -223,7 +222,6 @@ namespace ТриНитиДизайн
             }
             CopyGroup = new List<Figure>();
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, MainCanvas);
         }
 
@@ -276,14 +274,12 @@ namespace ТриНитиДизайн
                 
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                 DrawOutsideRectangles(true, false, MainCanvas);
-                DrawFirstAndLastRectangle();
             }
         }
 
         private void RefreshImageClick(object sender, RoutedEventArgs e)
         {
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, MainCanvas);
         }
 
@@ -300,7 +296,6 @@ namespace ТриНитиДизайн
                 ListPltFigure.Add(newFig);
             }
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, MainCanvas);
         }
 

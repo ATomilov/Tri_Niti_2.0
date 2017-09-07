@@ -70,20 +70,28 @@ namespace ТриНитиДизайн
                 rec2 = GeometryHelper.DrawRectangle(secondPoint,
                     false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
             }
+            else
+            {
+                firstPoint += delta;
+                rec1 = GeometryHelper.DrawRectangle(firstPoint,
+                    false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+            }
             if(changedShape is Line)
                 changedShape = GeometryHelper.SetLine(OptionColor.ColorDraw, firstPoint, secondPoint,false, canvas);
             else
             {
-                if (changedShape.Stroke == OptionColor.ColorKrivaya)
+                if (changedShape.MinHeight == 5)
                 {
-                    if(status.Equals("second"))
+                    if (status.Equals("second"))
                         secondControlPoint += delta;
                     else if (status.Equals("first"))
                         firstControlPoint += delta;
                     changedShape = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, firstPoint, firstControlPoint, secondControlPoint, secondPoint, canvas);
                 }
-                else
+                else if (changedShape.MinHeight == 10)
                     changedShape = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, firstPoint, secondPoint, firstControlPoint, canvas);
+                else
+                    changedShape = GeometryHelper.SetStarForSinglePoint(firstPoint,OptionColor.ColorDraw, canvas);
             }
         }
     }

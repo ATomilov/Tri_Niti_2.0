@@ -17,6 +17,7 @@ namespace ТриНитиДизайн
             Path myPath = new Path();
             myPath.Stroke = brush;
             myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
+            myPath.MinHeight = 10;
             PathGeometry pathGeometry = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
             pathFigure.StartPoint = firstDot;
@@ -88,6 +89,38 @@ namespace ТриНитиДизайн
             line.Stroke = brush;
             canvas.Children.Add(line);
             return line;
+        }
+
+        public static Path SetStarForSinglePoint(Point p, Brush brush, Canvas canvas)
+        {
+            PathFigureCollection myPathFigureCollection = new PathFigureCollection();
+            Vector[] vect = new Vector[6];
+            vect[0] = new Vector(3, 3);
+            vect[1] = new Vector(-3, 3);
+            vect[2] = new Vector(3, -3);
+            vect[3] = new Vector(-3, -3);
+            vect[4] = new Vector(-4, 0);
+            vect[5] = new Vector(4, 0);
+            for (int i = 0; i < 6; i++)
+            {
+                PathFigure myPathFigure = new PathFigure();
+                myPathFigure.StartPoint = p;
+                PathSegmentCollection myPathSegmentCollection = new PathSegmentCollection();
+                LineSegment myLineSegment = new LineSegment();
+                myLineSegment.Point = new Point(p.X + vect[i].X, p.Y + vect[i].Y);
+                myPathSegmentCollection.Add(myLineSegment);
+                myPathFigure.Segments = myPathSegmentCollection;
+                myPathFigureCollection.Add(myPathFigure);
+            }
+
+            PathGeometry myPathGeometry = new PathGeometry();
+            myPathGeometry.Figures = myPathFigureCollection;
+            Path myPath = new Path();
+            myPath.Stroke = brush;
+            myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
+            myPath.Data = myPathGeometry;
+            canvas.Children.Add(myPath);
+            return myPath;
         }
 
         public static Rectangle DrawRectangle(Point p, bool invRectangles, bool smallRec, double thickness, Brush brush, Canvas canvas)

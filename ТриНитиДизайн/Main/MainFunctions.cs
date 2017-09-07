@@ -77,7 +77,7 @@ namespace ТриНитиДизайн
                             dots += " ";
                             dots += contP.Item2.Y;
                         }
-                        else
+                        else if(sh.MinHeight == 10)
                         {
                             dots += "A";
                             dots += " ";
@@ -133,7 +133,7 @@ namespace ТриНитиДизайн
             string pattern = @" ";
             String[] elements = Regex.Split(groups, pattern);
             int[] groupsNum = new int[FigureList.Count];
-            for (int i = 1; i < elements.Length - 2; i++)
+            for (int i = 1; i < elements.Length - 1; i++)
             {
                 groupsNum[i - 1] = Int32.Parse(elements[i]);
             }
@@ -158,7 +158,7 @@ namespace ТриНитиДизайн
                 for (int i = 0; i < figureToCopy.Points.Count; i++)
                 {
                     Point p = figureToCopy.Points[i];
-                    if (i != figureToCopy.Points.Count - 1)
+                    if (i != figureToCopy.Points.Count - 1 || figureToCopy.Points.Count == 1)
                     {
                         Shape sh;
                         figureToCopy.DictionaryPointLines.TryGetValue(p, out sh);

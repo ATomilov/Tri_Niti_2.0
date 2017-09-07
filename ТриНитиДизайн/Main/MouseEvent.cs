@@ -74,7 +74,7 @@ namespace ТриНитиДизайн
                     ChosenPts[2] = e.GetPosition(MainCanvas);
                     changedLine = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, ChosenPts[0], ChosenPts[1], ChosenPts[2], MainCanvas);
                 }
-                if (OptionRegim.regim == Regim.RegimMoveRect)
+                if (OptionRegim.regim == Regim.RegimMovePoints)
                 {
                     MainCanvas.Children.Remove(ListFigure[IndexFigure].NewPointEllipse);
                     MainCanvas.Children.Remove(firstRec);
@@ -172,10 +172,10 @@ namespace ТриНитиДизайн
                 {
                     MoveFigureToNewPosition(false, null,new Vector());
                     RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-                    DrawFirstAndLastRectangle();
                     DrawOutsideRectangles(true, false, MainCanvas);
                 }
-                else if(transRectangles[0].Fill == OptionColor.ColorSelection)
+                else if (transRectangles[0].Fill == OptionColor.ColorSelection && 
+                    (ListFigure[IndexFigure].Points.Count != 1 || ListFigure[IndexFigure].groupFigures.Count != 1))
                     DrawOutsideRectangles(false, false, MainCanvas);
                 else
                     DrawOutsideRectangles(true, false, MainCanvas);
@@ -187,18 +187,16 @@ namespace ТриНитиДизайн
                 RotateFigure(centerPoint);
                 OptionRegim.regim = Regim.RegimCursor;
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-                DrawFirstAndLastRectangle();
                 DrawOutsideRectangles(false, true, MainCanvas);
             }
             if (OptionRegim.regim == Regim.RegimScaleFigure)
             {
                 OptionRegim.regim = Regim.RegimCursor;
-                if (ListFigure[IndexFigure].Points.Count > 1 && MainCanvas.Cursor != NormalCursor)
+                if (MainCanvas.Cursor != NormalCursor)
                 {
                     ScaleTransformFigure();
                 }
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-                DrawFirstAndLastRectangle();
                 DrawOutsideRectangles(true, false, MainCanvas);
                 MainCanvas.Cursor = NormalCursor;
             }
@@ -242,10 +240,11 @@ namespace ТриНитиДизайн
                 }
                 chRec = new Rectangle();
             }
-            if(OptionRegim.regim == Regim.RegimMoveRect)
+            if (OptionRegim.regim == Regim.RegimMovePoints)
             {
                 AddManipulatedShapes(MainCanvas);
                 RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+
                 ListFigure[IndexFigure].ChangeRectangleColor();
                 listChangedShapes.Clear();
                 OptionRegim.regim = Regim.RegimEditFigures;
@@ -433,17 +432,17 @@ namespace ТриНитиДизайн
                             ListFigure[IndexFigure].ChangeRectangleColor();
                         }
                         string status;
+                        Rectangle rec1 = new Rectangle();
+                        Rectangle rec2 = new Rectangle();
+                        Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
                         for (int i = 0; i < ListFigure[IndexFigure].Points.Count - 1; i++)
                         {
-                            Tuple<Point,Point> contPts = new Tuple<Point,Point>(new Point(), new Point());
                             Point p = ListFigure[IndexFigure].Points[i];
-                            Rectangle rec1 = new Rectangle();
-                            Rectangle rec2 = new Rectangle();
+                            
                             if (!ListFigure[IndexFigure].PointsCount.Contains(i) && ListFigure[IndexFigure].PointsCount.Contains(i + 1))
                             {
                                 status = "second";
                                 rec2 = ListFigure[IndexFigure].RectangleOfFigures[i + 1];
-                                
                             }
                             else if (ListFigure[IndexFigure].PointsCount.Contains(i) && ListFigure[IndexFigure].PointsCount.Contains(i + 1))
                             {
@@ -468,8 +467,20 @@ namespace ТриНитиДизайн
                             ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
                             listChangedShapes.Add(chShape);
                         }
+                        if (ListFigure[IndexFigure].Points.Count == 1 && ListFigure[IndexFigure].PointsCount.Contains(0))
+                        {
+                            Point p = ListFigure[IndexFigure].Points[0];
+                            rec1 = ListFigure[IndexFigure].RectangleOfFigures[0];
+                            status = "single";
+                            Shape sh;
+                            ListFigure[IndexFigure].DictionaryPointLines.TryGetValue(p, out sh);
+                            ChangedShape chShape = new ChangedShape(sh, status, p, contPts.Item1, contPts.Item2, new Point(),
+                                rec1, rec2, MainCanvas);
+                            ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
+                            listChangedShapes.Add(chShape);
+                        }
                         prevPoint = e.GetPosition(MainCanvas);
-                        OptionRegim.regim = Regim.RegimMoveRect;
+                        OptionRegim.regim = Regim.RegimMovePoints;
                     }
                 }
                 else

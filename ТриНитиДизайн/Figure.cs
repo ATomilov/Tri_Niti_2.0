@@ -98,7 +98,7 @@ namespace ТриНитиДизайн
 
         public void DeleteShape(Shape shape, Point p, Canvas curCanvas)
         {
-            Shapes.Remove(shape);// ??? point
+            Shapes.Remove(shape);
             DictionaryPointLines.Remove(p);
             DictionaryShapeControlPoints.Remove(p);
             Shape sh;
@@ -212,7 +212,7 @@ namespace ТриНитиДизайн
             }
             Points.Add(New);
             if(addStar)
-                AddStarForSinglePoint(false);
+                AddStarForSinglePoint(false, brush);
             if (Points.Count > 1)
             {
                 Shape notUsed;
@@ -267,38 +267,12 @@ namespace ТриНитиДизайн
             return line;
         }
 
-        public void AddStarForSinglePoint(bool checkForOnePoint)
+        public void AddStarForSinglePoint(bool checkForOnePoint, Brush brush)
         {
             if (Points.Count == 1)
             {
-                PathFigureCollection myPathFigureCollection = new PathFigureCollection();
-                Vector[] vect = new Vector[6];
-                vect[0] = new Vector(3, 3);
-                vect[1] = new Vector(-3, 3);
-                vect[2] = new Vector(3, -3);
-                vect[3] = new Vector(-3, -3);
-                vect[4] = new Vector(-4, 0);
-                vect[5] = new Vector(4, 0);
-                for(int i = 0; i < 6; i++)
-                {
-                    PathFigure myPathFigure = new PathFigure();
-                    myPathFigure.StartPoint = Points[0];
-                    PathSegmentCollection myPathSegmentCollection = new PathSegmentCollection();
-                    LineSegment myLineSegment = new LineSegment();
-                    myLineSegment.Point = new Point(Points[0].X + vect[i].X, Points[0].Y + vect[i].Y);
-                    myPathSegmentCollection.Add(myLineSegment);
-                    myPathFigure.Segments = myPathSegmentCollection;
-                    myPathFigureCollection.Add(myPathFigure);
-                }
-
-                PathGeometry myPathGeometry = new PathGeometry();
-                myPathGeometry.Figures = myPathFigureCollection;
-                Path myPath = new Path();
-                myPath.Stroke = OptionColor.ColorDraw;
-                myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
-                myPath.Data = myPathGeometry;
-                canvas.Children.Add(myPath);
-                AddShape(myPath, Points[0], null);
+                Shape sh = GeometryHelper.SetStarForSinglePoint(Points[0],brush, canvas);
+                AddShape(sh, Points[0], null);
             }
             else if (Points.Count == 2 && !checkForOnePoint)
             {
@@ -318,10 +292,12 @@ namespace ТриНитиДизайн
                     if(shape is Path)
                     {
                         Path ph = (Path)shape;
-                        if (ph.MinHeight > 0)
+                        if (ph.MinHeight == 5)
                             shape.Stroke = OptionColor.ColorKrivaya;
-                        else
+                        else if (ph.MinHeight == 10)
                             shape.Stroke = OptionColor.ColorChoosingRec;
+                        else
+                            shape.Stroke = OptionColor.ColorDraw;
                     }
                     else
                         shape.Stroke = brush;

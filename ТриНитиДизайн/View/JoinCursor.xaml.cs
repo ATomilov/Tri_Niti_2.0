@@ -101,20 +101,38 @@ namespace ТриНитиДизайн.View
             middle.X = (start.X + end.X) / 2;
             middle.Y = (start.Y + end.Y) / 2;
             Shape sh;
-            lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], out sh);
-            lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], canvas);
-            lastFigureInGroup.Points.Remove(start);
-            lastFigureInGroup.PointEnd = lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 1];
-            lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false,false, 0);
-
-            firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
-            firstFigureInGroup.DeleteShape(sh, end, canvas);
-            firstFigureInGroup.Points.Remove(end);
-            sh = GeometryHelper.SetLine(OptionColor.ColorDraw, middle, firstFigureInGroup.Points[0], false, canvas);
-            firstFigureInGroup.AddShape(sh, middle, null);
-            firstFigureInGroup.PointStart = middle;
-            firstFigureInGroup.Points.Insert(0, middle);
-
+            if (lastFigureInGroup.Points.Count == 1)
+            {
+                lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[0], out sh);
+                lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[0], canvas);
+                lastFigureInGroup.Points.Remove(start);
+                lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, true, 0);
+            }
+            else
+            {
+                lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], out sh);
+                lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], canvas);
+                lastFigureInGroup.Points.Remove(start);
+                lastFigureInGroup.PointEnd = lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 1];
+                lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, false, 0);
+            }
+            if (firstFigureInGroup.Points.Count == 1)
+            {
+                firstFigureInGroup.DictionaryPointLines.TryGetValue(firstFigureInGroup.Points[0], out sh);
+                firstFigureInGroup.DeleteShape(sh, firstFigureInGroup.Points[0], canvas);
+                firstFigureInGroup.Points.Remove(end);
+                firstFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, true, 0);
+            }
+            else
+            {
+                firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
+                firstFigureInGroup.DeleteShape(sh, end, canvas);
+                firstFigureInGroup.Points.Remove(end);
+                sh = GeometryHelper.SetLine(OptionColor.ColorDraw, middle, firstFigureInGroup.Points[0], false, canvas);
+                firstFigureInGroup.AddShape(sh, middle, null);
+                firstFigureInGroup.PointStart = middle;
+                firstFigureInGroup.Points.Insert(0, middle);
+            }
             List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
             List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
 

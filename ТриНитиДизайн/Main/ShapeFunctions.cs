@@ -438,7 +438,7 @@ namespace ТриНитиДизайн
                             contP = new Tuple<Point,Point>(contP.Item2,contP.Item1);
                             sh = GeometryHelper.SetBezier(OptionColor.ColorDraw, p, contP.Item1, contP.Item2, fig.Points[i - 1], canvas);
                         }
-                        else
+                        else if(sh.MinHeight == 10)
                             sh = GeometryHelper.SetArc(OptionColor.ColorDraw, p, fig.Points[i - 1], contP.Item1, canvas);
                     }
                     newFig.AddShape(sh, p, contP);
@@ -566,7 +566,7 @@ namespace ТриНитиДизайн
                     figGroup.groupFigures.Insert(index, newFig);
                     figGroup.groupFigures.Remove(fig);
                 }
-                newFig.AddStarForSinglePoint(true);
+                newFig.AddStarForSinglePoint(true, OptionColor.ColorDraw);
                 ListFigure.Insert(IndexFigure, newFig);
                 ListFigure.Remove(fig);
             }

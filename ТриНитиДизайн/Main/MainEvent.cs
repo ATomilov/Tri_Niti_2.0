@@ -107,7 +107,6 @@ namespace ТриНитиДизайн
             ListFigure[IndexFigure].PointsCount.Clear();
             OptionRegim.regim = Regim.RegimCursor;
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            DrawFirstAndLastRectangle();
             ChangeFiguresColor(ListFigure, MainCanvas);
             DrawOutsideRectangles(true, false, MainCanvas);
             MainCanvas.Cursor = NormalCursor;

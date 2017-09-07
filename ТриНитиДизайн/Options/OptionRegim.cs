@@ -29,7 +29,7 @@ namespace ТриНитиДизайн
         ResizeFigure = 13,
         RotateFigure = 14,
         RegimRisui = 15,
-        RegimMoveRect = 16,
+        RegimMovePoints = 16,
         RegimDrawInColor = 17,
         RegimDrawStegki = 18,
         RegimCursorMoveRect = 19,

@@ -25,6 +25,8 @@ namespace ТриНитиДизайн
             SetkaFigure.AddFigure(canvas);
             foreach (Line ln in centerLines)
                 canvas.Children.Add(ln);
+            if (OptionRegim.regim == Regim.RegimCursor)
+                DrawFirstAndLastRectangle();
             for(int i = 0; i < FigureList.Count;i++)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
@@ -338,7 +340,6 @@ namespace ТриНитиДизайн
                             IndexFigure = i;
                             ChangeFiguresColor(ListFigure, MainCanvas);
                             RedrawEverything(FigureList, IndexFigure, false, canvas);
-                            DrawFirstAndLastRectangle();
                             return true;
                         }
                     }
@@ -474,7 +475,8 @@ namespace ТриНитиДизайн
                 IndexFigure = TempIndexFigure;
                 LinesForGlad = TempLinesForGlad.ToList<Figure>();
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-                DrawFirstAndLastRectangle();
+                if(OptionRegim.regim != Regim.RegimCursor)
+                    DrawFirstAndLastRectangle();
                 LoadPreviousRegim(true);
                 DrawInvisibleRectangles(MainCanvas);
                 if(OptionRegim.regim == Regim.RegimGlad)
@@ -504,7 +506,6 @@ namespace ТриНитиДизайн
                     fig.ChangeFigureColor(OptionColor.ColorDraw, false);
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                 DrawOutsideRectangles(true, false, MainCanvas);
-                DrawFirstAndLastRectangle();
             }
         }
 

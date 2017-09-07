@@ -150,6 +150,16 @@ namespace ТриНитиДизайн
                         fig.DeleteShape(sh, p, MainCanvas);
                         fig.AddShape(newSh, rotatedP, contPts);
                     }
+                    if (fig.Points.Count == 1)
+                    {
+                        Shape sh;
+                        Shape newSh;
+                        Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+                        fig.DictionaryPointLines.TryGetValue(p, out sh);
+                        newSh = GeometryHelper.SetStarForSinglePoint(rotatedP, OptionColor.ColorDraw, MainCanvas);
+                        fig.DeleteShape(sh, p, MainCanvas);
+                        fig.AddShape(newSh, rotatedP, contPts);
+                    }
                     fig.Points[i] = rotatedP;
                 }
                 fig.PointStart = fig.Points[0];
@@ -293,6 +303,16 @@ namespace ТриНитиДизайн
                         fig.DeleteShape(sh, p, MainCanvas);
                         fig.AddShape(newSh, scaledP, contPts);
                     }
+                    if (fig.Points.Count == 1)
+                    {
+                        Shape sh;
+                        Shape newSh;
+                        Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+                        fig.DictionaryPointLines.TryGetValue(p, out sh);
+                        newSh = GeometryHelper.SetStarForSinglePoint(scaledP, OptionColor.ColorDraw, MainCanvas);
+                        fig.DeleteShape(sh, p, MainCanvas);
+                        fig.AddShape(newSh, scaledP, contPts);
+                    }
                     fig.Points[i] = scaledP;
                 }
                 fig.PointStart = fig.Points[0];
@@ -374,6 +394,16 @@ namespace ТриНитиДизайн
                                     contPts.Item1, MainCanvas);
                             }
                         }
+                        fig.DeleteShape(sh, p, MainCanvas);
+                        fig.AddShape(newSh, p + figureVect, contPts);
+                    }
+                    if (fig.Points.Count == 1)
+                    {
+                        Shape sh;
+                        Shape newSh;
+                        Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+                        fig.DictionaryPointLines.TryGetValue(p, out sh);
+                        newSh = GeometryHelper.SetStarForSinglePoint(p + figureVect, OptionColor.ColorDraw, MainCanvas);
                         fig.DeleteShape(sh, p, MainCanvas);
                         fig.AddShape(newSh, p + figureVect, contPts);
                     }
@@ -568,7 +598,6 @@ namespace ТриНитиДизайн
 
             OptionRegim.regim = Regim.RegimCursor;
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, canvas);
         }
 
@@ -592,7 +621,6 @@ namespace ТриНитиДизайн
             OptionRegim.regim = Regim.RegimCursor;
             ChangeFiguresColor(ListFigure, canvas);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            DrawFirstAndLastRectangle();
             DrawOutsideRectangles(true, false, canvas);
         }
 
