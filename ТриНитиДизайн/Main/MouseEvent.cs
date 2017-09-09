@@ -125,6 +125,8 @@ namespace ТриНитиДизайн
                 {
                     MainCanvas.Children.Remove(chRec);
                     MoveScalingRectangle(e.GetPosition(MainCanvas),MainCanvas);
+
+                    ShowPositionStatus(ListFigure[IndexFigure], false, true);
                 }
                 if (OptionRegim.regim == Regim.RotateFigure)
                 {
@@ -188,6 +190,7 @@ namespace ТриНитиДизайн
                 OptionRegim.regim = Regim.RegimCursor;
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                 DrawOutsideRectangles(false, true, MainCanvas);
+                ShowPositionStatus(ListFigure[IndexFigure], true, false);
             }
             if (OptionRegim.regim == Regim.RegimScaleFigure)
             {
@@ -248,6 +251,7 @@ namespace ТриНитиДизайн
                 ListFigure[IndexFigure].ChangeRectangleColor();
                 listChangedShapes.Clear();
                 OptionRegim.regim = Regim.RegimEditFigures;
+                ShowPositionStatus(ListFigure[IndexFigure], false, false);
             }
             if(OptionRegim.regim == Regim.RegimChangeRotatingCenter)
             {
@@ -263,6 +267,7 @@ namespace ТриНитиДизайн
                     else
                         ListFigure[IndexFigure].AddShape(changedLine, ChosenPts[0], new Tuple<Point,Point>(e.GetPosition(MainCanvas), new Point()));
                     OptionRegim.regim = Regim.RegimEditFigures;
+                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
                 }
             }
             startDrawing = true;
@@ -293,6 +298,7 @@ namespace ТриНитиДизайн
                 }
                 Point point = FindClosestDot(e.GetPosition(MainCanvas));
                 lastRec = ListFigure[IndexFigure].AddPoint(point, OptionColor.ColorDraw, true,true, OptionDrawLine.SizeWidthAndHeightRectangle);
+                ShowPositionStatus(ListFigure[IndexFigure],false,false);
             }
             startDrawing = true;
         }

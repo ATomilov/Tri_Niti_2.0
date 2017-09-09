@@ -175,6 +175,7 @@ namespace ТриНитиДизайн
                 }
                 restore_button.IsEnabled = true;
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                ClearStatusBar();
             }
         }
 
@@ -194,6 +195,7 @@ namespace ТриНитиДизайн
             DeletedGroup = new List<Figure>();
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawOutsideRectangles(true, false, MainCanvas);
+            ShowPositionStatus(ListFigure[IndexFigure], true, false);
         }
 
         private void CopyFigureClick(object sender, RoutedEventArgs e)

@@ -39,6 +39,7 @@ namespace ТриНитиДизайн
             ChoosingRectangle = new Figure(MainCanvas);
             if (tabControl1.Visibility == Visibility.Hidden)
                 tabControl1.Visibility = Visibility.Visible;
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void LomannaiButtonEvent(object sender, RoutedEventArgs e)
@@ -47,6 +48,7 @@ namespace ТриНитиДизайн
             MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
             ListFigure[IndexFigure].ChangeRectangleColor();
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void DygaButtonEvent(object sender, RoutedEventArgs e)
@@ -55,6 +57,7 @@ namespace ТриНитиДизайн
             DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorChoosingRec, MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
             ListFigure[IndexFigure].ChangeRectangleColor();
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void KrivaiaButtonEvent(object sender, RoutedEventArgs e)
@@ -63,6 +66,7 @@ namespace ТриНитиДизайн
             DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
             ListFigure[IndexFigure].ChangeRectangleColor();
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void SgladitButtonEvent(object sender, RoutedEventArgs e)
@@ -70,6 +74,7 @@ namespace ТриНитиДизайн
             MakeSpline(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
             ListFigure[IndexFigure].ChangeRectangleColor();
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void SelectPointNextButtonEvent(object sender, RoutedEventArgs e)
@@ -94,12 +99,14 @@ namespace ТриНитиДизайн
         {
             DeletePointFromFigure(ListFigure[IndexFigure], MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void RazrivButtonEvent(object sender, RoutedEventArgs e)
         {
             SplitFigureInTwo(ListFigure[IndexFigure], MainCanvas);
             RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
     }
 }

@@ -248,6 +248,7 @@ namespace ТриНитиДизайн
             SetToDefault();
             MainCanvas.Cursor = NormalCursor;
             SetkaFigure.AddFigure(MainCanvas);
+            ClearStatusBar();
         }        
 
         public bool ShowAcceptMessage(int choice)

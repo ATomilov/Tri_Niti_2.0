@@ -90,9 +90,11 @@ namespace ТриНитиДизайн
             ListFigure[IndexFigure].PointsCount.Clear();
             OptionRegim.regim = Regim.RegimDraw;
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
             DrawFirstAndLastRectangle();
             ChangeFiguresColor(ListFigure, MainCanvas);
-            MainCanvas.Cursor = HandCursor;            
+            MainCanvas.Cursor = HandCursor;
+            ShowPositionStatus(ListFigure[IndexFigure], true, false);
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)

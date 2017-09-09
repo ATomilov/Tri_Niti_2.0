@@ -305,6 +305,7 @@ namespace ТриНитиДизайн
                                     canvas.Children.Remove(FigureList[IndexFigure].NewPointEllipse);
                                     FigureList[IndexFigure].DrawEllipse(clickedP, OptionColor.ColorSelection, OptionDrawLine.SizeEllipseForPoints, canvas, false);
                                 }
+                                ShowPositionStatus(FigureList[IndexFigure], false,false);
                                 return false;
                             }
                             else
@@ -327,6 +328,7 @@ namespace ТриНитиДизайн
                                     FigureList[IndexFigure].PointsCount.Clear();
                                     RedrawEverything(FigureList, IndexFigure, true, canvas);
                                 }
+                                ShowPositionStatus(FigureList[IndexFigure], false,false);
                                 return true;
                             }
                         }
@@ -340,6 +342,7 @@ namespace ТриНитиДизайн
                             IndexFigure = i;
                             ChangeFiguresColor(ListFigure, MainCanvas);
                             RedrawEverything(FigureList, IndexFigure, false, canvas);
+                            ShowPositionStatus(FigureList[IndexFigure], true,false);
                             return true;
                         }
                     }
@@ -352,6 +355,7 @@ namespace ТриНитиДизайн
                 FigureList.Add(new Figure(MainCanvas));
                 IndexFigure = FigureList.Count - 1;
                 RedrawEverything(FigureList, IndexFigure, false, canvas);
+                ClearStatusBar();
             }
             return false;
         }
@@ -534,6 +538,56 @@ namespace ТриНитиДизайн
                 foreach (Figure sh in LinesForGlad)
                     sh.AddFigure(MainCanvas);
             }
+        }
+
+        public void ShowPositionStatus(Figure fig, bool groupPos, bool cursorRecActive)
+        {
+            if(cursorRecActive)
+            {
+                statusbar2.Content = "dX = " + Convert.ToInt32(chRec.Width*5) + "; dY = " + Convert.ToInt32(chRec.Height*5);
+                return;
+            }
+            double minX = Double.MaxValue;
+            double minY = Double.MaxValue;
+            double maxX = 0;
+            double maxY = 0;
+            if(groupPos)
+            {
+                foreach (Figure figGroup in fig.groupFigures)
+                {
+                    List<Point> pts = figGroup.GetFourPointsOfOutSideRectangle(0);
+                    if (minX > pts[0].X)
+                        minX = pts[0].X;
+                    if (maxX < pts[2].X)
+                        maxX = pts[2].X;
+                    if (minY > pts[0].Y)
+                        minY = pts[0].Y;
+                    if (maxY < pts[2].Y)
+                        maxY = pts[2].Y;
+                }
+            }
+            else
+            {
+                List<Point> pts = fig.GetFourPointsOfOutSideRectangle(0);
+                if (minX > pts[0].X)
+                    minX = pts[0].X;
+                if (maxX < pts[2].X)
+                    maxX = pts[2].X;
+                if (minY > pts[0].Y)
+                    minY = pts[0].Y;
+                if (maxY < pts[2].Y)
+                    maxY = pts[2].Y;
+            }
+            if (fig.Points.Count != 0)
+                statusbar2.Content = "dX = " + Convert.ToInt32((maxX - minX)*5) + "; dY = " + Convert.ToInt32((maxY - minY)*5);
+            else
+                statusbar2.Content = "";
+        }
+
+        public void ClearStatusBar()
+        {
+            statusbar1.Content = "                ";
+            statusbar2.Content = "";
         }
     }
 }

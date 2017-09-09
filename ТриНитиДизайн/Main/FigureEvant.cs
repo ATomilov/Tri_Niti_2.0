@@ -56,6 +56,7 @@ namespace ТриНитиДизайн
             MainCanvas.Cursor = SwordCursor;   
             if (tabControl2.Visibility == Visibility.Hidden)
                 tabControl2.Visibility = Visibility.Visible;
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)

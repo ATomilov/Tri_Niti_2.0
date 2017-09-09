@@ -333,21 +333,24 @@ namespace ТриНитиДизайн
             Point max = new Point(Double.MinValue, Double.MinValue);
             Point min = new Point(Double.MaxValue, Double.MaxValue);
             List<Point> allPoints = new List<Point>(Points);
-            foreach(Shape sh in Shapes)
-                if (sh is Path)
-                {
-                    Path path = (Path)sh;
-                    PathGeometry myPathGeometry = (PathGeometry)path.Data;
-                    Point p;
-                    Point tg;
-                    var points = new List<Point>();
-                    double step = 50;
-                    for (var j = 1; j < step; j++)
+            if (Points.Count != 1)
+            {
+                foreach (Shape sh in Shapes)
+                    if (sh is Path)
                     {
-                        myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
-                        allPoints.Add(p);
+                        Path path = (Path)sh;
+                        PathGeometry myPathGeometry = (PathGeometry)path.Data;
+                        Point p;
+                        Point tg;
+                        var points = new List<Point>();
+                        double step = 50;
+                        for (var j = 1; j < step; j++)
+                        {
+                            myPathGeometry.GetPointAtFractionLength(j / step, out p, out tg);
+                            allPoints.Add(p);
+                        }
                     }
-                }
+            }
             foreach (Point p in allPoints)
             {
                 if (p.X > max.X)

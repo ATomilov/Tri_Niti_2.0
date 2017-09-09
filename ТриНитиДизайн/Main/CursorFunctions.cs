@@ -595,10 +595,10 @@ namespace ТриНитиДизайн
 
             if (OptionRegim.regim == Regim.RegimCursorJoinShiftElements)
                 JoinShiftElements(firstFigure, secondFigure);
-
             OptionRegim.regim = Regim.RegimCursor;
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawOutsideRectangles(true, false, canvas);
+            ShowPositionStatus(firstFigure, true,false);
         }
 
         public void ShowBreakCursorMessage(Figure fig, Canvas canvas)
@@ -622,6 +622,7 @@ namespace ТриНитиДизайн
             ChangeFiguresColor(ListFigure, canvas);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawOutsideRectangles(true, false, canvas);
+            ShowPositionStatus(fig, true,false);
         }
 
         public void JoinShiftElements(Figure firstFigure, Figure secondFigure)
