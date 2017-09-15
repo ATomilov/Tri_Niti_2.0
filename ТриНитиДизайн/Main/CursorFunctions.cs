@@ -70,9 +70,9 @@ namespace ТриНитиДизайн
             chRec.RenderTransformOrigin = new Point(scaleX, scaleY);
             chRec.RenderTransform = new RotateTransform(angle);
             canvas.Children.Add(chRec);
-
+            statusbar3.Content = "Угол поворота = " + Math.Round(-angle,1);
             angle = angle * (Math.PI / 180);
-
+            
             for(int i = 0; i < movingFigurePoints.Count; i ++)
             {
                 Point startPoint;
@@ -108,6 +108,7 @@ namespace ТриНитиДизайн
 
         public void RotateFigure(Point centerPoint)
         {
+            statusbar3.Content = "";
             chRec = new Rectangle();
             foreach (Rectangle rec in movingFigurePoints)
                 MainCanvas.Children.Remove(rec);

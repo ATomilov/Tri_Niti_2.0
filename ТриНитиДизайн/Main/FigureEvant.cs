@@ -87,6 +87,7 @@ namespace ТриНитиДизайн
                     {
                         PrepareForTatami(ListFigure[IndexFigure],true);
                     }
+                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
                 }
             }
         }
@@ -174,6 +175,7 @@ namespace ТриНитиДизайн
                     OptionRegim.regim = Regim.RegimTatami;
                     ListFigure[IndexFigure].regimFigure = Regim.RegimTatami;
                     InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
+                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
                 }
             }
         }
@@ -271,6 +273,7 @@ namespace ТриНитиДизайн
                         DrawInvisibleRectangles(MainCanvas);
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                     }
+                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
                 }
             }
         }
@@ -317,6 +320,7 @@ namespace ТриНитиДизайн
                     SetLine(TatamiFigures[TatamiFigures.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
                     TatamiFigures.Clear();
                     OptionRegim.regim = Regim.RegimRisui;
+                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
                 }
             }
             if (OptionRegim.regim == Regim.RegimGlad)
@@ -348,6 +352,7 @@ namespace ТриНитиДизайн
                 }
                 SetLine(LinesForGlad[LinesForGlad.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
                 OptionRegim.regim = Regim.RegimRisui;
+                ShowPositionStatus(ListFigure[IndexFigure], false, false);
             }
             if (OptionRegim.regim == Regim.RegimCepochka && ListFigure[IndexFigure].Points.Count > 1)
             {
@@ -359,7 +364,9 @@ namespace ТриНитиДизайн
                 DrawFirstAndLastRectangle();
                 ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
                 OptionRegim.regim = Regim.RegimRisui;
+                ShowPositionStatus(ListFigure[IndexFigure], false, false);
             }
+
         }
     }
 }

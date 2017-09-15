@@ -492,6 +492,7 @@ namespace ТриНитиДизайн
                 {
                     ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                 }
+
                 
             }
             else if(OptionRegim.regim == Regim.RegimDrawStegki)
@@ -538,11 +539,12 @@ namespace ТриНитиДизайн
                 foreach (Figure sh in LinesForGlad)
                     sh.AddFigure(MainCanvas);
             }
+            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         public void ShowPositionStatus(Figure fig, bool groupPos, bool cursorRecActive)
         {
-            if(cursorRecActive)
+            if(cursorRecActive && fig.Points.Count != 1)
             {
                 statusbar2.Content = "dX = " + Convert.ToInt32(chRec.Width*5) + "; dY = " + Convert.ToInt32(chRec.Height*5);
                 return;
@@ -578,16 +580,45 @@ namespace ТриНитиДизайн
                 if (maxY < pts[2].Y)
                     maxY = pts[2].Y;
             }
-            if (fig.Points.Count != 0)
-                statusbar2.Content = "dX = " + Convert.ToInt32((maxX - minX)*5) + "; dY = " + Convert.ToInt32((maxY - minY)*5);
+            if (fig.Points.Count != 0 && OptionRegim.regim != Regim.RegimRisui)
+            {
+                if(OptionRegim.regim == Regim.RegimCursor)
+                {
+                    statusbar1.Content = "Группа:" + fig.groupFigures.Count;
+                }
+                else
+                {
+                    if (fig.regimFigure == Regim.RegimTatami)
+                        statusbar1.Content = "Татами";
+                    else if (fig.regimFigure == Regim.RegimGlad)
+                        statusbar1.Content = "Гладь";
+                    else if (fig.regimFigure == Regim.RegimCepochka)
+                        statusbar1.Content = "Цепочка";
+                    else
+                        statusbar1.Content = "Стежки";
+                }
+                statusbar2.Content = "dX = " + Convert.ToInt32((maxX - minX) * 5) + "; dY = " + Convert.ToInt32((maxY - minY) * 5);
+                statusbar3.Content = "";
+            }
+            else if(OptionRegim.regim != Regim.RegimRisui)
+            {
+                statusbar1.Content = "                ";
+                statusbar2.Content = "                       ";
+                statusbar3.Content = "";
+            }
             else
-                statusbar2.Content = "";
+            {
+                statusbar1.Content = "                ";
+                statusbar2.Content = "                       ";
+                statusbar3.Content = "Стежков = " + fig.Points.Count;
+            }
         }
 
         public void ClearStatusBar()
         {
             statusbar1.Content = "                ";
-            statusbar2.Content = "";
+            statusbar2.Content = "                       ";
+            statusbar3.Content = "";
         }
     }
 }

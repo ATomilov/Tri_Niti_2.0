@@ -94,7 +94,6 @@ namespace ТриНитиДизайн
             DrawFirstAndLastRectangle();
             ChangeFiguresColor(ListFigure, MainCanvas);
             MainCanvas.Cursor = HandCursor;
-            ShowPositionStatus(ListFigure[IndexFigure], true, false);
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
@@ -108,6 +107,7 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();
             OptionRegim.regim = Regim.RegimCursor;
+            ShowPositionStatus(ListFigure[IndexFigure], true, false);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             ChangeFiguresColor(ListFigure, MainCanvas);
             DrawOutsideRectangles(true, false, MainCanvas);

@@ -512,7 +512,7 @@ namespace ТриНитиДизайн
                         DrawOutsideRectangles(true, false, MainCanvas);
                 }
                 if (e.OriginalSource is Rectangle && (((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForRotation ||
-                    ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForScale))
+                    ((Rectangle)e.OriginalSource).Width == OptionDrawLine.SizeRectangleForScale) && ListFigure[IndexFigure].Points.Count != 1)
                 {
                     Rectangle rec = (Rectangle)e.OriginalSource;
                     if (rec.Fill == OptionColor.ColorSelection)

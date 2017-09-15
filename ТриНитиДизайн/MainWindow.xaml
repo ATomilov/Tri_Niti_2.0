@@ -194,9 +194,11 @@
             </Grid>
         </Expander>
         <StatusBar Height="23" Name="statusBar1" VerticalAlignment="Bottom" Grid.RowSpan="2" FontWeight="Bold">
-            <StatusBarItem Content="                " Name="statusbar1" />
+            <StatusBarItem Content="                " Name="statusbar1" HorizontalAlignment="Center"/>
             <Separator></Separator>
-            <StatusBarItem  Name="statusbar2" />
+            <StatusBarItem Content="                       "  Name="statusbar2" HorizontalAlignment="Center"/>
+            <Separator></Separator>
+            <StatusBarItem  Name="statusbar3" />
         </StatusBar>
         <TabControl Name="tabControl1" Width="120" TabStripPlacement="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="12,265,0,0" Visibility="Visible" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top">
             <TabItem Header="Линии" Name="tabItem1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"   IsSelected="True">

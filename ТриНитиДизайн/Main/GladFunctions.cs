@@ -66,6 +66,7 @@ namespace ТриНитиДизайн
                             secondFigure.SaveCurrentShapes();
                             PrepareForTatami(secondFigure,true);
                         }
+                        ShowPositionStatus(ListFigure[IndexFigure], true, false);
                         break;
                     }
 
