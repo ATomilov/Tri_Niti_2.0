@@ -50,6 +50,7 @@ namespace ТриНитиДизайн.View
                 newFigure.AddPoint(p, OptionColor.ColorDraw, false,false, OptionDrawLine.SizeWidthAndHeightRectangle);
                 p += newFigVect;
             }
+            newFigure.regimFigure = Regim.RegimCepochka;
             currentList.Add(newFigure);
 
             List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);

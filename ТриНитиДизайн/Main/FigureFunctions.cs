@@ -269,7 +269,7 @@ namespace ТриНитиДизайн
                 double y = Canvas.GetTop(rect) + rect.Width / 2;
                 if (new Point(x, y) == ListFigure[IndexFigure].PointStart)
                 {
-                    if (OptionRegim.regim == Regim.RegimDraw)
+                    if (OptionRegim.regim == Regim.RegimDraw && ListFigure[IndexFigure].Points.Count != 1)
                     {
                         ReverseFigure(ListFigure[IndexFigure], canvas);
                         RedrawEverything(FigureList, IndexFigure, false, canvas);
