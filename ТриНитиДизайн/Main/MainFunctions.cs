@@ -249,6 +249,12 @@ namespace ТриНитиДизайн
             MainCanvas.Cursor = NormalCursor;
             SetkaFigure.AddFigure(MainCanvas);
             ClearStatusBar();
+            panTransform = new TranslateTransform();
+            zoomTransform = new ScaleTransform();
+            bothTransforms = new TransformGroup();
+            bothTransforms.Children.Add(panTransform);
+            bothTransforms.Children.Add(zoomTransform);
+            MainCanvas.RenderTransform = bothTransforms;
         }        
 
         public bool ShowAcceptMessage(int choice)

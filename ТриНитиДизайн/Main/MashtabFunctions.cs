@@ -19,41 +19,46 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void Plus(Canvas canvas, Point center)
+        public void ScaleCanvas(double mulitplier, Point center, Canvas canvas)
         {
-            OptionSetka.Masshtab *= 2;
-            OptionDrawLine.StrokeThickness /= 2;
-            OptionDrawLine.SizeWidthAndHeightRectangle /= 2;
-            OptionDrawLine.InvisibleStrokeThickness /= 2;
-            OptionDrawLine.SizeRectangleForScale /= 2;
-            OptionDrawLine.SizeRectangleForRotation /= 2;
-            OptionDrawLine.SizeEllipseForPoints /= 2;
-            OptionDrawLine.RisuiRegimDots /= 2;
-            OptionDrawLine.StrokeThicknessMainRec /= 2;
+            double xCenter = this.ActualWidth / 2;
+            double yCenter = this.ActualHeight / 2;
+            double discrepancyX = (center.X - xCenter) / OptionSetka.Masshtab;
+            double discrepancyY = (center.Y - yCenter) / OptionSetka.Masshtab;
+            OptionSetka.Masshtab *= mulitplier;
+            OptionDrawLine.StrokeThickness /= mulitplier;
+            OptionDrawLine.SizeWidthAndHeightRectangle /= mulitplier;
+            OptionDrawLine.SizeWidthAndHeightInvRectangle /= mulitplier;
+            OptionDrawLine.InvisibleStrokeThickness /= mulitplier;
+            OptionDrawLine.SizeRectangleForScale /= mulitplier;
+            OptionDrawLine.SizeRectangleForRotation /= mulitplier;
+            OptionDrawLine.SizeEllipseForPoints /= mulitplier;
+            OptionDrawLine.RisuiRegimDots /= mulitplier;
+            OptionDrawLine.StrokeThicknessMainRec /= mulitplier;
             foreach (Figure fig in ListFigure)
             {
-                foreach(Shape sh in fig.Shapes)
+                foreach (Shape sh in fig.Shapes)
                 {
-                    sh.StrokeThickness /= 2;
+                    sh.StrokeThickness /= mulitplier;
                 }
             }
             foreach (Figure fig in ListPltFigure)
             {
                 foreach (Shape sh in fig.Shapes)
                 {
-                    sh.StrokeThickness /= 2;
+                    sh.StrokeThickness /= mulitplier;
                 }
             }
             foreach (Figure fig in LinesForGlad)
             {
                 foreach (Shape sh in fig.Shapes)
                 {
-                    sh.StrokeThickness /= 2;
+                    sh.StrokeThickness /= mulitplier;
                 }
             }
             foreach (Shape sh in ControlLine.Shapes)
             {
-                sh.StrokeThickness /= 2;
+                sh.StrokeThickness /= mulitplier;
             }
             foreach (UIElement element in canvas.Children)
             {
@@ -62,167 +67,63 @@ namespace ТриНитиДизайн
                     Rectangle rec = (Rectangle)element;
                     double x = Canvas.GetLeft(rec);
                     double y = Canvas.GetTop(rec);
-                    rec.Height /= 2;
-                    rec.Width /= 2;
-                    Canvas.SetLeft(rec, x + rec.Height / 2);
-                    Canvas.SetTop(rec, y + rec.Height / 2);
-                    rec.StrokeThickness /= 2;
+                    if (mulitplier > 1)
+                    {
+                        rec.Height /= mulitplier;
+                        rec.Width /= mulitplier;
+                        Canvas.SetLeft(rec, x + rec.Height / 2);
+                        Canvas.SetTop(rec, y + rec.Height / 2);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(rec, x - rec.Height / 2);
+                        Canvas.SetTop(rec, y - rec.Height / 2);
+                        rec.Height /= mulitplier;
+                        rec.Width /= mulitplier;
+                    }
+                    rec.StrokeThickness /= mulitplier;
                 }
                 if (element is Ellipse)
                 {
                     Ellipse ell = (Ellipse)element;
                     double x = Canvas.GetLeft(ell);
                     double y = Canvas.GetTop(ell);
-                    ell.Height /= 2;
-                    ell.Width /= 2;
-                    Canvas.SetLeft(ell, x + ell.Height / 2);
-                    Canvas.SetTop(ell, y + ell.Height / 2);
-                    ell.StrokeThickness /= 2;
+                    if (mulitplier > 1)
+                    {
+                        ell.Height /= mulitplier;
+                        ell.Width /= mulitplier;
+                        Canvas.SetLeft(ell, x + ell.Height / 2);
+                        Canvas.SetTop(ell, y + ell.Height / 2);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(ell, x - ell.Height / 2);
+                        Canvas.SetTop(ell, y - ell.Height / 2);
+                        ell.Height /= mulitplier;
+                        ell.Width /= mulitplier;
+                    }
+                    ell.StrokeThickness /= mulitplier;
                 }
             }
-            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
-            scaleTransform.CenterX = center.X;
-            scaleTransform.CenterY = center.Y;
-            canvas.RenderTransform = scaleTransform;
+            panTransform.X -= discrepancyX;
+            panTransform.Y -= discrepancyY;
+
+            zoomTransform.CenterX = xCenter;
+            zoomTransform.CenterY = yCenter;
+            zoomTransform.ScaleX = OptionSetka.Masshtab;
+            zoomTransform.ScaleY = OptionSetka.Masshtab;
+            
         }
 
-        public void Minus(Canvas canvas, Point center)
+        public void MoveCanvas(Point center, Canvas canvas)
         {
-            OptionSetka.Masshtab /= 2;
-            OptionDrawLine.StrokeThickness *= 2;
-            OptionDrawLine.SizeWidthAndHeightRectangle *= 2;
-            OptionDrawLine.InvisibleStrokeThickness *= 2;
-            OptionDrawLine.SizeRectangleForScale *= 2;
-            OptionDrawLine.SizeRectangleForRotation *= 2;
-            OptionDrawLine.SizeEllipseForPoints *= 2;
-            OptionDrawLine.RisuiRegimDots *= 2;
-            OptionDrawLine.StrokeThicknessMainRec *= 2;
-            foreach (Figure fig in ListFigure)
-            {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness *= 2;
-                }
-            }
-            foreach (Figure fig in ListPltFigure)
-            {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness *= 2;
-                }
-            }
-            foreach (Figure fig in LinesForGlad)
-            {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness *= 2;
-                }
-            }
-            foreach (Shape sh in ControlLine.Shapes)
-            {
-                sh.StrokeThickness *= 2;
-            }
-            foreach (UIElement element in canvas.Children)
-            {
-                if (element is Rectangle)
-                {
-                    Rectangle rec = (Rectangle)element;
-                    double x = Canvas.GetLeft(rec);
-                    double y = Canvas.GetTop(rec);
-
-                    Canvas.SetLeft(rec, x - rec.Height / 2);
-                    Canvas.SetTop(rec, y - rec.Height / 2);
-                    rec.Height *= 2;
-                    rec.Width *= 2;
-
-                    rec.StrokeThickness *= 2;
-                }
-                if (element is Ellipse)
-                {
-                    Ellipse ell = (Ellipse)element;
-                    double x = Canvas.GetLeft(ell);
-                    double y = Canvas.GetTop(ell);
-                    ell.Height *= 2;
-                    ell.Width *= 2;
-                    Canvas.SetLeft(ell, x - ell.Height / 2);
-                    Canvas.SetTop(ell, y - ell.Height / 2);
-                    ell.StrokeThickness *= 2;
-                }
-            }
-            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
-            scaleTransform.CenterX = center.X;
-            scaleTransform.CenterY = center.Y;
-            canvas.RenderTransform = scaleTransform;
+            double xCenter = this.ActualWidth / 2;
+            double yCenter = this.ActualHeight / 2;
+            double discrepancyX = (center.X - xCenter)/OptionSetka.Masshtab;
+            double discrepancyY = (center.Y - yCenter) / OptionSetka.Masshtab;
+            panTransform.X -= discrepancyX;
+            panTransform.Y -= discrepancyY;
         }
 
-        public void PlusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke, double sizerectanglefortransform)
-        {
-            OptionSetka.Masshtab = masshtab;
-            OptionDrawLine.StrokeThickness = stroke;
-            OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
-            OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
-            OptionDrawLine.SizeRectangleForScale = sizerectanglefortransform;
-            foreach (Figure fig in ListFigure)
-            {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness = stroke;
-                }
-            }
-            foreach (UIElement element in canvas.Children)
-            {
-                if (element is Rectangle)
-                {
-                    Rectangle rec = (Rectangle)element;
-                    double x = Canvas.GetLeft(rec);
-                    double y = Canvas.GetTop(rec);
-                    rec.Height = sizerectangle;
-                    rec.Width = sizerectangle;
-                    Canvas.SetLeft(rec, x + rec.Height / 2);
-                    Canvas.SetTop(rec, y + rec.Height / 2);
-                    rec.StrokeThickness = stroke;
-                }
-            }
-            ScaleTransform scaleTransform = new ScaleTransform(masshtab, masshtab);
-            scaleTransform.CenterX = center.X;
-            scaleTransform.CenterY = center.Y;
-            canvas.RenderTransform = scaleTransform;
-        }
-
-        public void MinusWithFixedOptions(Canvas canvas, Point center, double masshtab, double stroke, double sizerectangle, double invisiblestroke, double sizerectanglefortransform)
-        {
-            OptionSetka.Masshtab = masshtab;
-            OptionDrawLine.StrokeThickness = stroke;
-            OptionDrawLine.SizeWidthAndHeightRectangle = sizerectangle;
-            OptionDrawLine.InvisibleStrokeThickness = invisiblestroke;
-            OptionDrawLine.SizeRectangleForScale = sizerectanglefortransform;
-            foreach (Figure fig in ListFigure)
-            {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness = stroke;
-                }
-            }
-            foreach (UIElement element in canvas.Children)
-            {
-                if (element is Rectangle)
-                {
-                    Rectangle rec = (Rectangle)element;
-                    double x = Canvas.GetLeft(rec);
-                    double y = Canvas.GetTop(rec);
-
-                    Canvas.SetLeft(rec, x - rec.Height / 2);
-                    Canvas.SetTop(rec, y - rec.Height / 2);
-                    rec.Height = sizerectangle;
-                    rec.Width = sizerectangle;
-
-                    rec.StrokeThickness = stroke;
-                }
-            }
-            ScaleTransform scaleTransform = new ScaleTransform(masshtab, masshtab);
-            scaleTransform.CenterX = center.X;
-            scaleTransform.CenterY = center.Y;
-            canvas.RenderTransform = scaleTransform;
-        }
     }
 }

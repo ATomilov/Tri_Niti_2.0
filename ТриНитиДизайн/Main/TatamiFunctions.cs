@@ -22,22 +22,35 @@ namespace ТриНитиДизайн
         int oldHits = 2;
         int TatamiShapesCount = 0;
 
-        public void InsertFirstControlLine(Figure StartLines, Figure ConLine, Canvas CurCanvas)
+        public void InsertFirstControlLine(Figure StartLines, Figure ConLine, Canvas CurCanvas, bool firstConLine)
         {
             Random rand = new Random();
-            Point center = StartLines.GetCenter();
+            Point center;
+            if (firstConLine)
+                center = StartLines.GetCenter();
+            else
+                center = StartLines.oldCenter;
             Vector vect = new Vector();
             bool found = false;
             while (!found)
             {
                 ConLine.Points.Clear();
-                vect.X = rand.NextDouble() * 2 - 1;
-                vect.Y = rand.NextDouble() * 2 - 1;
+                if (firstConLine)
+                {
+                    vect.X = rand.NextDouble() * 2 - 1;
+                    vect.Y = rand.NextDouble() * 2 - 1;
+                    vect.Normalize();
+                    StartLines.controlLineVector = vect;
+                }
+                else
+                    vect = StartLines.controlLineVector;
                 Point p1 = new Point(center.X + vect.X * 500, center.Y + vect.Y * 500);
                 Point p2 = new Point(center.X - vect.X * 500, center.Y - vect.Y * 500);
                 ConLine.Points.Add(p1);
                 ConLine.Points.Add(p2);
                 found = FindControlLine(StartLines, ConLine, CurCanvas,true);
+                firstConLine = true;
+                center = StartLines.GetCenter();
             }
         }
 
@@ -117,7 +130,7 @@ namespace ТриНитиДизайн
                 {
                     OrganizeDots(pts, ConLine,ListControlLines, b, hits);
                     ConLine.Shapes.Add(SetLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], "blue", CurCanvas));
-                    ConLine.SetMiddleControlLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], CurCanvas);
+                    StartLines.oldCenter = ConLine.SetMiddleControlLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], CurCanvas);
                 }
                 success = true;
             }

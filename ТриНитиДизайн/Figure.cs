@@ -40,6 +40,8 @@ namespace ТриНитиДизайн
         public Point PointForAddingPoints;
         public Canvas canvas;
         public Ellipse NewPointEllipse;
+        public Vector controlLineVector;
+        public Point oldCenter;
         public bool PreparedForTatami;
 
         public Figure(Canvas _canvas)
@@ -55,6 +57,8 @@ namespace ТриНитиДизайн
             RectangleOfFigures = new List<Rectangle>();
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
+            controlLineVector = new Vector();
+            oldCenter = new Point();
             PreparedForTatami = false;
             canvas = _canvas;
             DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point,Point>>();
@@ -170,6 +174,8 @@ namespace ТриНитиДизайн
             Shapes = new List<Shape>();
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
+            controlLineVector = new Vector();
+            oldCenter = new Point();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             tempShapes = new List<Shape>();
@@ -369,11 +375,12 @@ namespace ТриНитиДизайн
             return pts;
         }
 
-        public void SetMiddleControlLine(Point a, Point b, Canvas _canvas)
+        public Point SetMiddleControlLine(Point a, Point b, Canvas _canvas)
         {
             double x = (a.X + b.X)/2;
             double y = (a.Y + b.Y) / 2;
             DrawEllipse(new Point(x, y),OptionColor.ColorSelection, OptionDrawLine.SizeWidthAndHeightRectangle, _canvas,true);
+            return new Point(x, y);
         }
 
         public void DrawDots(List<Point> pts, double size, Brush color, Canvas _canvas)

@@ -154,6 +154,9 @@ namespace ТриНитиДизайн
                 {
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
+                ListFigure[IndexFigure].controlLineVector = new Vector(ControlLine.Points[1].X - ControlLine.Points[0].X,
+                    ControlLine.Points[1].Y - ControlLine.Points[0].Y);
+                ListFigure[IndexFigure].controlLineVector.Normalize();
                 FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas,false);
             }
             if (OptionRegim.regim == Regim.RegimGlad && !startDrawing)
@@ -545,27 +548,18 @@ namespace ТриНитиДизайн
             }
             if(OptionRegim.regim == Regim.ZoomIn)
             {
-                Point currentPosition = e.GetPosition(MainCanvas);
-                if (OptionSetka.Masshtab == 64)
-                {
-                    PlusWithFixedOptions(MainCanvas, currentPosition, 64, 0.015625, 0.125, 0.15625, 0.15625);
-                }
-                else
-                {
-                    Plus(MainCanvas, currentPosition);
-                }
+                Point currentPosition = e.GetPosition(this);
+                ScaleCanvas(2, currentPosition, MainCanvas);
             }
             if (OptionRegim.regim == Regim.ZoomOut)
             {
-                Point currentPosition = e.GetPosition(MainCanvas);
-                if (OptionSetka.Masshtab == 0.25)
-                {
-                    MinusWithFixedOptions(MainCanvas, currentPosition, 0.25, 4, 32, 40, 40);
-                }
-                else
-                {
-                    Minus(MainCanvas, currentPosition);
-                }
+                Point currentPosition = e.GetPosition(this);
+                ScaleCanvas(0.5, currentPosition, MainCanvas);
+            }
+            if (OptionRegim.regim == Regim.MoveCanvas)
+            {
+                Point currentPosition = e.GetPosition(this);
+                MoveCanvas(currentPosition, MainCanvas);
             }
             ExitFromRisuiRegim();
         }

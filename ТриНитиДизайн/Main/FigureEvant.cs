@@ -174,7 +174,7 @@ namespace ТриНитиДизайн
                     }
                     OptionRegim.regim = Regim.RegimTatami;
                     ListFigure[IndexFigure].regimFigure = Regim.RegimTatami;
-                    InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas);
+                    InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas,true);
                     ShowPositionStatus(ListFigure[IndexFigure], false, false);
                 }
             }

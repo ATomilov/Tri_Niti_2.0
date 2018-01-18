@@ -332,9 +332,13 @@ namespace ТриНитиДизайн
                 {
                     CursorMenuDrawStegki();
                 }
-                if (OptionRegim.regim == Regim.RegimDrawInColor)
+                else if (OptionRegim.regim == Regim.RegimDrawInColor)
                 {
                     CursorMenuDrawInColor();
+                }
+                else if (OptionRegim.regim == Regim.RegimOtshit)
+                {
+                    CursorMenuOtshit();
                 }
             }
         }

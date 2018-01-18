@@ -32,10 +32,12 @@ namespace ТриНитиДизайн
         RegimMovePoints = 16,
         RegimDrawInColor = 17,
         RegimDrawStegki = 18,
-        RegimCursorMoveRect = 19,
-        RegimScaleFigure = 20,
-        RegimChangeRotatingCenter = 21,
-        RegimCursorJoinShiftElements = 22,
-        RegimNull = 23
+        RegimOtshit = 19,
+        RegimCursorMoveRect = 20,
+        RegimScaleFigure = 21,
+        RegimChangeRotatingCenter = 22,
+        RegimCursorJoinShiftElements = 23,
+        MoveCanvas = 24,
+        RegimNull = 25
     }
 }

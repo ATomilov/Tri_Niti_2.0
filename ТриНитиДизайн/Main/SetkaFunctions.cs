@@ -67,8 +67,8 @@ namespace ТриНитиДизайн
             EllipseGeometry myEllipse = new EllipseGeometry();
             myEllipse.Center = centerPoint;
             myPath.Stroke = System.Windows.Media.Brushes.Black;
-            myEllipse.RadiusX = 0.5;
-            myEllipse.RadiusY = 0.5;
+            myEllipse.RadiusX = 3;
+            myEllipse.RadiusY = 3;
             myPath.Data = myEllipse;
             return myPath;
         }

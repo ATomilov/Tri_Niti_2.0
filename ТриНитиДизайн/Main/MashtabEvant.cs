@@ -20,27 +20,6 @@ namespace ТриНитиДизайн
     public partial class MainWindow : Window
     {
 
-
-        // Пример Маштабирование
-        //private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
-        //{
-        //    if (e.Delta > 0)
-        //    {
-        //        OptionSetka.Masshtab *= 1.05;
-
-        //        ScaleTransform scaleTransform1 = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
-        //        MainCanvas.LayoutTransform = scaleTransform1;
-        //    }
-        //    if (e.Delta < 0)
-        //    {
-        //        OptionSetka.Masshtab *= 0.95;
-
-        //        ScaleTransform scaleTransform1 = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
-        //        MainCanvas.LayoutTransform = scaleTransform1;
-        //    }
-
-        //}
-
         private void MashtabMainButtonEvant(object sender, RoutedEventArgs e)
         {
             ExitFromRisuiRegim();
@@ -74,7 +53,7 @@ namespace ТриНитиДизайн
 
         private void MashtabVidButtonEvent(object sender, RoutedEventArgs e)
         {
-
+            OptionRegim.regim = Regim.MoveCanvas;
         }
 
         private void SetCenterButtonEvent(object sender, RoutedEventArgs e)

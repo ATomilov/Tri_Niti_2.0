@@ -47,6 +47,8 @@ namespace ТриНитиДизайн
 
         public void DrawFirstAndLastRectangle()
         {
+            if (ListFigure[IndexFigure].Points.Count == 0)
+                return;
             MainCanvas.Children.Remove(lastRec);
             MainCanvas.Children.Remove(firstRec);
             bool isRegimCursor = false;
@@ -207,6 +209,7 @@ namespace ТриНитиДизайн
                         RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                         DrawFirstAndLastRectangle();
                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                        ShowPositionStatus(ListFigure[IndexFigure], false, false);
                         break;
                     }
 
@@ -495,12 +498,15 @@ namespace ТриНитиДизайн
 
                 
             }
-            else if(OptionRegim.regim == Regim.RegimDrawStegki)
+            else if(OptionRegim.regim == Regim.RegimDrawStegki || OptionRegim.regim == Regim.RegimOtshit)
             {
                 OptionRegim.regim = Regim.RegimCursor;
                 foreach(Figure fig in ListFigure[IndexFigure].groupFigures)
                     fig.ChangeFigureColor(OptionColor.ColorDraw, false);
                 DrawFirstAndLastRectangle();
+                foreach(Line ln in otshitLines)
+                    MainCanvas.Children.Remove(ln);
+                otshitLines.Clear();
             }
             else if(OptionRegim.regim == Regim.RegimDrawInColor)
             {
@@ -525,7 +531,7 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].SaveCurrentShapes();
                     PrepareForTatami(ListFigure[IndexFigure], true);
                 }
-                ControlLine.AddFigure(MainCanvas);
+                InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas, false);
             }
             if (OptionRegim.regim == Regim.RegimGlad)
             {
@@ -536,8 +542,7 @@ namespace ТриНитиДизайн
                     PrepareForTatami(ListFigure[IndexFigure], true);
                     PrepareForTatami(ListFigure[SecondGladFigure], true);
                 }
-                foreach (Figure sh in LinesForGlad)
-                    sh.AddFigure(MainCanvas);
+                AddFirstGladLines(LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
             }
             ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }

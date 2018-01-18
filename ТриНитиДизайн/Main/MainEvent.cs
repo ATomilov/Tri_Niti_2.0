@@ -70,11 +70,14 @@ namespace ТриНитиДизайн
             mainGrid.Cursor = NormalCursor;
             MainCanvas.Cursor = NormalCursor;
 
+            panTransform = new TranslateTransform();
+            zoomTransform = new ScaleTransform();
+            bothTransforms = new TransformGroup();
 
-            //ScaleTransform scaleTransform = new ScaleTransform(2, 2);
-            //scaleTransform.CenterX = MainCanvas.Width / 2;
-            //scaleTransform.CenterY = MainCanvas.Height / 2;
-            //MainCanvas.RenderTransform = scaleTransform;
+            bothTransforms.Children.Add(panTransform);
+            bothTransforms.Children.Add(zoomTransform);
+
+            MainCanvas.RenderTransform = bothTransforms;
         }
 
 

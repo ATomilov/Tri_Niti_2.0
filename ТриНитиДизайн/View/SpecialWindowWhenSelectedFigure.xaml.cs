@@ -42,7 +42,8 @@ namespace ТриНитиДизайн.View
 
         private void Otshit(object sender, RoutedEventArgs e)
         {
-
+            OptionRegim.regim = Regim.RegimOtshit;
+            this.Close();
         }
 
         private void Otmenit(object sender, RoutedEventArgs e)
