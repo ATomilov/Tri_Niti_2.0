@@ -94,13 +94,15 @@ namespace ТриНитиДизайн
         public static Path SetStarForSinglePoint(Point p, Brush brush, Canvas canvas)
         {
             PathFigureCollection myPathFigureCollection = new PathFigureCollection();
+            double cornerDist = OptionDrawLine.OneDotCornerDistance;
+            double middleDist = OptionDrawLine.OneDotMiddleDistance;
             Vector[] vect = new Vector[6];
-            vect[0] = new Vector(3, 3);
-            vect[1] = new Vector(-3, 3);
-            vect[2] = new Vector(3, -3);
-            vect[3] = new Vector(-3, -3);
-            vect[4] = new Vector(-4, 0);
-            vect[5] = new Vector(4, 0);
+            vect[0] = new Vector(cornerDist, cornerDist);
+            vect[1] = new Vector(-cornerDist, cornerDist);
+            vect[2] = new Vector(cornerDist, -cornerDist);
+            vect[3] = new Vector(-cornerDist, -cornerDist);
+            vect[4] = new Vector(-middleDist, 0);
+            vect[5] = new Vector(middleDist, 0);
             for (int i = 0; i < 6; i++)
             {
                 PathFigure myPathFigure = new PathFigure();
@@ -152,7 +154,7 @@ namespace ТриНитиДизайн
             canvas.Children.Add(rec);
             return rec;
         }
-
+        
         public static Rectangle DrawTransformingRectangle(Point p, double size, Canvas canvas)
         {
             Rectangle rec = new Rectangle();

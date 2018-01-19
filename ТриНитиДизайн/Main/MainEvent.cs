@@ -66,6 +66,10 @@ namespace ТриНитиДизайн
             ZoomInCursor = new Cursor(sri4.Stream);
             System.Windows.Resources.StreamResourceInfo sri5 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Zoom-out.cur", UriKind.Relative));
             ZoomOutCursor = new Cursor(sri5.Stream);
+            System.Windows.Resources.StreamResourceInfo sri6 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\onetoone.ico", UriKind.Relative));
+            OneToOneCursor = new Cursor(sri6.Stream);
+            System.Windows.Resources.StreamResourceInfo sri7 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\centercursor.ico", UriKind.Relative));
+            CenterCursor = new Cursor(sri7.Stream);
 
             mainGrid.Cursor = NormalCursor;
             MainCanvas.Cursor = NormalCursor;
@@ -73,11 +77,11 @@ namespace ТриНитиДизайн
             panTransform = new TranslateTransform();
             zoomTransform = new ScaleTransform();
             bothTransforms = new TransformGroup();
-
             bothTransforms.Children.Add(panTransform);
             bothTransforms.Children.Add(zoomTransform);
-
             MainCanvas.RenderTransform = bothTransforms;
+
+            this.PreviewKeyDown += new KeyEventHandler(MainWindow_KeyDown);
         }
 
 

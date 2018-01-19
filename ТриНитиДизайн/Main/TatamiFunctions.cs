@@ -313,6 +313,8 @@ namespace ТриНитиДизайн
         private void MakeTatami(List<Figure> ListControlLines, List<Figure> ListTatamiFigures, Canvas CurCanvas)                    //создание татами
         {
             double step = OptionTatami.StepStegok * 0.2;
+            double translation = OptionTatami.Smeshcheniye / 100;
+            double totalTranslation = 0;
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //алгоритм создания стежков на параллельных отрезках, точки начала и конца - пересечение изначальных отрезков и задающих прямых
             {
                 bool turnAround = false;
@@ -338,10 +340,16 @@ namespace ТриНитиДизайн
                     double length = vect.Length;
                     double distance = step;
                     vect = -vect;
+                    bool firstDot = true;
                     while (length > distance)           //ставим на отрезках стежки до тех пор, пока не пройдемся по всему отрезку
                     {
                         vect.Normalize();
                         vect *= distance;
+                        if (firstDot && totalTranslation !=0)
+                        {
+                            vect *= totalTranslation;
+                            firstDot = false;
+                        }
                         if (!turnAround)
                         {
                             ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y),
@@ -357,6 +365,9 @@ namespace ТриНитиДизайн
                         }
                         distance += step;
                     }
+                    totalTranslation += translation;
+                    if (totalTranslation > 1)
+                        totalTranslation -= 1;
                     if (!turnAround)        //конец отрезка
                     {
                         ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false,false, 4);

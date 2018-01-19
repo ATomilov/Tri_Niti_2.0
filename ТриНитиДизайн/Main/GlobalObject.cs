@@ -26,6 +26,10 @@ namespace ТриНитиДизайн
         Cursor ArrowCursor;
         Cursor ZoomInCursor;
         Cursor ZoomOutCursor;
+        Cursor OneToOneCursor;
+        Cursor CenterCursor;
+        Cursor prevCursor;
+        Regim prevRegim;
         double t;
         string pathToFile;
         int IndexFigure;
@@ -58,6 +62,7 @@ namespace ТриНитиДизайн
         List<ChangedShape> listChangedShapes = new List<ChangedShape>();
         List<Line> centerLines = new List<Line>();
         List<Line> otshitLines = new List<Line>();
+        List<PreviousView> PreviousViewList = new List<PreviousView>();
 
         TranslateTransform panTransform;
         ScaleTransform zoomTransform;

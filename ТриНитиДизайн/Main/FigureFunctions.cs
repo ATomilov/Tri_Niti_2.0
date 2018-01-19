@@ -495,8 +495,6 @@ namespace ТриНитиДизайн
                 {
                     ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                 }
-
-                
             }
             else if(OptionRegim.regim == Regim.RegimDrawStegki || OptionRegim.regim == Regim.RegimOtshit)
             {

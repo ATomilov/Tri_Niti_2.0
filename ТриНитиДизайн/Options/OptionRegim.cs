@@ -38,6 +38,7 @@ namespace ТриНитиДизайн
         RegimChangeRotatingCenter = 22,
         RegimCursorJoinShiftElements = 23,
         MoveCanvas = 24,
-        RegimNull = 25
+        OneToOne = 25,
+        RegimNull = 26
     }
 }

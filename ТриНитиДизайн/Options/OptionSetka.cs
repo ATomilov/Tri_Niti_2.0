@@ -17,7 +17,7 @@ namespace ТриНитиДизайн
         
         public static double Masshtab = 1;
 
-        public static double Angle = 0;
+        public static double DotSize = 1.5;
 
     }
 }

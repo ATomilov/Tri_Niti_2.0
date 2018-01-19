@@ -32,38 +32,83 @@ namespace ТриНитиДизайн
 
         private void PlusButtonEvent(object sender, RoutedEventArgs e)
         {
+            expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
+            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
+                OptionRegim.regim != Regim.OneToOne)
+            {
+                prevRegim = OptionRegim.regim;
+                prevCursor = MainCanvas.Cursor;
+            }
             OptionRegim.regim = Regim.ZoomIn;
             MainCanvas.Cursor = ZoomInCursor;
         }
         private void MinusButtonEvent(object sender, RoutedEventArgs e)
         {
+            expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
+            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
+                OptionRegim.regim != Regim.OneToOne)
+            {
+                prevRegim = OptionRegim.regim;
+                prevCursor = MainCanvas.Cursor;
+            }
             OptionRegim.regim = Regim.ZoomOut;
             MainCanvas.Cursor = ZoomOutCursor;
         }
 
         private void PrevVidButtonEvent(object sender, RoutedEventArgs e)
         {
-
+            expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
+            if(PreviousViewList.Count !=0)
+                LoadLastView();
         }
 
         private void MashtabFigureButtonEvent(object sender, RoutedEventArgs e)
         {
-
+            expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
+            SaveLastView();
+            //TODO: add scale to one dot figure
+            if(ListFigure[IndexFigure].Points.Count > 1)
+                ScaleToFigure(ListFigure[IndexFigure]);
         }
 
         private void MashtabVidButtonEvent(object sender, RoutedEventArgs e)
         {
-            OptionRegim.regim = Regim.MoveCanvas;
+            expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
+            SaveLastView();
+            ResetScale();
         }
 
         private void SetCenterButtonEvent(object sender, RoutedEventArgs e)
         {
-
+            expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
+            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
+                OptionRegim.regim != Regim.OneToOne)
+            {
+                prevRegim = OptionRegim.regim;
+                prevCursor = MainCanvas.Cursor;
+            }
+            MainCanvas.Cursor = CenterCursor;   
+            OptionRegim.regim = Regim.MoveCanvas;
         }
 
         private void OneToOneButtonEvent(object sender, RoutedEventArgs e)
         {
-
+            expander1.IsExpanded = false;
+            expander1.Visibility = Visibility.Collapsed;
+            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
+                OptionRegim.regim != Regim.OneToOne)
+            {
+                prevRegim = OptionRegim.regim;
+                prevCursor = MainCanvas.Cursor;
+            }
+            OptionRegim.regim = Regim.OneToOne;
+            MainCanvas.Cursor = OneToOneCursor;
         }
     }
 }

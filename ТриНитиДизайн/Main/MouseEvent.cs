@@ -110,7 +110,18 @@ namespace ТриНитиДизайн
                         MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                         ControlLine.Points.RemoveAt(ControlLine.Points.Count - 1);
                     }
+
                     Line line = ControlLine.GetLine(ControlLine.Points[0], e.GetPosition(MainCanvas));
+                    Vector vect1 = new Vector(e.GetPosition(MainCanvas).X - ControlLine.Points[0].X,
+                        e.GetPosition(MainCanvas).Y - ControlLine.Points[0].Y);
+                    vect1.Normalize();
+                    Vector vect2 = new Vector(1, 0);
+                    double contLineAngle = Vector.AngleBetween(vect1, vect2);
+                    if (contLineAngle > 0)
+                        contLineAngle -= 180;
+                    else
+                        contLineAngle +=180;
+                    statusbar3.Content = "Угол секущей = " + Math.Round(contLineAngle, 1);
                     DoubleCollection dashes = new DoubleCollection();
                     dashes.Add(2);
                     dashes.Add(2);
@@ -150,6 +161,7 @@ namespace ТриНитиДизайн
             Mouse.Capture(null);
             if (OptionRegim.regim == Regim.RegimTatami && !startDrawing)
             {
+                statusbar3.Content = "";
                 if (ControlLine.Points.Count == 1)
                 {
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
@@ -548,18 +560,36 @@ namespace ТриНитиДизайн
             }
             if(OptionRegim.regim == Regim.ZoomIn)
             {
+                SaveLastView();
                 Point currentPosition = e.GetPosition(this);
                 ScaleCanvas(2, currentPosition, MainCanvas);
+                OptionRegim.regim = prevRegim;
+                MainCanvas.Cursor = prevCursor;
             }
             if (OptionRegim.regim == Regim.ZoomOut)
             {
+                SaveLastView();
                 Point currentPosition = e.GetPosition(this);
                 ScaleCanvas(0.5, currentPosition, MainCanvas);
+                OptionRegim.regim = prevRegim;
+                MainCanvas.Cursor = prevCursor;
             }
             if (OptionRegim.regim == Regim.MoveCanvas)
             {
+                SaveLastView();
                 Point currentPosition = e.GetPosition(this);
                 MoveCanvas(currentPosition, MainCanvas);
+                OptionRegim.regim = prevRegim;
+                MainCanvas.Cursor = prevCursor;
+            }
+            if (OptionRegim.regim == Regim.OneToOne)
+            {
+                SaveLastView();
+                double multiplier = 2.1 / OptionSetka.Masshtab;
+                Point currentPosition = e.GetPosition(this);
+                ScaleCanvas(multiplier, currentPosition, MainCanvas);
+                OptionRegim.regim = prevRegim;
+                MainCanvas.Cursor = prevCursor;
             }
             ExitFromRisuiRegim();
         }

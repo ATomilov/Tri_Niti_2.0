@@ -32,10 +32,11 @@ namespace ТриНитиДизайн
                 for (double i = -step * 2; i < MainCanvas.ActualWidth + 0; i += (step * 2))
                     for (double j = -step * 2; j < MainCanvas.ActualHeight + 0; j += (step * 2))
                     {
-                        SetkaFigure.Shapes.Add(SetDot(new Point(i, j)));
+                        Ellipse ell = SetDot(new Point(i, j));
+                        SetkaFigure.Shapes.Add(ell);
+                        MainCanvas.Children.Add(ell);
                     }
             }
-            SetkaFigure.AddFigure(MainCanvas);
         }
 
         public void SetCenter(bool isCenterSet)
@@ -61,16 +62,16 @@ namespace ТриНитиДизайн
             }
         }
 
-        public Path SetDot(Point centerPoint)         
+        public Ellipse SetDot(Point centerPoint)         
         {
-            System.Windows.Shapes.Path myPath = new System.Windows.Shapes.Path();
-            EllipseGeometry myEllipse = new EllipseGeometry();
-            myEllipse.Center = centerPoint;
-            myPath.Stroke = System.Windows.Media.Brushes.Black;
-            myEllipse.RadiusX = 3;
-            myEllipse.RadiusY = 3;
-            myPath.Data = myEllipse;
-            return myPath;
+            Ellipse ell = new Ellipse();
+            ell.Height = OptionSetka.DotSize;
+            ell.Width = OptionSetka.DotSize;
+            ell.Stroke = OptionColor.ColorSelection;
+            ell.Fill = OptionColor.ColorSelection;
+            Canvas.SetLeft(ell, centerPoint.X - ell.Height / 2);
+            Canvas.SetTop(ell, centerPoint.Y - ell.Height / 2);
+            return ell;
         }
 
         public Point FindClosestDot(Point point)

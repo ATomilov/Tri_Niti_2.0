@@ -38,14 +38,23 @@ namespace ТриНитиДизайн
             OptionSetka.isDrawSetka = false;
             OptionSetka.isDotOnGrid = false;
             OptionDrawLine.StrokeThickness = 1;
-            OptionDrawLine.SizeWidthAndHeightRectangle = 8;
+            OptionDrawLine.StrokeThicknessMainRec = 2;
             OptionDrawLine.InvisibleStrokeThickness = 10;
+            OptionDrawLine.SizeWidthAndHeightRectangle = 8;
+            OptionDrawLine.OneDotCornerDistance = 3;
+            OptionDrawLine.OneDotMiddleDistance = 4;
+            OptionDrawLine.SizeWidthAndHeightInvRectangle = 8;
             OptionDrawLine.SizeRectangleForScale = 10;
             OptionDrawLine.SizeRectangleForRotation = 15;
+            OptionDrawLine.SizeEllipseForPoints = 6;
+            OptionDrawLine.RisuiRegimDots = 2.5;
             OptionSetka.Masshtab = 1;
-            OptionSetka.Angle = 0;
+            OptionSetka.DotSize = 1.5;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             MainCanvas.RenderTransform = scaleTransform;
+            PreviousViewList.Clear();
+            PreviousView firstView = new PreviousView(1, 0, 0);
+            PreviousViewList.Add(firstView);
         }
 
         public string SavingFigures(Figure fig)
