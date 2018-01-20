@@ -31,32 +31,12 @@ namespace ТриНитиДизайн
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             LoadPreviousRegim(false);
             DrawFirstAndLastRectangle();
-            DrawInvisibleRectangles(MainCanvas);
-            if (OptionRegim.regim == Regim.RegimGlad)
-            {
-                if (ListFigure[FirstGladFigure].tempPoints.Count > 0)
-                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-                else
-                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-
-                if (ListFigure[SecondGladFigure].tempPoints.Count > 0)
-                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-                else
-                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-            }
-            else
-            {
-                if (ListFigure[IndexFigure].tempPoints.Count > 0)
-                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-                else
-                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-            }
+            DrawInvisibleRectangles(MainCanvas);            
             ChosenPts = new List<Point>();
             CloseAllTabs();
             MainCanvas.Cursor = SwordCursor;   
             if (tabControl2.Visibility == Visibility.Hidden)
                 tabControl2.Visibility = Visibility.Visible;
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)

@@ -329,37 +329,45 @@ namespace ТриНитиДизайн
             }
             else if (OptionRegim.regim == Regim.RegimTatami)
             {
-                startDrawing = false;
-                ControlLine.Points.Clear();
-                ControlLine.Points.Add(e.GetPosition(MainCanvas));
-            }
-            else if (OptionRegim.regim == Regim.RegimGlad)
-            {
-                if (e.OriginalSource is Shape)
-                {
-                    if(e.OriginalSource is Ellipse)
-                    {
-                        Ellipse ell = (Ellipse)e.OriginalSource;
-                        for (int i = 0; i < LinesForGlad.Count; i++)
-                        {
-                            if (LinesForGlad[i].Shapes.Contains(ell))
-                            {
-                                LinesForGlad[i].RemoveFigure(MainCanvas);
-                                LinesForGlad[i].Shapes.Clear();
-                                LinesForGlad.Remove(LinesForGlad[i]);
-                                break;
-                            }
-                        }
-                    }
-                }
-                else
+                bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(MainCanvas), ListFigure, e.OriginalSource, MainCanvas);
+                if (!isNewFigureClicked)
                 {
                     startDrawing = false;
                     ControlLine.Points.Clear();
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
             }
-            if (OptionRegim.regim == Regim.RegimDraw)
+            else if (OptionRegim.regim == Regim.RegimGlad)
+            {
+                bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(MainCanvas), ListFigure, e.OriginalSource, MainCanvas);
+                if (!isNewFigureClicked)
+                {
+                    if (e.OriginalSource is Shape)
+                    {
+                        if (e.OriginalSource is Ellipse)
+                        {
+                            Ellipse ell = (Ellipse)e.OriginalSource;
+                            for (int i = 0; i < LinesForGlad.Count; i++)
+                            {
+                                if (LinesForGlad[i].Shapes.Contains(ell))
+                                {
+                                    LinesForGlad[i].RemoveFigure(MainCanvas);
+                                    LinesForGlad[i].Shapes.Clear();
+                                    LinesForGlad.Remove(LinesForGlad[i]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        startDrawing = false;
+                        ControlLine.Points.Clear();
+                        ControlLine.Points.Add(e.GetPosition(MainCanvas));
+                    }
+                }
+            }
+            if (OptionRegim.regim == Regim.RegimDraw || OptionRegim.regim == Regim.RegimCepochka)
             {
                 ChooseFigureByClicking(e.GetPosition(MainCanvas),ListFigure, e.OriginalSource, MainCanvas);
             }

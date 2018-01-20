@@ -22,6 +22,7 @@ namespace ТриНитиДизайн
         int oldHits = 2;
         int TatamiShapesCount = 0;
 
+        //TODO: fix resetting of control line after clicking new figure
         public void InsertFirstControlLine(Figure StartLines, Figure ConLine, Canvas CurCanvas, bool firstConLine)
         {
             Random rand = new Random();

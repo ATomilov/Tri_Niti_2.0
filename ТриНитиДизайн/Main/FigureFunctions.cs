@@ -35,7 +35,8 @@ namespace ТриНитиДизайн
                     FigureList[i].DrawAllRectangles();
                 }
             }
-            if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami)
+            if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami || OptionRegim.regim == Regim.RegimCepochka
+                || OptionRegim.regim == Regim.RegimGlad)
             {
                 DrawInvisibleRectangles(canvas);
             }
@@ -296,7 +297,8 @@ namespace ТриНитиДизайн
                         {
                             if (IndexFigure == i)
                             {
-                                if (OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimEditFigures)
+                                if (OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimEditFigures && 
+                                    OptionRegim.regim != Regim.RegimTatami && OptionRegim.regim != Regim.RegimGlad && OptionRegim.regim != Regim.RegimCepochka)
                                 {
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
                                     IndexFigure = FigureList.Count - 1;
@@ -320,6 +322,8 @@ namespace ТриНитиДизайн
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
                                     RedrawEverything(FigureList, IndexFigure, false, canvas);
                                     DrawFirstAndLastRectangle();
+                                    if (OptionRegim.regim != Regim.RegimDraw)
+                                        LoadPreviousRegim(false);
                                     if (OptionRegim.regim == Regim.RegimFigure)
                                         ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                                 }
@@ -352,7 +356,8 @@ namespace ТриНитиДизайн
                 }
                 return true;
             }
-            else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimCursor)
+            else if (OptionRegim.regim != Regim.RegimEditFigures && OptionRegim.regim != Regim.RegimFigure && OptionRegim.regim != Regim.RegimCursor &&
+                OptionRegim.regim != Regim.RegimTatami && OptionRegim.regim != Regim.RegimGlad && OptionRegim.regim != Regim.RegimCepochka)
             {
                 FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection,false);
                 FigureList.Add(new Figure(MainCanvas));
@@ -521,7 +526,6 @@ namespace ТриНитиДизайн
         public void LoadPreviousRegim(bool isRisui)
         {
             OptionRegim.regim = ListFigure[IndexFigure].regimFigure;
-            ChangeFiguresColor(ListFigure, MainCanvas);
             if (OptionRegim.regim == Regim.RegimTatami)
             {
                 if (!isRisui)
@@ -533,15 +537,34 @@ namespace ТриНитиДизайн
             }
             if (OptionRegim.regim == Regim.RegimGlad)
             {
+                FirstGladFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[0]);
+                SecondGladFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[1]);
                 if (!isRisui)
                 {
-                    ListFigure[IndexFigure].SaveCurrentShapes();
+                    ListFigure[FirstGladFigure].SaveCurrentShapes();
                     ListFigure[SecondGladFigure].SaveCurrentShapes();
-                    PrepareForTatami(ListFigure[IndexFigure], true);
+                    PrepareForTatami(ListFigure[FirstGladFigure], true);
                     PrepareForTatami(ListFigure[SecondGladFigure], true);
                 }
                 AddFirstGladLines(LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
+                if (ListFigure[FirstGladFigure].tempPoints.Count > 0)
+                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                else
+                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+
+                if (ListFigure[SecondGladFigure].tempPoints.Count > 0)
+                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                else
+                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
             }
+            else
+            {
+                if (ListFigure[IndexFigure].tempPoints.Count > 0)
+                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                else
+                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+            }
+            ChangeFiguresColor(ListFigure, MainCanvas);
             ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
