@@ -164,6 +164,7 @@ namespace ТриНитиДизайн
 
         private void DeleteFigureClick(object sender, RoutedEventArgs e)
         {
+            DeletedGroup.Clear();
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
                 List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
