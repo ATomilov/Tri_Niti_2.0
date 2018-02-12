@@ -303,14 +303,15 @@ namespace ТриНитиДизайн
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
                                     IndexFigure = FigureList.Count - 1;
                                     RedrawEverything(FigureList, IndexFigure, false, canvas);
+                                    ShowPositionStatus(FigureList[IndexFigure], false, false);
                                 }
                                 else if (OptionRegim.regim == Regim.RegimEditFigures)
                                 {
                                     FigureList[IndexFigure].PointForAddingPoints = p;
                                     canvas.Children.Remove(FigureList[IndexFigure].NewPointEllipse);
                                     FigureList[IndexFigure].DrawEllipse(clickedP, OptionColor.ColorSelection, OptionDrawLine.SizeEllipseForPoints, canvas, false);
+                                    ShowPositionStatus(FigureList[IndexFigure], false, false);
                                 }
-                                ShowPositionStatus(FigureList[IndexFigure], false,false);
                                 return false;
                             }
                             else
@@ -334,8 +335,8 @@ namespace ТриНитиДизайн
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, true);
                                     FigureList[IndexFigure].PointsCount.Clear();
                                     RedrawEverything(FigureList, IndexFigure, true, canvas);
+                                    ShowPositionStatus(FigureList[IndexFigure], false, false);
                                 }
-                                ShowPositionStatus(FigureList[IndexFigure], false,false);
                                 return true;
                             }
                         }
@@ -556,6 +557,7 @@ namespace ТриНитиДизайн
                     ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                 else
                     ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                ShowPositionStatus(ListFigure[IndexFigure], true, false);
             }
             else
             {
@@ -563,9 +565,9 @@ namespace ТриНитиДизайн
                     ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                 else
                     ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                ShowPositionStatus(ListFigure[IndexFigure], false, false);
             }
             ChangeFiguresColor(ListFigure, MainCanvas);
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
         }
 
         public void ShowPositionStatus(Figure fig, bool groupPos, bool cursorRecActive)
