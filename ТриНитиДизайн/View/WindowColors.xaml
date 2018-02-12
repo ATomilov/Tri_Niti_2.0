@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Установка точек смены цвета" Height="216.667" Width="550" ResizeMode="NoResize">
     <Grid>
-        <Button x:Name="button_accept" Content="Создать" HorizontalAlignment="Left" Margin="170,138,0,0" VerticalAlignment="Top" Width="105" Click="button_accept_Click" Height="28"/>
+        <Button x:Name="button_accept" Content="Создать" HorizontalAlignment="Left" Margin="170,138,0,0" VerticalAlignment="Top" Width="105" Click="button_accept_Click" Height="28" LostKeyboardFocus="button_accept_LostKeyboardFocus"/>
         <Button x:Name="button_cancel" Content="Отменить" HorizontalAlignment="Left" Margin="420,138,0,0" VerticalAlignment="Top" Width="105" Click="button_cancel_Click" Height="28"/>
         <Button x:Name="button_delete" Content="Удалить" HorizontalAlignment="Left" Margin="296,138,0,0" VerticalAlignment="Top" Width="105"  Height="28" Click="button_delete_Click"/>
         <Rectangle x:Name="Rect_main" Fill="White" HorizontalAlignment="Left" Height="22" Margin="20,140,0,0" Stroke="Black" VerticalAlignment="Top" Width="124"/>

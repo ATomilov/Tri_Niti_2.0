@@ -34,6 +34,8 @@ namespace ТриНитиДизайн.View
                 OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
             lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
                 OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+            yes_button.Focus();
+            yes_button.BorderThickness = new Thickness(1.9);
         }
 
         private void OpenWindowsColor(object sender, RoutedEventArgs e)
@@ -44,7 +46,6 @@ namespace ТриНитиДизайн.View
 
         private void yes_button_Click(object sender, RoutedEventArgs e)
         {
-            
             canvas.Children.Remove(firstRec);
             canvas.Children.Remove(lastRec);
             List<Figure> group = new List<Figure>(currentList);
@@ -111,6 +112,11 @@ namespace ТриНитиДизайн.View
                 lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
                     OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
             }
+        }
+
+        private void yes_button_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            yes_button.BorderThickness = new Thickness(1);
         }
     }
 }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="" Height="225" Width="200" ResizeMode="NoResize">
     <Grid>
-        <Button Content="Прорисовать стежки" HorizontalAlignment="Center" Margin="0,12,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Prorisovat_Stezhki"/>
+        <Button x:Name="button_stegki" Content="Прорисовать стежки" HorizontalAlignment="Center" Margin="0,12,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Prorisovat_Stezhki" LostKeyboardFocus="button_stegki_LostKeyboardFocus"/>
         <Button Content="Прорисовать в цвете" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Prorisovat_v_tsvete"/>
         <Button Content="Сохранить в файл" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Sokhranit_v_fayl"/>
         <Button Content="Отшить" HorizontalAlignment="Center" Margin="0,114,0,0" VerticalAlignment="Top" Width="150" Height="28" Click="Otshit"/>

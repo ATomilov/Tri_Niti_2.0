@@ -30,6 +30,8 @@ namespace ТриНитиДизайн
             lines.Stroke = OptionColor.ColorSelection;
             MakeColorRectangles();
             MakeLine();
+            button_accept.Focus();
+            button_accept.BorderThickness = new Thickness(1.9);
         }
 
         private void MakeColorRectangles()                  //отрисовка цветных прямоугольников
@@ -129,6 +131,11 @@ namespace ТриНитиДизайн
         {
             OptionColor.ColorNewDraw = Brushes.Violet;
             this.Close();
+        }
+
+        private void button_accept_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            button_accept.BorderThickness = new Thickness(1);
         }
     }
 }

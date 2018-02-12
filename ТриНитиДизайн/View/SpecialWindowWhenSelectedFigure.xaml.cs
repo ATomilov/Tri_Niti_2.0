@@ -21,6 +21,8 @@ namespace ТриНитиДизайн.View
         public SpecialWindowWhenSelectedFigure()
         {
             InitializeComponent();
+            button_stegki.Focus();
+            button_stegki.BorderThickness = new Thickness(1.9);
         }
 
         private void Prorisovat_Stezhki(object sender, RoutedEventArgs e)
@@ -50,5 +52,12 @@ namespace ТриНитиДизайн.View
         {
             this.Close();
         }
+
+        private void button_stegki_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            button_stegki.BorderThickness = new Thickness(1);
+        }
+
+        
     }
 }

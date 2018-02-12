@@ -10,7 +10,7 @@
         <Button x:Name="previous_button" Content="&lt;&lt;-" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="38" Height="25" Click="previous_button_Click"/>
         <Button x:Name="next_button" Content="-&gt;&gt;" HorizontalAlignment="Left" Margin="113,10,0,0" VerticalAlignment="Top" Width="38" Height="25" Click="next_button_Click"/>
         <Button Click="OpenWindowsColor" Content="Цвет" HorizontalAlignment="Left" Margin="53,10,0,0" VerticalAlignment="Top" Width="55" Height="25"/>
-        <Button x:Name="yes_button" Content="Да" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="68" Height="25" Click="yes_button_Click"/>
+        <Button x:Name="yes_button" Content="Да" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="68" Height="25" Click="yes_button_Click" LostKeyboardFocus="yes_button_LostKeyboardFocus"/>
         <Button x:Name="no_button" Content="Нет" HorizontalAlignment="Left" Margin="83,40,0,0" VerticalAlignment="Top" Width="68" Height="25" Click="no_button_Click"/>
 
     </Grid>

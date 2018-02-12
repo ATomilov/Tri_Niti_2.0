@@ -30,6 +30,8 @@ namespace ТриНитиДизайн.View
             firstFigure = _firstFigure;
             secondFigure = _secondFigure;
             canvas = _canvas;
+            chain_button.Focus();
+            chain_button.BorderThickness = new Thickness(1.9);
         }
 
         private void cancel_button_Click(object sender, RoutedEventArgs e)
@@ -155,6 +157,11 @@ namespace ТриНитиДизайн.View
         {
             OptionRegim.regim = Regim.RegimCursorJoinShiftElements;
             this.Close();
+        }
+
+        private void chain_button_LostFocus(object sender, RoutedEventArgs e)
+        {
+            chain_button.BorderThickness = new Thickness(1);
         }
     }
 }
