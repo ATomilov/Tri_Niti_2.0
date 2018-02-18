@@ -26,6 +26,7 @@ namespace ТриНитиДизайн
                 SaveLastView();
                 Point currentPosition = Mouse.GetPosition(this);
                 MoveCanvas(currentPosition, MainCanvas);
+                SetGrid();
             }
         }   
     }

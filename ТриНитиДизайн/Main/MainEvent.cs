@@ -80,7 +80,6 @@ namespace ТриНитиДизайн
             bothTransforms.Children.Add(panTransform);
             bothTransforms.Children.Add(zoomTransform);
             MainCanvas.RenderTransform = bothTransforms;
-
             this.PreviewKeyDown += new KeyEventHandler(MainWindow_KeyDown);
         }
 

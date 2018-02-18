@@ -46,6 +46,7 @@ namespace ТриНитиДизайн
         List<Figure> TempListFigure;
         List<Figure> ListPltFigure;
         List<Rectangle> transRectangles;
+        List<Rectangle> invisibleRectangles;
         Figure ChoosingRectangle;
         Figure ControlLine;
         Figure SetkaFigure;

@@ -68,7 +68,7 @@
                 <MenuItem Header="Сетка 10 мм" IsCheckable="True" Checked="SetItemSetka8"/>
                 <MenuItem Header="Сетка 20 мм" IsCheckable="True" Checked="SetItemSetka9"/>
                 <Separator/>
-                <MenuItem Header="Рисовать по сетке" IsCheckable="True" Checked="SetDotOnGrid"/>
+                <MenuItem Header="Рисовать по сетке" IsCheckable="True" Unchecked="UnsetDotOnGrid"  Checked="SetDotOnGrid"/>
                 <Separator/>
                 <MenuItem Header="Обновить картинку"/>
             </MenuItem>

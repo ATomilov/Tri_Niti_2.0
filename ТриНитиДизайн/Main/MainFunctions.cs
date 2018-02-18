@@ -34,22 +34,15 @@ namespace ТриНитиДизайн
 
         public void SetToDefault()
         {
-            OptionSetka.MasshtabSetka = 0;
-            OptionSetka.isDrawSetka = false;
-            OptionSetka.isDotOnGrid = false;
             OptionDrawLine.StrokeThickness = 1;
             OptionDrawLine.StrokeThicknessMainRec = 2;
             OptionDrawLine.InvisibleStrokeThickness = 10;
             OptionDrawLine.SizeWidthAndHeightRectangle = 8;
             OptionDrawLine.OneDotCornerDistance = 3;
             OptionDrawLine.OneDotMiddleDistance = 4;
-            OptionDrawLine.SizeWidthAndHeightInvRectangle = 8;
             OptionDrawLine.SizeRectangleForScale = 10;
             OptionDrawLine.SizeRectangleForRotation = 15;
-            OptionDrawLine.SizeEllipseForPoints = 6;
-            OptionDrawLine.RisuiRegimDots = 2.5;
             OptionSetka.Masshtab = 1;
-            OptionSetka.DotSize = 1.5;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             MainCanvas.RenderTransform = scaleTransform;
             PreviousViewList.Clear();
@@ -254,9 +247,9 @@ namespace ТриНитиДизайн
             FirstGladFigure = -1;
             SecondGladFigure = -1;
             CloseAllTabs();
+            SetkaFigure.RemoveFigure(MainCanvas);
             SetToDefault();
             MainCanvas.Cursor = NormalCursor;
-            SetkaFigure.AddFigure(MainCanvas);
             ClearStatusBar();
             panTransform = new TranslateTransform();
             zoomTransform = new ScaleTransform();
@@ -264,6 +257,12 @@ namespace ТриНитиДизайн
             bothTransforms.Children.Add(panTransform);
             bothTransforms.Children.Add(zoomTransform);
             MainCanvas.RenderTransform = bothTransforms;
+            SetGrid();
+            foreach (Line ln in centerLines)
+            {
+                ln.StrokeThickness = OptionDrawLine.StrokeThickness;
+                MainCanvas.Children.Add(ln);
+            }
         }        
 
         public bool ShowAcceptMessage(int choice)

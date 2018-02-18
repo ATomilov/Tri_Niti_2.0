@@ -19,93 +19,74 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void ScaleCanvas(double mulitplier, Point center, Canvas canvas)
+        public void ScaleCanvas(double multiplier, Point center, Canvas canvas)
         {
             double xCenter = this.ActualWidth / 2;
             double yCenter = this.ActualHeight / 2;
             double discrepancyX = (center.X - xCenter) / OptionSetka.Masshtab;
             double discrepancyY = (center.Y - yCenter) / OptionSetka.Masshtab;
-            OptionSetka.Masshtab *= mulitplier;
-            OptionSetka.DotSize /= mulitplier;
-            OptionDrawLine.StrokeThickness /= mulitplier;
-            OptionDrawLine.SizeWidthAndHeightRectangle /= mulitplier;
-            OptionDrawLine.SizeWidthAndHeightInvRectangle /= mulitplier;
-            OptionDrawLine.InvisibleStrokeThickness /= mulitplier;
-            OptionDrawLine.SizeRectangleForScale /= mulitplier;
-            OptionDrawLine.SizeRectangleForRotation /= mulitplier;
-            OptionDrawLine.SizeEllipseForPoints /= mulitplier;
-            OptionDrawLine.RisuiRegimDots /= mulitplier;
-            OptionDrawLine.StrokeThicknessMainRec /= mulitplier;
-            OptionDrawLine.OneDotCornerDistance /= mulitplier;
-            OptionDrawLine.OneDotMiddleDistance /= mulitplier;
+
+            if(OptionSetka.Masshtab * multiplier > 32)
+                multiplier = 32 / OptionSetka.Masshtab;
+            else
+                OptionSetka.Masshtab *= multiplier;
+
+            OptionDrawLine.StrokeThickness /= multiplier;
+            OptionDrawLine.SizeWidthAndHeightRectangle /= multiplier;
+            OptionDrawLine.InvisibleStrokeThickness /= multiplier;
+            OptionDrawLine.SizeRectangleForScale /= multiplier;
+            OptionDrawLine.SizeRectangleForRotation /= multiplier;
+            OptionDrawLine.StrokeThicknessMainRec /= multiplier;
+            OptionDrawLine.OneDotCornerDistance /= multiplier;
+            OptionDrawLine.OneDotMiddleDistance /= multiplier;
+
             foreach (Figure fig in ListFigure)
             {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness /= mulitplier;
-                }
-                if(fig.Points.Count == 1)
-                {
-                    Shape sh;
-                    fig.DictionaryPointLines.TryGetValue(fig.Points[0], out sh);
-                    Brush brush = sh.Stroke;
-                    canvas.Children.Remove(sh);
-                    fig.DeleteShape(sh, fig.Points[0], canvas);
-                    sh = GeometryHelper.SetStarForSinglePoint(fig.Points[0], brush, canvas);
-                    fig.AddShape(sh, fig.Points[0], null);
-                }
+                RescaleAllShapesInFigure(fig, multiplier,canvas);
             }
             foreach (Figure fig in ListPltFigure)
             {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness /= mulitplier;
-                }
+                RescaleAllShapesInFigure(fig, multiplier, canvas);
+            }
+            foreach(Line ln in centerLines)
+            {
+                ln.StrokeThickness /= multiplier;
+            }
+            foreach (Line ln in otshitLines)
+            {
+                ln.StrokeThickness /= multiplier;
             }
             foreach (Figure fig in LinesForGlad)
             {
-                foreach (Shape sh in fig.Shapes)
-                {
-                    sh.StrokeThickness /= mulitplier;
-                }
+                RescaleAllShapesInFigure(fig, multiplier,canvas);
+            }
+            foreach (Figure fig in CopyGroup)
+            {
+                RescaleAllShapesInFigure(fig, multiplier, canvas);
+            }
+            foreach (Figure fig in DeletedGroup)
+            {
+                RescaleAllShapesInFigure(fig, multiplier, canvas);
             }
             foreach (Shape sh in ControlLine.Shapes)
             {
-                sh.StrokeThickness /= mulitplier;
+                sh.StrokeThickness /= multiplier;
             }
-            foreach (UIElement element in canvas.Children)
-            {
-                if (element is Rectangle)
+            if(transRectangles!=null)
+                foreach (Rectangle rec in transRectangles)
                 {
-                    Rectangle rec = (Rectangle)element;
-                    double x = Canvas.GetLeft(rec);
-                    double y = Canvas.GetTop(rec);
-                    double xRecCenter = x + rec.Width / 2;
-                    double yRecCenter = y + rec.Height / 2;
-
-                    rec.Height /= mulitplier;
-                    rec.Width /= mulitplier;
-                    Canvas.SetLeft(rec, xRecCenter - rec.Height / 2);
-                    Canvas.SetTop(rec, yRecCenter - rec.Width / 2);
-
-                    rec.StrokeThickness /= mulitplier;
+                    GeometryHelper.RescaleRectangle(rec, multiplier);
                 }
-                if (element is Ellipse)
+            if (invisibleRectangles != null)
+                foreach (Rectangle rec in invisibleRectangles)
                 {
-                    Ellipse ell = (Ellipse)element;
-                    double x = Canvas.GetLeft(ell);
-                    double y = Canvas.GetTop(ell);
-                    double xEllCenter = x + ell.Width / 2;
-                    double yEllCenter = y + ell.Height / 2;
-
-                    ell.Height /= mulitplier;
-                    ell.Width /= mulitplier;
-                    Canvas.SetLeft(ell, xEllCenter - ell.Height / 2);
-                    Canvas.SetTop(ell, yEllCenter - ell.Width / 2);
-
-                    ell.StrokeThickness /= mulitplier;
+                    GeometryHelper.RescaleRectangle(rec, multiplier);
                 }
-            }
+            if(firstRec!=null)
+                GeometryHelper.RescaleRectangle(firstRec, multiplier);
+            if(lastRec!= null)
+                GeometryHelper.RescaleRectangle(lastRec, multiplier);
+
             panTransform.X -= discrepancyX;
             panTransform.Y -= discrepancyY;
 
@@ -149,7 +130,7 @@ namespace ТриНитиДизайн
             Point center = new Point(this.ActualWidth / 2, this.ActualHeight / 2);
             ScaleCanvas(reverseMultiplier, center, MainCanvas);
             panTransform.X = 0;
-            panTransform.Y = 0;
+            panTransform.Y = 0;            
         }
 
         public void ScaleToFigure(Figure fig)
@@ -159,21 +140,59 @@ namespace ТриНитиДизайн
             double width = outsidePts[2].X - outsidePts[0].X;
             double height = outsidePts[2].Y - outsidePts[0].Y;
             double scale;
-            double multiplier;
             if(width > height)
             {
-                multiplier = height / width;
-                width += width * multiplier;
+                width += width * 0.8;
                 scale = MainCanvas.ActualWidth / width;
             }
             else
             {
-                multiplier = width / height;
-                height += height*multiplier;
+                height += height*0.8;
                 scale = MainCanvas.ActualHeight / height;
             }
-            multiplier = scale / OptionSetka.Masshtab;
-            ScaleCanvas(multiplier, fig.GetCenter(), MainCanvas);
+            if (scale > 32)
+                scale = 32;
+            ScaleCanvas(scale, fig.GetCenter(), MainCanvas);
         }
+
+        private void RescaleAllShapesInFigure(Figure fig, double multiplier, Canvas canvas)
+        {
+            foreach (Shape sh in fig.Shapes)
+            {
+                if (sh is Ellipse)
+                    GeometryHelper.RescaleEllipse((Ellipse)sh, multiplier);
+            }
+            RescaleThicknessForShapes(fig.Shapes,multiplier);
+            RescaleThicknessForShapes(fig.InvShapes, multiplier);
+            RescaleThicknessForShapes(fig.tempInvShapes, multiplier);
+            RescaleThicknessForShapes(fig.tempShapes, multiplier);
+            foreach(Rectangle rec in fig.RectangleOfFigures)
+            {
+                GeometryHelper.RescaleRectangle(rec, multiplier);
+            }
+            foreach (Ellipse ell in fig.dotsForFigure)
+                GeometryHelper.RescaleEllipse(ell, multiplier);
+            if(fig.NewPointEllipse != null)
+                GeometryHelper.RescaleEllipse(fig.NewPointEllipse, multiplier);
+            if (fig.Points.Count == 1)
+            {
+                Shape sh;
+                fig.DictionaryPointLines.TryGetValue(fig.Points[0], out sh);
+                Brush brush = sh.Stroke;
+                canvas.Children.Remove(sh);
+                fig.DeleteShape(sh, fig.Points[0], canvas);
+                sh = GeometryHelper.SetStarForSinglePoint(fig.Points[0], brush, canvas);
+                fig.AddShape(sh, fig.Points[0], null);
+            }
+        }
+
+        private void RescaleThicknessForShapes(List<Shape> shapes, double multiplier)
+        {
+            foreach(Shape sh in shapes)
+            {
+                sh.StrokeThickness /= multiplier;
+            }
+        }
+
     }
 }

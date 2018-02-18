@@ -23,6 +23,7 @@ namespace ТриНитиДизайн
         public List<Shape> Shapes;
         public List<Shape> InvShapes;
         public List<Point> Points;
+        public List<Shape> dotsForFigure;
         public List<Shape> tempInvShapes;
         public List<Shape> tempShapes;
         public List<Point> tempPoints;
@@ -50,6 +51,7 @@ namespace ТриНитиДизайн
             Shapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
+            dotsForFigure = new List<Shape>();
             tempShapes = new List<Shape>();
             tempInvShapes = new List<Shape>();
             tempPoints = new List<Point>();
@@ -172,6 +174,7 @@ namespace ТриНитиДизайн
             PointEnd = new Point();
             regimFigure = Regim.RegimFigure;
             Shapes = new List<Shape>();
+            dotsForFigure = new List<Shape>();
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
             controlLineVector = new Vector();
@@ -379,27 +382,31 @@ namespace ТриНитиДизайн
         {
             double x = (a.X + b.X)/2;
             double y = (a.Y + b.Y) / 2;
-            DrawEllipse(new Point(x, y),OptionColor.ColorSelection, OptionDrawLine.SizeWidthAndHeightRectangle, _canvas,true);
+            DrawEllipse(new Point(x, y), OptionColor.ColorSelection, OptionDrawLine.SizeEllipseForControlLines, _canvas, true);
             return new Point(x, y);
         }
 
         public void DrawDots(List<Point> pts, double size, Brush color, Canvas _canvas)
         {
+            dotsForFigure = new List<Shape>();
             for (int i = 0; i < pts.Count; i++)
             {
-                DrawEllipse(pts[i], color, OptionDrawLine.RisuiRegimDots, _canvas, false);
+                Ellipse ell = DrawEllipse(pts[i], color, OptionDrawLine.RisuiRegimDots, _canvas, false);
+                dotsForFigure.Add(ell);
             }
         }
 
-        public void DrawEllipse(Point p, Brush color, double size, Canvas _canvas,bool gladEllipse)
+        public Ellipse DrawEllipse(Point p, Brush color, double size, Canvas _canvas,bool gladEllipse)
         {
             Ellipse ell = new Ellipse();
             ell.Height = size;
             ell.Width = size;
+            ell.Stretch = Stretch.Uniform;
             ell.Stroke = color;
             ell.Fill = color;
             Canvas.SetLeft(ell, p.X - size / 2);
             Canvas.SetTop(ell, p.Y - size / 2);
+            GeometryHelper.RescaleEllipse(ell, OptionSetka.Masshtab);
             if (gladEllipse)
             {
                 Shapes.Add(ell);
@@ -411,6 +418,7 @@ namespace ТриНитиДизайн
                 NewPointEllipse = ell;
                 _canvas.Children.Add(NewPointEllipse);
             }
+            return ell;
         }
 
         public Point GetCenter()

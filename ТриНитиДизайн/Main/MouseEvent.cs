@@ -308,6 +308,7 @@ namespace ТриНитиДизайн
                 if (ListFigure[IndexFigure].Points.Count ==1)
                 {
                     lastRec.StrokeThickness = OptionDrawLine.StrokeThickness;
+                    firstRec = lastRec;
                     if(!startDrawing)
                         MainCanvas.Children.Remove(lastLine);
                 }
@@ -570,7 +571,16 @@ namespace ТриНитиДизайн
             {
                 SaveLastView();
                 Point currentPosition = e.GetPosition(this);
-                ScaleCanvas(2, currentPosition, MainCanvas);
+                if(OptionSetka.Masshtab <= 16)
+                    ScaleCanvas(2, currentPosition, MainCanvas);
+                else if (OptionSetka.Masshtab > 16 && OptionSetka.Masshtab <32)
+                {
+                    double multiplier = 32 / OptionSetka.Masshtab;
+                    ScaleCanvas(multiplier, currentPosition, MainCanvas);
+                }
+                else
+                    MoveCanvas(currentPosition, MainCanvas);
+                SetGrid();
                 OptionRegim.regim = prevRegim;
                 MainCanvas.Cursor = prevCursor;
             }
@@ -578,7 +588,16 @@ namespace ТриНитиДизайн
             {
                 SaveLastView();
                 Point currentPosition = e.GetPosition(this);
-                ScaleCanvas(0.5, currentPosition, MainCanvas);
+                if (OptionSetka.Masshtab >= 0.5)
+                    ScaleCanvas(0.5, currentPosition, MainCanvas);
+                else if (OptionSetka.Masshtab > 0.5 && OptionSetka.Masshtab < 0.25)
+                {
+                    double multiplier = 0.25 / OptionSetka.Masshtab;
+                    ScaleCanvas(multiplier, currentPosition, MainCanvas);
+                }
+                else
+                    MoveCanvas(currentPosition, MainCanvas);
+                SetGrid();
                 OptionRegim.regim = prevRegim;
                 MainCanvas.Cursor = prevCursor;
             }
@@ -587,6 +606,7 @@ namespace ТриНитиДизайн
                 SaveLastView();
                 Point currentPosition = e.GetPosition(this);
                 MoveCanvas(currentPosition, MainCanvas);
+                SetGrid();
                 OptionRegim.regim = prevRegim;
                 MainCanvas.Cursor = prevCursor;
             }
@@ -596,6 +616,7 @@ namespace ТриНитиДизайн
                 double multiplier = 2.1 / OptionSetka.Masshtab;
                 Point currentPosition = e.GetPosition(this);
                 ScaleCanvas(multiplier, currentPosition, MainCanvas);
+                SetGrid();
                 OptionRegim.regim = prevRegim;
                 MainCanvas.Cursor = prevCursor;
             }

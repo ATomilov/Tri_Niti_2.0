@@ -128,16 +128,8 @@ namespace ТриНитиДизайн
         public static Rectangle DrawRectangle(Point p, bool invRectangles, bool smallRec, double thickness, Brush brush, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
-            if (!invRectangles)
-            {
                 rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle;
                 rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle;
-            }
-            else
-            {
-                rec.Height = OptionDrawLine.SizeWidthAndHeightInvRectangle;
-                rec.Width = OptionDrawLine.SizeWidthAndHeightInvRectangle;
-            }
             if (smallRec)
             {
                 rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle / 1.5;
@@ -168,6 +160,36 @@ namespace ТриНитиДизайн
             rec.Fill = OptionColor.ColorSelection;
             canvas.Children.Add(rec);
             return rec;
+        }
+
+        public static void RescaleEllipse(Ellipse ell, double scale)
+        {
+            double x = Canvas.GetLeft(ell);
+            double y = Canvas.GetTop(ell);
+            double xEllCenter = x + ell.Width / 2;
+            double yEllCenter = y + ell.Height / 2;
+
+            ell.Height /= scale;
+            ell.Width /= scale;
+            Canvas.SetLeft(ell, xEllCenter - ell.Height / 2);
+            Canvas.SetTop(ell, yEllCenter - ell.Width / 2);
+
+            ell.StrokeThickness /= scale;
+        }
+
+        public static void RescaleRectangle(Rectangle rec, double scale)
+        {
+            double x = Canvas.GetLeft(rec);
+            double y = Canvas.GetTop(rec);
+            double xRecCenter = x + rec.Width / 2;
+            double yRecCenter = y + rec.Height / 2;
+
+            rec.Height /= scale;
+            rec.Width /= scale;
+            Canvas.SetLeft(rec, xRecCenter - rec.Height / 2);
+            Canvas.SetTop(rec, yRecCenter - rec.Width / 2);
+
+            rec.StrokeThickness /= scale;
         }
 
         private static double FindLength(Point a, Point b)                  //ф-ла длины отрезка по координатам

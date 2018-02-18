@@ -27,30 +27,48 @@ namespace ТриНитиДизайн
             }
             SetkaFigure = new Figure(MainCanvas);
             double step = (Double)OptionSetka.MasshtabSetka;
-            if (step != 0)
+            if  ((OptionSetka.Masshtab < 0.5 && step == 5) ||
+                (OptionSetka.Masshtab < 2 && step == 2) ||
+                (OptionSetka.Masshtab < 4 && step == 1) ||
+                (OptionSetka.Masshtab < 8 && step == 0.5) ||
+                (OptionSetka.Masshtab < 16 && step == 0.2) ||
+                (OptionSetka.Masshtab < 32 && step == 0.1))
+                return;
+            //warning - without those numbers setka doesn't show properly
+            //no idea why this works exactly
+            double incX = 8;
+            double incY = 20;
+            if(step != 0)
             {
-                for (double i = -step * 2; i < MainCanvas.ActualWidth + 0; i += (step * 2))
-                    for (double j = -step * 2; j < MainCanvas.ActualHeight + 0; j += (step * 2))
+                double trueScale = 1 - (1 / OptionSetka.Masshtab);
+                double startX = -panTransform.X + trueScale*(MainCanvas.ActualWidth/2) + incX;
+                double startY = -panTransform.Y + trueScale * (MainCanvas.ActualHeight / 2) + incY;
+                startX -= (startX % (step*2));
+                startY -= (startY % (step * 2));
+
+                for (double i = startX; i < startX + MainCanvas.ActualWidth / OptionSetka.Masshtab; i += (step * 2))
+                    for (double j = startY; j < startY + MainCanvas.ActualHeight / OptionSetka.Masshtab; j += (step * 2))
                     {
                         Ellipse ell = SetDot(new Point(i, j));
+                        GeometryHelper.RescaleEllipse(ell, OptionSetka.Masshtab);
                         SetkaFigure.Shapes.Add(ell);
                         MainCanvas.Children.Add(ell);
                     }
             }
         }
 
-        public void SetCenter(bool isCenterSet)
+        public void DrawCenter(bool isCenterSet)
         {
             if(isCenterSet)
             {
-                double height = 900;
-                double width = 1600;
+                double height = MainCanvas.ActualHeight;
+                double width = MainCanvas.ActualWidth;
                 Line verticalLine = new Line();
-                verticalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(width / 2, 0),
-                    new Point(width / 2, height),true, MainCanvas);
+                verticalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(width / 2, -1000),
+                    new Point(width / 2, height+1000),true, MainCanvas);
                 Line horizontalLine = new Line();
-                horizontalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(0, height / 2), 
-                    new Point(width, height / 2),true, MainCanvas);
+                horizontalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(-1000, height / 2), 
+                    new Point(width + 1000, height / 2),true, MainCanvas);
                 centerLines.Add(verticalLine);
                 centerLines.Add(horizontalLine);
             }
@@ -67,6 +85,7 @@ namespace ТриНитиДизайн
             Ellipse ell = new Ellipse();
             ell.Height = OptionSetka.DotSize;
             ell.Width = OptionSetka.DotSize;
+            ell.Stretch = Stretch.Uniform;
             ell.Stroke = OptionColor.ColorSelection;
             ell.Fill = OptionColor.ColorSelection;
             Canvas.SetLeft(ell, centerPoint.X - ell.Height / 2);
@@ -77,7 +96,7 @@ namespace ТриНитиДизайн
         public Point FindClosestDot(Point point)
         {
             double step = (Double)OptionSetka.MasshtabSetka;
-            if (OptionSetka.isDotOnGrid && OptionSetka.MasshtabSetka != 0)
+            if (OptionSetka.isDotOnGrid && step != 0)
             {
                 Point pointOnGrid = new Point();
                 if (point.X % (step * 2) > step)
@@ -103,6 +122,5 @@ namespace ТриНитиДизайн
                 return point;
             }
         }
-
     }
 }

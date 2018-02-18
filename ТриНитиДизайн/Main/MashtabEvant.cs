@@ -19,7 +19,6 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-
         private void MashtabMainButtonEvant(object sender, RoutedEventArgs e)
         {
             ExitFromRisuiRegim();
@@ -63,6 +62,7 @@ namespace ТриНитиДизайн
             expander1.Visibility = Visibility.Collapsed;
             if(PreviousViewList.Count !=0)
                 LoadLastView();
+            SetGrid();
         }
 
         private void MashtabFigureButtonEvent(object sender, RoutedEventArgs e)
@@ -73,6 +73,7 @@ namespace ТриНитиДизайн
             //TODO: add scale to one dot figure
             if(ListFigure[IndexFigure].Points.Count > 1)
                 ScaleToFigure(ListFigure[IndexFigure]);
+            SetGrid();
         }
 
         private void MashtabVidButtonEvent(object sender, RoutedEventArgs e)
@@ -81,6 +82,7 @@ namespace ТриНитиДизайн
             expander1.Visibility = Visibility.Collapsed;
             SaveLastView();
             ResetScale();
+            SetGrid();
         }
 
         private void SetCenterButtonEvent(object sender, RoutedEventArgs e)

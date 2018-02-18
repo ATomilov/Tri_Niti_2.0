@@ -73,6 +73,8 @@ namespace ТриНитиДизайн
         {
             if (OptionRegim.regim == Regim.RegimGlad)
             {
+                invisibleRectangles = new List<Rectangle>();
+                Rectangle rec;
                 List<Point> firstPts = new List<Point>();
                 List<Point> secondPts = new List<Point>();
                 if (ListFigure[FirstGladFigure].tempPoints.Count > 0)
@@ -86,12 +88,20 @@ namespace ТриНитиДизайн
                     secondPts = ListFigure[SecondGladFigure].Points;
 
                 for (int i = 0; i < firstPts.Count; i++)
-                    GeometryHelper.DrawRectangle(firstPts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                {
+                    rec = GeometryHelper.DrawRectangle(firstPts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    invisibleRectangles.Add(rec);
+                }
                 for (int i = 0; i < secondPts.Count; i++)
-                    GeometryHelper.DrawRectangle(secondPts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                {
+                    rec = GeometryHelper.DrawRectangle(secondPts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    invisibleRectangles.Add(rec);
+                }
             }
             else
             {
+                invisibleRectangles = new List<Rectangle>();
+                Rectangle rec;
                 List<Point> pts = new List<Point>();
                 if (ListFigure[IndexFigure].tempPoints.Count > 0)
                     pts = ListFigure[IndexFigure].tempPoints;
@@ -99,7 +109,10 @@ namespace ТриНитиДизайн
                     pts = ListFigure[IndexFigure].Points;
 
                 for (int i = 0; i < pts.Count; i++)
-                    GeometryHelper.DrawRectangle(pts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                {
+                    rec = GeometryHelper.DrawRectangle(pts[i], true, false, OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, canvas);
+                    invisibleRectangles.Add(rec);
+                }
             }
         }        
         
@@ -237,10 +250,15 @@ namespace ТриНитиДизайн
                 }
                 else
                 {
-                    firstRec.Opacity = 0;
-                    firstRec = clickedRec;
-                    firstRec.Opacity = 1;
-                    firstRec.StrokeThickness = OptionDrawLine.StrokeThickness;
+                    int index = invisibleRectangles.IndexOf(clickedRec);
+                    if (index != -1)
+                    {
+                        firstRec.Opacity = 0;
+                        invisibleRectangles[index] = firstRec;
+                        firstRec = clickedRec;
+                        firstRec.Opacity = 1;
+                        firstRec.StrokeThickness = OptionDrawLine.StrokeThickness;
+                    }
                 }
             }
             else
@@ -256,10 +274,15 @@ namespace ТриНитиДизайн
                 }
                 else
                 {
-                    lastRec.Opacity = 0;
-                    lastRec = clickedRec;
-                    lastRec.Opacity = 1;
-                    lastRec.StrokeThickness = OptionDrawLine.StrokeThicknessMainRec;
+                    int index = invisibleRectangles.IndexOf(clickedRec);
+                    if (index != -1)
+                    {
+                        lastRec.Opacity = 0;
+                        invisibleRectangles[index] = lastRec;
+                        lastRec = clickedRec;
+                        lastRec.Opacity = 1;
+                        lastRec.StrokeThickness = OptionDrawLine.StrokeThicknessMainRec;
+                    }
                 }
             }
         }

@@ -22,13 +22,13 @@ namespace ТриНитиДизайн
         private void SetCenter(object sender, RoutedEventArgs e)
         {
             MenuItem check = (MenuItem)sender;
-            SetCenter(check.IsChecked);
+            DrawCenter(check.IsChecked);
         }
 
         private void UnsetCenter(object sender, RoutedEventArgs e)
         {
             MenuItem check = (MenuItem)sender;
-            SetCenter(check.IsChecked);
+            DrawCenter(check.IsChecked);
         }
 
         private void SetItemSetka1(object sender, RoutedEventArgs e)
@@ -36,14 +36,21 @@ namespace ТриНитиДизайн
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
-                for (int i = 0; i < MenuSetka.Items.Count; i++ )
+                for (int i = 0; i < MenuSetka.Items.Count; i++)
                 {
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if(!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if (!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 0;
@@ -53,112 +60,137 @@ namespace ТриНитиДизайн
 
         private void SetItemSetka2(object sender, RoutedEventArgs e)
         {
-            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
-                for (int i = 0; i < MenuSetka.Items.Count; i++ )
+                for (int i = 0; i < MenuSetka.Items.Count; i++)
                 {
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if(!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if(!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 0.1;
                 SetGrid();
             }
-             */
         }
 
         private void SetItemSetka3(object sender, RoutedEventArgs e)
         {
-            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
-                for (int i = 0; i < MenuSetka.Items.Count; i++ )
+                for (int i = 0; i < MenuSetka.Items.Count; i++)
                 {
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if(!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if(!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 0.2;
                 SetGrid();
             }
-             * */
         }
 
         private void SetItemSetka4(object sender, RoutedEventArgs e)
         {
-            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
-                for (int i = 0; i < MenuSetka.Items.Count; i++ )
+                for (int i = 0; i < MenuSetka.Items.Count; i++)
                 {
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if(!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if(!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 0.5;
                 SetGrid();
             }
-             * */
         }
 
         private void SetItemSetka5(object sender, RoutedEventArgs e)
         {
-            /*
             MenuItem check = (MenuItem)sender;
             if (check.IsChecked == true)
             {
-                for (int i = 0; i < MenuSetka.Items.Count; i++ )
+                for (int i = 0; i < MenuSetka.Items.Count; i++)
                 {
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if(!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if (!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 1;
                 SetGrid();
             }
-             */
         }
 
         private void SetItemSetka6(object sender, RoutedEventArgs e)
         {
-            /*
              MenuItem check = (MenuItem)sender;
              if (check.IsChecked == true)
              {
-                 for (int i = 0; i < MenuSetka.Items.Count; i++ )
+                 for (int i = 0; i < MenuSetka.Items.Count; i++)
                  {
                      if (MenuSetka.Items[i] is MenuItem)
                      {
                          MenuItem item = (MenuItem)MenuSetka.Items[i];
-                         if(!ReferenceEquals(item, check) &&
-                                 !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                             item.IsChecked = false;
+                         if (!ReferenceEquals(item, check))
+                         {
+                             if (!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                             {
+                                 item.IsChecked = false;
+                                 item.IsHitTestVisible = true;
+                             }
+                         }
+                         else
+                             item.IsHitTestVisible = false;
                      }
                  }
                  OptionSetka.MasshtabSetka = 2;
                  SetGrid();
              }
-             */
         }
 
         private void SetItemSetka7(object sender, RoutedEventArgs e)
@@ -171,9 +203,16 @@ namespace ТриНитиДизайн
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if (!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if (!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 5;
@@ -190,9 +229,16 @@ namespace ТриНитиДизайн
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if (!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if (!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 10;
@@ -209,9 +255,16 @@ namespace ТриНитиДизайн
                     if (MenuSetka.Items[i] is MenuItem)
                     {
                         MenuItem item = (MenuItem)MenuSetka.Items[i];
-                        if (!ReferenceEquals(item, check) &&
-                                !item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
-                            item.IsChecked = false;
+                        if (!ReferenceEquals(item, check))
+                        {
+                            if(!item.Header.Equals("Рисовать по сетке") && !item.Header.Equals("Показать центр"))
+                            {
+                                item.IsChecked = false;
+                                item.IsHitTestVisible = true;
+                            }
+                        }
+                        else
+                            item.IsHitTestVisible = false;
                     }
                 }
                 OptionSetka.MasshtabSetka = 20;
@@ -225,5 +278,10 @@ namespace ТриНитиДизайн
             OptionSetka.isDotOnGrid = check.IsChecked;
         }
 
+        private void UnsetDotOnGrid(object sender, RoutedEventArgs e)
+        {
+            MenuItem check = (MenuItem)sender;
+            OptionSetka.isDotOnGrid = check.IsChecked;
+        }
     }
 }
