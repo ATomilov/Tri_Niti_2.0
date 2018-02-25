@@ -166,9 +166,6 @@ namespace ТриНитиДизайн
                 {
                     ControlLine.Points.Add(e.GetPosition(MainCanvas));
                 }
-                ListFigure[IndexFigure].controlLineVector = new Vector(ControlLine.Points[1].X - ControlLine.Points[0].X,
-                    ControlLine.Points[1].Y - ControlLine.Points[0].Y);
-                ListFigure[IndexFigure].controlLineVector.Normalize();
                 FindControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas,false);
             }
             if (OptionRegim.regim == Regim.RegimGlad && !startDrawing)

@@ -41,7 +41,8 @@ namespace ТриНитиДизайн
         public Point PointForAddingPoints;
         public Canvas canvas;
         public Ellipse NewPointEllipse;
-        public Vector controlLineVector;
+        public Vector tatamiControlLine;
+        public List<Vector> gladControlLines;
         public Point oldCenter;
         public bool PreparedForTatami;
 
@@ -59,7 +60,8 @@ namespace ТриНитиДизайн
             RectangleOfFigures = new List<Rectangle>();
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
-            controlLineVector = new Vector();
+            tatamiControlLine = new Vector();
+            gladControlLines = new List<Vector>();
             oldCenter = new Point();
             PreparedForTatami = false;
             canvas = _canvas;
@@ -177,7 +179,8 @@ namespace ТриНитиДизайн
             dotsForFigure = new List<Shape>();
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
-            controlLineVector = new Vector();
+            tatamiControlLine = new Vector();
+            gladControlLines = new List<Vector>();
             oldCenter = new Point();
             InvShapes = new List<Shape>();
             Points = new List<Point>();

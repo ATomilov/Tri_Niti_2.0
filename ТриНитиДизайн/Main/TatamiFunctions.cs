@@ -41,10 +41,10 @@ namespace ТриНитиДизайн
                     vect.X = rand.NextDouble() * 2 - 1;
                     vect.Y = rand.NextDouble() * 2 - 1;
                     vect.Normalize();
-                    StartLines.controlLineVector = vect;
+                    StartLines.tatamiControlLine = vect;
                 }
                 else
-                    vect = StartLines.controlLineVector;
+                    vect = StartLines.tatamiControlLine;
                 Point p1 = new Point(center.X + vect.X * 500, center.Y + vect.Y * 500);
                 Point p2 = new Point(center.X - vect.X * 500, center.Y - vect.Y * 500);
                 ConLine.Points.Add(p1);
@@ -69,6 +69,9 @@ namespace ТриНитиДизайн
             success = CheckForIntersection(a, b, StartLines, ConLine, null, CurCanvas, true, false);
             if (success)
             {
+                StartLines.tatamiControlLine = new Vector(ConLine.Points[1].X - ConLine.Points[0].X,
+                    ConLine.Points[1].Y - ConLine.Points[0].Y);
+                StartLines.tatamiControlLine.Normalize();
                 if(ConLine.Shapes != null)
                 {
                     ConLine.RemoveFigure(CurCanvas);
