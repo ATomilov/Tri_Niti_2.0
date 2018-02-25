@@ -30,7 +30,7 @@ namespace ТриНитиДизайн
             if (firstConLine)
                 center = StartLines.GetCenter();
             else
-                center = StartLines.oldCenter;
+                center = StartLines.oldTatamiCenter;
             Vector vect = new Vector();
             bool found = false;
             while (!found)
@@ -69,8 +69,7 @@ namespace ТриНитиДизайн
             success = CheckForIntersection(a, b, StartLines, ConLine, null, CurCanvas, true, false);
             if (success)
             {
-                StartLines.tatamiControlLine = new Vector(ConLine.Points[1].X - ConLine.Points[0].X,
-                    ConLine.Points[1].Y - ConLine.Points[0].Y);
+                StartLines.tatamiControlLine = ConLine.Points[1] - ConLine.Points[0];
                 StartLines.tatamiControlLine.Normalize();
                 if(ConLine.Shapes != null)
                 {
@@ -134,7 +133,7 @@ namespace ТриНитиДизайн
                 {
                     OrganizeDots(pts, ConLine,ListControlLines, b, hits);
                     ConLine.Shapes.Add(SetLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], "blue", CurCanvas));
-                    StartLines.oldCenter = ConLine.SetMiddleControlLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], CurCanvas);
+                    StartLines.oldTatamiCenter = ConLine.SetMiddleControlLine(ConLine.Points[2], ConLine.Points[ConLine.Points.Count - 1], CurCanvas);
                 }
                 success = true;
             }

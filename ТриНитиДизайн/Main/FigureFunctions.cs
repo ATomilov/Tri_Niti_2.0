@@ -571,6 +571,7 @@ namespace ТриНитиДизайн
                     PrepareForTatami(ListFigure[SecondGladFigure], true);
                 }
                 AddFirstGladLines(LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
+                RestoreControlLines(LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
                 if (ListFigure[FirstGladFigure].tempPoints.Count > 0)
                     ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                 else

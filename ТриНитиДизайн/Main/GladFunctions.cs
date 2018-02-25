@@ -35,6 +35,10 @@ namespace ТриНитиДизайн
             {
                 case MessageBoxResult.OK:
                     {
+                        firstFigure.gladControlLines.Clear();
+                        secondFigure.gladControlLines.Clear();
+                        firstFigure.oldGladCenters.Clear();
+                        secondFigure.oldGladCenters.Clear();
                         List<Figure> group = new List<Figure>(firstFigure.groupFigures);
                         foreach (Figure fig in group)
                         {
@@ -106,13 +110,24 @@ namespace ТриНитиДизайн
             DrawInvisibleRectangles(canvas);
         }
 
-        public void FindGladControlLine(Figure LineControl,List<Figure> gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
+        public void RestoreControlLines(List<Figure> gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
         {
-            canvas.Children.RemoveAt(canvas.Children.Count - 1);
+            for(int i = 0; i < firstFigure.gladControlLines.Count; i++)
+            {
+                Vector vect = firstFigure.gladControlLines[i];
+                Point center = firstFigure.oldGladCenters[i];
+                Point p1 = new Point(center.X + vect.X * 500, center.Y + vect.Y * 500);
+                Point p2 = new Point(center.X - vect.X * 500, center.Y - vect.Y * 500);
+                FindGladControlLine(p1, p2, gladLines, firstFigure, secondFigure, true, canvas);
+            }
+        }
+
+        public void FindGladControlLine(Point a, Point b,List<Figure> gladLines, Figure firstFigure, Figure secondFigure, bool restoreLines, Canvas canvas)
+        {
+            if(!restoreLines)
+                canvas.Children.RemoveAt(canvas.Children.Count - 1);
             List<Point> pts = new List<Point>();
             int hits = 0;
-            Point a = LineControl.Points[0];
-            Point b = LineControl.Points[1];
             Point c = new Point();
             Point d = new Point();
             for (int i = 0; i < firstFigure.Points.Count - 1; i++)
@@ -139,10 +154,20 @@ namespace ТриНитиДизайн
                 }
                 if (hits == 2)
                 {
+                    if(!restoreLines)
+                    {
+                        Vector vect = pts[1] - pts[0];
+                        vect.Normalize();
+                        firstFigure.gladControlLines.Add(vect);
+                        secondFigure.gladControlLines.Add(vect);
+                    }
                     Figure fig = new Figure(canvas);
                     fig.AddPoint(pts[0], OptionColor.ColorChoosingRec, false,false, 0);
                     fig.AddPoint(pts[1], OptionColor.ColorChoosingRec, false,false, 0);
-                    fig.SetMiddleControlLine(pts[0], pts[1], canvas);
+                    if (restoreLines)
+                        fig.SetMiddleControlLine(pts[0], pts[1], canvas);
+                    else
+                        firstFigure.oldGladCenters.Add(fig.SetMiddleControlLine(pts[0], pts[1], canvas));
                     gladLines.Insert(1, fig);
                 }
             }

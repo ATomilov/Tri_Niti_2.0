@@ -176,7 +176,9 @@ namespace ТриНитиДизайн
                 }
                 if (ControlLine.Points[0] != ControlLine.Points[1])
                 {
-                    FindGladControlLine(ControlLine, LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
+                    Point a = ControlLine.Points[0];
+                    Point b = ControlLine.Points[1];
+                    FindGladControlLine(a,b, LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure],false, MainCanvas);
                 }
             }
             if (OptionRegim.regim == Regim.RegimCursorMoveRect)
@@ -345,6 +347,19 @@ namespace ТриНитиДизайн
                         if (e.OriginalSource is Ellipse)
                         {
                             Ellipse ell = (Ellipse)e.OriginalSource;
+                            Point ellPoint = new Point(Canvas.GetLeft(ell) + ell.Width/2, Canvas.GetTop(ell) + ell.Height/2);
+                            int index = 0;
+                            for(int i = 0; i < ListFigure[FirstGladFigure].oldGladCenters.Count; i++)
+                            {
+                                Point oldCenter = ListFigure[FirstGladFigure].oldGladCenters[i];
+                                if(Math.Abs(ellPoint.X - oldCenter.X) < 0.000000001 && Math.Abs(ellPoint.Y - oldCenter.Y) < 0.000000001)
+                                {
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            ListFigure[FirstGladFigure].oldGladCenters.RemoveAt(index);
+                            ListFigure[FirstGladFigure].gladControlLines.RemoveAt(index);
                             for (int i = 0; i < LinesForGlad.Count; i++)
                             {
                                 if (LinesForGlad[i].Shapes.Contains(ell))

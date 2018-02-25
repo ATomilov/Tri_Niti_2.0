@@ -43,7 +43,9 @@ namespace ТриНитиДизайн
         public Ellipse NewPointEllipse;
         public Vector tatamiControlLine;
         public List<Vector> gladControlLines;
-        public Point oldCenter;
+        public Point oldTatamiCenter;
+        //TODO: rethink list for center points
+        public List<Point> oldGladCenters;
         public bool PreparedForTatami;
 
         public Figure(Canvas _canvas)
@@ -62,7 +64,8 @@ namespace ТриНитиДизайн
             groupFigures.Add(this);
             tatamiControlLine = new Vector();
             gladControlLines = new List<Vector>();
-            oldCenter = new Point();
+            oldTatamiCenter = new Point();
+            oldGladCenters = new List<Point>();
             PreparedForTatami = false;
             canvas = _canvas;
             DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point,Point>>();
@@ -181,7 +184,8 @@ namespace ТриНитиДизайн
             groupFigures.Add(this);
             tatamiControlLine = new Vector();
             gladControlLines = new List<Vector>();
-            oldCenter = new Point();
+            oldTatamiCenter = new Point();
+            oldGladCenters = new List<Point>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
             tempShapes = new List<Shape>();
