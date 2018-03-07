@@ -110,7 +110,6 @@ namespace ТриНитиДизайн
                         MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                         ControlLine.Points.RemoveAt(ControlLine.Points.Count - 1);
                     }
-
                     Line line = ControlLine.GetLine(ControlLine.Points[0], e.GetPosition(MainCanvas));
                     Vector vect1 = new Vector(e.GetPosition(MainCanvas).X - ControlLine.Points[0].X,
                         e.GetPosition(MainCanvas).Y - ControlLine.Points[0].Y);

@@ -173,13 +173,14 @@ namespace ТриНитиДизайн
             SetScalingCursor();
             Vector vect = new Vector();
             Vector originalVector = new Vector();
-            double scale;
             tVect = new Vector();
             if (status.Equals("north"))
             {
-                chRec = DrawChoosingRectangle(new Point(ptsRec[0].X, currentPosition.Y + 10), ptsRec[2], canvas);
                 vect = new Point(0, ptsRec[2].Y) - new Point(0, currentPosition.Y + 10);
                 originalVector = ptsRec[0] - ptsRec[1];
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);
+                originalVector *= tVect.Y;
+                chRec = DrawChoosingRectangle(new Point(ptsRec[0].X, ptsRec[2].Y + originalVector.Y), ptsRec[2], canvas);
             }
             else if (status.Equals("northeast"))
             {
@@ -188,9 +189,11 @@ namespace ТриНитиДизайн
             }
             else if (status.Equals("east"))
             {
-                chRec = DrawChoosingRectangle(ptsRec[0], new Point(currentPosition.X - 10, ptsRec[1].Y), canvas);
                 vect = new Point(currentPosition.X - 10, 0) - new Point(ptsRec[0].X, 0);
                 originalVector = ptsRec[2] - ptsRec[1];
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);
+                originalVector *= tVect.X;
+                chRec = DrawChoosingRectangle(ptsRec[0], new Point(ptsRec[1].X + originalVector.X, ptsRec[1].Y), canvas);
             }
             else if (status.Equals("southeast"))
             {
@@ -199,9 +202,11 @@ namespace ТриНитиДизайн
             }
             else if (status.Equals("south"))
             {
-                chRec = DrawChoosingRectangle(ptsRec[0], new Point(ptsRec[2].X, currentPosition.Y - 10), canvas);
                 vect = new Point(0, currentPosition.Y - 10) - new Point(0, ptsRec[0].Y);
                 originalVector = ptsRec[1] - ptsRec[0];
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);
+                originalVector *= tVect.Y;
+                chRec = DrawChoosingRectangle(ptsRec[0], new Point(ptsRec[2].X, ptsRec[0].Y + originalVector.Y), canvas);
             }
             else if (status.Equals("southwest"))
             {
@@ -210,25 +215,16 @@ namespace ТриНитиДизайн
             }
             else if (status.Equals("west"))
             {
-                chRec = DrawChoosingRectangle(new Point(currentPosition.X + 10, ptsRec[0].Y), ptsRec[2], canvas);
                 vect = new Point(ptsRec[2].X, 0) - new Point(currentPosition.X + 10, 0);
                 originalVector = ptsRec[1] - ptsRec[2];
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);
+                originalVector *= tVect.X;
+                chRec = DrawChoosingRectangle(new Point(ptsRec[2].X + originalVector.X, ptsRec[0].Y), ptsRec[2], canvas);
             }
             else if (status.Equals("northwest"))
             {
                 tVect = FindFigureRectangle(new Point(currentPosition.X + 10, currentPosition.Y + 10), ptsRec[2], canvas);
                 startVector = ptsRec[2];
-            }
-            if(status.Equals("north") || status.Equals("south") || status.Equals("west") || status.Equals("east"))
-            {
-                scale = vect.Length / originalVector.Length;
-                if (vect.X < 0 || vect.Y < 0)
-                    scale = -scale;
-
-                if (vect.Y == 0)
-                    tVect = new Vector(scale, 1);
-                else
-                    tVect = new Vector(1, scale);
             }
             for (int i = 0; i < movingFigurePoints.Count; i++)
             {
@@ -239,6 +235,21 @@ namespace ТриНитиДизайн
                     startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointEnd;
                 ScaleRectangles(movingFigurePoints[i], startPoint, startVector, tVect, canvas);
             }
+        }
+
+        private Vector GetVectorForOrthogonalScaling(Vector vect, Vector originalVector)
+        {
+            double scale = vect.Length / originalVector.Length;
+            Vector tVect;
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                scale = Math.Round(scale + 0.5);
+            if (vect.X < 0 || vect.Y < 0)
+                scale = -scale;
+            if (vect.Y == 0)
+                tVect = new Vector(scale, 1);
+            else
+                tVect = new Vector(1, scale);
+            return tVect;
         }
 
         private void SetScalingCursor()
@@ -466,6 +477,8 @@ namespace ТриНитиДизайн
                 scale = newWidth / originalWidth;
             else
                 scale = newHeight / originalHeight;
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                scale = Math.Round(scale + 0.5);
             Vector vect;
             if (status.Equals("southeast"))
             {
