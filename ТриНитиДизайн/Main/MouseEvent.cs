@@ -134,7 +134,10 @@ namespace ТриНитиДизайн
                 if (OptionRegim.regim == Regim.RegimScaleFigure)
                 {
                     MainCanvas.Children.Remove(chRec);
-                    MoveScalingRectangle(e.GetPosition(MainCanvas),MainCanvas);
+                    if (Keyboard.IsKeyDown(Key.LeftShift))
+                        MoveScalingRectangleRelativeToCenter(e.GetPosition(MainCanvas), MainCanvas);
+                    else
+                        MoveScalingRectangle(e.GetPosition(MainCanvas),MainCanvas);
 
                     ShowPositionStatus(ListFigure[IndexFigure], false, true);
                 }

@@ -237,6 +237,80 @@ namespace ТриНитиДизайн
             }
         }
 
+        public void MoveScalingRectangleRelativeToCenter(Point currentPosition, Canvas canvas)
+        {
+            SetScalingCursor();
+            Vector vect = new Vector();
+            Vector originalVector = new Vector();
+            tVect = new Vector();
+            Point centerPoint = GetCenterForGroup(ptsRec);
+            startVector = centerPoint;
+            if (status.Equals("north"))
+            {
+                vect = centerPoint - new Point(centerPoint.X, currentPosition.Y + 10);
+                originalVector = new Point(centerPoint.X,ptsRec[0].Y) - centerPoint;
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);                
+            }
+            else if (status.Equals("northeast"))
+            {
+                Point p1 = new Point(centerPoint.X, currentPosition.Y + 10);
+                Point p2 = new Point(currentPosition.X - 10, centerPoint.Y);
+                tVect = GetVectorForNonOrthogonalScaling(p1, p2);
+                tVect = InvertVector(p1, p2, tVect);
+            }
+            else if (status.Equals("east"))
+            {
+                vect =  new Point(currentPosition.X - 10, centerPoint.Y) - centerPoint;
+                originalVector = new Point(ptsRec[2].X, centerPoint.Y) - centerPoint;
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);
+            }
+            else if (status.Equals("southeast"))
+            {
+                Point p1 = centerPoint;
+                Point p2 = new Point(currentPosition.X - 10, currentPosition.Y - 10);
+                tVect = GetVectorForNonOrthogonalScaling(p1, p2);
+                tVect = InvertVector(p1, p2, tVect);
+            }
+            else if (status.Equals("south"))
+            {
+                vect =  new Point(centerPoint.X, currentPosition.Y - 10) - centerPoint;
+                originalVector = new Point(centerPoint.X, ptsRec[1].Y) - centerPoint;
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);
+            }
+            else if (status.Equals("southwest"))
+            {
+                Point p1 = new Point(currentPosition.X + 10, centerPoint.Y);
+                Point p2 = new Point(centerPoint.X, currentPosition.Y - 10);
+                tVect = GetVectorForNonOrthogonalScaling(p1, p2);
+                tVect = InvertVector(p1, p2, tVect);
+            }
+            else if (status.Equals("west"))
+            {
+                vect = centerPoint - new Point(currentPosition.X + 10, centerPoint.Y);
+                originalVector = new Point(ptsRec[0].X, centerPoint.Y) - centerPoint;
+                tVect = GetVectorForOrthogonalScaling(vect, originalVector);
+            }
+            else if (status.Equals("northwest"))
+            {
+                Point p1 = new Point(currentPosition.X + 10, currentPosition.Y + 10);
+                Point p2 = centerPoint;
+                tVect = GetVectorForNonOrthogonalScaling(p1, p2);
+                tVect = InvertVector(p1, p2, tVect);
+            }
+            Point firstRectanglePoint = GetScaledPoint(ptsRec[0], centerPoint, tVect);
+            Point secondRectanglePoint = GetScaledPoint(ptsRec[2], centerPoint, tVect);
+            chRec = DrawChoosingRectangle(firstRectanglePoint, secondRectanglePoint, canvas);
+            for (int i = 0; i < movingFigurePoints.Count; i++)
+            {
+                Point startPoint;
+                if (i % 2 == 0)
+                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointStart;
+                else
+                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointEnd;
+                ScaleRectangles(movingFigurePoints[i], startPoint, startVector, tVect, canvas);
+            }
+        }
+
         private Vector GetVectorForOrthogonalScaling(Vector vect, Vector originalVector)
         {
             double scale = vect.Length / originalVector.Length;
@@ -245,10 +319,32 @@ namespace ТриНитиДизайн
                 scale = Math.Round(scale + 0.5);
             if (vect.X < 0 || vect.Y < 0)
                 scale = -scale;
-            if (vect.Y == 0)
-                tVect = new Vector(scale, 1);
+            tVect = new Vector(scale, scale);
+            return tVect;
+        }
+
+        private Vector GetVectorForNonOrthogonalScaling(Point p1, Point p2)
+        {
+            Vector tVect;
+            double scale;
+            Point b = new Point(p1.X, p2.Y);
+            Point d = new Point(p2.X, p1.Y);
+            double originalHeight = FindLength(ptsRec[0], ptsRec[1]);
+            double originalWidth = FindLength(ptsRec[1], ptsRec[2]);
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                originalHeight /= 2;
+                originalWidth /= 2;
+            }
+            double newHeight = FindLength(p1, b);
+            double newWidth = FindLength(b, p2);
+            if (newHeight / originalHeight > newWidth / originalWidth)
+                scale = newWidth / originalWidth;
             else
-                tVect = new Vector(1, scale);
+                scale = newHeight / originalHeight;
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                scale = Math.Round(scale + 0.5);
+            tVect = new Vector(scale, scale);
             return tVect;
         }
 
@@ -336,14 +432,17 @@ namespace ТриНитиДизайн
         {
             Vector vect;
             Point scaledPoint = new Point();
-            if (status.Equals("north"))
-                startVectorPoint = new Point(origin.X, ptsRec[1].Y);
-            else if (status.Equals("west"))
-                startVectorPoint = new Point(ptsRec[2].X, origin.Y);
-            else if (status.Equals("south"))
-                startVectorPoint = new Point(origin.X, ptsRec[0].Y);
-            else if (status.Equals("east"))
-                startVectorPoint = new Point(ptsRec[1].X, origin.Y);
+            if (!Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                if (status.Equals("north"))
+                    startVectorPoint = new Point(origin.X, ptsRec[1].Y);
+                else if (status.Equals("west"))
+                    startVectorPoint = new Point(ptsRec[2].X, origin.Y);
+                else if (status.Equals("south"))
+                    startVectorPoint = new Point(origin.X, ptsRec[0].Y);
+                else if (status.Equals("east"))
+                    startVectorPoint = new Point(ptsRec[1].X, origin.Y);
+            }
             vect = origin - startVectorPoint;
             double offsetX = vect.X * transformVect.X;
             double offsetY = vect.Y * transformVect.Y;
@@ -466,31 +565,19 @@ namespace ТриНитиДизайн
 
         private Vector FindFigureRectangle(Point p1, Point p2, Canvas canvas)
         {
-            Point b = new Point(p1.X, p2.Y);
-            Point d = new Point(p2.X, p1.Y);
-            double originalHeight = FindLength(ptsRec[0], ptsRec[1]);
-            double originalWidth = FindLength(ptsRec[1], ptsRec[2]);
-            double newHeight = FindLength(p1, b);
-            double newWidth = FindLength(b, p2);
-            double scale;
-            if (newHeight / originalHeight > newWidth / originalWidth)
-                scale = newWidth / originalWidth;
-            else
-                scale = newHeight / originalHeight;
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                scale = Math.Round(scale + 0.5);
+            Vector scaleVector = GetVectorForNonOrthogonalScaling(p1, p2);
             Vector vect;
             if (status.Equals("southeast"))
             {
                 vect = ptsRec[2] - ptsRec[0];
-                vect *= scale;
+                vect *= scaleVector.X;
                 vect = InvertVector(p1, p2, vect);
                 chRec = DrawChoosingRectangle(ptsRec[0], new Point(ptsRec[0].X + vect.X, ptsRec[0].Y + vect.Y), canvas);
             }
             else if(status.Equals("southwest"))
             {
                 vect = ptsRec[1] - ptsRec[3];
-                vect *= scale;
+                vect *= scaleVector.X;
                 vect = InvertVector(p1, p2, vect);
                 chRec = DrawChoosingRectangle(new Point(ptsRec[3].X + vect.X, ptsRec[0].Y),
                     new Point(ptsRec[2].X, ptsRec[3].Y + vect.Y), canvas);
@@ -498,19 +585,18 @@ namespace ТриНитиДизайн
             else if (status.Equals("northwest"))
             {
                 vect = ptsRec[0] - ptsRec[2];
-                vect *= scale;
+                vect *= scaleVector.X;
                 vect = InvertVector(p1, p2, vect);
                 chRec = DrawChoosingRectangle(new Point(ptsRec[2].X + vect.X, ptsRec[2].Y + vect.Y), ptsRec[2], canvas);
             }
             else if (status.Equals("northeast"))
             {
                 vect = ptsRec[3] - ptsRec[1];
-                vect *= scale;
+                vect *= scaleVector.X;
                 vect = InvertVector(p1, p2, vect);
                 chRec = DrawChoosingRectangle(new Point(ptsRec[0].X, ptsRec[1].Y + vect.Y), 
                     new Point(ptsRec[1].X + vect.X, ptsRec[1].Y), canvas);
             }
-            Vector scaleVector = new Vector(scale, scale);
             scaleVector = InvertVector(p1, p2, scaleVector);
             return scaleVector;
         }
