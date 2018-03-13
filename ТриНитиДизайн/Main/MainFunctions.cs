@@ -42,6 +42,7 @@ namespace ТриНитиДизайн
             OptionDrawLine.OneDotMiddleDistance = 4;
             OptionDrawLine.SizeRectangleForScale = 10;
             OptionDrawLine.SizeRectangleForRotation = 15;
+            OptionDrawLine.CursorModeRectangleDistance = 10;
             OptionSetka.Masshtab = 1;
             ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
             MainCanvas.RenderTransform = scaleTransform;

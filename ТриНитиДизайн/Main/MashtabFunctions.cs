@@ -39,6 +39,7 @@ namespace ТриНитиДизайн
             OptionDrawLine.StrokeThicknessMainRec /= multiplier;
             OptionDrawLine.OneDotCornerDistance /= multiplier;
             OptionDrawLine.OneDotMiddleDistance /= multiplier;
+            OptionDrawLine.CursorModeRectangleDistance /= multiplier;
 
             foreach (Figure fig in ListFigure)
             {

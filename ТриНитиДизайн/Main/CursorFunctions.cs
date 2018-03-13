@@ -173,10 +173,11 @@ namespace ТриНитиДизайн
             SetScalingCursor();
             Vector vect = new Vector();
             Vector originalVector = new Vector();
+            double rectangleDistance = OptionDrawLine.CursorModeRectangleDistance;
             tVect = new Vector();
             if (status.Equals("north"))
             {
-                vect = new Point(0, ptsRec[2].Y) - new Point(0, currentPosition.Y + 10);
+                vect = new Point(0, ptsRec[2].Y) - new Point(0, currentPosition.Y + rectangleDistance);
                 originalVector = ptsRec[0] - ptsRec[1];
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);
                 originalVector *= tVect.Y;
@@ -184,12 +185,13 @@ namespace ТриНитиДизайн
             }
             else if (status.Equals("northeast"))
             {
-                tVect = FindFigureRectangle(new Point(ptsRec[0].X, currentPosition.Y + 10), new Point(currentPosition.X - 10, ptsRec[1].Y), canvas);
+                tVect = FindFigureRectangle(new Point(ptsRec[0].X, currentPosition.Y + rectangleDistance), 
+                    new Point(currentPosition.X - rectangleDistance, ptsRec[1].Y), canvas);
                 startVector = ptsRec[1];
             }
             else if (status.Equals("east"))
             {
-                vect = new Point(currentPosition.X - 10, 0) - new Point(ptsRec[0].X, 0);
+                vect = new Point(currentPosition.X - rectangleDistance, 0) - new Point(ptsRec[0].X, 0);
                 originalVector = ptsRec[2] - ptsRec[1];
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);
                 originalVector *= tVect.X;
@@ -197,12 +199,13 @@ namespace ТриНитиДизайн
             }
             else if (status.Equals("southeast"))
             {
-                tVect = FindFigureRectangle(ptsRec[0], new Point(currentPosition.X - 10, currentPosition.Y - 10), canvas);
+                tVect = FindFigureRectangle(ptsRec[0], 
+                    new Point(currentPosition.X - rectangleDistance, currentPosition.Y - rectangleDistance), canvas);
                 startVector = ptsRec[0];
             }
             else if (status.Equals("south"))
             {
-                vect = new Point(0, currentPosition.Y - 10) - new Point(0, ptsRec[0].Y);
+                vect = new Point(0, currentPosition.Y - rectangleDistance) - new Point(0, ptsRec[0].Y);
                 originalVector = ptsRec[1] - ptsRec[0];
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);
                 originalVector *= tVect.Y;
@@ -210,12 +213,13 @@ namespace ТриНитиДизайн
             }
             else if (status.Equals("southwest"))
             {
-                tVect = FindFigureRectangle(new Point(currentPosition.X + 10, ptsRec[0].Y), new Point(ptsRec[2].X, currentPosition.Y - 10), canvas);
+                tVect = FindFigureRectangle(new Point(currentPosition.X + rectangleDistance, ptsRec[0].Y), 
+                    new Point(ptsRec[2].X, currentPosition.Y - rectangleDistance), canvas);
                 startVector = ptsRec[3];
             }
             else if (status.Equals("west"))
             {
-                vect = new Point(ptsRec[2].X, 0) - new Point(currentPosition.X + 10, 0);
+                vect = new Point(ptsRec[2].X, 0) - new Point(currentPosition.X + rectangleDistance, 0);
                 originalVector = ptsRec[1] - ptsRec[2];
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);
                 originalVector *= tVect.X;
@@ -223,7 +227,8 @@ namespace ТриНитиДизайн
             }
             else if (status.Equals("northwest"))
             {
-                tVect = FindFigureRectangle(new Point(currentPosition.X + 10, currentPosition.Y + 10), ptsRec[2], canvas);
+                tVect = FindFigureRectangle(new Point(currentPosition.X + rectangleDistance, currentPosition.Y + rectangleDistance), 
+                    ptsRec[2], canvas);
                 startVector = ptsRec[2];
             }
             for (int i = 0; i < movingFigurePoints.Count; i++)
@@ -245,54 +250,55 @@ namespace ТриНитиДизайн
             tVect = new Vector();
             Point centerPoint = GetCenterForGroup(ptsRec);
             startVector = centerPoint;
+            double rectangleDistance = OptionDrawLine.CursorModeRectangleDistance;
             if (status.Equals("north"))
             {
-                vect = centerPoint - new Point(centerPoint.X, currentPosition.Y + 10);
+                vect = centerPoint - new Point(centerPoint.X, currentPosition.Y + rectangleDistance);
                 originalVector = new Point(centerPoint.X,ptsRec[0].Y) - centerPoint;
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);                
             }
             else if (status.Equals("northeast"))
             {
-                Point p1 = new Point(centerPoint.X, currentPosition.Y + 10);
-                Point p2 = new Point(currentPosition.X - 10, centerPoint.Y);
+                Point p1 = new Point(centerPoint.X, currentPosition.Y + rectangleDistance);
+                Point p2 = new Point(currentPosition.X - rectangleDistance, centerPoint.Y);
                 tVect = GetVectorForNonOrthogonalScaling(p1, p2);
                 tVect = InvertVector(p1, p2, tVect);
             }
             else if (status.Equals("east"))
             {
-                vect =  new Point(currentPosition.X - 10, centerPoint.Y) - centerPoint;
+                vect =  new Point(currentPosition.X - rectangleDistance, centerPoint.Y) - centerPoint;
                 originalVector = new Point(ptsRec[2].X, centerPoint.Y) - centerPoint;
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);
             }
             else if (status.Equals("southeast"))
             {
                 Point p1 = centerPoint;
-                Point p2 = new Point(currentPosition.X - 10, currentPosition.Y - 10);
+                Point p2 = new Point(currentPosition.X - rectangleDistance, currentPosition.Y - rectangleDistance);
                 tVect = GetVectorForNonOrthogonalScaling(p1, p2);
                 tVect = InvertVector(p1, p2, tVect);
             }
             else if (status.Equals("south"))
             {
-                vect =  new Point(centerPoint.X, currentPosition.Y - 10) - centerPoint;
+                vect =  new Point(centerPoint.X, currentPosition.Y - rectangleDistance) - centerPoint;
                 originalVector = new Point(centerPoint.X, ptsRec[1].Y) - centerPoint;
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);
             }
             else if (status.Equals("southwest"))
             {
-                Point p1 = new Point(currentPosition.X + 10, centerPoint.Y);
-                Point p2 = new Point(centerPoint.X, currentPosition.Y - 10);
+                Point p1 = new Point(currentPosition.X + rectangleDistance, centerPoint.Y);
+                Point p2 = new Point(centerPoint.X, currentPosition.Y - rectangleDistance);
                 tVect = GetVectorForNonOrthogonalScaling(p1, p2);
                 tVect = InvertVector(p1, p2, tVect);
             }
             else if (status.Equals("west"))
             {
-                vect = centerPoint - new Point(currentPosition.X + 10, centerPoint.Y);
+                vect = centerPoint - new Point(currentPosition.X + rectangleDistance, centerPoint.Y);
                 originalVector = new Point(ptsRec[0].X, centerPoint.Y) - centerPoint;
                 tVect = GetVectorForOrthogonalScaling(vect, originalVector);
             }
             else if (status.Equals("northwest"))
             {
-                Point p1 = new Point(currentPosition.X + 10, currentPosition.Y + 10);
+                Point p1 = new Point(currentPosition.X + rectangleDistance, currentPosition.Y + rectangleDistance);
                 Point p2 = centerPoint;
                 tVect = GetVectorForNonOrthogonalScaling(p1, p2);
                 tVect = InvertVector(p1, p2, tVect);
@@ -619,7 +625,7 @@ namespace ТриНитиДизайн
             transRectangles = new List<Rectangle>();
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
-            List<Point> pts = GetFourOutsidePointsForGroup(10);
+            List<Point> pts = GetFourOutsidePointsForGroup(OptionDrawLine.CursorModeRectangleDistance);
             a = pts[0];
             b = pts[1];
             c = pts[2];
@@ -666,7 +672,7 @@ namespace ТриНитиДизайн
                 fig.ChangeFigureColor(OptionColor.ColorDraw, false);
         }
 
-        private List<Point> GetFourOutsidePointsForGroup(int length)
+        private List<Point> GetFourOutsidePointsForGroup(double length)
         {
             List<Point> pts = new List<Point>();
 

@@ -302,6 +302,20 @@
   <ItemGroup>
     <Resource Include="Cursors\centercursor.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cursor_mode_old.png" />
+    <Resource Include="Images\draw_mode_old.png" />
+    <Resource Include="Images\edit_mode_old.png" />
+    <Resource Include="Images\figure_mode_old.png" />
+    <Resource Include="Images\scale_figure_old.png" />
+    <Resource Include="Images\scale_mode_old.png" />
+    <Resource Include="Images\scale_move_old.png" />
+    <Resource Include="Images\scale_one_to_one_old.png" />
+    <Resource Include="Images\scale_reset_old.png" />
+    <Resource Include="Images\scale_undo_old.png" />
+    <Resource Include="Images\scale_zoom_in_old.png" />
+    <Resource Include="Images\scale_zoom_out_old.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

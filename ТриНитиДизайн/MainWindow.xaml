@@ -116,7 +116,7 @@
             Click="CurcorButtonEvent" 
             MouseDoubleClick="ShowSpecialWindow"
             Background="White">
-            <Image Source="/ТриНитиДизайн;component/Images/appbar.cursor.default.png"    />
+            <Image Source="/ТриНитиДизайн;component/Images/cursor_mode_old.png"    />
         </Button>
         <Button 
             HorizontalAlignment="Left" 
@@ -129,7 +129,7 @@
             Height="40" 
             VerticalAlignment="Top" 
             Background="White">
-            <Image Source="/ТриНитиДизайн;component/Images/appbar.draw.pencil.reflection.png" Stretch="Fill"  />
+            <Image Source="/ТриНитиДизайн;component/Images/draw_mode_old.png" Stretch="Fill"  />
         </Button>
         <Button 
             Height="40" 
@@ -141,7 +141,7 @@
             BorderThickness="2" 
             Click="ShapeMainButtonEvant" 
             Background="White">
-            <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.line.png" />
+            <Image Source="/ТриНитиДизайн;component/Images/edit_mode_old.png" />
         </Button>
         <Button 
             Height="40" 
@@ -153,7 +153,7 @@
             BorderThickness="2" 
             Click="FigureMainButtonEvant" 
             Background="White">
-            <Image Source="/ТриНитиДизайн;component/Images/appbar.server.png" />
+            <Image Source="/ТриНитиДизайн;component/Images/figure_mode_old.png" />
         </Button>
 
         <Expander    
@@ -171,25 +171,25 @@
             Opacity="1">
             <Grid Margin="0,0,0,-2">
                 <Button Height="40" Margin="10,10,247,0" VerticalAlignment="Top" Click="PlusButtonEvent" Background="White">
-                    <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.add.png" />
+                    <Image Source="/ТриНитиДизайн;component/Images/scale_zoom_in_old.png" />
                 </Button>
                 <Button Height="40" HorizontalAlignment="Left" Margin="50,10,0,0" VerticalAlignment="Top" Width="40" Click="MinusButtonEvent"  Background="White">
-                    <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.minus.png" />
+                    <Image Source="/ТриНитиДизайн;component/Images/scale_zoom_out_old.png" />
                 </Button>
                 <Button Height="40" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="40" Click="PrevVidButtonEvent" Background="White">
-                    <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.back.png" />
+                    <Image Source="/ТриНитиДизайн;component/Images/scale_undo_old.png" />
                 </Button>
                 <Button Height="40" HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabFigureButtonEvent" Background="White">
-                    <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.star.png" />
+                    <Image Source="/ТриНитиДизайн;component/Images/scale_figure_old.png" />
                 </Button>
                 <Button Height="40" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="40" Click="MashtabVidButtonEvent" Background="White">
-                    <Image Source="/ТриНитиДизайн;component/Images/appbar.vector.rectangle.png" />
+                    <Image Source="/ТриНитиДизайн;component/Images/scale_reset_old.png" />
                 </Button>
                 <Button Height="40" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="40" Click="SetCenterButtonEvent" Background="White">
-                    <Image Source="/ТриНитиДизайн;component/Images/appbar.axis.three.png" />
+                    <Image Source="/ТриНитиДизайн;component/Images/scale_move_old.png" />
                 </Button>
                 <Button Height="40" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="40" Click="OneToOneButtonEvent"  Background="White">
-                    <Image Source="/ТриНитиДизайн;component/Images/appbar.monitor.identify.png" />
+                    <Image Source="/ТриНитиДизайн;component/Images/scale_one_to_one_old.png" />
                 </Button>
             </Grid>
         </Expander>
@@ -235,7 +235,7 @@
             </TabItem>
         </TabControl>
         <Button Height="40" HorizontalAlignment="Left" Margin="4,139,0,0" VerticalAlignment="Top" Width="40" BorderBrush="Black" BorderThickness="2"  Background="White" Click="MashtabMainButtonEvant">
-            <Image Source="/ТриНитиДизайн;component/Images/appbar.magnify.browse.png" />
+            <Image Source="/ТриНитиДизайн;component/Images/scale_mode_old.png" />
         </Button>
     </Grid>
 </Window>

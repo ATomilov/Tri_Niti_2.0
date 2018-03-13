@@ -15,6 +15,7 @@ namespace ТриНитиДизайн
         public static double SizeWidthAndHeightRectangle = 8;
         public static double OneDotCornerDistance = 3;
         public static double OneDotMiddleDistance = 4;
+        public static double CursorModeRectangleDistance = 10;
 
         public static double SizeRectangleForScale = 10;
         public static double SizeRectangleForRotation = 15;

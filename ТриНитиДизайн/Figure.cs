@@ -343,7 +343,7 @@ namespace ТриНитиДизайн
             }
         }
         
-        public List<Point> GetFourPointsOfOutSideRectangle(int length)
+        public List<Point> GetFourPointsOfOutSideRectangle(double length)
         {
             List<Point> pts = new List<Point>();
             Point max = new Point(Double.MinValue, Double.MinValue);
