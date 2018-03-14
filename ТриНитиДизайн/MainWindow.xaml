@@ -73,12 +73,6 @@
                 <MenuItem Header="Обновить картинку"/>
             </MenuItem>
             <MenuItem Header="Установки" Click="OpenSetting" />
-            <MenuItem Header="Элементы" >
-                <MenuItem Header="Стежки" IsChecked="True" IsCheckable="True" />
-                <MenuItem Header="Цепочка" IsChecked="True" IsCheckable="True" />
-                <MenuItem Header="Гладь" IsChecked="True" IsCheckable="True" />
-                <MenuItem Header="Татами" IsChecked="True" IsCheckable="True" />
-            </MenuItem>
             <MenuItem Header="Справка" Click="OpenAbout" />
         </Menu>
         <ToolBar Height="26" Margin="0,17,0,0" Name="toolBarPanel1" VerticalAlignment="Top" Background="White">
