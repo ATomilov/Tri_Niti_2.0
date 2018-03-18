@@ -73,11 +73,14 @@ namespace ТриНитиДизайн
             {
                 sh.StrokeThickness /= multiplier;
             }
-            if(transRectangles!=null)
+            if (transRectangles != null)
+            {
                 foreach (Rectangle rec in transRectangles)
                 {
                     GeometryHelper.RescaleRectangle(rec, multiplier);
                 }
+                MoveTransformRectangles(OptionDrawLine.CursorModeRectangleDistance,multiplier);
+            }
             if (invisibleRectangles != null)
                 foreach (Rectangle rec in invisibleRectangles)
                 {
@@ -195,5 +198,30 @@ namespace ТриНитиДизайн
             }
         }
 
+        private void MoveTransformRectangles(double curDistance, double multiplier)
+        {
+            double prevDistance = multiplier * curDistance;
+            double offset = curDistance - prevDistance;
+
+            Canvas.SetTop(transRectangles[0], Canvas.GetTop(transRectangles[0]) - offset);
+
+            Canvas.SetTop(transRectangles[1], Canvas.GetTop(transRectangles[1]) - offset);
+            Canvas.SetLeft(transRectangles[1], Canvas.GetLeft(transRectangles[1]) + offset);
+
+            Canvas.SetLeft(transRectangles[2], Canvas.GetLeft(transRectangles[2]) + offset);
+
+            Canvas.SetTop(transRectangles[3], Canvas.GetTop(transRectangles[3]) + offset);
+            Canvas.SetLeft(transRectangles[3], Canvas.GetLeft(transRectangles[3]) + offset);
+
+            Canvas.SetTop(transRectangles[4], Canvas.GetTop(transRectangles[4]) + offset);
+
+            Canvas.SetTop(transRectangles[5], Canvas.GetTop(transRectangles[5]) + offset);
+            Canvas.SetLeft(transRectangles[5], Canvas.GetLeft(transRectangles[5]) - offset);
+
+            Canvas.SetLeft(transRectangles[6], Canvas.GetLeft(transRectangles[6]) - offset);
+
+            Canvas.SetTop(transRectangles[7], Canvas.GetTop(transRectangles[7]) - offset);
+            Canvas.SetLeft(transRectangles[7], Canvas.GetLeft(transRectangles[7]) - offset);
+        }
     }
 }
