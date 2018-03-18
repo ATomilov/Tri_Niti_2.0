@@ -401,7 +401,7 @@ namespace ТриНитиДизайн
                 Line clickedLine = (Line)clickedShape;
                 for (int i = 0; i < FigureList.Count; i++)
                 {
-                    if (clickedLine.StrokeThickness == 10)
+                    if (clickedLine.StrokeThickness == OptionDrawLine.InvisibleStrokeThickness)
                     {
                         var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == clickedLine);
                         var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
@@ -431,7 +431,7 @@ namespace ТриНитиДизайн
                 Path path = (Path)clickedShape;
                 for (int i = 0; i < FigureList.Count; i++)
                 {
-                    if (path.StrokeThickness == 10)
+                    if (path.StrokeThickness == OptionDrawLine.InvisibleStrokeThickness)
                     {
                         var invLine = FigureList[i].DictionaryInvLines.FirstOrDefault(z => z.Value == path);
                         var point = FigureList[i].DictionaryPointLines.FirstOrDefault(z => z.Value == invLine.Key);
