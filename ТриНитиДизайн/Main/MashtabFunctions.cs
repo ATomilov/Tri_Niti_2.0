@@ -173,6 +173,7 @@ namespace ТриНитиДизайн
             {
                 GeometryHelper.RescaleRectangle(rec, multiplier);
             }
+            //
             foreach (Ellipse ell in fig.dotsForFigure)
                 GeometryHelper.RescaleEllipse(ell, multiplier);
             if(fig.NewPointEllipse != null)
