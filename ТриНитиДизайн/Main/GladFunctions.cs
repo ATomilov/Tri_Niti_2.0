@@ -59,7 +59,7 @@ namespace ТриНитиДизайн
                         ListFigure[IndexFigure].regimFigure = Regim.RegimGlad;
                         ListFigure[SecondGladFigure].regimFigure = Regim.RegimGlad;
                         ControlLine = new Figure(MainCanvas);
-                        AddFirstGladLines(gladLines, firstFigure, secondFigure, canvas);
+                        AddFirstGladLines(gladLines, firstFigure, secondFigure,true, canvas);
                         if (!firstFigure.PreparedForTatami)
                         {
                             firstFigure.SaveCurrentShapes();
@@ -82,7 +82,7 @@ namespace ТриНитиДизайн
             }
         }
         
-        private void AddFirstGladLines(List<Figure> gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
+        private void AddFirstGladLines(List<Figure> gladLines, Figure firstFigure, Figure secondFigure, bool gladCreated, Canvas canvas)
         {
             gladShapesCount = 0;
             gladLines.Clear();
@@ -105,8 +105,9 @@ namespace ТриНитиДизайн
                 gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
                 gladLines[1].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
             }
-            ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-            ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+            if(gladCreated)
+                ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, 
+                    OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
             DrawInvisibleRectangles(canvas);
         }
 

@@ -348,8 +348,6 @@ namespace ТриНитиДизайн
                                     DrawFirstAndLastRectangle();
                                     if (OptionRegim.regim != Regim.RegimDraw)
                                         LoadPreviousRegim(false);
-                                    if (OptionRegim.regim == Regim.RegimFigure)
-                                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
                                 }
                                 else
                                 {
@@ -515,15 +513,6 @@ namespace ТриНитиДизайн
                     DrawFirstAndLastRectangle();
                 LoadPreviousRegim(true);
                 DrawInvisibleRectangles(MainCanvas);
-                if(OptionRegim.regim == Regim.RegimGlad)
-                {
-                    ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-                    ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-                }
-                else
-                {
-                    ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-                }
             }
             else if(OptionRegim.regim == Regim.RegimDrawStegki || OptionRegim.regim == Regim.RegimOtshit)
             {
@@ -570,7 +559,7 @@ namespace ТриНитиДизайн
                     PrepareForTatami(ListFigure[FirstGladFigure], true);
                     PrepareForTatami(ListFigure[SecondGladFigure], true);
                 }
-                AddFirstGladLines(LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
+                AddFirstGladLines(LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure],false, MainCanvas);
                 RestoreControlLines(LinesForGlad, ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], MainCanvas);
                 if (ListFigure[FirstGladFigure].tempPoints.Count > 0)
                     ListFigure[FirstGladFigure].DrawDots(ListFigure[FirstGladFigure].tempPoints, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);

@@ -115,6 +115,30 @@ namespace ТриНитиДизайн
             movingFigurePoints.Clear();
             foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
             {
+                if (fig.regimFigure == Regim.RegimTatami)
+                {
+                    Point p = new Point(fig.tatamiControlLine.X, fig.tatamiControlLine.Y);
+                    p = RotatePoint(angle, p, new Point(0, 0));
+                    fig.tatamiControlLine.X = p.X;
+                    fig.tatamiControlLine.Y = p.Y;
+                    fig.tatamiControlLine.Normalize();
+                    fig.oldTatamiCenter = RotatePoint(angle, fig.oldTatamiCenter, centerPoint);
+                }
+                else if (fig.regimFigure == Regim.RegimGlad)
+                {
+                    for (int i = 0; i < fig.oldGladCenters.Count; i++)
+                    {
+                        fig.oldGladCenters[i] = RotatePoint(angle, fig.oldGladCenters[i], centerPoint);
+                    }
+                    for (int i = 0; i < fig.gladControlLines.Count; i++)
+                    {
+                        Point p = new Point(fig.gladControlLines[i].X, fig.gladControlLines[i].Y);
+                        p = RotatePoint(angle, p, new Point(0, 0));
+                        Vector vect = new Vector(p.X, p.Y);
+                        vect.Normalize();
+                        fig.gladControlLines[i] = vect;
+                    }
+                }
                 for (int i = 0; i < fig.Points.Count; i++)
                 {
                     Point p = fig.Points[i];
@@ -303,8 +327,8 @@ namespace ТриНитиДизайн
                 tVect = GetVectorForNonOrthogonalScaling(p1, p2);
                 tVect = InvertVector(p1, p2, tVect);
             }
-            Point firstRectanglePoint = GetScaledPoint(ptsRec[0], centerPoint, tVect);
-            Point secondRectanglePoint = GetScaledPoint(ptsRec[2], centerPoint, tVect);
+            Point firstRectanglePoint = GetScaledPoint(ptsRec[0], centerPoint, tVect, false);
+            Point secondRectanglePoint = GetScaledPoint(ptsRec[2], centerPoint, tVect, false);
             chRec = DrawChoosingRectangle(firstRectanglePoint, secondRectanglePoint, canvas);
             for (int i = 0; i < movingFigurePoints.Count; i++)
             {
@@ -325,7 +349,10 @@ namespace ТриНитиДизайн
                 scale = Math.Round(scale + 0.5);
             if (vect.X < 0 || vect.Y < 0)
                 scale = -scale;
-            tVect = new Vector(scale, scale);
+            if (vect.Y == 0)
+                tVect = new Vector(scale, 1);
+            else
+                tVect = new Vector(1, scale);
             return tVect;
         }
 
@@ -366,7 +393,7 @@ namespace ТриНитиДизайн
 
         private void ScaleRectangles(Rectangle rec,Point origin, Point startVectorPoint, Vector transformVect,Canvas canvas)
         {
-            Point p = GetScaledPoint(origin, startVectorPoint, transformVect);
+            Point p = GetScaledPoint(origin, startVectorPoint, transformVect, false);
             canvas.Children.Remove(rec);
             Canvas.SetLeft(rec, p.X - rec.Width / 2);
             Canvas.SetTop(rec, p.Y - rec.Width / 2);
@@ -381,14 +408,38 @@ namespace ТриНитиДизайн
             movingFigurePoints.Clear();
             foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
             {
+                if(fig.regimFigure == Regim.RegimTatami)
+                {
+                    Point p = new Point(fig.tatamiControlLine.X, fig.tatamiControlLine.Y);
+                    p = GetScaledPoint(p, new Point(0,0), tVect, true);
+                    fig.tatamiControlLine.X = p.X;
+                    fig.tatamiControlLine.Y = p.Y;
+                    fig.tatamiControlLine.Normalize();
+                    fig.oldTatamiCenter = GetScaledPoint(fig.oldTatamiCenter, startVector, tVect, false);
+                }
+                else if (fig.regimFigure == Regim.RegimGlad)
+                {
+                    for (int i = 0; i < fig.oldGladCenters.Count; i++)
+                    {
+                        fig.oldGladCenters[i] = GetScaledPoint(fig.oldGladCenters[i], startVector, tVect, false);
+                    }
+                    for(int i = 0; i < fig.gladControlLines.Count; i++)
+                    {
+                        Point p = new Point(fig.gladControlLines[i].X, fig.gladControlLines[i].Y);
+                        p = GetScaledPoint(p, new Point(0, 0), tVect, true);
+                        Vector vect = new Vector(p.X, p.Y);
+                        vect.Normalize();
+                        fig.gladControlLines[i] = vect;
+                    }
+                }
                 for (int i = 0; i < fig.Points.Count; i++)
                 {
                     Point p = fig.Points[i];
-                    Point scaledP = GetScaledPoint(p, startVector, tVect);
+                    Point scaledP = GetScaledPoint(p, startVector, tVect, false);
                     if (i != fig.Points.Count - 1)
                     {
                         Point nextP = fig.Points[i + 1];
-                        Point scaledNextP = GetScaledPoint(nextP, startVector, tVect);
+                        Point scaledNextP = GetScaledPoint(nextP, startVector, tVect, false);
                         Shape sh;
                         Shape newSh;
                         Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
@@ -400,15 +451,15 @@ namespace ТриНитиДизайн
                             fig.DictionaryShapeControlPoints.TryGetValue(p, out contPts);
                             if (sh.MinHeight == 5)
                             {
-                                Point scaledContPoint1 = GetScaledPoint(contPts.Item1, startVector, tVect);
-                                Point scaledContPoint2 = GetScaledPoint(contPts.Item2, startVector, tVect);
+                                Point scaledContPoint1 = GetScaledPoint(contPts.Item1, startVector, tVect,false);
+                                Point scaledContPoint2 = GetScaledPoint(contPts.Item2, startVector, tVect, false);
                                 contPts = new Tuple<Point, Point>(scaledContPoint1, scaledContPoint2);
                                 newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, scaledP, contPts.Item1,
                                     contPts.Item2, scaledNextP, MainCanvas);
                             }
                             else
                             {
-                                Point scaledContPoint = GetScaledPoint(contPts.Item1, startVector, tVect);
+                                Point scaledContPoint = GetScaledPoint(contPts.Item1, startVector, tVect, false);
                                 contPts = new Tuple<Point, Point>(scaledContPoint, new Point());
                                 newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, scaledP, scaledNextP,
                                     contPts.Item1, MainCanvas);
@@ -434,11 +485,11 @@ namespace ТриНитиДизайн
             }
         }
 
-        private Point GetScaledPoint(Point origin, Point startVectorPoint, Vector transformVect)
+        private Point GetScaledPoint(Point origin, Point startVectorPoint, Vector transformVect, bool isControlLine)
         {
             Vector vect;
             Point scaledPoint = new Point();
-            if (!Keyboard.IsKeyDown(Key.LeftShift))
+            if (!Keyboard.IsKeyDown(Key.LeftShift) && !isControlLine)
             {
                 if (status.Equals("north"))
                     startVectorPoint = new Point(origin.X, ptsRec[1].Y);
@@ -483,6 +534,17 @@ namespace ТриНитиДизайн
             }
             foreach (Figure fig in group)
             {
+                if (fig.regimFigure == Regim.RegimTatami)
+                {
+                    fig.oldTatamiCenter += figureVect;
+                }
+                else if(fig.regimFigure == Regim.RegimGlad)
+                {
+                    for(int i = 0; i < fig.oldGladCenters.Count; i++)
+                    {
+                        fig.oldGladCenters[i] += figureVect;
+                    }
+                }
                 for (int i = 0; i < fig.Points.Count; i++)
                 {
                     Point p = fig.Points[i];

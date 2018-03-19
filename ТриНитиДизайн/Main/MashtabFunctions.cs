@@ -86,7 +86,14 @@ namespace ТриНитиДизайн
                 {
                     GeometryHelper.RescaleRectangle(rec, multiplier);
                 }
-            if(firstRec!=null)
+
+            foreach (Shape sh in ControlLine.Shapes)
+            {
+                if (sh is Ellipse)
+                    GeometryHelper.RescaleEllipse((Ellipse)sh, multiplier);
+            }
+
+            if (firstRec!=null)
                 GeometryHelper.RescaleRectangle(firstRec, multiplier);
             if(lastRec!= null)
                 GeometryHelper.RescaleRectangle(lastRec, multiplier);
@@ -98,7 +105,6 @@ namespace ТриНитиДизайн
             zoomTransform.CenterY = yCenter;
             zoomTransform.ScaleX = OptionSetka.Masshtab;
             zoomTransform.ScaleY = OptionSetka.Masshtab;
-            
         }
 
         public void MoveCanvas(Point center, Canvas canvas)
@@ -175,8 +181,6 @@ namespace ТриНитиДизайн
             }
             foreach (Ellipse ell in fig.dotsForFigure)
                 GeometryHelper.RescaleEllipse(ell, multiplier);
-            if(fig.NewPointEllipse != null)
-                GeometryHelper.RescaleEllipse(fig.NewPointEllipse, multiplier);
             if (fig.Points.Count == 1)
             {
                 Shape sh;
