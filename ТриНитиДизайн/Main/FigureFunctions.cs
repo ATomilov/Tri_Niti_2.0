@@ -346,6 +346,7 @@ namespace ТриНитиДизайн
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
                                     RedrawEverything(FigureList, IndexFigure, false, canvas);
                                     DrawFirstAndLastRectangle();
+                                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
                                     if (OptionRegim.regim != Regim.RegimDraw)
                                         LoadPreviousRegim(false);
                                 }
