@@ -47,7 +47,8 @@ namespace ТриНитиДизайн
                         {
                             MainCanvas.Children.RemoveAt(MainCanvas.Children.Count - 1);
                         }
-                        Line line = ListFigure[IndexFigure].GetLine(ListFigure[IndexFigure].PointEnd, e.GetPosition(MainCanvas));
+                        Point normalizedPoint = FindClosestDot(e.GetPosition(MainCanvas));
+                        Line line = ListFigure[IndexFigure].GetLine(ListFigure[IndexFigure].PointEnd, normalizedPoint);
                         line.StrokeThickness = OptionDrawLine.StrokeThickness;
                         line.Stroke = OptionColor.ColorChoosingRec;
                         MainCanvas.Children.Add(line);

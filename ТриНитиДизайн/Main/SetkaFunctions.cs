@@ -95,32 +95,29 @@ namespace ТриНитиДизайн
 
         public Point FindClosestDot(Point point)
         {
-            double step = (Double)OptionSetka.MasshtabSetka;
-            if (OptionSetka.isDotOnGrid && step != 0)
+            double step;
+            if (OptionSetka.isDotOnGrid)
+                step = (Double)OptionSetka.MasshtabSetka;
+            else
+                step = 0.1;
+            Point pointOnGrid = new Point();
+            if (point.X % (step * 2) > step)
             {
-                Point pointOnGrid = new Point();
-                if (point.X % (step * 2) > step)
-                {
-                    pointOnGrid.X = point.X - (point.X % (step * 2)) + step * 2;
-                }
-                else
-                {
-                    pointOnGrid.X = point.X - (point.X % (step * 2));
-                }
-                if (point.Y % (step * 2) > step)
-                {
-                    pointOnGrid.Y = point.Y - (point.Y % (step * 2)) + step * 2;
-                }
-                else
-                {
-                    pointOnGrid.Y = point.Y - (point.Y % (step * 2));
-                }
-                return pointOnGrid;
+                pointOnGrid.X = point.X - (point.X % (step * 2)) + step * 2;
             }
             else
             {
-                return point;
+                pointOnGrid.X = point.X - (point.X % (step * 2));
             }
+            if (point.Y % (step * 2) > step)
+            {
+                pointOnGrid.Y = point.Y - (point.Y % (step * 2)) + step * 2;
+            }
+            else
+            {
+                pointOnGrid.Y = point.Y - (point.Y % (step * 2));
+            }
+            return pointOnGrid;
         }
     }
 }
