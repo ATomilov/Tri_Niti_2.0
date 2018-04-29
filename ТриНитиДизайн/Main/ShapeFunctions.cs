@@ -33,10 +33,7 @@ namespace ТриНитиДизайн
 
         public void PrepareForTatami(Figure fig, bool isColorChanged)
         {
-            if (OptionRegim.regim != Regim.RegimCepochka)
-            {
-                fig.PreparedForTatami = true;
-            }
+            fig.PreparedForTatami = true;
             if (isColorChanged)
                 fig.ChangeFigureColor(OptionColor.ColorDraw, false);
             for (int i = 0; i < fig.Points.Count - 1; i++)

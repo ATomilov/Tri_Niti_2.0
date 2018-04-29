@@ -65,6 +65,7 @@ namespace ТриНитиДизайн
                     CepochkaSetting.ShowDialog();
                     if (!ListFigure[IndexFigure].PreparedForTatami)
                     {
+                        ListFigure[IndexFigure].SaveCurrentShapes();
                         PrepareForTatami(ListFigure[IndexFigure],true);
                     }
                     ShowPositionStatus(ListFigure[IndexFigure], false, false);
