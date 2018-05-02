@@ -29,9 +29,12 @@ namespace ТриНитиДизайн
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
             OptionRegim.regim = Regim.RegimEditFigures;
-            if (ListFigure[IndexFigure].PreparedForTatami)
+            for (int i = 0; i < ListFigure.Count; i++)
             {
-                ListFigure[IndexFigure].LoadCurrentShapes();
+                if (ListFigure[i].PreparedForTatami)
+                {
+                    ListFigure[i].LoadCurrentShapes();
+                }
             }
             ChangeFiguresColor(ListFigure, MainCanvas);
             MainCanvas.Cursor = ArrowCursor;

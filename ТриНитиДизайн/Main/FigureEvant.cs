@@ -21,6 +21,9 @@ namespace ТриНитиДизайн
     {
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
+            if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami ||
+                OptionRegim.regim == Regim.RegimGlad || OptionRegim.regim == Regim.RegimCepochka)
+                return;
             if(OptionRegim.regim == Regim.RegimCursor)
             {
                 IndexFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[0]);
