@@ -209,6 +209,10 @@ namespace ТриНитиДизайн
                             ListFigure[SecondGladFigure].regimFigure = Regim.RegimFigure;
                             ListFigure[FirstGladFigure].LoadCurrentShapes();
                             ListFigure[SecondGladFigure].LoadCurrentShapes();
+                            ListFigure[FirstGladFigure].groupFigures.Clear();
+                            ListFigure[FirstGladFigure].groupFigures.Add(ListFigure[FirstGladFigure]);
+                            ListFigure[SecondGladFigure].groupFigures.Clear();
+                            ListFigure[SecondGladFigure].groupFigures.Add(ListFigure[SecondGladFigure]);
                             ChangeFiguresColor(ListFigure, MainCanvas);
                             FirstGladFigure = -1;
                             SecondGladFigure = -1;
