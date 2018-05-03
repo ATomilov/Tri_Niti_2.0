@@ -113,6 +113,13 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             ListFigure[IndexFigure].PointsCount.Clear();
             OptionRegim.regim = Regim.RegimCursor;
+            for (int i = 0; i < ListFigure.Count; i++)
+            {
+                if (ListFigure[i].PreparedForTatami)
+                {
+                    ListFigure[i].LoadCurrentShapes();
+                }
+            }
             ShowPositionStatus(ListFigure[IndexFigure], true, false);
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             ChangeFiguresColor(ListFigure, MainCanvas);
