@@ -167,7 +167,6 @@ namespace ТриНитиДизайн
 
         private void RescaleAllShapesInFigure(Figure fig, double multiplier, Canvas canvas)
         {
-            //TODO: change rescale for ellipsis on last dots of figures and middle points of control lines 
             foreach (Shape sh in fig.Shapes)
             {
                 if (sh is Ellipse)

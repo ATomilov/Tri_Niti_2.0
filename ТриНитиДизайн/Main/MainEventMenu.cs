@@ -150,7 +150,6 @@ namespace ТриНитиДизайн
                     }
                 }
             }
-
         }
 
         private void DeletePLT(object sender, RoutedEventArgs e)

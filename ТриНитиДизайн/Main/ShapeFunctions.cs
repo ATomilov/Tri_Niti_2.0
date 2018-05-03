@@ -502,12 +502,14 @@ namespace ТриНитиДизайн
                 {
                     bool foundDeletePoint = false;
                     bool nextPointDeleted = false;
+                    int deletedInARow = 0;
                     for (int j = 0; j < fig.PointsCount.Count; j++)
                     {
                         if (i == fig.PointsCount[j])
                         {
                             i++;
                             foundDeletePoint = true;
+                            deletedInARow++;
                         }
                         if (i + 1 == fig.PointsCount[j])
                         {
@@ -524,15 +526,16 @@ namespace ТриНитиДизайн
                             fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i - 1], out contP);
                             if (sh is Path && i!= 1)
                             {
+                                deletedInARow++;
                                 if (sh.MinHeight == 5)
                                 {
                                     contP = new Tuple<Point, Point>(contP.Item2, contP.Item1);
-                                    sh = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, fig.Points[i - 2], contP.Item1, contP.Item2, 
+                                    sh = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, fig.Points[i - deletedInARow], contP.Item1, contP.Item2, 
                                         fig.Points[i], canvas);
                                 }
                                 else if (sh.MinHeight == 10)
-                                    sh = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, fig.Points[i - 2], fig.Points[i], contP.Item1, canvas);
-                                newFig.AddShape(sh, fig.Points[i - 2], contP);
+                                    sh = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, fig.Points[i - deletedInARow], fig.Points[i], contP.Item1, canvas);
+                                newFig.AddShape(sh, fig.Points[i - deletedInARow], contP);
                                 newFig.Points.Add(fig.Points[i]);
                             }
                             else
