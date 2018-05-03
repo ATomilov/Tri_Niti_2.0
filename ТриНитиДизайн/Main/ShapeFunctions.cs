@@ -501,7 +501,7 @@ namespace ТриНитиДизайн
                 for (int i = 0; i < fig.Points.Count; i++)
                 {
                     bool foundDeletePoint = false;
-                    bool nextDotDeleted = false;
+                    bool nextPointDeleted = false;
                     for (int j = 0; j < fig.PointsCount.Count; j++)
                     {
                         if (i == fig.PointsCount[j])
@@ -511,18 +511,35 @@ namespace ТриНитиДизайн
                         }
                         if (i + 1 == fig.PointsCount[j])
                         {
-                            nextDotDeleted = true;
+                            nextPointDeleted = true;
                         }
                     }
                     if (i != fig.Points.Count)
                     {
                         if (foundDeletePoint)
                         {
-                            newFig.AddPoint(fig.Points[i], OptionColor.ColorDraw, true,false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                            if (i != fig.Points.Count - 1 && !nextDotDeleted)
+                            Shape sh;
+                            fig.DictionaryPointLines.TryGetValue(fig.Points[i - 1], out sh);
+                            Tuple<Point, Point> contP;
+                            fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i - 1], out contP);
+                            if (sh is Path && i!= 1)
+                            {
+                                if (sh.MinHeight == 5)
+                                {
+                                    contP = new Tuple<Point, Point>(contP.Item2, contP.Item1);
+                                    sh = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, fig.Points[i - 2], contP.Item1, contP.Item2, 
+                                        fig.Points[i], canvas);
+                                }
+                                else if (sh.MinHeight == 10)
+                                    sh = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, fig.Points[i - 2], fig.Points[i], contP.Item1, canvas);
+                                newFig.AddShape(sh, fig.Points[i - 2], contP);
+                                newFig.Points.Add(fig.Points[i]);
+                            }
+                            else
+                                newFig.AddPoint(fig.Points[i], OptionColor.ColorDraw, true,false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                            if (i != fig.Points.Count - 1 && !nextPointDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
-                                Tuple<Point, Point> contP;
                                 fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[i], out contP);
                                 newFig.AddShape(prevShape, fig.Points[i], contP);
                             }
@@ -530,7 +547,7 @@ namespace ТриНитиДизайн
                         else
                         {
                             Point p = fig.Points[i];
-                            if (i != fig.Points.Count - 1 && !nextDotDeleted)
+                            if (i != fig.Points.Count - 1 && !nextPointDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
                                 Tuple<Point, Point> contP;

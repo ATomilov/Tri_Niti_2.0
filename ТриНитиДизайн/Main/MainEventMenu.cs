@@ -110,7 +110,8 @@ namespace ТриНитиДизайн
                 text = text.Replace("\r\n", "");
                 text = text.Replace(";", "");
                 text = text.Replace("PD", " ");
-                string pattern = @"PU([0-9]| |-)+";
+                text = text.Replace(",", " ");
+                string pattern = @"([0-9]| |-)+";
                 Regex rgx = new Regex(pattern);
                 Vector vect;
                 MatchCollection matches = rgx.Matches(text);
@@ -120,7 +121,6 @@ namespace ТриНитиДизайн
                 for (int i = 0; i < matches.Count;i++ )
                 {
                     string newStuff = matches[i].Value;
-                    newStuff = newStuff.Remove(0, 2);
                     pattern = @" ";
                     String[] elements = Regex.Split(newStuff, pattern);
                     double del = 22;
@@ -139,7 +139,7 @@ namespace ТриНитиДизайн
                         pts[i].Add(newP);
                     }
                 }
-                vect = new Vector(minX - 4400, minY - 4100);
+                vect = new Vector(minX -500, minY - 800);
                 for(int i = 0; i< pts.Count;i++)
                 {
                     ListPltFigure.Add(new Figure(MainCanvas));
