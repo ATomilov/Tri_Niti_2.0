@@ -27,7 +27,7 @@ namespace ТриНитиДизайн
                 canvas.Children.Add(ln);
             if (OptionRegim.regim == Regim.RegimCursor)
                 DrawFirstAndLastRectangle();
-            for (int i = 0; i < FigureList.Count; i++)
+            for (int i = FigureList.Count -1 ; i >=0; i--)
             {
                 FigureList[i].AddFigure(canvas);                        //можно не перерисовывать каждый раз
                 if (AllRectanglesOn && i == ChosenFigure)
@@ -480,7 +480,7 @@ namespace ТриНитиДизайн
             }
         }
 
-        public Figure Cepochka(Figure figure, double step, Canvas canvas)
+        public Figure Cepochka(Figure figure, double step, bool placeOnCanvas, Canvas canvas)
         {
             Shape pathCepochka = SetSpline(0.01, figure.Points);
             Figure resultFigure = new Figure(canvas);
@@ -501,7 +501,10 @@ namespace ТриНитиДизайн
             for (double j = 0; j <= steps; j++)
             {
                 myPathGeometry.GetPointAtFractionLength(j / steps, out p, out tg);
-                resultFigure.AddPoint(p, OptionColor.ColorDraw, false, false, 0);
+                if (placeOnCanvas)
+                    resultFigure.AddPoint(p, OptionColor.ColorDraw, false, false, 0);
+                else
+                    resultFigure.Points.Add(p);
             }
             return resultFigure;
         }

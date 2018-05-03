@@ -416,40 +416,22 @@ namespace ТриНитиДизайн
                     }
                 }
             }
-            pts = new List<Point>();
-            for(int i = 1; i < count;i++)
+            Figure smoothedGladFigure = Cepochka(ListFigure[FirstGladFigure], 5, false, MainCanvas);
+            int index = 0;
+            for (int i = 0; i < smoothedGladFigure.Points.Count; i++)
             {
-                double dist = FindLength(ControlGladLines[0].PointStart, ControlGladLines[i].PointStart);
-                if (dist < FindLength(ControlGladLines[0].PointStart, ControlGladLines[i].PointEnd))
-                    pts.Add(ControlGladLines[i].PointEnd);
-                else
-                    pts.Add(ControlGladLines[i].PointStart);
-            }
-
-            double[] distance = new double[pts.Count];
-
-            for (int i = 0; i < pts.Count; i++)
-            {
-                distance[i] = FindLength(pts[i], ControlGladLines[0].PointStart);
-            }
-
-            for (int i = 0; i < pts.Count - 1; i++)
-            {
-                int min = i;
-                for (int j = i + 1; j < pts.Count; j++)
+                for (int j = index; j < ControlGladLines.Count; j++)
                 {
-                    if (distance[j] < distance[min])
+                    if (FindLength(smoothedGladFigure.Points[i], ControlGladLines[j].PointStart) < 5 ||
+                        FindLength(smoothedGladFigure.Points[i], ControlGladLines[j].PointEnd) < 5)
                     {
-                        min = j;
+                        Figure temp = ControlGladLines[j];
+                        ControlGladLines[j] = ControlGladLines[index];
+                        ControlGladLines[index] = temp;
+                        index++;
+                        break;
                     }
                 }
-                double dummy = distance[i];
-                distance[i] = distance[min];
-                distance[min] = dummy;
-
-                Figure dummy1 = ControlGladLines[i+1];
-                ControlGladLines[i + 1] = ControlGladLines[min + 1];
-                ControlGladLines[min + 1] = dummy1;
             }
         }
     }

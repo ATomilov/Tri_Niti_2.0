@@ -240,7 +240,8 @@ namespace ТриНитиДизайн
                         OptionRegim.regim = Regim.RegimFigure;
                         ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
                         DrawInvisibleRectangles(MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, 
+                            OptionColor.ColorSelection, MainCanvas);
                     }
                     if (OptionRegim.regim == Regim.RegimCepochka && ListFigure[IndexFigure].Points.Count > 1)
                     {
@@ -251,11 +252,12 @@ namespace ТриНитиДизайн
                                 fig.groupFigures.Remove(ListFigure[IndexFigure]);
                         }
                         ListFigure[IndexFigure].RemoveFigure(MainCanvas);
-                        ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2, MainCanvas);
+                        ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2,true, MainCanvas);
                         OptionRegim.regim = Regim.RegimFigure;
                         ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
                         DrawInvisibleRectangles(MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, 
+                            OptionColor.ColorSelection, MainCanvas);
                     }
                     ShowPositionStatus(ListFigure[IndexFigure], false, false);
                 }
@@ -342,7 +344,7 @@ namespace ТриНитиДизайн
             {
                 TempListFigure = ListFigure.ToList<Figure>();
                 TempIndexFigure = IndexFigure;
-                ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2, MainCanvas);
+                ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2,true, MainCanvas);
                 ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorGlad, false);
                 RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
                 DrawFirstAndLastRectangle();

@@ -223,7 +223,6 @@ namespace ТриНитиДизайн
                 ListFigure.Add(fig);
             }
             CopyGroup = new List<Figure>();
-            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             DrawOutsideRectangles(true, false, MainCanvas);
         }
 
