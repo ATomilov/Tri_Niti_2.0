@@ -605,32 +605,6 @@ namespace ТриНитиДизайн
             MainCanvas.Background = OptionColor.ColorNewBackground;
         }
 
-        public void CursorMenuDrawStegki()
-        {
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
-                fig.ChangeFigureColor(OptionColor.ColorKrivaya, false);
-            MainCanvas.Children.Remove(lastRec);
-            MainCanvas.Children.Remove(firstRec);
-        }
-
-        public void CursorMenuOtshit()
-        {
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
-                fig.ChangeFigureColor(OptionColor.ColorKrivaya, false);
-            MainCanvas.Children.Remove(lastRec);
-            MainCanvas.Children.Remove(firstRec);
-            Line horizontalLine = new Line();
-            double x = ListFigure[IndexFigure].groupFigures[0].PointStart.X;
-            double y = ListFigure[IndexFigure].groupFigures[0].PointStart.Y;
-            horizontalLine = GeometryHelper.SetLine(OptionColor.ColorChoosingRec, new Point(x - 350, y),
-                new Point(x + 350, y), true, MainCanvas);
-            Line verticalLine = new Line();
-            verticalLine = GeometryHelper.SetLine(OptionColor.ColorChoosingRec, new Point(x, y - 350),
-                new Point(x, y + 350), true, MainCanvas);
-            otshitLines.Add(verticalLine);
-            otshitLines.Add(horizontalLine);
-        }
-
         private Vector FindFigureRectangle(Point p1, Point p2, Canvas canvas)
         {
             Vector scaleVector = GetVectorForNonOrthogonalScaling(p1, p2);

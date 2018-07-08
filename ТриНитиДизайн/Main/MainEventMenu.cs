@@ -325,19 +325,12 @@ namespace ТриНитиДизайн
         {
             if (ListFigure[IndexFigure].Points.Count > 0)
             {
-                var SpecialWindow = new View.SpecialWindowWhenSelectedFigure();
+                var SpecialWindow = new View.SpecialWindowWhenSelectedFigure(ListFigure[IndexFigure].groupFigures,
+                    otshitLines, firstRec, lastRec, MainCanvas);
                 SpecialWindow.ShowDialog();
-                if (OptionRegim.regim == Regim.RegimDrawStegki)
-                {
-                    CursorMenuDrawStegki();
-                }
-                else if (OptionRegim.regim == Regim.RegimDrawInColor)
+                if (OptionRegim.regim == Regim.RegimDrawInColor)
                 {
                     CursorMenuDrawInColor();
-                }
-                else if (OptionRegim.regim == Regim.RegimOtshit)
-                {
-                    CursorMenuOtshit();
                 }
             }
         }

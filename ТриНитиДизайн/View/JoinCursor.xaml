@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="Соединить элементы" Height="180" Width="170" ResizeMode="NoResize">
     <Grid>
-        <Button x:Name="chain_button" Content="Цепочкой" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="chain_button_Click" LostFocus="chain_button_LostFocus"/>
-        <Button x:Name="transposition_button" Content="Переносом" HorizontalAlignment="Center" Margin="0,27,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="transposition_button_Click"/>
-        <Button x:Name="shift_dots_button" Content="Сдвинуть точки" HorizontalAlignment="Center" Margin="0,53,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="shift_dots_button_Click"/>
-        <Button x:Name="shift_elements_button" Content="Сдвинуть элементы" HorizontalAlignment="Center" Margin="0,79,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="shift_elements_button_Click"/>
-        <Button x:Name="cancel_button" Content="Отменить" HorizontalAlignment="Center" Margin="0,108,0,0" VerticalAlignment="Top" Width="90" Height="25" Click="cancel_button_Click"/>
+        <Button x:Name="chain_button" Content="Цепочкой" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="ChainButtonClick" LostFocus="chain_button_LostFocus"/>
+        <Button x:Name="transposition_button" Content="Переносом" HorizontalAlignment="Center" Margin="0,27,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="TranspositionButtonClick"/>
+        <Button x:Name="shift_dots_button" Content="Сдвинуть точки" HorizontalAlignment="Center" Margin="0,53,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="ShiftDotsButtonClick"/>
+        <Button x:Name="shift_elements_button" Content="Сдвинуть элементы" HorizontalAlignment="Center" Margin="0,79,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="ShiftElementsButtonClick"/>
+        <Button x:Name="cancel_button" Content="Отменить" HorizontalAlignment="Center" Margin="0,108,0,0" VerticalAlignment="Top" Width="90" Height="25" Click="CancelButtonClick"/>
 
     </Grid>
 </Window>

@@ -34,12 +34,12 @@ namespace ТриНитиДизайн.View
             chain_button.BorderThickness = new Thickness(1.9);
         }
 
-        private void cancel_button_Click(object sender, RoutedEventArgs e)
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private void chain_button_Click(object sender, RoutedEventArgs e)
+        private void ChainButtonClick(object sender, RoutedEventArgs e)
         {
             Point start = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1].PointEnd;
             Point end = secondFigure.groupFigures[0].PointStart;
@@ -79,7 +79,7 @@ namespace ТриНитиДизайн.View
             this.Close();
         }
 
-        private void transposition_button_Click(object sender, RoutedEventArgs e)
+        private void TranspositionButtonClick(object sender, RoutedEventArgs e)
         {
             List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
             List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
@@ -94,7 +94,7 @@ namespace ТриНитиДизайн.View
             this.Close();
         }
 
-        private void shift_dots_button_Click(object sender, RoutedEventArgs e)
+        private void ShiftDotsButtonClick(object sender, RoutedEventArgs e)
         {
             Figure lastFigureInGroup = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1];
             Figure firstFigureInGroup = secondFigure.groupFigures[0];
@@ -153,7 +153,7 @@ namespace ТриНитиДизайн.View
             this.Close();
         }
 
-        private void shift_elements_button_Click(object sender, RoutedEventArgs e)
+        private void ShiftElementsButtonClick(object sender, RoutedEventArgs e)
         {
             OptionRegim.regim = Regim.RegimCursorJoinShiftElements;
             this.Close();
