@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ТриНитиДизайн.View"
         mc:Ignorable="d"
-        Title="Соеденить элементы" Height="180" Width="170" ResizeMode="NoResize">
+        Title="Соединить элементы" Height="180" Width="170" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="chain_button" Content="Цепочкой" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="chain_button_Click" LostFocus="chain_button_LostFocus"/>
         <Button x:Name="transposition_button" Content="Переносом" HorizontalAlignment="Center" Margin="0,27,0,0" VerticalAlignment="Top" Width="150" Height="25" Click="transposition_button_Click"/>
