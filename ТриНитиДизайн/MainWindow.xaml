@@ -75,28 +75,6 @@
             <MenuItem Header="Установки" Click="OpenSetting" />
             <MenuItem Header="Справка" Click="OpenAbout" />
         </Menu>
-        <ToolBar Height="26" Margin="0,17,0,0" Name="toolBarPanel1" VerticalAlignment="Top" Background="White">
-            <Button  Width="25" Content="" Click="OpenFile">
-                <Button.Background>
-                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/fileopen.png" />
-                </Button.Background>
-            </Button>
-            <Button  Width="25" Content="" Click="SaveProjectAs">
-                <Button.Background>
-                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/skachat_nora_roberts_nezavershennye_dela_v_formate_fb2_4017_0.jpg" />
-                </Button.Background>
-            </Button>
-            <Button  Width="30" Content="">
-                <Button.Background>
-                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.undo.png" />
-                </Button.Background>
-            </Button>
-            <Button  Width="30" Content="">
-                <Button.Background>
-                    <ImageBrush ImageSource="/ТриНитиДизайн;component/Images/appbar.undo1.png" />
-                </Button.Background>
-            </Button>
-        </ToolBar>
         <Button 
             Height="40" 
             HorizontalAlignment="Left" 

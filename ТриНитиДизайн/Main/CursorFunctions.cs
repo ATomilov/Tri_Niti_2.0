@@ -25,7 +25,7 @@ namespace ТриНитиДизайн
             ptsRec.Clear();
             chRec = new Rectangle();
             chRec.MaxHeight = 100000;
-            ptsRec = GetFourOutsidePointsForGroup(0);
+            ptsRec = GeometryHelper.GetFourOutsidePointsForGroup(ListFigure[IndexFigure].groupFigures, 0);
             chRec.Height = Math.Abs(ptsRec[1].Y - ptsRec[0].Y);
             chRec.Width = Math.Abs(ptsRec[2].X - ptsRec[1].X);
             DoubleCollection dashes = new DoubleCollection();
@@ -661,7 +661,8 @@ namespace ТриНитиДизайн
             transRectangles = new List<Rectangle>();
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
-            List<Point> pts = GetFourOutsidePointsForGroup(OptionDrawLine.CursorModeRectangleDistance);
+            List<Point> pts = GeometryHelper.GetFourOutsidePointsForGroup(ListFigure[IndexFigure].groupFigures,
+                OptionDrawLine.CursorModeRectangleDistance);
             a = pts[0];
             b = pts[1];
             c = pts[2];
@@ -706,36 +707,6 @@ namespace ТриНитиДизайн
             }
             foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
                 fig.ChangeFigureColor(OptionColor.ColorDraw, false);
-        }
-
-        private List<Point> GetFourOutsidePointsForGroup(double length)
-        {
-            List<Point> pts = new List<Point>();
-
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
-                foreach (Point p in fig.GetFourPointsOfOutSideRectangle(length))
-                    pts.Add(p);
-
-            Point max = new Point(Double.MinValue, Double.MinValue);
-            Point min = new Point(Double.MaxValue, Double.MaxValue);
-
-            foreach (Point p in pts)
-            {
-                if (p.X > max.X)
-                    max.X = p.X;
-                if (p.Y > max.Y)
-                    max.Y = p.Y;
-                if (p.X < min.X)
-                    min.X = p.X;
-                if (p.Y < min.Y)
-                    min.Y = p.Y;
-            }
-            pts.Clear();
-            pts.Add(new Point(min.X, min.Y));
-            pts.Add(new Point(min.X, max.Y));
-            pts.Add(new Point(max.X, max.Y));
-            pts.Add(new Point(max.X, min.Y));
-            return pts;
         }
 
         private Point GetCenterForGroup(List<Point> pts)

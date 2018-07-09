@@ -64,11 +64,11 @@ namespace ТриНитиДизайн
                 double height = MainCanvas.ActualHeight;
                 double width = MainCanvas.ActualWidth;
                 Line verticalLine = new Line();
-                verticalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(width / 2, -1000),
-                    new Point(width / 2, height+1000),true, MainCanvas);
+                verticalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(width / 2, 0),
+                    new Point(width / 2, height),true, MainCanvas);
                 Line horizontalLine = new Line();
-                horizontalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(-1000, height / 2), 
-                    new Point(width + 1000, height / 2),true, MainCanvas);
+                horizontalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(0, height / 2), 
+                    new Point(width, height / 2),true, MainCanvas);
                 centerLines.Add(verticalLine);
                 centerLines.Add(horizontalLine);
             }

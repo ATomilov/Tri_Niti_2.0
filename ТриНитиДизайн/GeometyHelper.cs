@@ -196,5 +196,35 @@ namespace ТриНитиДизайн
         {
             return Math.Sqrt(Math.Pow((b.X - a.X), 2) + Math.Pow((b.Y - a.Y), 2));
         }
+
+        public static List<Point> GetFourOutsidePointsForGroup(List<Figure> group, double length)
+        {
+            List<Point> pts = new List<Point>();
+
+            foreach (Figure fig in group)
+                foreach (Point p in fig.GetFourPointsOfOutSideRectangle(length))
+                    pts.Add(p);
+
+            Point max = new Point(Double.MinValue, Double.MinValue);
+            Point min = new Point(Double.MaxValue, Double.MaxValue);
+
+            foreach (Point p in pts)
+            {
+                if (p.X > max.X)
+                    max.X = p.X;
+                if (p.Y > max.Y)
+                    max.Y = p.Y;
+                if (p.X < min.X)
+                    min.X = p.X;
+                if (p.Y < min.Y)
+                    min.Y = p.Y;
+            }
+            pts.Clear();
+            pts.Add(new Point(min.X, min.Y));
+            pts.Add(new Point(min.X, max.Y));
+            pts.Add(new Point(max.X, max.Y));
+            pts.Add(new Point(max.X, min.Y));
+            return pts;
+        }
     }
 }
