@@ -63,9 +63,8 @@ namespace ТриНитиДизайн.View
             Nullable<bool> result = saveFile.ShowDialog();
             if (result == true)
             {
-                Point centerPoint = new Point(canvas.ActualWidth / 2, canvas.ActualHeight / 2);
-                string contents = WriteDST(listFigure, centerPoint);
-                StreamWriter writer = new StreamWriter(saveFile.OpenFile(),Encoding.Default);
+                StreamWriter writer = new StreamWriter(saveFile.OpenFile(), Encoding.Default);
+                string contents = WriteDST(listFigure, System.IO.Path.GetFileNameWithoutExtension(saveFile.FileName));
                 writer.Write(contents);
                 writer.Dispose();
                 writer.Close();
@@ -103,17 +102,28 @@ namespace ТриНитиДизайн.View
             button_stegki.BorderThickness = new Thickness(1);
         }
 
-        private string WriteDST(List<Figure> list, Point center)
+        private string WriteDST(List<Figure> list, string title)
         {
-            string contents = "";
-            List<Point> pts = new List<Point>(list[0].Points);
-            contents += "LA:Untitled        ";
-            contents += BuildMetaInfo("ST:", pts.Count, 7);
-            contents += BuildMetaInfo("CO:", 0, 3);
+            string contents = "";            
+            contents += "LA:" + title;
+            if (contents.Length < 19)
+            {
+                while (contents.Length < 19)
+                    contents += " ";
+            }
+            else
+                contents = contents.Remove(19);
+            contents += "\n";
+
+            int stCount = 0;
+            foreach (Figure fig in list)
+                stCount += fig.Points.Count;
+            contents += BuildMetaInfo("ST:", stCount, 7);
+            contents += BuildMetaInfo("CO:", list.Count - 1, 3);
 
             List<Point> ptsRec = GeometryHelper.GetFourOutsidePointsForGroup(list, 0);
-            int height = (int)(ptsRec[1].Y - ptsRec[0].Y);
-            int width = (int)(ptsRec[2].X - ptsRec[1].X);
+            int height = (int)((ptsRec[1].Y - ptsRec[0].Y)*5);
+            int width = (int)((ptsRec[2].X - ptsRec[1].X)*5);
             contents += BuildMetaInfo("+X:", width, 5);
             contents += BuildMetaInfo("-X:", width, 5);
             contents += BuildMetaInfo("+Y:", height, 5);
@@ -123,35 +133,34 @@ namespace ТриНитиДизайн.View
             contents += BuildMetaInfo("AY:+", 0, 6);
             contents += BuildMetaInfo("MX:+", 0, 6);
             contents += BuildMetaInfo("MY:+", 0, 6);
-            contents += "PD:******";
-            char[] characters = System.Text.Encoding.ASCII.GetChars(new byte[] { 0x1a });
-            contents+= characters[0];
+            contents += "PD:******\n";
+            contents += EmbChar(0x1a);
+
             for (int i = 125; i < 512; i++)
             {
                 contents+=" ";
             }
-
-            /*
-            int xx = 0;
-            int yy = 0;
-            int flag = 0;
-            int dx, dy;
-            foreach (Point p in pts)
+                        
+            int xx, yy, dx, dy;
+            for (int i = 0; i < list.Count; i++)
             {
-                dx = (int)(p.X) - xx;
-                dy = (int)(p.Y) - yy;
-                xx = (int)(p.X);
-                yy = (int)(p.Y);
-                if (p == list[0].PointEnd)
-                    flag = 1;
-                contents = EncodePoint(dx, dy, flag, contents);
+                contents = EncodePoint(0, 0, 0, contents);
+                List<Point> pts = new List<Point>(list[i].Points);
+                xx = (int)(pts[0].X * 5);
+                yy = (int)(pts[0].Y * 5);
+                for (int j = 1; j < pts.Count; j++)
+                {
+                    dx = (int)(pts[j].X * 5) - xx;
+                    dy = yy - (int)(pts[j].Y * 5);
+                    xx = (int)(pts[j].X * 5);
+                    yy = (int)(pts[j].Y * 5);
+                    contents = EncodePoint(dx, dy, 0, contents);
+                }
+                if (i != list.Count - 1)
+                    contents = JumpToNewEmbroideryPart(pts[pts.Count - 1], list[i + 1].PointStart, contents);
             }
-            contents += (Char)0xA1;
-            characters = System.Text.Encoding.ASCII.GetChars(new byte[] { 0xA1 });
-            contents += characters[0];
-            */
-            for (int i = 0; i < 1024; i++)
-                contents += (char)0xA1;
+            contents = EncodePoint(0, 0, 3, contents);
+            contents += EmbChar(0xA1);
             return contents;
         }
 
@@ -165,13 +174,37 @@ namespace ТриНитиДизайн.View
                 index = 3;
             while (st.Length < (count+3))
                 st = st.Insert(index, " ");
+            st += "\n";
             return st;
+        }
+
+        private string JumpToNewEmbroideryPart(Point pointStart, Point pointEnd, string contents)
+        {
+            contents = EncodePoint(0, 0, 1, contents);
+            pointStart = new Point((int)(pointStart.X * 5), (int)(pointStart.Y * 5));
+            pointEnd = new Point((int)(pointEnd.X * 5), (int)(pointEnd.Y * 5));
+            Vector vect = pointEnd - pointStart;
+            int divider = 4;
+            vect /= divider;
+            while (vect.X > 110 || vect.X < -110 || vect.Y > 110 || vect.Y < -110)
+            {
+                vect *= divider;
+                divider++;
+                vect /= divider;
+            }
+            divider--;
+            for (int i = 0; i < divider; i++)
+                contents = EncodePoint((int)vect.X, -(int)vect.Y, 1, contents);
+            Point penulitmatePoint = new Point(pointStart.X + (int)(vect.X * divider), pointStart.Y + (int)(vect.Y * divider));
+            contents = EncodePoint((int)(pointEnd.X - penulitmatePoint.X), (int)(penulitmatePoint.Y - pointEnd.Y), 1, contents);
+            contents = EncodePoint(0, 0, 2, contents);
+            return contents;
         }
 
         private string EncodePoint(int x, int y, int flag, string contents)
         {
-            char b0, b1, b2;
-            b0 = b1 = b2 = '0';
+            int b0, b1, b2;
+            b0 = b1 = b2 = 0;
 
             /* cannot encode values > +121 or < -121. */
             if (x > 121 || x < -121)
@@ -217,33 +250,47 @@ namespace ТриНитиДизайн.View
                 return contents;
             }
 
-            b2 |= (char)3;
+            b2 |= 3;
 
+            //jump
             if (flag == 1)
             {
-                b2 = (char)243;
-                b0 = b1 = (char)0;
+                b2 = (b2 | 0x83);
             }
 
-            /*
-            if (flags & (JUMP | TRIM))
+            //end one part of embroidery
+            if (flag == 2)
             {
-                b2 = (char)(b2 | 0x83);
+                b2 = (b2 | 0xC3);
             }
-            if (flags & STOP)
+
+            //end full embroidery
+            if (flag == 3)
             {
-                b2 = (char)(b2 | 0xC3);
+                b2 = 243;
+                b0 = b1 = 0;
             }
-            */
-            contents += b0;
-            contents += b1;
-            contents += b2;
+            contents += EmbChar(b0);
+            contents += EmbChar(b1);
+            contents += EmbChar(b2);
             return contents;
         }
 
-        private char SetBit(int pos)
+        private char EmbChar(int num)
         {
-            return (char)(1 << pos);
+            string newstring = 
+                "ЂЃ‚ѓ„…†‡€‰Љ‹ЊЌЋЏђ‘’“”•–—™љ›њќћџ ЎўЈ¤Ґ¦§Ё©Є«¬­®Ї°±Ііґµ¶·ё№є»јЅѕїАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя";
+            char ch;
+            if (num > 126)
+                ch = newstring[num - 127];
+            else
+                ch = (char)num;
+            return ch;
+        }
+
+        private int SetBit(int pos)
+        {
+            return 1 << pos;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ТриНитиДизайн
             }
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
-            ListFigure[IndexFigure].PointsCount.Clear();
+            ListFigure[IndexFigure].highlightedPoints.Clear();
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             LoadPreviousRegim(false);
             DrawFirstAndLastRectangle();

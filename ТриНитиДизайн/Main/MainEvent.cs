@@ -92,7 +92,7 @@ namespace ТриНитиДизайн
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
-            ListFigure[IndexFigure].PointsCount.Clear();
+            ListFigure[IndexFigure].highlightedPoints.Clear();
             OptionRegim.regim = Regim.RegimDraw;
             RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
             ShowPositionStatus(ListFigure[IndexFigure], false, false);
@@ -110,7 +110,7 @@ namespace ТриНитиДизайн
             ExitFromRisuiRegim();
             Edit_Menu.IsEnabled = true;
             CloseAllTabs();
-            ListFigure[IndexFigure].PointsCount.Clear();
+            ListFigure[IndexFigure].highlightedPoints.Clear();
             OptionRegim.regim = Regim.RegimCursor;
             for (int i = 0; i < ListFigure.Count; i++)
             {

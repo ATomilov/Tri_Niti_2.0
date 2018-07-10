@@ -118,7 +118,7 @@ namespace ТриНитиДизайн
             }
             for(int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
             {
-                if(ListFigure[IndexFigure].PointsCount.Contains(i))
+                if(ListFigure[IndexFigure].highlightedPoints.Contains(i))
                 {
                     ListFigure[IndexFigure].Points[i] += delta;
                 }
@@ -241,14 +241,14 @@ namespace ТриНитиДизайн
 
         public void MakeLomanaya(Figure fig, Canvas canvas)
         {
-            for (int i = 0; i < fig.PointsCount.Count - 1; i++)
+            for (int i = 0; i < fig.highlightedPoints.Count - 1; i++)
             {
-                if (fig.PointsCount[i] == (fig.PointsCount[i + 1] - 1))
+                if (fig.highlightedPoints[i] == (fig.highlightedPoints[i + 1] - 1))
                 {
                     Shape sh;
-                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
-                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]],canvas);
-                    fig.AddLine(fig.Points[fig.PointsCount[i]], fig.Points[fig.PointsCount[i + 1]], OptionColor.ColorDraw);
+                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.highlightedPoints[i]], out sh);
+                    fig.DeleteShape(sh, fig.Points[fig.highlightedPoints[i]],canvas);
+                    fig.AddLine(fig.Points[fig.highlightedPoints[i]], fig.Points[fig.highlightedPoints[i + 1]], OptionColor.ColorDraw);
                 }
             }
         }
@@ -286,12 +286,12 @@ namespace ТриНитиДизайн
 
         public void DrawAllChosenLines(Figure fig, Brush brush, Canvas canvas)
         {
-            for (int i = 0; i < fig.PointsCount.Count - 1; i++)
+            for (int i = 0; i < fig.highlightedPoints.Count - 1; i++)
             {
-                if (fig.PointsCount[i] == (fig.PointsCount[i + 1] - 1))
+                if (fig.highlightedPoints[i] == (fig.highlightedPoints[i + 1] - 1))
                 {
                     Shape sh;
-                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
+                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.highlightedPoints[i]], out sh);
                     sh.Stroke = brush;
                 }
             }
@@ -299,30 +299,30 @@ namespace ТриНитиДизайн
 
         public void ChooseNextRectangle(Figure fig, bool isNext, Canvas canvas)
         {
-            if (fig.PointsCount.Count == 1)
+            if (fig.highlightedPoints.Count == 1)
             {
                 if (isNext)
                 {
-                    if (fig.PointsCount[0] != fig.Points.Count - 1)
-                        fig.PointsCount[0]++;
+                    if (fig.highlightedPoints[0] != fig.Points.Count - 1)
+                        fig.highlightedPoints[0]++;
                 }
                 else
                 {
-                    if (fig.PointsCount[0] != 0)
-                        fig.PointsCount[0]--;
+                    if (fig.highlightedPoints[0] != 0)
+                        fig.highlightedPoints[0]--;
                 }
             }
         }
 
         public void SplitFigureInTwo(Figure fig, Canvas canvas)
         {
-            if (fig.PointsCount.Count == 1 && fig.PointsCount[0] != 0)
+            if (fig.highlightedPoints.Count == 1 && fig.highlightedPoints[0] != 0)
             {
                 Figure newFig = new Figure(canvas);
-                for (int i = 0; i <= fig.PointsCount[0]; i++)
+                for (int i = 0; i <= fig.highlightedPoints[0]; i++)
                 {
                     Point p = fig.Points[i];
-                    if (i != fig.PointsCount[0])
+                    if (i != fig.highlightedPoints[0])
                     {
                         Shape sh;
                         fig.DictionaryPointLines.TryGetValue(fig.Points[i], out sh);
@@ -332,13 +332,13 @@ namespace ТриНитиДизайн
                     }
                     if (i == 0)
                         newFig.PointStart = p;
-                    if (i == fig.PointsCount[0])
+                    if (i == fig.highlightedPoints[0])
                         newFig.PointEnd = p;
                     newFig.Points.Add(p);
                 }
                 ListFigure.Insert(IndexFigure, newFig);
                 newFig = new Figure(canvas);
-                for (int i = fig.PointsCount[0]; i < fig.Points.Count; i++)
+                for (int i = fig.highlightedPoints[0]; i < fig.Points.Count; i++)
                 {
                     Point p = fig.Points[i];
                     if (i != fig.Points.Count - 1)
@@ -349,7 +349,7 @@ namespace ТриНитиДизайн
                         fig.DictionaryShapeControlPoints.TryGetValue(p, out contP);
                         newFig.AddShape(sh, p, contP);
                     }
-                    if (i == fig.PointsCount[0])
+                    if (i == fig.highlightedPoints[0])
                         newFig.PointStart = p;
                     if (i == fig.Points.Count - 1)
                         newFig.PointEnd = p;
@@ -368,42 +368,42 @@ namespace ТриНитиДизайн
 
         public void MakeSpline(Figure fig,Brush brush, Canvas canvas)
         {
-            for (int i = 0; i < fig.PointsCount.Count - 1; i++)
+            for (int i = 0; i < fig.highlightedPoints.Count - 1; i++)
             {
-                if (fig.PointsCount[i] == (fig.PointsCount[i + 1] - 1))
+                if (fig.highlightedPoints[i] == (fig.highlightedPoints[i + 1] - 1))
                 {
                     List<Point> newList = new List<Point>();
                     if(fig.Points.Count == 2)
                     {
-                        newList.Add(fig.Points[fig.PointsCount[i]]);
-                        newList.Add(fig.Points[fig.PointsCount[i]]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 1]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i]]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i]]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 1]);
                     }
-                    else if (fig.PointsCount[i] == 0)
+                    else if (fig.highlightedPoints[i] == 0)
                     {
-                        newList.Add(fig.Points[fig.PointsCount[i]]);
-                        newList.Add(fig.Points[fig.PointsCount[i]]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 1]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 2]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i]]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i]]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 2]);
                     }
-                    else if (fig.PointsCount[i] == fig.Points.Count - 2)
+                    else if (fig.highlightedPoints[i] == fig.Points.Count - 2)
                     {
-                        newList.Add(fig.Points[fig.PointsCount[i] - 1]);
-                        newList.Add(fig.Points[fig.PointsCount[i]]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 1]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] - 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i]]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 1]);
                     }
                     else
                     {
-                        newList.Add(fig.Points[fig.PointsCount[i] - 1]);
-                        newList.Add(fig.Points[fig.PointsCount[i]]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 1]);
-                        newList.Add(fig.Points[fig.PointsCount[i] + 2]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] - 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i]]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 1]);
+                        newList.Add(fig.Points[fig.highlightedPoints[i] + 2]);
                     }
                     Shape sh;
-                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.PointsCount[i]], out sh);
-                    fig.DeleteShape(sh, fig.Points[fig.PointsCount[i]],MainCanvas);
+                    fig.DictionaryPointLines.TryGetValue(fig.Points[fig.highlightedPoints[i]], out sh);
+                    fig.DeleteShape(sh, fig.Points[fig.highlightedPoints[i]],MainCanvas);
                     double SX1 = 0.7 * (newList[2].X - newList[0].X) / 3 + newList[1].X;
                     double SY1 = 0.7 * (newList[2].Y - newList[0].Y) / 3 + newList[1].Y;
                     double SX2 = newList[2].X - 0.7 * (newList[3].X - newList[1].X) / 3;
@@ -411,7 +411,7 @@ namespace ТриНитиДизайн
                     Point controlPoint1 = new Point(SX1,SY1);
                     Point controlPoint2 = new Point(SX2,SY2);
                     sh = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, newList[1], controlPoint1, controlPoint2, newList[2], canvas);
-                    fig.AddShape(sh, fig.Points[fig.PointsCount[i]], new Tuple<Point,Point>(controlPoint1,controlPoint2));
+                    fig.AddShape(sh, fig.Points[fig.highlightedPoints[i]], new Tuple<Point,Point>(controlPoint1,controlPoint2));
                 }
             }
         }
@@ -453,7 +453,7 @@ namespace ТриНитиДизайн
         {
             if (canvas.Children.Contains(fig.NewPointEllipse))
             {
-                fig.PointsCount.Clear();
+                fig.highlightedPoints.Clear();
                 int index = fig.Points.IndexOf(fig.PointForAddingPoints);
                 fig.Points.Insert(index + 1, fig.EllipsePoint);
                 Shape sh;
@@ -494,7 +494,7 @@ namespace ТриНитиДизайн
         
         public void DeletePointFromFigure(Figure fig, Canvas canvas)
         {
-            if (fig.PointsCount.Count > 0)
+            if (fig.highlightedPoints.Count > 0)
             {
                 Figure newFig = new Figure(canvas);
                 Shape prevShape = new Path();
@@ -503,15 +503,15 @@ namespace ТриНитиДизайн
                     bool foundDeletePoint = false;
                     bool nextPointDeleted = false;
                     int deletedInARow = 0;
-                    for (int j = 0; j < fig.PointsCount.Count; j++)
+                    for (int j = 0; j < fig.highlightedPoints.Count; j++)
                     {
-                        if (i == fig.PointsCount[j])
+                        if (i == fig.highlightedPoints[j])
                         {
                             i++;
                             foundDeletePoint = true;
                             deletedInARow++;
                         }
-                        if (i + 1 == fig.PointsCount[j])
+                        if (i + 1 == fig.highlightedPoints[j])
                         {
                             nextPointDeleted = true;
                         }

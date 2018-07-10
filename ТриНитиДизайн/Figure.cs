@@ -27,7 +27,7 @@ namespace ТриНитиДизайн
         public List<Shape> tempInvShapes;
         public List<Shape> tempShapes;
         public List<Point> tempPoints;
-        public List<int> PointsCount;
+        public List<int> highlightedPoints;
         public List<Rectangle> RectangleOfFigures;
         public List<Figure> groupFigures;
         public Dictionary<Point, Shape> tempDictionaryPointLines;
@@ -58,7 +58,7 @@ namespace ТриНитиДизайн
             tempShapes = new List<Shape>();
             tempInvShapes = new List<Shape>();
             tempPoints = new List<Point>();
-            PointsCount = new List<int>();
+            highlightedPoints = new List<int>();
             RectangleOfFigures = new List<Rectangle>();
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
@@ -166,7 +166,7 @@ namespace ТриНитиДизайн
         {
             for(int i = 0; i < Points.Count;i++)
             {
-                if (PointsCount.Contains(i))
+                if (highlightedPoints.Contains(i))
                     RectangleOfFigures[i].Fill = OptionColor.ColorSelection;
                 else
                     RectangleOfFigures[i].Fill = OptionColor.ColorOpacity;
@@ -191,7 +191,7 @@ namespace ТриНитиДизайн
             tempShapes = new List<Shape>();
             tempInvShapes = new List<Shape>();
             tempPoints = new List<Point>();
-            PointsCount = new List<int>();
+            highlightedPoints = new List<int>();
             RectangleOfFigures = new List<Rectangle>();
             PreparedForTatami = false;
             DictionaryShapeControlPoints = new Dictionary<Point, Tuple<Point, Point>>();

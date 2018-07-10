@@ -253,7 +253,7 @@ namespace ТриНитиДизайн
                         if(newPoint.X < LowerRightCorner.X && newPoint.X > UpperLeftCorner.X &&
                             newPoint.Y < LowerRightCorner.Y && newPoint.Y > UpperLeftCorner.Y)
                         {
-                            ListFigure[IndexFigure].PointsCount.Add(i);
+                            ListFigure[IndexFigure].highlightedPoints.Add(i);
                         }
                     }
                     ListFigure[IndexFigure].ChangeRectangleColor();
@@ -460,7 +460,7 @@ namespace ТриНитиДизайн
                         }
                     }
                     else
-                        ListFigure[IndexFigure].PointsCount.Clear();
+                        ListFigure[IndexFigure].highlightedPoints.Clear();
                 }
                 else if (e.OriginalSource is Rectangle)
                 {
@@ -470,10 +470,10 @@ namespace ТриНитиДизайн
                         double x = Canvas.GetLeft(firstRec) + firstRec.ActualHeight / 2;
                         double y = Canvas.GetTop(firstRec) + firstRec.ActualWidth / 2;
                         int index = ListFigure[IndexFigure].Points.IndexOf(new Point(x, y));
-                        if(!ListFigure[IndexFigure].PointsCount.Contains(index))
+                        if(!ListFigure[IndexFigure].highlightedPoints.Contains(index))
                         {
-                            ListFigure[IndexFigure].PointsCount.Clear();
-                            ListFigure[IndexFigure].PointsCount.Add(index);
+                            ListFigure[IndexFigure].highlightedPoints.Clear();
+                            ListFigure[IndexFigure].highlightedPoints.Add(index);
                             ListFigure[IndexFigure].ChangeRectangleColor();
                         }
                         string status;
@@ -484,18 +484,18 @@ namespace ТриНитиДизайн
                         {
                             Point p = ListFigure[IndexFigure].Points[i];
                             
-                            if (!ListFigure[IndexFigure].PointsCount.Contains(i) && ListFigure[IndexFigure].PointsCount.Contains(i + 1))
+                            if (!ListFigure[IndexFigure].highlightedPoints.Contains(i) && ListFigure[IndexFigure].highlightedPoints.Contains(i + 1))
                             {
                                 status = "second";
                                 rec2 = ListFigure[IndexFigure].RectangleOfFigures[i + 1];
                             }
-                            else if (ListFigure[IndexFigure].PointsCount.Contains(i) && ListFigure[IndexFigure].PointsCount.Contains(i + 1))
+                            else if (ListFigure[IndexFigure].highlightedPoints.Contains(i) && ListFigure[IndexFigure].highlightedPoints.Contains(i + 1))
                             {
                                 status = "both";
                                 rec1 = ListFigure[IndexFigure].RectangleOfFigures[i];
                                 rec2 = ListFigure[IndexFigure].RectangleOfFigures[i + 1];
                             }
-                            else if (ListFigure[IndexFigure].PointsCount.Contains(i) && !ListFigure[IndexFigure].PointsCount.Contains(i + 1))
+                            else if (ListFigure[IndexFigure].highlightedPoints.Contains(i) && !ListFigure[IndexFigure].highlightedPoints.Contains(i + 1))
                             {
                                 rec1 = ListFigure[IndexFigure].RectangleOfFigures[i];
                                 status = "first";
@@ -512,7 +512,7 @@ namespace ТриНитиДизайн
                             ListFigure[IndexFigure].DeleteShape(sh, p, MainCanvas);
                             listChangedShapes.Add(chShape);
                         }
-                        if (ListFigure[IndexFigure].Points.Count == 1 && ListFigure[IndexFigure].PointsCount.Contains(0))
+                        if (ListFigure[IndexFigure].Points.Count == 1 && ListFigure[IndexFigure].highlightedPoints.Contains(0))
                         {
                             Point p = ListFigure[IndexFigure].Points[0];
                             rec1 = ListFigure[IndexFigure].RectangleOfFigures[0];
@@ -530,7 +530,7 @@ namespace ТриНитиДизайн
                 }
                 else
                 {
-                    ListFigure[IndexFigure].PointsCount.Clear();
+                    ListFigure[IndexFigure].highlightedPoints.Clear();
                     ChoosingRectangle.Points.Add(e.GetPosition(MainCanvas));
                 }
             }

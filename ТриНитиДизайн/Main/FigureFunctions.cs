@@ -359,7 +359,7 @@ namespace ТриНитиДизайн
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
                                     IndexFigure = i;
                                     FigureList[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, true);
-                                    FigureList[IndexFigure].PointsCount.Clear();
+                                    FigureList[IndexFigure].highlightedPoints.Clear();
                                     RedrawEverything(FigureList, IndexFigure, true, canvas);
                                     ShowPositionStatus(FigureList[IndexFigure], false, false);
                                 }
