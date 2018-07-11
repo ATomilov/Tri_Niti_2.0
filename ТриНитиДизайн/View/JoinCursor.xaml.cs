@@ -49,10 +49,10 @@ namespace ТриНитиДизайн.View
             Point p = start;
             for (int i = 0; i < 6; i++)
             {
-                newFigure.AddPoint(p, OptionColor.ColorDraw, false,false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                newFigure.AddPoint(p, OptionColor.colorActive, false,false, OptionDrawLine.sizeRectangle);
                 p += newFigVect;
             }
-            newFigure.regimFigure = Regim.RegimCepochka;
+            newFigure.modeFigure = Mode.modeRunStitch;
             currentList.Add(newFigure);
 
             List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
@@ -109,7 +109,7 @@ namespace ТриНитиДизайн.View
                 lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[0], out sh);
                 lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[0], canvas);
                 lastFigureInGroup.Points.Remove(start);
-                lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, true, 0);
+                lastFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, true, 0);
             }
             else
             {
@@ -117,21 +117,21 @@ namespace ТриНитиДизайн.View
                 lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], canvas);
                 lastFigureInGroup.Points.Remove(start);
                 lastFigureInGroup.PointEnd = lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 1];
-                lastFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, false, 0);
+                lastFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, false, 0);
             }
             if (firstFigureInGroup.Points.Count == 1)
             {
                 firstFigureInGroup.DictionaryPointLines.TryGetValue(firstFigureInGroup.Points[0], out sh);
                 firstFigureInGroup.DeleteShape(sh, firstFigureInGroup.Points[0], canvas);
                 firstFigureInGroup.Points.Remove(end);
-                firstFigureInGroup.AddPoint(middle, OptionColor.ColorDraw, false, true, 0);
+                firstFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, true, 0);
             }
             else
             {
                 firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
                 firstFigureInGroup.DeleteShape(sh, end, canvas);
                 firstFigureInGroup.Points.Remove(end);
-                sh = GeometryHelper.SetLine(OptionColor.ColorDraw, middle, firstFigureInGroup.Points[0], false, canvas);
+                sh = GeometryHelper.SetLine(OptionColor.colorActive, middle, firstFigureInGroup.Points[0], false, canvas);
                 firstFigureInGroup.AddShape(sh, middle, null);
                 firstFigureInGroup.PointStart = middle;
                 firstFigureInGroup.Points.Insert(0, middle);
@@ -155,7 +155,7 @@ namespace ТриНитиДизайн.View
 
         private void ShiftElementsButtonClick(object sender, RoutedEventArgs e)
         {
-            OptionRegim.regim = Regim.RegimCursorJoinShiftElements;
+            OptionMode.mode = Mode.modeCursorJoinShiftElements;
             this.Close();
         }
 

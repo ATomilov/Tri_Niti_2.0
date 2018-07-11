@@ -21,8 +21,8 @@ namespace ТриНитиДизайн.View
         public Cepochka()
         {
             InitializeComponent();
-            checkbox1.IsChecked = OptionCepochka.ProkolyVTochkah;
-            textbox1.Text = OptionCepochka.LenthStep.ToString();
+            checkbox1.IsChecked = OptionRunStitch.ProkolyVTochkah;
+            textbox1.Text = OptionRunStitch.lengthStep.ToString();
             textbox1.SelectAll();
             textbox1.Focus();
             button1.IsDefault = true;
@@ -30,11 +30,11 @@ namespace ТриНитиДизайн.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            OptionCepochka.ProkolyVTochkah = checkbox1.IsChecked ?? false;
-            OptionCepochka.LenthStep = int.Parse(textbox1.Text);
-            if ((int.Parse(textbox1.Text) < OptionCepochka.MinLenthStep) || (int.Parse(textbox1.Text) > OptionCepochka.MaxLenthStep))
+            OptionRunStitch.ProkolyVTochkah = checkbox1.IsChecked ?? false;
+            OptionRunStitch.lengthStep = int.Parse(textbox1.Text);
+            if ((int.Parse(textbox1.Text) < OptionRunStitch.minLengthStep) || (int.Parse(textbox1.Text) > OptionRunStitch.maxLengthStep))
             {
-                System.Windows.MessageBox.Show("Длина шага должна быть от " + OptionCepochka.MinLenthStep.ToString() + " до " + OptionCepochka.MaxLenthStep.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("Длина шага должна быть от " + OptionRunStitch.minLengthStep.ToString() + " до " + OptionRunStitch.maxLengthStep.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             this.Close();
 

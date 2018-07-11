@@ -21,95 +21,95 @@ namespace ТриНитиДизайн
     {
         private void ShapeMainButtonEvant(object sender, RoutedEventArgs e)
         {
-            if (OptionRegim.regim == Regim.RegimCursor)
+            if (OptionMode.mode == Mode.modeCursor)
             {
-                IndexFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[0]);
+                indexFigure = listFigure.IndexOf(listFigure[indexFigure].groupFigures[0]);
             }
-            ExitFromRisuiRegim();
+            ExitFromRisuimode();
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
-            OptionRegim.regim = Regim.RegimEditFigures;
-            for (int i = 0; i < ListFigure.Count; i++)
+            OptionMode.mode = Mode.modeEditFigures;
+            for (int i = 0; i < listFigure.Count; i++)
             {
-                if (ListFigure[i].PreparedForTatami)
+                if (listFigure[i].PreparedForTatami)
                 {
-                    ListFigure[i].LoadCurrentShapes();
+                    listFigure[i].LoadCurrentShapes();
                 }
             }
-            ChangeFiguresColor(ListFigure, MainCanvas);
-            MainCanvas.Cursor = ArrowCursor;
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
-            ChoosingRectangle = new Figure(MainCanvas);
+            ChangeFiguresColor(listFigure, MainCanvas);
+            MainCanvas.Cursor = arrowCursor;
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
+            choosingRectangle = new Figure(MainCanvas);
             if (tabControl1.Visibility == Visibility.Hidden)
                 tabControl1.Visibility = Visibility.Visible;
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            ShowPositionStatus(listFigure[indexFigure], false, false);
         }
 
         private void LomannaiButtonEvent(object sender, RoutedEventArgs e)
         {
-            OptionRegim.regim = Regim.RegimEditFigures;
-            MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
-            ListFigure[IndexFigure].ChangeRectangleColor();
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            OptionMode.mode = Mode.modeEditFigures;
+            MakeLomanaya(listFigure[indexFigure], MainCanvas);
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
+            listFigure[indexFigure].ChangeRectangleColor();
+            ShowPositionStatus(listFigure[indexFigure], false, false);
         }
 
         private void DygaButtonEvent(object sender, RoutedEventArgs e)
         {
-            MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
-            DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorChoosingRec, MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
-            ListFigure[IndexFigure].ChangeRectangleColor();
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            MakeLomanaya(listFigure[indexFigure], MainCanvas);
+            DrawAllChosenLines(listFigure[indexFigure], OptionColor.colorArc, MainCanvas);
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
+            listFigure[indexFigure].ChangeRectangleColor();
+            ShowPositionStatus(listFigure[indexFigure], false, false);
         }
 
         private void KrivaiaButtonEvent(object sender, RoutedEventArgs e)
         {
-            MakeLomanaya(ListFigure[IndexFigure], MainCanvas);
-            DrawAllChosenLines(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
-            ListFigure[IndexFigure].ChangeRectangleColor();
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            MakeLomanaya(listFigure[indexFigure], MainCanvas);
+            DrawAllChosenLines(listFigure[indexFigure], OptionColor.colorCurve, MainCanvas);
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
+            listFigure[indexFigure].ChangeRectangleColor();
+            ShowPositionStatus(listFigure[indexFigure], false, false);
         }
 
-        private void SgladitButtonEvent(object sender, RoutedEventArgs e)
+        private void SsatinitButtonEvent(object sender, RoutedEventArgs e)
         {
-            MakeSpline(ListFigure[IndexFigure], OptionColor.ColorKrivaya, MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
-            ListFigure[IndexFigure].ChangeRectangleColor();
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            MakeSpline(listFigure[indexFigure], OptionColor.colorCurve, MainCanvas);
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
+            listFigure[indexFigure].ChangeRectangleColor();
+            ShowPositionStatus(listFigure[indexFigure], false, false);
         }
 
         private void SelectPointNextButtonEvent(object sender, RoutedEventArgs e)
         {
-            ChooseNextRectangle(ListFigure[IndexFigure], false, MainCanvas);
-            ListFigure[IndexFigure].ChangeRectangleColor();
+            ChooseNextRectangle(listFigure[indexFigure], false, MainCanvas);
+            listFigure[indexFigure].ChangeRectangleColor();
         }
 
         private void SelectPointPrevButtonEvent(object sender, RoutedEventArgs e)
         {
-            ChooseNextRectangle(ListFigure[IndexFigure], true, MainCanvas);
-            ListFigure[IndexFigure].ChangeRectangleColor();
+            ChooseNextRectangle(listFigure[indexFigure], true, MainCanvas);
+            listFigure[indexFigure].ChangeRectangleColor();
         }
 
         private void PointAddedButtonEvent(object sender, RoutedEventArgs e)
         {
-            AddPointToFigure(ListFigure[IndexFigure], MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
+            AddPointToFigure(listFigure[indexFigure], MainCanvas);
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
         }
 
         private void PointDeleteButtonEvent(object sender, RoutedEventArgs e)
         {
-            DeletePointFromFigure(ListFigure[IndexFigure], MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            DeletePointFromFigure(listFigure[indexFigure], MainCanvas);
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
+            ShowPositionStatus(listFigure[indexFigure], false, false);
         }
 
         private void RazrivButtonEvent(object sender, RoutedEventArgs e)
         {
-            SplitFigureInTwo(ListFigure[IndexFigure], MainCanvas);
-            RedrawEverything(ListFigure, IndexFigure, true, MainCanvas);
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            SplitFigureInTwo(listFigure[indexFigure], MainCanvas);
+            RedrawEverything(listFigure, indexFigure, true, MainCanvas);
+            ShowPositionStatus(listFigure[indexFigure], false, false);
         }
     }
 }

@@ -22,8 +22,8 @@ namespace ТриНитиДизайн
         public Shape SetSpline(double tension,List<Point> TPoint)
         {
             Path myPath = new Path();
-            myPath.Stroke = OptionColor.ColorDraw;
-            myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
+            myPath.Stroke = OptionColor.colorActive;
+            myPath.StrokeThickness = OptionDrawLine.strokeThickness;
             PathGeometry myPathGeometry = new PathGeometry();
             CanonicalSplineHelper spline = new CanonicalSplineHelper();
             myPathGeometry = spline.CreateSpline(TPoint, tension, null, false, false, 0.25);
@@ -35,7 +35,7 @@ namespace ТриНитиДизайн
         {
             fig.PreparedForTatami = true;
             if (isColorChanged)
-                fig.ChangeFigureColor(OptionColor.ColorDraw, false);
+                fig.ChangeFigureColor(OptionColor.colorActive, false);
             for (int i = 0; i < fig.Points.Count - 1; i++)
             {
                 Shape sh;
@@ -76,7 +76,7 @@ namespace ТриНитиДизайн
             else
             {
                 Tuple<Point, Point> contPts;
-                ListFigure[IndexFigure].DictionaryShapeControlPoints.TryGetValue(firstShapeDot, out contPts);
+                listFigure[indexFigure].DictionaryShapeControlPoints.TryGetValue(firstShapeDot, out contPts);
                 bezierPoints.Add(firstShapeDot);
                 bezierPoints.Add(contPts.Item1);
                 bezierPoints.Add(contPts.Item2);
@@ -116,11 +116,11 @@ namespace ТриНитиДизайн
                 listChangedShapes[i].RemoveRectangleAndShape();
                 listChangedShapes[i].ManipulateShape(delta);
             }
-            for(int i = 0; i < ListFigure[IndexFigure].Points.Count; i++)
+            for(int i = 0; i < listFigure[indexFigure].Points.Count; i++)
             {
-                if(ListFigure[IndexFigure].highlightedPoints.Contains(i))
+                if(listFigure[indexFigure].highlightedPoints.Contains(i))
                 {
-                    ListFigure[IndexFigure].Points[i] += delta;
+                    listFigure[indexFigure].Points[i] += delta;
                 }
             }
         }
@@ -133,10 +133,10 @@ namespace ТриНитиДизайн
                 Point contPoint2 = listChangedShapes[i].secondControlPoint;
                 Tuple<Point, Point> contPts = new Tuple<Point, Point>(contPoint1, contPoint2);
                 Point p = listChangedShapes[i].firstPoint;
-                ListFigure[IndexFigure].AddShape(listChangedShapes[i].changedShape, p, contPts);
+                listFigure[indexFigure].AddShape(listChangedShapes[i].changedShape, p, contPts);
             }
-            ListFigure[IndexFigure].PointStart = ListFigure[IndexFigure].Points[0];
-            ListFigure[IndexFigure].PointEnd = ListFigure[IndexFigure].Points[ListFigure[IndexFigure].Points.Count - 1];
+            listFigure[indexFigure].PointStart = listFigure[indexFigure].Points[0];
+            listFigure[indexFigure].PointEnd = listFigure[indexFigure].Points[listFigure[indexFigure].Points.Count - 1];
         }
 
         private double FindT(Point firstDot, Point controlDot1, Point controlDot2, Point lastDot, Point clickedDot)
@@ -248,7 +248,7 @@ namespace ТриНитиДизайн
                     Shape sh;
                     fig.DictionaryPointLines.TryGetValue(fig.Points[fig.highlightedPoints[i]], out sh);
                     fig.DeleteShape(sh, fig.Points[fig.highlightedPoints[i]],canvas);
-                    fig.AddLine(fig.Points[fig.highlightedPoints[i]], fig.Points[fig.highlightedPoints[i + 1]], OptionColor.ColorDraw);
+                    fig.AddLine(fig.Points[fig.highlightedPoints[i]], fig.Points[fig.highlightedPoints[i + 1]], OptionColor.colorActive);
                 }
             }
         }
@@ -278,8 +278,8 @@ namespace ТриНитиДизайн
             {
                 Canvas.SetTop(rec, p2.Y);
             }
-            rec.Stroke = OptionColor.ColorChoosingRec;
-            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
+            rec.Stroke = OptionColor.colorArc;
+            rec.StrokeThickness = OptionDrawLine.strokeThickness;
             canvas.Children.Add(rec);
             return rec;
         }
@@ -336,7 +336,7 @@ namespace ТриНитиДизайн
                         newFig.PointEnd = p;
                     newFig.Points.Add(p);
                 }
-                ListFigure.Insert(IndexFigure, newFig);
+                listFigure.Insert(indexFigure, newFig);
                 newFig = new Figure(canvas);
                 for (int i = fig.highlightedPoints[0]; i < fig.Points.Count; i++)
                 {
@@ -355,14 +355,14 @@ namespace ТриНитиДизайн
                         newFig.PointEnd = p;
                     newFig.Points.Add(p);
                 }
-                newFig.ChangeFigureColor(OptionColor.ColorSelection, false);
+                newFig.ChangeFigureColor(OptionColor.colorInactive, false);
 
                 List<Figure> group = new List<Figure>(fig.groupFigures);
                 foreach (Figure figGroup in group)
                     figGroup.groupFigures.Remove(fig);
 
-                ListFigure.Insert(IndexFigure + 1, newFig);
-                ListFigure.Remove(fig);
+                listFigure.Insert(indexFigure + 1, newFig);
+                listFigure.Remove(fig);
             }
         }
 
@@ -410,7 +410,7 @@ namespace ТриНитиДизайн
                     double SY2 = newList[2].Y  - 0.7 * (newList[3].Y - newList[1].Y) / 3;
                     Point controlPoint1 = new Point(SX1,SY1);
                     Point controlPoint2 = new Point(SX2,SY2);
-                    sh = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, newList[1], controlPoint1, controlPoint2, newList[2], canvas);
+                    sh = GeometryHelper.SetBezier(OptionColor.colorCurve, newList[1], controlPoint1, controlPoint2, newList[2], canvas);
                     fig.AddShape(sh, fig.Points[fig.highlightedPoints[i]], new Tuple<Point,Point>(controlPoint1,controlPoint2));
                 }
             }
@@ -433,10 +433,10 @@ namespace ТриНитиДизайн
                         if (sh.MinHeight == 5)
                         {
                             contP = new Tuple<Point,Point>(contP.Item2,contP.Item1);
-                            sh = GeometryHelper.SetBezier(OptionColor.ColorDraw, p, contP.Item1, contP.Item2, fig.Points[i - 1], canvas);
+                            sh = GeometryHelper.SetBezier(OptionColor.colorActive, p, contP.Item1, contP.Item2, fig.Points[i - 1], canvas);
                         }
                         else if(sh.MinHeight == 10)
-                            sh = GeometryHelper.SetArc(OptionColor.ColorDraw, p, fig.Points[i - 1], contP.Item1, canvas);
+                            sh = GeometryHelper.SetArc(OptionColor.colorActive, p, fig.Points[i - 1], contP.Item1, canvas);
                     }
                     newFig.AddShape(sh, p, contP);
                 }
@@ -445,8 +445,8 @@ namespace ТриНитиДизайн
             newFig.PointStart = fig.PointEnd;
             newFig.PointEnd = fig.PointStart;
             CopyParametersToNewFigure(newFig, fig);
-            ListFigure.Insert(IndexFigure, newFig);
-            ListFigure.Remove(fig);
+            listFigure.Insert(indexFigure, newFig);
+            listFigure.Remove(fig);
         }
 
         public void AddPointToFigure(Figure fig, Canvas canvas)
@@ -462,21 +462,21 @@ namespace ТриНитиДизайн
                 {
                     fig.DeleteShape(sh, fig.Points[index], canvas);
                     Line ln = new Line();
-                    ln = GeometryHelper.SetLine(OptionColor.ColorDraw, fig.Points[index], fig.EllipsePoint,false, canvas);
+                    ln = GeometryHelper.SetLine(OptionColor.colorActive, fig.Points[index], fig.EllipsePoint,false, canvas);
                     fig.AddShape(ln, fig.Points[index], new Tuple<Point, Point>(new Point(), new Point()));
-                    ln = GeometryHelper.SetLine(OptionColor.ColorDraw, fig.EllipsePoint, fig.Points[index + 2], false, canvas);
+                    ln = GeometryHelper.SetLine(OptionColor.colorActive, fig.EllipsePoint, fig.Points[index + 2], false, canvas);
                     fig.AddShape(ln, fig.EllipsePoint, new Tuple<Point, Point>(new Point(), new Point()));
                 }
-                else if(sh.Stroke == OptionColor.ColorKrivaya)
+                else if(sh.Stroke == OptionColor.colorCurve)
                 {
                     Tuple<Point, Point> contPts;
                     fig.DictionaryShapeControlPoints.TryGetValue(fig.Points[index], out contPts);
                     List<Point> curvePts = ApproximateCurveDivsionPoint(fig.Points[index], contPts.Item1, contPts.Item2, fig.Points[index + 2], fig.EllipsePoint);
                     fig.DeleteShape(sh, fig.Points[index], canvas);
                     Shape newCurve;
-                    newCurve = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, curvePts[0], curvePts[1], curvePts[2], curvePts[3], canvas);
+                    newCurve = GeometryHelper.SetBezier(OptionColor.colorCurve, curvePts[0], curvePts[1], curvePts[2], curvePts[3], canvas);
                     fig.AddShape(newCurve, fig.Points[index], new Tuple<Point, Point>(curvePts[1], curvePts[2]));
-                    newCurve = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, curvePts[3], curvePts[4], curvePts[5], curvePts[6], canvas);
+                    newCurve = GeometryHelper.SetBezier(OptionColor.colorCurve, curvePts[3], curvePts[4], curvePts[5], curvePts[6], canvas);
                     fig.AddShape(newCurve, fig.EllipsePoint, new Tuple<Point, Point>(curvePts[4], curvePts[5]));
                 }
                 else
@@ -484,9 +484,9 @@ namespace ТриНитиДизайн
                     fig.DeleteShape(sh, fig.Points[index], canvas);
                     List<Point> arcPts = ApproximateArcDivisionPoint(sh, fig.Points[index], fig.Points[index + 2], fig.EllipsePoint);
                     Shape newArc;
-                    newArc = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, arcPts[0], arcPts[2], arcPts[1], canvas);
+                    newArc = GeometryHelper.SetArc(OptionColor.colorArc, arcPts[0], arcPts[2], arcPts[1], canvas);
                     fig.AddShape(newArc, fig.Points[index], new Tuple<Point, Point>(arcPts[1], new Point()));
-                    newArc = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, arcPts[2], arcPts[4], arcPts[3], canvas);
+                    newArc = GeometryHelper.SetArc(OptionColor.colorArc, arcPts[2], arcPts[4], arcPts[3], canvas);
                     fig.AddShape(newArc, arcPts[2], new Tuple<Point, Point>(arcPts[3], new Point()));
                 }
             }
@@ -530,16 +530,16 @@ namespace ТриНитиДизайн
                                 if (sh.MinHeight == 5)
                                 {
                                     contP = new Tuple<Point, Point>(contP.Item2, contP.Item1);
-                                    sh = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, fig.Points[i - deletedInARow], contP.Item1, contP.Item2, 
+                                    sh = GeometryHelper.SetBezier(OptionColor.colorCurve, fig.Points[i - deletedInARow], contP.Item1, contP.Item2, 
                                         fig.Points[i], canvas);
                                 }
                                 else if (sh.MinHeight == 10)
-                                    sh = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, fig.Points[i - deletedInARow], fig.Points[i], contP.Item1, canvas);
+                                    sh = GeometryHelper.SetArc(OptionColor.colorArc, fig.Points[i - deletedInARow], fig.Points[i], contP.Item1, canvas);
                                 newFig.AddShape(sh, fig.Points[i - deletedInARow], contP);
                                 newFig.Points.Add(fig.Points[i]);
                             }
                             else
-                                newFig.AddPoint(fig.Points[i], OptionColor.ColorDraw, true,false, OptionDrawLine.SizeWidthAndHeightRectangle);
+                                newFig.AddPoint(fig.Points[i], OptionColor.colorActive, true,false, OptionDrawLine.sizeRectangle);
                             if (i != fig.Points.Count - 1 && !nextPointDeleted)
                             {
                                 fig.DictionaryPointLines.TryGetValue(fig.Points[i], out prevShape);
@@ -568,18 +568,18 @@ namespace ТриНитиДизайн
                 }
 
                 CopyParametersToNewFigure(newFig, fig);
-                newFig.AddStarForSinglePoint(true, OptionColor.ColorDraw);
-                ListFigure.Insert(IndexFigure, newFig);
-                ListFigure.Remove(fig);
+                newFig.AddStarForSinglePoint(true, OptionColor.colorActive);
+                listFigure.Insert(indexFigure, newFig);
+                listFigure.Remove(fig);
             }
         }
 
         public void CopyParametersToNewFigure(Figure newFig, Figure oldFig)
         {
-            newFig.gladControlLines = oldFig.gladControlLines;
+            newFig.satinControlLines = oldFig.satinControlLines;
             newFig.oldGladCenters = oldFig.oldGladCenters;
             newFig.oldTatamiCenter = oldFig.oldTatamiCenter;
-            newFig.regimFigure = oldFig.regimFigure;
+            newFig.modeFigure = oldFig.modeFigure;
             newFig.tatamiControlLine = oldFig.tatamiControlLine;
 
             newFig.groupFigures = oldFig.groupFigures;

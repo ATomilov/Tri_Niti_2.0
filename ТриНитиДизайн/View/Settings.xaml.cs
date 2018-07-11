@@ -21,10 +21,10 @@ namespace ТриНитиДизайн
         public Setting()
         {
             InitializeComponent();
-            checkBox1.IsChecked = OptionStechki.isZacrepki;
-            textBox1.Text = OptionStechki.MaxLenthStechki.ToString();
-            textBox2.Text = OptionStechki.MinLenthStechki.ToString();
-            textBox3.Text = OptionStechki.CurrentPerehodStechki.ToString();
+            checkBox1.IsChecked = OptionStitches.isZacrepki;
+            textBox1.Text = OptionStitches.MaxLenthStechki.ToString();
+            textBox2.Text = OptionStitches.MinLenthStechki.ToString();
+            textBox3.Text = OptionStitches.CurrentPerehodStechki.ToString();
             textBox1.SelectAll();
             textBox1.Focus();
             button1.IsDefault = true;
@@ -32,10 +32,10 @@ namespace ТриНитиДизайн
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            OptionStechki.isZacrepki = checkBox1.IsChecked ?? false;
-            OptionStechki.MaxLenthStechki = int.Parse(textBox1.Text);
-            OptionStechki.MinLenthStechki = int.Parse( textBox2.Text);
-            OptionStechki.CurrentPerehodStechki = int.Parse(textBox3.Text);
+            OptionStitches.isZacrepki = checkBox1.IsChecked ?? false;
+            OptionStitches.MaxLenthStechki = int.Parse(textBox1.Text);
+            OptionStitches.MinLenthStechki = int.Parse( textBox2.Text);
+            OptionStitches.CurrentPerehodStechki = int.Parse(textBox3.Text);
             this.Close();
         }
     }

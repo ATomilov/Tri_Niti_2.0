@@ -22,10 +22,10 @@ namespace ТриНитиДизайн
         public MainWindow()
         {
             InitializeComponent();
-            CopyGroup = new List<Figure>();
-            ControlLine = new Figure(MainCanvas);
-            DeletedGroup = new List<Figure>();
-            ChosenPts = new List<Point>();
+            copyGroup = new List<Figure>();
+            controlLine = new Figure(MainCanvas);
+            deletedGroup = new List<Figure>();
+            chosenPts = new List<Point>();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -45,33 +45,33 @@ namespace ТриНитиДизайн
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ListFigure = new List<Figure>();
-            ListFigure.Add(new Figure(MainCanvas));
-            ListPltFigure = new List<Figure>();
-            ListPltFigure.Add(new Figure(MainCanvas));
-            IndexFigure = 0;
+            listFigure = new List<Figure>();
+            listFigure.Add(new Figure(MainCanvas));
+            listPltFigure = new List<Figure>();
+            listPltFigure.Add(new Figure(MainCanvas));
+            indexFigure = 0;
             tabControl1.Visibility = Visibility.Hidden;
             tabControl2.Visibility = Visibility.Hidden;
             /// Курсоры
             System.Windows.Resources.StreamResourceInfo sri = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Hand.cur", UriKind.Relative));
-            HandCursor = new Cursor(sri.Stream);
+            handCursor = new Cursor(sri.Stream);
             System.Windows.Resources.StreamResourceInfo sri1 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Normal.cur", UriKind.Relative));
-            NormalCursor = new Cursor(sri1.Stream);
+            defaultCursor = new Cursor(sri1.Stream);
             System.Windows.Resources.StreamResourceInfo sri2 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Sword.cur", UriKind.Relative));
-            SwordCursor = new Cursor(sri2.Stream);
-            System.Windows.Resources.StreamResourceInfo sri3 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\ArrowInLineRegim.cur", UriKind.Relative));
-            ArrowCursor = new Cursor(sri3.Stream);
+            swordCursor = new Cursor(sri2.Stream);
+            System.Windows.Resources.StreamResourceInfo sri3 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\ArrowInLineMode.cur", UriKind.Relative));
+            arrowCursor = new Cursor(sri3.Stream);
             System.Windows.Resources.StreamResourceInfo sri4 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Zoom-in.cur", UriKind.Relative));
-            ZoomInCursor = new Cursor(sri4.Stream);
+            zoomInCursor = new Cursor(sri4.Stream);
             System.Windows.Resources.StreamResourceInfo sri5 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\Zoom-out.cur", UriKind.Relative));
-            ZoomOutCursor = new Cursor(sri5.Stream);
+            zoomOutCursor = new Cursor(sri5.Stream);
             System.Windows.Resources.StreamResourceInfo sri6 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\onetoone.ico", UriKind.Relative));
-            OneToOneCursor = new Cursor(sri6.Stream);
+            oneToOneCursor = new Cursor(sri6.Stream);
             System.Windows.Resources.StreamResourceInfo sri7 = Application.GetResourceStream(new Uri(@"..\..\..\Cursors\centercursor.ico", UriKind.Relative));
-            CenterCursor = new Cursor(sri7.Stream);
+            centerCursor = new Cursor(sri7.Stream);
 
-            mainGrid.Cursor = NormalCursor;
-            MainCanvas.Cursor = NormalCursor;
+            mainGrid.Cursor = defaultCursor;
+            MainCanvas.Cursor = defaultCursor;
 
             panTransform = new TranslateTransform();
             zoomTransform = new ScaleTransform();
@@ -85,45 +85,45 @@ namespace ТриНитиДизайн
 
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
-            if (OptionRegim.regim == Regim.RegimCursor)
+            if (OptionMode.mode == Mode.modeCursor)
             {
-                IndexFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[0]);
+                indexFigure = listFigure.IndexOf(listFigure[indexFigure].groupFigures[0]);
             }
-            ExitFromRisuiRegim();
+            ExitFromRisuimode();
             Edit_Menu.IsEnabled = false;
             CloseAllTabs();
-            ListFigure[IndexFigure].highlightedPoints.Clear();
-            OptionRegim.regim = Regim.RegimDraw;
-            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            ShowPositionStatus(ListFigure[IndexFigure], false, false);
+            listFigure[indexFigure].highlightedPoints.Clear();
+            OptionMode.mode = Mode.modeDraw;
+            RedrawEverything(listFigure, indexFigure, false, MainCanvas);
+            ShowPositionStatus(listFigure[indexFigure], false, false);
             DrawFirstAndLastRectangle();
-            ChangeFiguresColor(ListFigure, MainCanvas);
-            MainCanvas.Cursor = HandCursor;
+            ChangeFiguresColor(listFigure, MainCanvas);
+            MainCanvas.Cursor = handCursor;
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
-            if(DeletedGroup.Count > 0)
+            if(deletedGroup.Count > 0)
                 restore_button.IsEnabled = true;
             else
                 restore_button.IsEnabled = false;
-            ExitFromRisuiRegim();
+            ExitFromRisuimode();
             Edit_Menu.IsEnabled = true;
             CloseAllTabs();
-            ListFigure[IndexFigure].highlightedPoints.Clear();
-            OptionRegim.regim = Regim.RegimCursor;
-            for (int i = 0; i < ListFigure.Count; i++)
+            listFigure[indexFigure].highlightedPoints.Clear();
+            OptionMode.mode = Mode.modeCursor;
+            for (int i = 0; i < listFigure.Count; i++)
             {
-                if (ListFigure[i].PreparedForTatami)
+                if (listFigure[i].PreparedForTatami)
                 {
-                    ListFigure[i].LoadCurrentShapes();
+                    listFigure[i].LoadCurrentShapes();
                 }
             }
-            ShowPositionStatus(ListFigure[IndexFigure], true, false);
-            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            ChangeFiguresColor(ListFigure, MainCanvas);
+            ShowPositionStatus(listFigure[indexFigure], true, false);
+            RedrawEverything(listFigure, indexFigure, false, MainCanvas);
+            ChangeFiguresColor(listFigure, MainCanvas);
             DrawOutsideRectangles(true, false, MainCanvas);
-            MainCanvas.Cursor = NormalCursor;
+            MainCanvas.Cursor = defaultCursor;
         }
     }
 }

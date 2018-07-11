@@ -21,7 +21,7 @@ namespace ТриНитиДизайн
     {
         private void MashtabMainButtonEvant(object sender, RoutedEventArgs e)
         {
-            ExitFromRisuiRegim();
+            ExitFromRisuimode();
             if (expander1.Visibility == Visibility.Collapsed)
                 expander1.Visibility = Visibility.Visible;
             else
@@ -33,34 +33,34 @@ namespace ТриНитиДизайн
         {
             expander1.IsExpanded = false;
             expander1.Visibility = Visibility.Collapsed;
-            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
-                OptionRegim.regim != Regim.OneToOne)
+            if (OptionMode.mode != Mode.zoomIn && OptionMode.mode != Mode.zoomOut && OptionMode.mode != Mode.moveCanvas &&
+                OptionMode.mode != Mode.oneToOne)
             {
-                prevRegim = OptionRegim.regim;
+                prevMode = OptionMode.mode;
                 prevCursor = MainCanvas.Cursor;
             }
-            OptionRegim.regim = Regim.ZoomIn;
-            MainCanvas.Cursor = ZoomInCursor;
+            OptionMode.mode = Mode.zoomIn;
+            MainCanvas.Cursor = zoomInCursor;
         }
         private void MinusButtonEvent(object sender, RoutedEventArgs e)
         {
             expander1.IsExpanded = false;
             expander1.Visibility = Visibility.Collapsed;
-            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
-                OptionRegim.regim != Regim.OneToOne)
+            if (OptionMode.mode != Mode.zoomIn && OptionMode.mode != Mode.zoomOut && OptionMode.mode != Mode.moveCanvas &&
+                OptionMode.mode != Mode.oneToOne)
             {
-                prevRegim = OptionRegim.regim;
+                prevMode = OptionMode.mode;
                 prevCursor = MainCanvas.Cursor;
             }
-            OptionRegim.regim = Regim.ZoomOut;
-            MainCanvas.Cursor = ZoomOutCursor;
+            OptionMode.mode = Mode.zoomOut;
+            MainCanvas.Cursor = zoomOutCursor;
         }
 
         private void PrevVidButtonEvent(object sender, RoutedEventArgs e)
         {
             expander1.IsExpanded = false;
             expander1.Visibility = Visibility.Collapsed;
-            if(PreviousViewList.Count !=0)
+            if(previousViewList.Count !=0)
                 LoadLastView();
             SetGrid();
         }
@@ -71,8 +71,8 @@ namespace ТриНитиДизайн
             expander1.Visibility = Visibility.Collapsed;
             SaveLastView();
             //TODO: add scale to one dot figure
-            if(ListFigure[IndexFigure].Points.Count > 1)
-                ScaleToFigure(ListFigure[IndexFigure]);
+            if(listFigure[indexFigure].Points.Count > 1)
+                ScaleToFigure(listFigure[indexFigure]);
             SetGrid();
         }
 
@@ -89,28 +89,28 @@ namespace ТриНитиДизайн
         {
             expander1.IsExpanded = false;
             expander1.Visibility = Visibility.Collapsed;
-            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
-                OptionRegim.regim != Regim.OneToOne)
+            if (OptionMode.mode != Mode.zoomIn && OptionMode.mode != Mode.zoomOut && OptionMode.mode != Mode.moveCanvas &&
+                OptionMode.mode != Mode.oneToOne)
             {
-                prevRegim = OptionRegim.regim;
+                prevMode = OptionMode.mode;
                 prevCursor = MainCanvas.Cursor;
             }
-            MainCanvas.Cursor = CenterCursor;   
-            OptionRegim.regim = Regim.MoveCanvas;
+            MainCanvas.Cursor = centerCursor;   
+            OptionMode.mode = Mode.moveCanvas;
         }
 
         private void OneToOneButtonEvent(object sender, RoutedEventArgs e)
         {
             expander1.IsExpanded = false;
             expander1.Visibility = Visibility.Collapsed;
-            if (OptionRegim.regim != Regim.ZoomIn && OptionRegim.regim != Regim.ZoomOut && OptionRegim.regim != Regim.MoveCanvas &&
-                OptionRegim.regim != Regim.OneToOne)
+            if (OptionMode.mode != Mode.zoomIn && OptionMode.mode != Mode.zoomOut && OptionMode.mode != Mode.moveCanvas &&
+                OptionMode.mode != Mode.oneToOne)
             {
-                prevRegim = OptionRegim.regim;
+                prevMode = OptionMode.mode;
                 prevCursor = MainCanvas.Cursor;
             }
-            OptionRegim.regim = Regim.OneToOne;
-            MainCanvas.Cursor = OneToOneCursor;
+            OptionMode.mode = Mode.oneToOne;
+            MainCanvas.Cursor = oneToOneCursor;
         }
     }
 }

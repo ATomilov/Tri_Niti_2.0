@@ -23,29 +23,29 @@ namespace ТриНитиДизайн
         {
             double xCenter = this.ActualWidth / 2;
             double yCenter = this.ActualHeight / 2;
-            double discrepancyX = (center.X - xCenter) / OptionSetka.Masshtab;
-            double discrepancyY = (center.Y - yCenter) / OptionSetka.Masshtab;
+            double discrepancyX = (center.X - xCenter) / OptionGrid.scaleMultiplier;
+            double discrepancyY = (center.Y - yCenter) / OptionGrid.scaleMultiplier;
 
-            if(OptionSetka.Masshtab * multiplier > 32)
-                multiplier = 32 / OptionSetka.Masshtab;
+            if(OptionGrid.scaleMultiplier * multiplier > 32)
+                multiplier = 32 / OptionGrid.scaleMultiplier;
             else
-                OptionSetka.Masshtab *= multiplier;
+                OptionGrid.scaleMultiplier *= multiplier;
 
-            OptionDrawLine.StrokeThickness /= multiplier;
-            OptionDrawLine.SizeWidthAndHeightRectangle /= multiplier;
-            OptionDrawLine.InvisibleStrokeThickness /= multiplier;
-            OptionDrawLine.SizeRectangleForScale /= multiplier;
-            OptionDrawLine.SizeRectangleForRotation /= multiplier;
-            OptionDrawLine.StrokeThicknessMainRec /= multiplier;
-            OptionDrawLine.OneDotCornerDistance /= multiplier;
-            OptionDrawLine.OneDotMiddleDistance /= multiplier;
-            OptionDrawLine.CursorModeRectangleDistance /= multiplier;
+            OptionDrawLine.strokeThickness /= multiplier;
+            OptionDrawLine.sizeRectangle /= multiplier;
+            OptionDrawLine.invisibleStrokeThickness /= multiplier;
+            OptionDrawLine.sizeRectangleForScale /= multiplier;
+            OptionDrawLine.sizeRectangleForRotation /= multiplier;
+            OptionDrawLine.strokeThicknessMainRec /= multiplier;
+            OptionDrawLine.oneDotCornerDistance /= multiplier;
+            OptionDrawLine.oneDotMiddleDistance /= multiplier;
+            OptionDrawLine.cursorModeRectangleDistance /= multiplier;
 
-            foreach (Figure fig in ListFigure)
+            foreach (Figure fig in listFigure)
             {
                 RescaleAllShapesInFigure(fig, multiplier,canvas);
             }
-            foreach (Figure fig in ListPltFigure)
+            foreach (Figure fig in listPltFigure)
             {
                 RescaleAllShapesInFigure(fig, multiplier, canvas);
             }
@@ -53,23 +53,23 @@ namespace ТриНитиДизайн
             {
                 ln.StrokeThickness /= multiplier;
             }
-            foreach (Line ln in otshitLines)
+            foreach (Line ln in unembroidLines)
             {
                 ln.StrokeThickness /= multiplier;
             }
-            foreach (Figure fig in LinesForGlad)
+            foreach (Figure fig in linesForSatin)
             {
                 RescaleAllShapesInFigure(fig, multiplier,canvas);
             }
-            foreach (Figure fig in CopyGroup)
+            foreach (Figure fig in copyGroup)
             {
                 RescaleAllShapesInFigure(fig, multiplier, canvas);
             }
-            foreach (Figure fig in DeletedGroup)
+            foreach (Figure fig in deletedGroup)
             {
                 RescaleAllShapesInFigure(fig, multiplier, canvas);
             }
-            foreach (Shape sh in ControlLine.Shapes)
+            foreach (Shape sh in controlLine.Shapes)
             {
                 sh.StrokeThickness /= multiplier;
             }
@@ -79,7 +79,7 @@ namespace ТриНитиДизайн
                 {
                     GeometryHelper.RescaleRectangle(rec, multiplier);
                 }
-                MoveTransformRectangles(OptionDrawLine.CursorModeRectangleDistance,multiplier);
+                MoveTransformRectangles(OptionDrawLine.cursorModeRectangleDistance,multiplier);
             }
             if (invisibleRectangles != null)
                 foreach (Rectangle rec in invisibleRectangles)
@@ -87,7 +87,7 @@ namespace ТриНитиДизайн
                     GeometryHelper.RescaleRectangle(rec, multiplier);
                 }
 
-            foreach (Shape sh in ControlLine.Shapes)
+            foreach (Shape sh in controlLine.Shapes)
             {
                 if (sh is Ellipse)
                     GeometryHelper.RescaleEllipse((Ellipse)sh, multiplier);
@@ -103,40 +103,40 @@ namespace ТриНитиДизайн
 
             zoomTransform.CenterX = xCenter;
             zoomTransform.CenterY = yCenter;
-            zoomTransform.ScaleX = OptionSetka.Masshtab;
-            zoomTransform.ScaleY = OptionSetka.Masshtab;
+            zoomTransform.ScaleX = OptionGrid.scaleMultiplier;
+            zoomTransform.ScaleY = OptionGrid.scaleMultiplier;
         }
 
         public void MoveCanvas(Point center, Canvas canvas)
         {
             double xCenter = this.ActualWidth / 2;
             double yCenter = this.ActualHeight / 2;
-            double discrepancyX = (center.X - xCenter)/OptionSetka.Masshtab;
-            double discrepancyY = (center.Y - yCenter) / OptionSetka.Masshtab;
+            double discrepancyX = (center.X - xCenter)/OptionGrid.scaleMultiplier;
+            double discrepancyY = (center.Y - yCenter) / OptionGrid.scaleMultiplier;
             panTransform.X -= discrepancyX;
             panTransform.Y -= discrepancyY;
         }
 
         public void SaveLastView()
         {
-            PreviousView lastView = new PreviousView(OptionSetka.Masshtab, panTransform.X, panTransform.Y);
-            PreviousViewList.Add(lastView);
+            PreviousView lastView = new PreviousView(OptionGrid.scaleMultiplier, panTransform.X, panTransform.Y);
+            previousViewList.Add(lastView);
         }
 
         public void LoadLastView()
         {
-            PreviousView lastView = PreviousViewList[PreviousViewList.Count - 1];
-            double lastMultiplier = lastView.ScaleValue / OptionSetka.Masshtab;
+            PreviousView lastView = previousViewList[previousViewList.Count - 1];
+            double lastMultiplier = lastView.ScaleValue / OptionGrid.scaleMultiplier;
             Point center = new Point(this.ActualWidth / 2, this.ActualHeight / 2);
             ScaleCanvas(lastMultiplier, center, MainCanvas);
             panTransform.X = lastView.PanX;
             panTransform.Y = lastView.PanY;
-            PreviousViewList.Remove(lastView);
+            previousViewList.Remove(lastView);
         }
 
         public void ResetScale()
         {
-            double reverseMultiplier = 1 / OptionSetka.Masshtab;
+            double reverseMultiplier = 1 / OptionGrid.scaleMultiplier;
             Point center = new Point(this.ActualWidth / 2, this.ActualHeight / 2);
             ScaleCanvas(reverseMultiplier, center, MainCanvas);
             panTransform.X = 0;

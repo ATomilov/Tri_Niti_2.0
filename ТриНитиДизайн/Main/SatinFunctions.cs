@@ -19,10 +19,10 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        int gladShapesCount = 0;
+        int satinShapesCount = 0;
         int oldGladHits = 0;
 
-        public void ShowJoinGladMessage(List<Figure>gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
+        public void ShowJoinGladMessage(List<Figure>satinLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
         {
             string sMessageBoxText = "Соединить?";
             string sCaption = "Окно";
@@ -35,14 +35,14 @@ namespace ТриНитиДизайн
             {
                 case MessageBoxResult.OK:
                     {
-                        firstFigure.gladControlLines.Clear();
-                        secondFigure.gladControlLines.Clear();
+                        firstFigure.satinControlLines.Clear();
+                        secondFigure.satinControlLines.Clear();
                         firstFigure.oldGladCenters.Clear();
                         secondFigure.oldGladCenters.Clear();
                         List<Figure> group = new List<Figure>(firstFigure.groupFigures);
                         foreach (Figure fig in group)
                         {
-                            if (ListFigure.IndexOf(fig) != FirstGladFigure && ListFigure.IndexOf(fig) != SecondGladFigure)
+                            if (listFigure.IndexOf(fig) != firstSatinFigure && listFigure.IndexOf(fig) != secondSatinFigure)
                             {
                                 fig.groupFigures.Remove(firstFigure);
                                 fig.groupFigures.Remove(secondFigure);
@@ -55,11 +55,11 @@ namespace ТриНитиДизайн
                         secondFigure.groupFigures.Add(firstFigure);
                         secondFigure.groupFigures.Add(secondFigure);
 
-                        OptionRegim.regim = Regim.RegimGlad;                        
-                        ListFigure[IndexFigure].regimFigure = Regim.RegimGlad;
-                        ListFigure[SecondGladFigure].regimFigure = Regim.RegimGlad;
-                        ControlLine = new Figure(MainCanvas);
-                        AddFirstGladLines(gladLines, firstFigure, secondFigure,true, canvas);
+                        OptionMode.mode = Mode.modeSatin;                        
+                        listFigure[indexFigure].modeFigure = Mode.modeSatin;
+                        listFigure[secondSatinFigure].modeFigure = Mode.modeSatin;
+                        controlLine = new Figure(MainCanvas);
+                        AddFirstSatinLines(satinLines, firstFigure, secondFigure,true, canvas);
                         if (!firstFigure.PreparedForTatami)
                         {
                             firstFigure.SaveCurrentShapes();
@@ -70,60 +70,60 @@ namespace ТриНитиДизайн
                             secondFigure.SaveCurrentShapes();
                             PrepareForTatami(secondFigure,true);
                         }
-                        ShowPositionStatus(ListFigure[IndexFigure], true, false);
+                        ShowPositionStatus(listFigure[indexFigure], true, false);
                         break;
                     }
 
                 case MessageBoxResult.Cancel:
                     {
-                        ListFigure[SecondGladFigure].ChangeFigureColor(OptionColor.ColorSelection, false);
+                        listFigure[secondSatinFigure].ChangeFigureColor(OptionColor.colorInactive, false);
                         break;
                     }
             }
         }
         
-        private void AddFirstGladLines(List<Figure> gladLines, Figure firstFigure, Figure secondFigure, bool gladCreated, Canvas canvas)
+        private void AddFirstSatinLines(List<Figure> satinLines, Figure firstFigure, Figure secondFigure, bool satinCreated, Canvas canvas)
         {
-            gladShapesCount = 0;
-            gladLines.Clear();
-            secondFigure.ChangeFigureColor(OptionColor.ColorDraw,false);
-            gladLines.Add(new Figure(canvas));
-            gladLines.Add(new Figure(canvas));
+            satinShapesCount = 0;
+            satinLines.Clear();
+            secondFigure.ChangeFigureColor(OptionColor.colorActive,false);
+            satinLines.Add(new Figure(canvas));
+            satinLines.Add(new Figure(canvas));
             if (CheckForGladIntersection(firstFigure.PointStart, secondFigure.PointStart, firstFigure, secondFigure, true, null))
             {
-                areGladPointsInversed = true;
-                gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
-                gladLines[0].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
-                gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
-                gladLines[1].AddPoint(secondFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
+                areSatinPointsInversed = true;
+                satinLines[0].AddPoint(firstFigure.PointStart, OptionColor.colorArc, false,false, 0);
+                satinLines[0].AddPoint(secondFigure.PointEnd, OptionColor.colorArc, false,false, 0);
+                satinLines[1].AddPoint(firstFigure.PointEnd, OptionColor.colorArc, false,false, 0);
+                satinLines[1].AddPoint(secondFigure.PointStart, OptionColor.colorArc, false,false, 0);
             }
             else
             {
-                areGladPointsInversed = false;
-                gladLines[0].AddPoint(firstFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
-                gladLines[0].AddPoint(secondFigure.PointStart, OptionColor.ColorChoosingRec, false,false, 0);
-                gladLines[1].AddPoint(firstFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
-                gladLines[1].AddPoint(secondFigure.PointEnd, OptionColor.ColorChoosingRec, false,false, 0);
+                areSatinPointsInversed = false;
+                satinLines[0].AddPoint(firstFigure.PointStart, OptionColor.colorArc, false,false, 0);
+                satinLines[0].AddPoint(secondFigure.PointStart, OptionColor.colorArc, false,false, 0);
+                satinLines[1].AddPoint(firstFigure.PointEnd, OptionColor.colorArc, false,false, 0);
+                satinLines[1].AddPoint(secondFigure.PointEnd, OptionColor.colorArc, false,false, 0);
             }
-            if(gladCreated)
-                ListFigure[SecondGladFigure].DrawDots(ListFigure[SecondGladFigure].Points, 
-                    OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+            if(satinCreated)
+                listFigure[secondSatinFigure].DrawDots(listFigure[secondSatinFigure].Points, 
+                    OptionDrawLine.risuiModeDots, OptionColor.colorInactive, MainCanvas);
             DrawInvisibleRectangles(canvas);
         }
 
-        public void RestoreControlLines(List<Figure> gladLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
+        public void RestoreControlLines(List<Figure> satinLines, Figure firstFigure, Figure secondFigure, Canvas canvas)
         {
-            for(int i = 0; i < firstFigure.gladControlLines.Count; i++)
+            for(int i = 0; i < firstFigure.satinControlLines.Count; i++)
             {
-                Vector vect = firstFigure.gladControlLines[i];
+                Vector vect = firstFigure.satinControlLines[i];
                 Point center = firstFigure.oldGladCenters[i];
                 Point p1 = new Point(center.X + vect.X * 500, center.Y + vect.Y * 500);
                 Point p2 = new Point(center.X - vect.X * 500, center.Y - vect.Y * 500);
-                FindGladControlLine(p1, p2, gladLines, firstFigure, secondFigure, true, canvas);
+                FindGladControlLine(p1, p2, satinLines, firstFigure, secondFigure, true, canvas);
             }
         }
 
-        public void FindGladControlLine(Point a, Point b,List<Figure> gladLines, Figure firstFigure, Figure secondFigure, bool restoreLines, Canvas canvas)
+        public void FindGladControlLine(Point a, Point b,List<Figure> satinLines, Figure firstFigure, Figure secondFigure, bool restoreLines, Canvas canvas)
         {
             if(!restoreLines)
                 canvas.Children.RemoveAt(canvas.Children.Count - 1);
@@ -159,17 +159,17 @@ namespace ТриНитиДизайн
                     {
                         Vector vect = pts[1] - pts[0];
                         vect.Normalize();
-                        firstFigure.gladControlLines.Add(vect);
-                        secondFigure.gladControlLines.Add(vect);
+                        firstFigure.satinControlLines.Add(vect);
+                        secondFigure.satinControlLines.Add(vect);
                     }
                     Figure fig = new Figure(canvas);
-                    fig.AddPoint(pts[0], OptionColor.ColorChoosingRec, false,false, 0);
-                    fig.AddPoint(pts[1], OptionColor.ColorChoosingRec, false,false, 0);
+                    fig.AddPoint(pts[0], OptionColor.colorArc, false,false, 0);
+                    fig.AddPoint(pts[1], OptionColor.colorArc, false,false, 0);
                     if (restoreLines)
                         fig.SetMiddleControlLine(pts[0], pts[1], canvas);
                     else
                         firstFigure.oldGladCenters.Add(fig.SetMiddleControlLine(pts[0], pts[1], canvas));
-                    gladLines.Insert(1, fig);
+                    satinLines.Insert(1, fig);
                 }
             }
         }
@@ -289,23 +289,23 @@ namespace ТриНитиДизайн
                     tatamiPoints.Add(new List<Point>());
                 }
                  * */
-                gladShapesCount += (oldGladHits / 2);
+                satinShapesCount += (oldGladHits / 2);
                 oldGladHits = hits;
             }
             for (int i = 0; i < hits; i += 2)                              //добалвение точек в листы фигур
             {
-                ListControlLines[gladShapesCount + i / 2].Points.Add(pts[numbers[i]]);
-                ListControlLines[gladShapesCount + i / 2].Points.Add(pts[numbers[i + 1]]);
+                ListControlLines[satinShapesCount + i / 2].Points.Add(pts[numbers[i]]);
+                ListControlLines[satinShapesCount + i / 2].Points.Add(pts[numbers[i + 1]]);
             }
         }
 
-        public void CalculateGladLines(Figure firstFigure,Figure secondFigure,List<Figure> gladLines, List<Figure> ListControlLines,Canvas canvas)
+        public void CalculateGladLines(Figure firstFigure,Figure secondFigure,List<Figure> satinLines, List<Figure> ListControlLines,Canvas canvas)
         {
-            foreach (Figure fig in gladLines)
+            foreach (Figure fig in satinLines)
                 fig.RemoveFigure(canvas);
-            if (gladLines.Count != 2)
+            if (satinLines.Count != 2)
             {
-                SortAndDeleteControlGladLines(gladLines);
+                SortAndDeleteControlGladLines(satinLines);
             }
             oldGladHits = 0;
             ListControlLines.Clear();
@@ -313,26 +313,26 @@ namespace ТриНитиДизайн
             {
                 ListControlLines.Add(new Figure(canvas));
             }
-            for (int i = 0; i < gladLines.Count - 1; i++)
+            for (int i = 0; i < satinLines.Count - 1; i++)
             {
                 List<Point> IntersectionPoint = new List<Point>();
-                FindIntersection(gladLines[i].PointStart, gladLines[i].PointEnd, gladLines[i + 1].PointStart, gladLines[i + 1].PointEnd, IntersectionPoint, 0, true,false);
+                FindIntersection(satinLines[i].PointStart, satinLines[i].PointEnd, satinLines[i + 1].PointStart, satinLines[i + 1].PointEnd, IntersectionPoint, 0, true,false);
                 ///a и b - точки отрезка самых дальних точек пересечения направляющих с начальными отрезками
                 Point a, b;
 
-                double distance = FindLength(IntersectionPoint[0], gladLines[i].PointStart);
-                if (distance < FindLength(IntersectionPoint[0], gladLines[i].PointEnd))
-                    a = gladLines[i].PointEnd;
+                double distance = FindLength(IntersectionPoint[0], satinLines[i].PointStart);
+                if (distance < FindLength(IntersectionPoint[0], satinLines[i].PointEnd))
+                    a = satinLines[i].PointEnd;
                 else
-                    a = gladLines[i].PointStart;
+                    a = satinLines[i].PointStart;
 
-                distance = FindLength(IntersectionPoint[0], gladLines[i + 1].PointStart);
-                if (distance < FindLength(IntersectionPoint[0], gladLines[i + 1].PointEnd))
-                    b = gladLines[i + 1].PointEnd;
+                distance = FindLength(IntersectionPoint[0], satinLines[i + 1].PointStart);
+                if (distance < FindLength(IntersectionPoint[0], satinLines[i + 1].PointEnd))
+                    b = satinLines[i + 1].PointEnd;
                 else
-                    b = gladLines[i + 1].PointStart;
+                    b = satinLines[i + 1].PointStart;
 
-                distance = OptionGlad.LenthStep *0.2;
+                distance = OptionSatin.lengthStep *0.2;
                 Vector vect = b - a;
                 double length = vect.Length;
                 Vector invisibleLine = a - IntersectionPoint[0];
@@ -348,27 +348,27 @@ namespace ТриНитиДизайн
                     invisibleLine *= 3;
                     CheckForGladIntersection(IntersectionPoint[0], new Point(IntersectionPoint[0].X + invisibleLine.X, IntersectionPoint[0].Y + invisibleLine.Y),
                     firstFigure, secondFigure, false, ListControlLines);
-                    distance += OptionGlad.LenthStep;
+                    distance += OptionSatin.lengthStep;
                 }
             }
-            MakeGlad(gladLines, ListControlLines, canvas);
+            MakeGlad(satinLines, ListControlLines, canvas);
         }
 
-        private void MakeGlad(List<Figure> gladLines, List<Figure> ListControlLines, Canvas canvas)
+        private void MakeGlad(List<Figure> satinLines, List<Figure> ListControlLines, Canvas canvas)
         {
             double step = 25;
-            gladLines.Clear();
-            for (int i = 0; i < gladShapesCount + 1; i++)
+            satinLines.Clear();
+            for (int i = 0; i < satinShapesCount + 1; i++)
             {
                 bool firstPoint = true;
                 if (ListControlLines[i].Points.Count > 0)
                 {
-                    gladLines.Add(new Figure(canvas));
+                    satinLines.Add(new Figure(canvas));
                     for (int j = 0; j < ListControlLines[i].Points.Count-1 ; j++)
                     {
                         if(firstPoint)
                         {
-                            gladLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false,false, 0);
+                            satinLines[i].AddPoint(ListControlLines[i].Points[j], OptionColor.colorInactive, false,false, 0);
                             firstPoint = false;
                         }
                         double x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
@@ -380,11 +380,11 @@ namespace ТриНитиДизайн
                         {
                             vect.Normalize();
                             vect *= distance;
-                            gladLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y),
-                                OptionColor.ColorSelection, false,false, 0);
+                            satinLines[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y),
+                                OptionColor.colorInactive, false,false, 0);
                             distance += step;
                         }
-                        gladLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.ColorSelection, false,false, 0);
+                        satinLines[i].AddPoint(ListControlLines[i].Points[j+1], OptionColor.colorInactive, false,false, 0);
                     }
                 }
             }
@@ -416,7 +416,7 @@ namespace ТриНитиДизайн
                     }
                 }
             }
-            Figure smoothedGladFigure = Cepochka(ListFigure[FirstGladFigure], 5, false, MainCanvas);
+            Figure smoothedGladFigure = Cepochka(listFigure[firstSatinFigure], 5, false, MainCanvas);
             int index = 0;
             for (int i = 0; i < smoothedGladFigure.Points.Count; i++)
             {

@@ -189,7 +189,7 @@
                     <Button Content="Ломаная" Height="32" Margin="3,66,0,0" Name="button4" Width="105" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" Click="LomannaiButtonEvent"/>
                     <Button Content="Дуга" Height="32" Margin="3,38,0,0" Name="button5" VerticalAlignment="Top" Width="105" HorizontalAlignment="Left"  Background="White" Click="DygaButtonEvent"/>
                     <Button Content="Кривая" Height="32" Margin="3,0,0,75" Name="button6" Width="105" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="White" Click="KrivaiaButtonEvent"/>
-                    <Button Content="Сгладить" Height="32" Margin="3,0,0,43" Name="button7" Width="105" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="White" Click="SgladitButtonEvent"   />
+                    <Button Content="Сгладить" Height="32" Margin="3,0,0,43" Name="button7" Width="105" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="White" Click="SsatinitButtonEvent"   />
                     <Button Content="&lt;&lt;-" Height="32" Margin="3,0,0,11" Name="button8" Width="52" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="White" Click="SelectPointNextButtonEvent" />
                     <Button Content="-&gt;&gt;" Height="32" Margin="0,0,2,11" Name="button9" Width="54" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Background="White" Click="SelectPointPrevButtonEvent"/>
                 </Grid>

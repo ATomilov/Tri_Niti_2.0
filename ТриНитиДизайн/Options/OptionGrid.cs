@@ -6,18 +6,18 @@ using System.Windows.Media;
 
 namespace ТриНитиДизайн
 {
-    public static class OptionSetka
+    public static class OptionGrid
     {
         //Setka
-        public static double MasshtabSetka = 0;
+        public static double gridInterval = 0;
 
-        public static bool isDrawSetka  = false;
+        public static bool isGridDrawn  = false;
 
         public static bool isDotOnGrid = false;
         
-        public static double Masshtab = 1;
+        public static double scaleMultiplier = 1;
 
-        public static double DotSize = 2;
+        public static double dotSize = 2;
 
     }
 }

@@ -9,18 +9,18 @@ namespace ТриНитиДизайн
     public static class OptionDrawLine
     {
         //DrawLine
-        public static double StrokeThickness = 1;
-        public static double StrokeThicknessMainRec = 2;
-        public static double InvisibleStrokeThickness = 10;
-        public static double SizeWidthAndHeightRectangle = 8;
-        public static double OneDotCornerDistance = 3;
-        public static double OneDotMiddleDistance = 4;
-        public static double CursorModeRectangleDistance = 10;
+        public static double strokeThickness = 1;
+        public static double strokeThicknessMainRec = 2;
+        public static double invisibleStrokeThickness = 10;
+        public static double sizeRectangle = 8;
+        public static double oneDotCornerDistance = 3;
+        public static double oneDotMiddleDistance = 4;
+        public static double cursorModeRectangleDistance = 10;
 
-        public static double SizeRectangleForScale = 10;
-        public static double SizeRectangleForRotation = 15;
-        public static double SizeEllipseForControlLines = 8;
-        public static double SizeEllipseForPoints = 6;
-        public static double RisuiRegimDots = 2.5;
+        public static double sizeRectangleForScale = 10;
+        public static double sizeRectangleForRotation = 15;
+        public static double sizeEllipseForControlLines = 8;
+        public static double sizeEllipseForPoints = 6;
+        public static double risuiModeDots = 2.5;
     }
 }

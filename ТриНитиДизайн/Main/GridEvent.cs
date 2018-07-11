@@ -53,7 +53,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 0;
+                OptionGrid.gridInterval = 0;
                 SetGrid();
             }
         }
@@ -80,7 +80,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 0.1;
+                OptionGrid.gridInterval = 0.1;
                 SetGrid();
             }
         }
@@ -107,7 +107,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 0.2;
+                OptionGrid.gridInterval = 0.2;
                 SetGrid();
             }
         }
@@ -134,7 +134,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 0.5;
+                OptionGrid.gridInterval = 0.5;
                 SetGrid();
             }
         }
@@ -161,7 +161,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 1;
+                OptionGrid.gridInterval = 1;
                 SetGrid();
             }
         }
@@ -188,7 +188,7 @@ namespace ТриНитиДизайн
                              item.IsHitTestVisible = false;
                      }
                  }
-                 OptionSetka.MasshtabSetka = 2;
+                 OptionGrid.gridInterval = 2;
                  SetGrid();
              }
         }
@@ -215,7 +215,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 5;
+                OptionGrid.gridInterval = 5;
                 SetGrid();
             }
         }
@@ -241,7 +241,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 10;
+                OptionGrid.gridInterval = 10;
                 SetGrid();
             }
         }
@@ -267,7 +267,7 @@ namespace ТриНитиДизайн
                             item.IsHitTestVisible = false;
                     }
                 }
-                OptionSetka.MasshtabSetka = 20;
+                OptionGrid.gridInterval = 20;
                 SetGrid();
             }
         }
@@ -275,13 +275,13 @@ namespace ТриНитиДизайн
         private void SetDotOnGrid(object sender, RoutedEventArgs e)
         {
             MenuItem check = (MenuItem)sender;
-            OptionSetka.isDotOnGrid = check.IsChecked;
+            OptionGrid.isDotOnGrid = check.IsChecked;
         }
 
         private void UnsetDotOnGrid(object sender, RoutedEventArgs e)
         {
             MenuItem check = (MenuItem)sender;
-            OptionSetka.isDotOnGrid = check.IsChecked;
+            OptionGrid.isDotOnGrid = check.IsChecked;
         }
     }
 }

@@ -225,8 +225,8 @@ namespace ТриНитиДизайн
         private Line SetLine(Point point1, Point point2, string type, Canvas CurCanvas)                //отрисовка линии, dash - через черту, red - красная, blue - синяя
         {
             Line shape = new Line();
-            shape.Stroke = OptionColor.ColorSelection;
-            shape.StrokeThickness = OptionDrawLine.StrokeThickness;
+            shape.Stroke = OptionColor.colorInactive;
+            shape.StrokeThickness = OptionDrawLine.strokeThickness;
             if (type.Equals("dash"))
             {
                 DoubleCollection dashes = new DoubleCollection();
@@ -236,11 +236,11 @@ namespace ТриНитиДизайн
             }
             if (type.Equals("red"))
             {
-                shape.Stroke = OptionColor.ColorDraw;
+                shape.Stroke = OptionColor.colorActive;
             }
             if (type.Equals("blue"))
             {
-                shape.StrokeThickness = OptionDrawLine.StrokeThickness;
+                shape.StrokeThickness = OptionDrawLine.strokeThickness;
                 shape.Stroke = System.Windows.Media.Brushes.Blue;
             }
             shape.X1 = point1.X;
@@ -271,7 +271,7 @@ namespace ТриНитиДизайн
             double x3;
             double y3;
 
-            double step = OptionTatami.StepLine * 0.2;        //шаг задающих прямых
+            double step = OptionTatami.stepBetweenLines * 0.2;        //шаг задающих прямых
             double lineDistance = 2000;
             double distanceFull = 0;
             double numberOfLines = 2000/ step;                        //надо подумать над количеством линий
@@ -314,7 +314,7 @@ namespace ТриНитиДизайн
 
         private void MakeTatami(List<Figure> ListControlLines, List<Figure> ListTatamiFigures, Canvas CurCanvas)                    //создание татами
         {
-            double step = OptionTatami.StepStegok * 0.2;
+            double step = OptionTatami.stitchLength * 0.2;
             double translation = OptionTatami.Smeshcheniye / 100;
             double totalTranslation = 0;
             for (int i = 0; i < TatamiShapesCount + 1; i++)               //алгоритм создания стежков на параллельных отрезках, точки начала и конца - пересечение изначальных отрезков и задающих прямых
@@ -328,14 +328,14 @@ namespace ТриНитиДизайн
                     {
                         x = ListControlLines[i].Points[j].X - ListControlLines[i].Points[j + 1].X;
                         y = ListControlLines[i].Points[j].Y - ListControlLines[i].Points[j + 1].Y;
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false,false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.colorInactive, false,false, 4);
                         //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
                     }
                     else
                     {
                         x = ListControlLines[i].Points[j + 1].X - ListControlLines[i].Points[j].X;
                         y = ListControlLines[i].Points[j + 1].Y - ListControlLines[i].Points[j].Y;
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false,false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.colorInactive, false,false, 4);
                         //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j + 1]);
                     }     
                     Vector vect = new Vector(x, y);
@@ -355,13 +355,13 @@ namespace ТриНитиДизайн
                         if (!turnAround)
                         {
                             ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y),
-                                OptionColor.ColorSelection, false,false, 4);
+                                OptionColor.colorInactive, false,false, 4);
                             //ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j].X + vect.X, ListControlLines[i].Points[j].Y + vect.Y));
                         }
                         else
                         {
                             ListTatamiFigures[i].AddPoint(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y),
-                                OptionColor.ColorSelection, false,false, 4);
+                                OptionColor.colorInactive, false,false, 4);
                             //ListTatamiFigures[i].Points.Add(new Point(ListControlLines[i].Points[j + 1].X + vect.X, ListControlLines[i].Points[j + 1].Y + vect.Y));
 
                         }
@@ -372,12 +372,12 @@ namespace ТриНитиДизайн
                         totalTranslation -= 1;
                     if (!turnAround)        //конец отрезка
                     {
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.ColorSelection, false,false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.colorInactive, false,false, 4);
                        // ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j+1]);
                     }
                     else
                     {
-                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.ColorSelection, false,false, 4);
+                        ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j], OptionColor.colorInactive, false,false, 4);
                         //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j]);
                     }
                     turnAround = !turnAround;               //меняем направление вектора

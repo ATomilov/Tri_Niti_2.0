@@ -21,67 +21,67 @@ namespace ТриНитиДизайн
     {
         private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
         {
-            if (OptionRegim.regim == Regim.RegimFigure || OptionRegim.regim == Regim.RegimTatami ||
-                OptionRegim.regim == Regim.RegimGlad || OptionRegim.regim == Regim.RegimCepochka)
+            if (OptionMode.mode == Mode.modeFigure || OptionMode.mode == Mode.modeTatami ||
+                OptionMode.mode == Mode.modeSatin || OptionMode.mode == Mode.modeRunStitch)
                 return;
-            if(OptionRegim.regim == Regim.RegimCursor)
+            if(OptionMode.mode == Mode.modeCursor)
             {
-                IndexFigure = ListFigure.IndexOf(ListFigure[IndexFigure].groupFigures[0]);
+                indexFigure = listFigure.IndexOf(listFigure[indexFigure].groupFigures[0]);
             }
-            ExitFromRisuiRegim();
+            ExitFromRisuimode();
             Edit_Menu.IsEnabled = false;
-            ListFigure[IndexFigure].highlightedPoints.Clear();
-            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
-            LoadPreviousRegim(false);
+            listFigure[indexFigure].highlightedPoints.Clear();
+            RedrawEverything(listFigure, indexFigure, false, MainCanvas);
+            LoadPreviousmode(false);
             DrawFirstAndLastRectangle();
             DrawInvisibleRectangles(MainCanvas);            
-            ChosenPts = new List<Point>();
+            chosenPts = new List<Point>();
             CloseAllTabs();
-            MainCanvas.Cursor = SwordCursor;   
+            MainCanvas.Cursor = swordCursor;   
             if (tabControl2.Visibility == Visibility.Hidden)
                 tabControl2.Visibility = Visibility.Visible;
         }
 
         private void ChepochkaButtonEvent(object sender, RoutedEventArgs e)
         {
-            ExitFromRisuiRegim();
-            if (ListFigure[IndexFigure].Points.Count > 1)
+            ExitFromRisuimode();
+            if (listFigure[indexFigure].Points.Count > 1)
             {
                 bool accepted;
                 accepted = ShowAcceptMessage(0);
                 if (accepted)
                 {
-                    List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                    List<Figure> group = new List<Figure>(listFigure[indexFigure].groupFigures);
                     foreach (Figure fig in group)
                     {
-                        if (ListFigure.IndexOf(fig) != IndexFigure)
-                            fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                        if (listFigure.IndexOf(fig) != indexFigure)
+                            fig.groupFigures.Remove(listFigure[indexFigure]);
                     }
-                    ListFigure[IndexFigure].groupFigures.Clear();
-                    ListFigure[IndexFigure].groupFigures.Add(ListFigure[IndexFigure]);
+                    listFigure[indexFigure].groupFigures.Clear();
+                    listFigure[indexFigure].groupFigures.Add(listFigure[indexFigure]);
 
-                    OptionRegim.regim = Regim.RegimCepochka;
-                    ListFigure[IndexFigure].regimFigure = Regim.RegimCepochka;
+                    OptionMode.mode = Mode.modeRunStitch;
+                    listFigure[indexFigure].modeFigure = Mode.modeRunStitch;
                     var CepochkaSetting = new View.Cepochka();
                     CepochkaSetting.Owner = this;
                     CepochkaSetting.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
                     CepochkaSetting.ShowDialog();
-                    if (!ListFigure[IndexFigure].PreparedForTatami)
+                    if (!listFigure[indexFigure].PreparedForTatami)
                     {
-                        ListFigure[IndexFigure].SaveCurrentShapes();
-                        PrepareForTatami(ListFigure[IndexFigure],true);
+                        listFigure[indexFigure].SaveCurrentShapes();
+                        PrepareForTatami(listFigure[indexFigure],true);
                     }
-                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
+                    ShowPositionStatus(listFigure[indexFigure], false, false);
                 }
             }
         }
 
         private void GladButtonEvent(object sender, RoutedEventArgs e)
         {
-            ExitFromRisuiRegim();
-            if (LinesForGlad.Count > 0)
+            ExitFromRisuimode();
+            if (linesForSatin.Count > 0)
             {
-                var GladSetting = new View.Glad();
+                var GladSetting = new View.Satin();
                 GladSetting.Owner = this;
                 GladSetting.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
                 GladSetting.ShowDialog();
@@ -90,267 +90,267 @@ namespace ТриНитиДизайн
 
         private void TatamiButtonEvent(object sender, RoutedEventArgs e)
         {
-            ExitFromRisuiRegim();
-            if (ListFigure[IndexFigure].Points.Count > 1)
+            ExitFromRisuimode();
+            if (listFigure[indexFigure].Points.Count > 1)
             {
                 bool accepted;
                 accepted = ShowAcceptMessage(1);
                 if (accepted)
                 {
-                    List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                    List<Figure> group = new List<Figure>(listFigure[indexFigure].groupFigures);
                     foreach (Figure fig in group)
                     {
-                        if (ListFigure.IndexOf(fig) != IndexFigure)
-                            fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                        if (listFigure.IndexOf(fig) != indexFigure)
+                            fig.groupFigures.Remove(listFigure[indexFigure]);
                     }
-                    ListFigure[IndexFigure].groupFigures.Clear();
-                    ListFigure[IndexFigure].groupFigures.Add(ListFigure[IndexFigure]);
+                    listFigure[indexFigure].groupFigures.Clear();
+                    listFigure[indexFigure].groupFigures.Add(listFigure[indexFigure]);
                     Tatami TatamiWindow = new Tatami();
                     TatamiWindow.ShowDialog();
-                    if (OptionRegim.regim == Regim.RegimGlad)
+                    if (OptionMode.mode == Mode.modeSatin)
                     {
                         Figure newFig = new Figure(MainCanvas);
-                        for (int i = 0; i < ListFigure[FirstGladFigure].Points.Count; i++)
+                        for (int i = 0; i < listFigure[firstSatinFigure].Points.Count; i++)
                         {
-                            newFig.AddPoint(ListFigure[FirstGladFigure].Points[i], OptionColor.ColorDraw, false,false,
-                                OptionDrawLine.SizeWidthAndHeightRectangle);
+                            newFig.AddPoint(listFigure[firstSatinFigure].Points[i], OptionColor.colorActive, false,false,
+                                OptionDrawLine.sizeRectangle);
                         }
-                        if(areGladPointsInversed)
+                        if(areSatinPointsInversed)
                         {
-                            for(int i = 0; i < ListFigure[SecondGladFigure].Points.Count;i++)
+                            for(int i = 0; i < listFigure[secondSatinFigure].Points.Count;i++)
                             {
-                                newFig.AddPoint(ListFigure[SecondGladFigure].Points[i], OptionColor.ColorDraw, false,false,
-                                    OptionDrawLine.SizeWidthAndHeightRectangle);
+                                newFig.AddPoint(listFigure[secondSatinFigure].Points[i], OptionColor.colorActive, false,false,
+                                    OptionDrawLine.sizeRectangle);
                             }
                         }
                         else
                         {
-                            for (int i = ListFigure[SecondGladFigure].Points.Count - 1; i >= 0; i--)
+                            for (int i = listFigure[secondSatinFigure].Points.Count - 1; i >= 0; i--)
                             {
-                                newFig.AddPoint(ListFigure[SecondGladFigure].Points[i], OptionColor.ColorDraw, false,false,
-                                    OptionDrawLine.SizeWidthAndHeightRectangle);
+                                newFig.AddPoint(listFigure[secondSatinFigure].Points[i], OptionColor.colorActive, false,false,
+                                    OptionDrawLine.sizeRectangle);
                             }
                         }
-                        ListFigure.Remove(ListFigure[FirstGladFigure]);
-                        ListFigure.Remove(ListFigure[SecondGladFigure]);
-                        FirstGladFigure = -1;
-                        SecondGladFigure = -1;
-                        ListFigure.Add(newFig);
-                        IndexFigure = ListFigure.IndexOf(newFig);
-                        ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false,
-                            false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                        RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                        listFigure.Remove(listFigure[firstSatinFigure]);
+                        listFigure.Remove(listFigure[secondSatinFigure]);
+                        firstSatinFigure = -1;
+                        secondSatinFigure = -1;
+                        listFigure.Add(newFig);
+                        indexFigure = listFigure.IndexOf(newFig);
+                        listFigure[indexFigure].AddPoint(listFigure[indexFigure].Points[0], OptionColor.colorActive, false,
+                            false, OptionDrawLine.sizeRectangle);
+                        RedrawEverything(listFigure, indexFigure, false, MainCanvas);
                         DrawFirstAndLastRectangle();
-                        OptionRegim.regim = Regim.RegimTatami;
+                        OptionMode.mode = Mode.modeTatami;
                         DrawInvisibleRectangles(MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, 
-                            OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
+                        listFigure[indexFigure].DrawDots(listFigure[indexFigure].Points, 
+                            OptionDrawLine.risuiModeDots, OptionColor.colorInactive, MainCanvas);
                     }
                     else
                     {
-                        if (!ListFigure[IndexFigure].PreparedForTatami)
+                        if (!listFigure[indexFigure].PreparedForTatami)
                         {
-                            ListFigure[IndexFigure].AddPoint(ListFigure[IndexFigure].Points[0], OptionColor.ColorDraw, false,
-                                false, OptionDrawLine.SizeWidthAndHeightRectangle);
-                            ListFigure[IndexFigure].SaveCurrentShapes();
-                            PrepareForTatami(ListFigure[IndexFigure], true);
+                            listFigure[indexFigure].AddPoint(listFigure[indexFigure].Points[0], OptionColor.colorActive, false,
+                                false, OptionDrawLine.sizeRectangle);
+                            listFigure[indexFigure].SaveCurrentShapes();
+                            PrepareForTatami(listFigure[indexFigure], true);
                         }
                     }
-                    OptionRegim.regim = Regim.RegimTatami;
-                    ListFigure[IndexFigure].regimFigure = Regim.RegimTatami;
-                    InsertFirstControlLine(ListFigure[IndexFigure], ControlLine, MainCanvas,true);
-                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
+                    OptionMode.mode = Mode.modeTatami;
+                    listFigure[indexFigure].modeFigure = Mode.modeTatami;
+                    InsertFirstControlLine(listFigure[indexFigure], controlLine, MainCanvas,true);
+                    ShowPositionStatus(listFigure[indexFigure], false, false);
                 }
             }
         }
 
         private void StagkiButtonEvent(object sender, RoutedEventArgs e)
         {
-            ExitFromRisuiRegim();
-            if (OptionRegim.regim != Regim.RegimFigure)
+            ExitFromRisuimode();
+            if (OptionMode.mode != Mode.modeFigure)
             {
                 bool accepted;
                 accepted = ShowAcceptMessage(2);
                 if (accepted)
                 {
-                    if (OptionRegim.regim == Regim.RegimTatami && ListFigure[IndexFigure].Points.Count > 1)
+                    if (OptionMode.mode == Mode.modeTatami && listFigure[indexFigure].Points.Count > 1)
                     {
-                        List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                        List<Figure> group = new List<Figure>(listFigure[indexFigure].groupFigures);
                         foreach(Figure fig in group)
                         {
-                            if (ListFigure.IndexOf(fig) != IndexFigure)
-                                fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                            if (listFigure.IndexOf(fig) != indexFigure)
+                                fig.groupFigures.Remove(listFigure[indexFigure]);
                         }
-                        Line lineCon = (Line)ControlLine.Shapes[0];
+                        Line lineCon = (Line)controlLine.Shapes[0];
                         Point p1 = new Point(lineCon.X1, lineCon.Y1);
                         Point p2 = new Point(lineCon.X2, lineCon.Y2);
-                        CalculateParallelLines(p1, p2, ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
-                        ListFigure[IndexFigure].RemoveFigure(MainCanvas);
-                        ControlLine.RemoveFigure(MainCanvas);
-                        ListFigure.RemoveAt(IndexFigure);
+                        CalculateParallelLines(p1, p2, listFigure[indexFigure], controlFigures, tatamiFigures, MainCanvas);
+                        listFigure[indexFigure].RemoveFigure(MainCanvas);
+                        controlLine.RemoveFigure(MainCanvas);
+                        listFigure.RemoveAt(indexFigure);
                         //TODO:при добавлении динамического массива фигур переделать снизу
-                        for (int i = 0; i < TatamiFigures.Count; i++)
+                        for (int i = 0; i < tatamiFigures.Count; i++)
                         {
-                            if (TatamiFigures[i].Points.Count > 0)
+                            if (tatamiFigures[i].Points.Count > 0)
                             {
-                                ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                                listFigure.Insert(indexFigure, tatamiFigures[i]);
                             }
                             else
                             {
-                                TatamiFigures.RemoveAt(i);
+                                tatamiFigures.RemoveAt(i);
                                 i--;
                             }
                         }
-                        IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
+                        indexFigure = listFigure.IndexOf(tatamiFigures[0]);
                         DrawFirstAndLastRectangle();
-                        ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorDraw, false);
+                        listFigure[indexFigure].ChangeFigureColor(OptionColor.colorActive, false);
                         DrawInvisibleRectangles(MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorSelection, MainCanvas);
-                        TatamiFigures.Clear();
-                        OptionRegim.regim = Regim.RegimFigure;
-                        ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
+                        listFigure[indexFigure].DrawDots(listFigure[indexFigure].Points, OptionDrawLine.risuiModeDots, OptionColor.colorInactive, MainCanvas);
+                        tatamiFigures.Clear();
+                        OptionMode.mode = Mode.modeFigure;
+                        listFigure[indexFigure].modeFigure = Mode.modeFigure;
                     }
-                    if (OptionRegim.regim == Regim.RegimGlad)
+                    if (OptionMode.mode == Mode.modeSatin)
                     {
-                        List<Figure> group = new List<Figure>(ListFigure[FirstGladFigure].groupFigures);
+                        List<Figure> group = new List<Figure>(listFigure[firstSatinFigure].groupFigures);
                         foreach (Figure fig in group)
                         {
-                            if (ListFigure.IndexOf(fig) != FirstGladFigure && ListFigure.IndexOf(fig) != SecondGladFigure)
+                            if (listFigure.IndexOf(fig) != firstSatinFigure && listFigure.IndexOf(fig) != secondSatinFigure)
                             {
-                                fig.groupFigures.Remove(ListFigure[FirstGladFigure]);
-                                fig.groupFigures.Remove(ListFigure[SecondGladFigure]);
+                                fig.groupFigures.Remove(listFigure[firstSatinFigure]);
+                                fig.groupFigures.Remove(listFigure[secondSatinFigure]);
                             }
                         }
-                        CalculateGladLines(ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
-                        Figure firstFigure = ListFigure[FirstGladFigure];
-                        Figure secondFigure = ListFigure[SecondGladFigure];
-                        FirstGladFigure = -1;
-                        SecondGladFigure = -1;
+                        CalculateGladLines(listFigure[firstSatinFigure], listFigure[secondSatinFigure], linesForSatin, controlFigures, MainCanvas);
+                        Figure firstFigure = listFigure[firstSatinFigure];
+                        Figure secondFigure = listFigure[secondSatinFigure];
+                        firstSatinFigure = -1;
+                        secondSatinFigure = -1;
                         firstFigure.RemoveFigure(MainCanvas);
                         secondFigure.RemoveFigure(MainCanvas);
-                        LinesForGlad[0].ChangeFigureColor(OptionColor.ColorDraw, false);
-                        for (int i = 0; i < LinesForGlad.Count; i++)
+                        linesForSatin[0].ChangeFigureColor(OptionColor.colorActive, false);
+                        for (int i = 0; i < linesForSatin.Count; i++)
                         {
-                            ListFigure.Insert(IndexFigure, LinesForGlad[i]);
+                            listFigure.Insert(indexFigure, linesForSatin[i]);
                         }
-                        ListFigure.Remove(firstFigure);
-                        ListFigure.Remove(secondFigure);
-                        IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
-                        LinesForGlad.Clear();
-                        OptionRegim.regim = Regim.RegimFigure;
-                        ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
+                        listFigure.Remove(firstFigure);
+                        listFigure.Remove(secondFigure);
+                        indexFigure = listFigure.IndexOf(linesForSatin[0]);
+                        linesForSatin.Clear();
+                        OptionMode.mode = Mode.modeFigure;
+                        listFigure[indexFigure].modeFigure = Mode.modeFigure;
                         DrawInvisibleRectangles(MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, 
-                            OptionColor.ColorSelection, MainCanvas);
+                        listFigure[indexFigure].DrawDots(listFigure[indexFigure].Points, OptionDrawLine.risuiModeDots, 
+                            OptionColor.colorInactive, MainCanvas);
                     }
-                    if (OptionRegim.regim == Regim.RegimCepochka && ListFigure[IndexFigure].Points.Count > 1)
+                    if (OptionMode.mode == Mode.modeRunStitch && listFigure[indexFigure].Points.Count > 1)
                     {
-                        List<Figure> group = new List<Figure>(ListFigure[IndexFigure].groupFigures);
+                        List<Figure> group = new List<Figure>(listFigure[indexFigure].groupFigures);
                         foreach (Figure fig in group)
                         {
-                            if (ListFigure.IndexOf(fig) != IndexFigure)
-                                fig.groupFigures.Remove(ListFigure[IndexFigure]);
+                            if (listFigure.IndexOf(fig) != indexFigure)
+                                fig.groupFigures.Remove(listFigure[indexFigure]);
                         }
-                        ListFigure[IndexFigure].RemoveFigure(MainCanvas);
-                        ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2,true, MainCanvas);
-                        OptionRegim.regim = Regim.RegimFigure;
-                        ListFigure[IndexFigure].regimFigure = Regim.RegimFigure;
+                        listFigure[indexFigure].RemoveFigure(MainCanvas);
+                        listFigure[indexFigure] = Cepochka(listFigure[indexFigure], OptionRunStitch.lengthStep * 0.2,true, MainCanvas);
+                        OptionMode.mode = Mode.modeFigure;
+                        listFigure[indexFigure].modeFigure = Mode.modeFigure;
                         DrawInvisibleRectangles(MainCanvas);
-                        ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, 
-                            OptionColor.ColorSelection, MainCanvas);
+                        listFigure[indexFigure].DrawDots(listFigure[indexFigure].Points, OptionDrawLine.risuiModeDots, 
+                            OptionColor.colorInactive, MainCanvas);
                     }
-                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
+                    ShowPositionStatus(listFigure[indexFigure], false, false);
                 }
             }
         }
 
         private void RisuiButtonEvent(object sender, RoutedEventArgs e)
         {
-            if (OptionRegim.regim == Regim.RegimTatami && ListFigure[IndexFigure].Points.Count > 1)
+            if (OptionMode.mode == Mode.modeTatami && listFigure[indexFigure].Points.Count > 1)
             {
-                if (ControlLine != null)
+                if (controlLine != null)
                 {
-                    TempListFigure = ListFigure.ToList<Figure>();
-                    TempIndexFigure = IndexFigure;
-                    Line lineCon = (Line)ControlLine.Shapes[0];
+                    tempListFigure = listFigure.ToList<Figure>();
+                    tempIndexFigure = indexFigure;
+                    Line lineCon = (Line)controlLine.Shapes[0];
                     Point p1 = new Point(lineCon.X1, lineCon.Y1);
                     Point p2 = new Point(lineCon.X2, lineCon.Y2);
-                    CalculateParallelLines(p1, p2, ListFigure[IndexFigure], ControlFigures, TatamiFigures, MainCanvas);
-                    ListFigure[IndexFigure].RemoveFigure(MainCanvas);
-                    ControlLine.RemoveFigure(MainCanvas);
-                    ListFigure.RemoveAt(IndexFigure);
+                    CalculateParallelLines(p1, p2, listFigure[indexFigure], controlFigures, tatamiFigures, MainCanvas);
+                    listFigure[indexFigure].RemoveFigure(MainCanvas);
+                    controlLine.RemoveFigure(MainCanvas);
+                    listFigure.RemoveAt(indexFigure);
                     //TODO:при добавлении динамического массива фигур переделать снизу
-                    for (int i = 0; i < TatamiFigures.Count; i++)
+                    for (int i = 0; i < tatamiFigures.Count; i++)
                     {
-                        if (TatamiFigures[i].Points.Count > 0)
+                        if (tatamiFigures[i].Points.Count > 0)
                         {
-                            TatamiFigures[i].ChangeFigureColor(OptionColor.ColorGlad, false);
-                            ListFigure.Insert(IndexFigure, TatamiFigures[i]);
+                            tatamiFigures[i].ChangeFigureColor(OptionColor.colorSatin, false);
+                            listFigure.Insert(indexFigure, tatamiFigures[i]);
                         }
                         else
                         {
-                            TatamiFigures.RemoveAt(i);
+                            tatamiFigures.RemoveAt(i);
                             i--;
                         }
                     }
-                    IndexFigure = ListFigure.IndexOf(TatamiFigures[0]);
+                    indexFigure = listFigure.IndexOf(tatamiFigures[0]);
                     Point pfirstRec = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2, Canvas.GetTop(firstRec) + firstRec.Height / 2);
                     Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
-                    SetLine(pfirstRec, TatamiFigures[0].PointStart, "blue", MainCanvas);
-                    for (int i = 0; i < TatamiFigures.Count; i++)                                   //два раза перебор одного и того же массива
+                    SetLine(pfirstRec, tatamiFigures[0].PointStart, "blue", MainCanvas);
+                    for (int i = 0; i < tatamiFigures.Count; i++)                                   //два раза перебор одного и того же массива
                     {
-                        TatamiFigures[i].DrawDots(TatamiFigures[i].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
-                        if (i != TatamiFigures.Count - 1)
-                            SetLine(TatamiFigures[i].PointEnd, TatamiFigures[i + 1].PointStart, "blue", MainCanvas);
+                        tatamiFigures[i].DrawDots(tatamiFigures[i].Points, OptionDrawLine.risuiModeDots, OptionColor.colorActive, MainCanvas);
+                        if (i != tatamiFigures.Count - 1)
+                            SetLine(tatamiFigures[i].PointEnd, tatamiFigures[i + 1].PointStart, "blue", MainCanvas);
                     }
-                    SetLine(TatamiFigures[TatamiFigures.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
-                    TatamiFigures.Clear();
-                    OptionRegim.regim = Regim.RegimRisui;
-                    ShowPositionStatus(ListFigure[IndexFigure], false, false);
+                    SetLine(tatamiFigures[tatamiFigures.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
+                    tatamiFigures.Clear();
+                    OptionMode.mode = Mode.modeRisui;
+                    ShowPositionStatus(listFigure[indexFigure], false, false);
                 }
             }
-            if (OptionRegim.regim == Regim.RegimGlad)
+            if (OptionMode.mode == Mode.modeSatin)
             {
-                TempListFigure = ListFigure.ToList<Figure>();
-                TempIndexFigure = IndexFigure;
-                TempLinesForGlad = LinesForGlad.ToList<Figure>();
-                CalculateGladLines(ListFigure[FirstGladFigure], ListFigure[SecondGladFigure], LinesForGlad, ControlFigures, MainCanvas);
-                Figure firstFigure = ListFigure[FirstGladFigure];
-                Figure secondFigure = ListFigure[SecondGladFigure];
+                tempListFigure = listFigure.ToList<Figure>();
+                tempIndexFigure = indexFigure;
+                tempSatinLines = linesForSatin.ToList<Figure>();
+                CalculateGladLines(listFigure[firstSatinFigure], listFigure[secondSatinFigure], linesForSatin, controlFigures, MainCanvas);
+                Figure firstFigure = listFigure[firstSatinFigure];
+                Figure secondFigure = listFigure[secondSatinFigure];
                 firstFigure.RemoveFigure(MainCanvas);
                 secondFigure.RemoveFigure(MainCanvas);
-                for (int i = 0; i < LinesForGlad.Count; i++)
+                for (int i = 0; i < linesForSatin.Count; i++)
                 {
-                    LinesForGlad[i].ChangeFigureColor(OptionColor.ColorGlad, false);
-                    ListFigure.Insert(IndexFigure, LinesForGlad[i]);
+                    linesForSatin[i].ChangeFigureColor(OptionColor.colorSatin, false);
+                    listFigure.Insert(indexFigure, linesForSatin[i]);
                 }
-                ListFigure.Remove(firstFigure);
-                ListFigure.Remove(secondFigure);
-                IndexFigure = ListFigure.IndexOf(LinesForGlad[0]);
+                listFigure.Remove(firstFigure);
+                listFigure.Remove(secondFigure);
+                indexFigure = listFigure.IndexOf(linesForSatin[0]);
                 Point pfirstRec = new Point(Canvas.GetLeft(firstRec) + firstRec.Width / 2, Canvas.GetTop(firstRec) + firstRec.Height / 2);
                 Point pLastRec = new Point(Canvas.GetLeft(lastRec) + lastRec.Width / 2, Canvas.GetTop(lastRec) + lastRec.Height / 2);
-                SetLine(pfirstRec, LinesForGlad[0].PointStart, "blue", MainCanvas);
-                for (int i = 0; i < LinesForGlad.Count; i++)
+                SetLine(pfirstRec, linesForSatin[0].PointStart, "blue", MainCanvas);
+                for (int i = 0; i < linesForSatin.Count; i++)
                 {
-                    LinesForGlad[i].DrawDots(LinesForGlad[i].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
-                    if (i != LinesForGlad.Count - 1)
-                        SetLine(LinesForGlad[i].PointEnd, LinesForGlad[i + 1].PointStart, "blue", MainCanvas);
+                    linesForSatin[i].DrawDots(linesForSatin[i].Points, OptionDrawLine.risuiModeDots, OptionColor.colorActive, MainCanvas);
+                    if (i != linesForSatin.Count - 1)
+                        SetLine(linesForSatin[i].PointEnd, linesForSatin[i + 1].PointStart, "blue", MainCanvas);
                 }
-                SetLine(LinesForGlad[LinesForGlad.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
-                OptionRegim.regim = Regim.RegimRisui;
-                ShowPositionStatus(ListFigure[IndexFigure], false, false);
+                SetLine(linesForSatin[linesForSatin.Count - 1].PointEnd, pLastRec, "blue", MainCanvas);
+                OptionMode.mode = Mode.modeRisui;
+                ShowPositionStatus(listFigure[indexFigure], false, false);
             }
-            if (OptionRegim.regim == Regim.RegimCepochka && ListFigure[IndexFigure].Points.Count > 1)
+            if (OptionMode.mode == Mode.modeRunStitch && listFigure[indexFigure].Points.Count > 1)
             {
-                TempListFigure = ListFigure.ToList<Figure>();
-                TempIndexFigure = IndexFigure;
-                ListFigure[IndexFigure] = Cepochka(ListFigure[IndexFigure], OptionCepochka.LenthStep * 0.2,true, MainCanvas);
-                ListFigure[IndexFigure].ChangeFigureColor(OptionColor.ColorGlad, false);
-                RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+                tempListFigure = listFigure.ToList<Figure>();
+                tempIndexFigure = indexFigure;
+                listFigure[indexFigure] = Cepochka(listFigure[indexFigure], OptionRunStitch.lengthStep * 0.2,true, MainCanvas);
+                listFigure[indexFigure].ChangeFigureColor(OptionColor.colorSatin, false);
+                RedrawEverything(listFigure, indexFigure, false, MainCanvas);
                 DrawFirstAndLastRectangle();
-                ListFigure[IndexFigure].DrawDots(ListFigure[IndexFigure].Points, OptionDrawLine.RisuiRegimDots, OptionColor.ColorDraw, MainCanvas);
-                OptionRegim.regim = Regim.RegimRisui;
-                ShowPositionStatus(ListFigure[IndexFigure], false, false);
+                listFigure[indexFigure].DrawDots(listFigure[indexFigure].Points, OptionDrawLine.risuiModeDots, OptionColor.colorActive, MainCanvas);
+                OptionMode.mode = Mode.modeRisui;
+                ShowPositionStatus(listFigure[indexFigure], false, false);
             }
 
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ТриНитиДизайн
 {
-    public static class OptionStechki
+    public static class OptionStitches
     {
         //Stechki
         public static double CurrentLenthStechki = 5;

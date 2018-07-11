@@ -21,8 +21,8 @@ namespace ТриНитиДизайн
         public Tatami()
         {
             InitializeComponent();
-            textbox1.Text = OptionTatami.StepLine.ToString();
-            textbox2.Text = OptionTatami.StepStegok.ToString();
+            textbox1.Text = OptionTatami.stepBetweenLines.ToString();
+            textbox2.Text = OptionTatami.stitchLength.ToString();
             textbox3.Text = OptionTatami.Smeshcheniye.ToString();
             textbox1.SelectAll();
             textbox1.Focus();
@@ -31,12 +31,12 @@ namespace ТриНитиДизайн
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            OptionTatami.StepLine = int.Parse(textbox1.Text);
+            OptionTatami.stepBetweenLines = int.Parse(textbox1.Text);
             if ((int.Parse(textbox1.Text) < OptionTatami.MinStepLine) || (int.Parse(textbox1.Text) > OptionTatami.MaxStepLine))
             {
                 System.Windows.MessageBox.Show("Длина шага должна быть от " + OptionTatami.MinStepLine.ToString() + " до " + OptionTatami.MaxStepLine.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            OptionTatami.StepStegok = int.Parse(textbox2.Text);
+            OptionTatami.stitchLength = int.Parse(textbox2.Text);
             if ((int.Parse(textbox2.Text) < OptionTatami.MinStepStegok) || (int.Parse(textbox2.Text) > OptionTatami.MaxStepStegok))
             {
                 System.Windows.MessageBox.Show("Длина стежка должна быть от " + OptionTatami.MinStepStegok.ToString() + " до " + OptionTatami.MaxStepStegok.ToString(), "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Error);

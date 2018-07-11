@@ -49,7 +49,7 @@ namespace ТриНитиДизайн
             {
                 firstPoint += delta;
                 rec1 = GeometryHelper.DrawRectangle(firstPoint, 
-                    false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+                    false, false, OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
             }
             else if (status.Equals("both"))
             {
@@ -60,24 +60,24 @@ namespace ТриНитиДизайн
                     secondControlPoint += delta;
                 secondPoint += delta;
                 rec1 = GeometryHelper.DrawRectangle(firstPoint,
-                    false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+                    false, false, OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
                 rec2 = GeometryHelper.DrawRectangle(secondPoint,
-                    false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+                    false, false, OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
             }
             else if (status.Equals("second"))
             {
                 secondPoint += delta;
                 rec2 = GeometryHelper.DrawRectangle(secondPoint,
-                    false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+                    false, false, OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
             }
             else
             {
                 firstPoint += delta;
                 rec1 = GeometryHelper.DrawRectangle(firstPoint,
-                    false, false, OptionDrawLine.StrokeThickness, OptionColor.ColorSelection, canvas);
+                    false, false, OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
             }
             if(changedShape is Line)
-                changedShape = GeometryHelper.SetLine(OptionColor.ColorDraw, firstPoint, secondPoint,false, canvas);
+                changedShape = GeometryHelper.SetLine(OptionColor.colorActive, firstPoint, secondPoint,false, canvas);
             else
             {
                 if (changedShape.MinHeight == 5)
@@ -86,12 +86,12 @@ namespace ТриНитиДизайн
                         secondControlPoint += delta;
                     else if (status.Equals("first"))
                         firstControlPoint += delta;
-                    changedShape = GeometryHelper.SetBezier(OptionColor.ColorKrivaya, firstPoint, firstControlPoint, secondControlPoint, secondPoint, canvas);
+                    changedShape = GeometryHelper.SetBezier(OptionColor.colorCurve, firstPoint, firstControlPoint, secondControlPoint, secondPoint, canvas);
                 }
                 else if (changedShape.MinHeight == 10)
-                    changedShape = GeometryHelper.SetArc(OptionColor.ColorChoosingRec, firstPoint, secondPoint, firstControlPoint, canvas);
+                    changedShape = GeometryHelper.SetArc(OptionColor.colorArc, firstPoint, secondPoint, firstControlPoint, canvas);
                 else
-                    changedShape = GeometryHelper.SetStarForSinglePoint(firstPoint,OptionColor.ColorDraw, canvas);
+                    changedShape = GeometryHelper.SetStarForSinglePoint(firstPoint,OptionColor.colorActive, canvas);
             }
         }
     }

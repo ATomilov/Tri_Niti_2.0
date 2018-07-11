@@ -21,18 +21,18 @@ namespace ТриНитиДизайн
     {
         public void SetGrid()          
         {
-            if(SetkaFigure != null)
+            if(gridFigure != null)
             {
-                SetkaFigure.RemoveFigure(MainCanvas);
+                gridFigure.RemoveFigure(MainCanvas);
             }
-            SetkaFigure = new Figure(MainCanvas);
-            double step = (Double)OptionSetka.MasshtabSetka;
-            if  ((OptionSetka.Masshtab < 0.5 && step == 5) ||
-                (OptionSetka.Masshtab < 2 && step == 2) ||
-                (OptionSetka.Masshtab < 4 && step == 1) ||
-                (OptionSetka.Masshtab < 8 && step == 0.5) ||
-                (OptionSetka.Masshtab < 16 && step == 0.2) ||
-                (OptionSetka.Masshtab < 32 && step == 0.1))
+            gridFigure = new Figure(MainCanvas);
+            double step = (Double)OptionGrid.gridInterval;
+            if  ((OptionGrid.scaleMultiplier < 0.5 && step == 5) ||
+                (OptionGrid.scaleMultiplier < 2 && step == 2) ||
+                (OptionGrid.scaleMultiplier < 4 && step == 1) ||
+                (OptionGrid.scaleMultiplier < 8 && step == 0.5) ||
+                (OptionGrid.scaleMultiplier < 16 && step == 0.2) ||
+                (OptionGrid.scaleMultiplier < 32 && step == 0.1))
                 return;
             //warning - without those numbers setka doesn't show properly
             //no idea why this works exactly
@@ -40,18 +40,18 @@ namespace ТриНитиДизайн
             double incY = 20;
             if(step != 0)
             {
-                double trueScale = 1 - (1 / OptionSetka.Masshtab);
+                double trueScale = 1 - (1 / OptionGrid.scaleMultiplier);
                 double startX = -panTransform.X + trueScale*(MainCanvas.ActualWidth/2) + incX;
                 double startY = -panTransform.Y + trueScale * (MainCanvas.ActualHeight / 2) + incY;
                 startX -= (startX % (step*2));
                 startY -= (startY % (step * 2));
 
-                for (double i = startX; i < startX + MainCanvas.ActualWidth / OptionSetka.Masshtab; i += (step * 2))
-                    for (double j = startY; j < startY + MainCanvas.ActualHeight / OptionSetka.Masshtab; j += (step * 2))
+                for (double i = startX; i < startX + MainCanvas.ActualWidth / OptionGrid.scaleMultiplier; i += (step * 2))
+                    for (double j = startY; j < startY + MainCanvas.ActualHeight / OptionGrid.scaleMultiplier; j += (step * 2))
                     {
                         Ellipse ell = SetDot(new Point(i, j));
-                        GeometryHelper.RescaleEllipse(ell, OptionSetka.Masshtab);
-                        SetkaFigure.Shapes.Add(ell);
+                        GeometryHelper.RescaleEllipse(ell, OptionGrid.scaleMultiplier);
+                        gridFigure.Shapes.Add(ell);
                         MainCanvas.Children.Add(ell);
                     }
             }
@@ -64,10 +64,10 @@ namespace ТриНитиДизайн
                 double height = MainCanvas.ActualHeight;
                 double width = MainCanvas.ActualWidth;
                 Line verticalLine = new Line();
-                verticalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(width / 2, 0),
+                verticalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(width / 2, 0),
                     new Point(width / 2, height),true, MainCanvas);
                 Line horizontalLine = new Line();
-                horizontalLine = GeometryHelper.SetLine(OptionColor.ColorSelection, new Point(0, height / 2), 
+                horizontalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(0, height / 2), 
                     new Point(width, height / 2),true, MainCanvas);
                 centerLines.Add(verticalLine);
                 centerLines.Add(horizontalLine);
@@ -83,11 +83,11 @@ namespace ТриНитиДизайн
         public Ellipse SetDot(Point centerPoint)         
         {
             Ellipse ell = new Ellipse();
-            ell.Height = OptionSetka.DotSize;
-            ell.Width = OptionSetka.DotSize;
+            ell.Height = OptionGrid.dotSize;
+            ell.Width = OptionGrid.dotSize;
             ell.Stretch = Stretch.Uniform;
-            ell.Stroke = OptionColor.ColorSelection;
-            ell.Fill = OptionColor.ColorSelection;
+            ell.Stroke = OptionColor.colorInactive;
+            ell.Fill = OptionColor.colorInactive;
             Canvas.SetLeft(ell, centerPoint.X - ell.Height / 2);
             Canvas.SetTop(ell, centerPoint.Y - ell.Height / 2);
             return ell;
@@ -96,8 +96,8 @@ namespace ТриНитиДизайн
         public Point FindClosestDot(Point point)
         {
             double step;
-            if (OptionSetka.isDotOnGrid)
-                step = (Double)OptionSetka.MasshtabSetka;
+            if (OptionGrid.isDotOnGrid)
+                step = (Double)OptionGrid.gridInterval;
             else
                 step = 0.1;
             Point pointOnGrid = new Point();

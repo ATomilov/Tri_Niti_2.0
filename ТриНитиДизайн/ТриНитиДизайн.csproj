@@ -87,8 +87,8 @@
     <Compile Include="Main\MainFunctions.cs" />
     <Compile Include="Main\FigureFunctions.cs" />
     <Compile Include="Main\MashtabFunctions.cs" />
-    <Compile Include="Main\SetkaFunctions.cs" />
-    <Compile Include="Main\SetkaEvent.cs" />
+    <Compile Include="Main\GridFunctions.cs" />
+    <Compile Include="Main\GridEvent.cs" />
     <Compile Include="Main\FigureEvant.cs" />
     <Compile Include="Main\GlobalObject.cs" />
     <Compile Include="Main\ShapeFunctions.cs" />
@@ -97,22 +97,22 @@
     <Compile Include="Main\MouseEvent.cs" />
     <Compile Include="Main\MainEvent.cs" />
     <Compile Include="Main\MainEventMenu.cs" />
-    <Compile Include="Main\GladFunctions.cs" />
+    <Compile Include="Main\SatinFunctions.cs" />
     <Compile Include="Main\TatamiFunctions.cs" />
-    <Compile Include="Options\OptionCepochka.cs" />
+    <Compile Include="Options\OptionRunStitch.cs" />
     <Compile Include="Options\OptionDrawLine.cs" />
-    <Compile Include="Options\OptionGlad.cs" />
+    <Compile Include="Options\OptionSatin.cs" />
     <Compile Include="Options\OptionTatami.cs" />
-    <Compile Include="Options\OptionRegim.cs" />
-    <Compile Include="Options\OptionSetka.cs" />
+    <Compile Include="Options\OptionMode.cs" />
+    <Compile Include="Options\OptionGrid.cs" />
     <Compile Include="Options\OptionColor.cs" />
-    <Compile Include="Options\OptionStechki.cs" />
+    <Compile Include="Options\OptionStitches.cs" />
     <Compile Include="PreviousView.cs" />
     <Compile Include="View\Cepochka.xaml.cs">
       <DependentUpon>Cepochka.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Glad.xaml.cs">
-      <DependentUpon>Glad.xaml</DependentUpon>
+    <Compile Include="View\Satin.xaml.cs">
+      <DependentUpon>Satin.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\JoinCursor.xaml.cs">
       <DependentUpon>JoinCursor.xaml</DependentUpon>
@@ -120,8 +120,8 @@
     <Compile Include="View\Razorvat.xaml.cs">
       <DependentUpon>Razorvat.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Setting.xaml.cs">
-      <DependentUpon>Setting.xaml</DependentUpon>
+    <Compile Include="View\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SpecialWindowWhenSelectedFigure.xaml.cs">
       <DependentUpon>SpecialWindowWhenSelectedFigure.xaml</DependentUpon>
@@ -155,7 +155,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Glad.xaml">
+    <Page Include="View\Satin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -167,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Setting.xaml">
+    <Page Include="View\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,7 +256,7 @@
     <Resource Include="Images\plus.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Cursors\ArrowInLineRegim.cur" />
+    <Resource Include="Cursors\ArrowInLineMode.cur" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Cursors\Sword.cur" />

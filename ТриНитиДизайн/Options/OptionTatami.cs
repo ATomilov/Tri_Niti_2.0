@@ -8,10 +8,10 @@ namespace ТриНитиДизайн
 {
     public static class OptionTatami
     {
-        public static int StepLine = 2;
+        public static int stepBetweenLines = 2;
         public static double MinStepLine = 1;
         public static double MaxStepLine = 100;
-        public static double StepStegok = 20;
+        public static double stitchLength = 20;
         public static double MinStepStegok = 1;
         public static double MaxStepStegok = 124;
         public static double Smeshcheniye = 33;

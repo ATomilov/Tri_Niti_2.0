@@ -16,7 +16,7 @@ namespace ТриНитиДизайн
         {
             Path myPath = new Path();
             myPath.Stroke = brush;
-            myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
+            myPath.StrokeThickness = OptionDrawLine.strokeThickness;
             myPath.MinHeight = 10;
             PathGeometry pathGeometry = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
@@ -56,7 +56,7 @@ namespace ТриНитиДизайн
             Path myPath = new Path();
             myPath.MinHeight = 5;
             myPath.Stroke = brush;
-            myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
+            myPath.StrokeThickness = OptionDrawLine.strokeThickness;
             PathGeometry myPathGeometry = new PathGeometry();
             PathFigure myPathFigure = new PathFigure();
             BezierSegment myArcSegment = new BezierSegment();
@@ -78,7 +78,7 @@ namespace ТриНитиДизайн
             line.Y1 = p1.Y;
             line.X2 = p2.X;
             line.Y2 = p2.Y;
-            line.StrokeThickness = OptionDrawLine.StrokeThickness;
+            line.StrokeThickness = OptionDrawLine.strokeThickness;
             if(isDashed)
             {
                 DoubleCollection dashes = new DoubleCollection();
@@ -94,8 +94,8 @@ namespace ТриНитиДизайн
         public static Path SetStarForSinglePoint(Point p, Brush brush, Canvas canvas)
         {
             PathFigureCollection myPathFigureCollection = new PathFigureCollection();
-            double cornerDist = OptionDrawLine.OneDotCornerDistance;
-            double middleDist = OptionDrawLine.OneDotMiddleDistance;
+            double cornerDist = OptionDrawLine.oneDotCornerDistance;
+            double middleDist = OptionDrawLine.oneDotMiddleDistance;
             Vector[] vect = new Vector[6];
             vect[0] = new Vector(cornerDist, cornerDist);
             vect[1] = new Vector(-cornerDist, cornerDist);
@@ -119,7 +119,7 @@ namespace ТриНитиДизайн
             myPathGeometry.Figures = myPathFigureCollection;
             Path myPath = new Path();
             myPath.Stroke = brush;
-            myPath.StrokeThickness = OptionDrawLine.StrokeThickness;
+            myPath.StrokeThickness = OptionDrawLine.strokeThickness;
             myPath.Data = myPathGeometry;
             canvas.Children.Add(myPath);
             return myPath;
@@ -128,18 +128,18 @@ namespace ТриНитиДизайн
         public static Rectangle DrawRectangle(Point p, bool invRectangles, bool smallRec, double thickness, Brush brush, Canvas canvas)
         {
             Rectangle rec = new Rectangle();
-                rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle;
-                rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle;
+                rec.Height = OptionDrawLine.sizeRectangle;
+                rec.Width = OptionDrawLine.sizeRectangle;
             if (smallRec)
             {
-                rec.Height = OptionDrawLine.SizeWidthAndHeightRectangle / 1.5;
-                rec.Width = OptionDrawLine.SizeWidthAndHeightRectangle / 1.5;
+                rec.Height = OptionDrawLine.sizeRectangle / 1.5;
+                rec.Width = OptionDrawLine.sizeRectangle / 1.5;
             }
             Canvas.SetLeft(rec, p.X - rec.Height / 2);
             Canvas.SetTop(rec, p.Y - rec.Width / 2);
 
             rec.Fill = brush;
-            rec.Stroke = OptionColor.ColorSelection;
+            rec.Stroke = OptionColor.colorInactive;
             rec.StrokeThickness = thickness;
             if (invRectangles)
                 rec.Opacity = 0;
@@ -155,9 +155,9 @@ namespace ТриНитиДизайн
             rec.Width = rec.Height;
             Canvas.SetLeft(rec, p.X - size / 2);
             Canvas.SetTop(rec, p.Y - size / 2);
-            rec.Stroke = OptionColor.ColorSelection;
-            rec.StrokeThickness = OptionDrawLine.StrokeThickness;
-            rec.Fill = OptionColor.ColorSelection;
+            rec.Stroke = OptionColor.colorInactive;
+            rec.StrokeThickness = OptionDrawLine.strokeThickness;
+            rec.Fill = OptionColor.colorInactive;
             canvas.Children.Add(rec);
             return rec;
         }

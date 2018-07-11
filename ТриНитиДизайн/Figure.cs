@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public class Figure
     {
-        public Regim regimFigure;
+        public Mode modeFigure;
         public List<Shape> Shapes;
         public List<Shape> InvShapes;
         public List<Point> Points;
@@ -42,7 +42,7 @@ namespace ТриНитиДизайн
         public Canvas canvas;
         public Ellipse NewPointEllipse;
         public Vector tatamiControlLine;
-        public List<Vector> gladControlLines;
+        public List<Vector> satinControlLines;
         public Point oldTatamiCenter;
         //TODO: rethink list for center points
         public List<Point> oldGladCenters;
@@ -50,7 +50,7 @@ namespace ТриНитиДизайн
 
         public Figure(Canvas _canvas)
         {
-            regimFigure = Regim.RegimFigure;
+            modeFigure = Mode.modeFigure;
             Shapes = new List<Shape>();
             InvShapes = new List<Shape>();
             Points = new List<Point>();
@@ -63,7 +63,7 @@ namespace ТриНитиДизайн
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
             tatamiControlLine = new Vector();
-            gladControlLines = new List<Vector>();
+            satinControlLines = new List<Vector>();
             oldTatamiCenter = new Point();
             oldGladCenters = new List<Point>();
             PreparedForTatami = false;
@@ -85,8 +85,8 @@ namespace ТриНитиДизайн
                 Path pth = (Path)shape;
                 Path newPath = new Path();
                 newPath.Data = pth.Data;
-                newPath.Stroke = OptionColor.ColorBackground;
-                newPath.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
+                newPath.Stroke = OptionColor.colorBackground;
+                newPath.StrokeThickness = OptionDrawLine.invisibleStrokeThickness;
                 newPath.Opacity = 0;
                 InvShapes.Add(newPath);
                 DictionaryInvLines.Add(shape, newPath);
@@ -95,8 +95,8 @@ namespace ТриНитиДизайн
             {
                 Line ln = (Line)shape;
                 Line newLine = new Line();
-                newLine.Stroke = OptionColor.ColorBackground;
-                newLine.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
+                newLine.Stroke = OptionColor.colorBackground;
+                newLine.StrokeThickness = OptionDrawLine.invisibleStrokeThickness;
                 newLine.Opacity = 0;
                 newLine.X1 = ln.X1;
                 newLine.Y1 = ln.Y1;
@@ -123,7 +123,7 @@ namespace ТриНитиДизайн
         {
             Line shape = new Line();
             shape.Stroke = brush;
-            shape.StrokeThickness = OptionDrawLine.StrokeThickness;
+            shape.StrokeThickness = OptionDrawLine.strokeThickness;
             shape.X1 = point1.X;
             shape.Y1 = point1.Y;
             shape.X2 = point2.X;
@@ -133,7 +133,7 @@ namespace ТриНитиДизайн
 
             Line newLine = new Line();
             newLine.Stroke = brush;
-            newLine.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
+            newLine.StrokeThickness = OptionDrawLine.invisibleStrokeThickness;
             newLine.Opacity = 0;
             newLine.X1 = point1.X;
             newLine.Y1 = point1.Y;
@@ -146,7 +146,7 @@ namespace ТриНитиДизайн
         public void DrawAllRectangles()
         {
             RectangleOfFigures.Clear();
-            double size = OptionDrawLine.SizeWidthAndHeightRectangle;
+            double size = OptionDrawLine.sizeRectangle;
             foreach(Point p in Points)
             {
                 Rectangle rec = new Rectangle();
@@ -154,9 +154,9 @@ namespace ТриНитиДизайн
                 rec.Width = size;
                 Canvas.SetLeft(rec, p.X - size/2);
                 Canvas.SetTop(rec, p.Y - size/2);
-                rec.Stroke = OptionColor.ColorSelection;
-                rec.Fill = OptionColor.ColorOpacity;
-                rec.StrokeThickness = OptionDrawLine.StrokeThickness;
+                rec.Stroke = OptionColor.colorInactive;
+                rec.Fill = OptionColor.colorOpacity;
+                rec.StrokeThickness = OptionDrawLine.strokeThickness;
                 RectangleOfFigures.Add(rec);
                 canvas.Children.Add(rec);
             }
@@ -167,9 +167,9 @@ namespace ТриНитиДизайн
             for(int i = 0; i < Points.Count;i++)
             {
                 if (highlightedPoints.Contains(i))
-                    RectangleOfFigures[i].Fill = OptionColor.ColorSelection;
+                    RectangleOfFigures[i].Fill = OptionColor.colorInactive;
                 else
-                    RectangleOfFigures[i].Fill = OptionColor.ColorOpacity;
+                    RectangleOfFigures[i].Fill = OptionColor.colorOpacity;
             }
         }
                 
@@ -177,13 +177,13 @@ namespace ТриНитиДизайн
         {
             PointStart = new Point();
             PointEnd = new Point();
-            regimFigure = Regim.RegimFigure;
+            modeFigure = Mode.modeFigure;
             Shapes = new List<Shape>();
             dotsForFigure = new List<Shape>();
             groupFigures = new List<Figure>();
             groupFigures.Add(this);
             tatamiControlLine = new Vector();
-            gladControlLines = new List<Vector>();
+            satinControlLines = new List<Vector>();
             oldTatamiCenter = new Point();
             oldGladCenters = new List<Point>();
             InvShapes = new List<Shape>();
@@ -241,7 +241,7 @@ namespace ТриНитиДизайн
                         dotOverlaps = false;
                 }
                 Line line = GetLine(PointEnd, New);
-                line.StrokeThickness = OptionDrawLine.StrokeThickness;
+                line.StrokeThickness = OptionDrawLine.strokeThickness;
                 line.Stroke = brush;
                 canvas.Children.Add(line);
                 Shapes.Add(line);
@@ -249,7 +249,7 @@ namespace ТриНитиДизайн
 
                 Line newLine = GetLine(PointEnd, New);
                 newLine.Stroke = brush;
-                newLine.StrokeThickness = OptionDrawLine.InvisibleStrokeThickness;
+                newLine.StrokeThickness = OptionDrawLine.invisibleStrokeThickness;
                 newLine.Opacity = 0;
                 InvShapes.Add(newLine);
                 canvas.Children.Add(newLine);
@@ -264,9 +264,9 @@ namespace ТриНитиДизайн
                 rec.Width = recSize;
                 Canvas.SetLeft(rec, New.X - recSize / 2);
                 Canvas.SetTop(rec, New.Y - recSize / 2);
-                rec.Stroke = OptionColor.ColorSelection;
-                rec.Fill = OptionColor.ColorOpacity;
-                rec.StrokeThickness = OptionDrawLine.StrokeThicknessMainRec;
+                rec.Stroke = OptionColor.colorInactive;
+                rec.Fill = OptionColor.colorOpacity;
+                rec.StrokeThickness = OptionDrawLine.strokeThicknessMainRec;
                 canvas.Children.Add(rec);
                 return rec;
             }
@@ -309,11 +309,11 @@ namespace ТриНитиДизайн
                     {
                         Path ph = (Path)shape;
                         if (ph.MinHeight == 5)
-                            shape.Stroke = OptionColor.ColorKrivaya;
+                            shape.Stroke = OptionColor.colorCurve;
                         else if (ph.MinHeight == 10)
-                            shape.Stroke = OptionColor.ColorChoosingRec;
+                            shape.Stroke = OptionColor.colorArc;
                         else
-                            shape.Stroke = OptionColor.ColorDraw;
+                            shape.Stroke = OptionColor.colorActive;
                     }
                     else
                         shape.Stroke = brush;
@@ -389,7 +389,7 @@ namespace ТриНитиДизайн
         {
             double x = (a.X + b.X)/2;
             double y = (a.Y + b.Y) / 2;
-            DrawEllipse(new Point(x, y), OptionColor.ColorSelection, OptionDrawLine.SizeEllipseForControlLines, _canvas, true);
+            DrawEllipse(new Point(x, y), OptionColor.colorInactive, OptionDrawLine.sizeEllipseForControlLines, _canvas, true);
             return new Point(x, y);
         }
 
@@ -398,12 +398,12 @@ namespace ТриНитиДизайн
             dotsForFigure = new List<Shape>();
             for (int i = 0; i < pts.Count; i++)
             {
-                Ellipse ell = DrawEllipse(pts[i], color, OptionDrawLine.RisuiRegimDots, _canvas, false);
+                Ellipse ell = DrawEllipse(pts[i], color, OptionDrawLine.risuiModeDots, _canvas, false);
                 dotsForFigure.Add(ell);
             }
         }
 
-        public Ellipse DrawEllipse(Point p, Brush color, double size, Canvas _canvas,bool gladEllipse)
+        public Ellipse DrawEllipse(Point p, Brush color, double size, Canvas _canvas,bool satinEllipse)
         {
             Ellipse ell = new Ellipse();
             ell.Height = size;
@@ -413,8 +413,8 @@ namespace ТриНитиДизайн
             ell.Fill = color;
             Canvas.SetLeft(ell, p.X - size / 2);
             Canvas.SetTop(ell, p.Y - size / 2);
-            GeometryHelper.RescaleEllipse(ell, OptionSetka.Masshtab);
-            if (gladEllipse)
+            GeometryHelper.RescaleEllipse(ell, OptionGrid.scaleMultiplier);
+            if (satinEllipse)
             {
                 Shapes.Add(ell);
                 _canvas.Children.Add(ell);

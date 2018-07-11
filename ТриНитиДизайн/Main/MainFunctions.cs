@@ -34,21 +34,21 @@ namespace ТриНитиДизайн
 
         public void SetToDefault()
         {
-            OptionDrawLine.StrokeThickness = 1;
-            OptionDrawLine.StrokeThicknessMainRec = 2;
-            OptionDrawLine.InvisibleStrokeThickness = 10;
-            OptionDrawLine.SizeWidthAndHeightRectangle = 8;
-            OptionDrawLine.OneDotCornerDistance = 3;
-            OptionDrawLine.OneDotMiddleDistance = 4;
-            OptionDrawLine.SizeRectangleForScale = 10;
-            OptionDrawLine.SizeRectangleForRotation = 15;
-            OptionDrawLine.CursorModeRectangleDistance = 10;
-            OptionSetka.Masshtab = 1;
-            ScaleTransform scaleTransform = new ScaleTransform(OptionSetka.Masshtab, OptionSetka.Masshtab);
+            OptionDrawLine.strokeThickness = 1;
+            OptionDrawLine.strokeThicknessMainRec = 2;
+            OptionDrawLine.invisibleStrokeThickness = 10;
+            OptionDrawLine.sizeRectangle = 8;
+            OptionDrawLine.oneDotCornerDistance = 3;
+            OptionDrawLine.oneDotMiddleDistance = 4;
+            OptionDrawLine.sizeRectangleForScale = 10;
+            OptionDrawLine.sizeRectangleForRotation = 15;
+            OptionDrawLine.cursorModeRectangleDistance = 10;
+            OptionGrid.scaleMultiplier = 1;
+            ScaleTransform scaleTransform = new ScaleTransform(OptionGrid.scaleMultiplier, OptionGrid.scaleMultiplier);
             MainCanvas.RenderTransform = scaleTransform;
-            PreviousViewList.Clear();
+            previousViewList.Clear();
             PreviousView firstView = new PreviousView(1, 0, 0);
-            PreviousViewList.Add(firstView);
+            previousViewList.Add(firstView);
         }
 
         public string SavingFigures(Figure fig)
@@ -193,14 +193,14 @@ namespace ТриНитиДизайн
             string pattern = @" ";
             String[] elements = Regex.Split(newStuff, pattern);
             Point p = new Point(Double.Parse(elements[0]), Double.Parse(elements[1]));
-            fig.AddPoint(p, OptionColor.ColorSelection, false, true, OptionDrawLine.SizeWidthAndHeightRectangle);
+            fig.AddPoint(p, OptionColor.colorInactive, false, true, OptionDrawLine.sizeRectangle);
             int j = 2;
             while (!elements[j].Equals("!"))
             {
                 if (elements[j].Equals("L"))
                 {
                     p = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                    fig.AddPoint(p, OptionColor.ColorSelection, false, true, OptionDrawLine.SizeWidthAndHeightRectangle);
+                    fig.AddPoint(p, OptionColor.colorInactive, false, true, OptionDrawLine.sizeRectangle);
                 }
                 else if (elements[j].Equals("C"))
                 {
@@ -208,7 +208,7 @@ namespace ТриНитиДизайн
                     Point secondContPoint = new Point(Double.Parse(elements[j + 3]), Double.Parse(elements[j + 4]));
                     j += 4;
                     Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                    Shape sh = GeometryHelper.SetBezier(OptionColor.ColorSelection, p, firstContPoint, secondContPoint, p1, MainCanvas);
+                    Shape sh = GeometryHelper.SetBezier(OptionColor.colorInactive, p, firstContPoint, secondContPoint, p1, MainCanvas);
                     fig.AddShape(sh, p, new Tuple<Point, Point>(firstContPoint, secondContPoint));
                     p = p1;
                     fig.Points.Add(p);
@@ -219,7 +219,7 @@ namespace ТриНитиДизайн
                     Point contPoint = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
                     j += 2;
                     Point p1 = new Point(Double.Parse(elements[j + 1]), Double.Parse(elements[j + 2]));
-                    Shape sh = GeometryHelper.SetArc(OptionColor.ColorSelection, p, p1, contPoint, MainCanvas);
+                    Shape sh = GeometryHelper.SetArc(OptionColor.colorInactive, p, p1, contPoint, MainCanvas);
                     fig.AddShape(sh, p, new Tuple<Point, Point>(contPoint, new Point()));
                     p = p1;
                     fig.Points.Add(p);
@@ -232,25 +232,25 @@ namespace ТриНитиДизайн
 
         private void ClearEverything(bool isListEmpty)
         {
-            ListFigure.Clear();
+            listFigure.Clear();
             if(!isListEmpty)
-                ListFigure.Add(new Figure(MainCanvas));
+                listFigure.Add(new Figure(MainCanvas));
             MainCanvas.Children.Clear();
-            ListPltFigure.Clear();
-            OptionRegim.regim = Regim.RegimNull;
-            OptionColor.ColorNewBackground = Brushes.LightSkyBlue;
-            OptionColor.ColorNewDraw = Brushes.Violet;
-            TatamiFigures.Clear();
-            IndexFigure = 0;
+            listPltFigure.Clear();
+            OptionMode.mode = Mode.modeNull;
+            OptionColor.colorNewBackground = Brushes.LightSkyBlue;
+            OptionColor.colorNewActive = Brushes.Violet;
+            tatamiFigures.Clear();
+            indexFigure = 0;
             Edit_Menu.IsEnabled = false;
-            DeletedGroup = new List<Figure>();
-            CopyGroup = new List<Figure>();
-            FirstGladFigure = -1;
-            SecondGladFigure = -1;
+            deletedGroup = new List<Figure>();
+            copyGroup = new List<Figure>();
+            firstSatinFigure = -1;
+            secondSatinFigure = -1;
             CloseAllTabs();
-            SetkaFigure.RemoveFigure(MainCanvas);
+            gridFigure.RemoveFigure(MainCanvas);
             SetToDefault();
-            MainCanvas.Cursor = NormalCursor;
+            MainCanvas.Cursor = defaultCursor;
             ClearStatusBar();
             panTransform = new TranslateTransform();
             zoomTransform = new ScaleTransform();
@@ -261,7 +261,7 @@ namespace ТриНитиДизайн
             SetGrid();
             foreach (Line ln in centerLines)
             {
-                ln.StrokeThickness = OptionDrawLine.StrokeThickness;
+                ln.StrokeThickness = OptionDrawLine.strokeThickness;
                 MainCanvas.Children.Add(ln);
             }
         }        
@@ -281,15 +281,15 @@ namespace ТриНитиДизайн
             if (choice == 2)
             {
                 sMessageBoxText = "Создать стежки?";
-                if(OptionRegim.regim == Regim.RegimTatami)
+                if(OptionMode.mode == Mode.modeTatami)
                 {
                     sCaption = "Татами";
                 }
-                if (OptionRegim.regim == Regim.RegimCepochka)
+                if (OptionMode.mode == Mode.modeRunStitch)
                 {
                     sCaption = "Цепочка стежков";
                 }
-                if (OptionRegim.regim == Regim.RegimGlad)
+                if (OptionMode.mode == Mode.modeSatin)
                 {
                     sCaption = "Гладь";
                 }

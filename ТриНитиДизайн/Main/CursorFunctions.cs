@@ -25,7 +25,7 @@ namespace ТриНитиДизайн
             ptsRec.Clear();
             chRec = new Rectangle();
             chRec.MaxHeight = 100000;
-            ptsRec = GeometryHelper.GetFourOutsidePointsForGroup(ListFigure[IndexFigure].groupFigures, 0);
+            ptsRec = GeometryHelper.GetFourOutsidePointsForGroup(listFigure[indexFigure].groupFigures, 0);
             chRec.Height = Math.Abs(ptsRec[1].Y - ptsRec[0].Y);
             chRec.Width = Math.Abs(ptsRec[2].X - ptsRec[1].X);
             DoubleCollection dashes = new DoubleCollection();
@@ -34,15 +34,15 @@ namespace ТриНитиДизайн
             chRec.StrokeDashArray = dashes;
             Canvas.SetLeft(chRec, ptsRec[0].X);
             Canvas.SetTop(chRec, ptsRec[0].Y);
-            chRec.Stroke = OptionColor.ColorChoosingRec;
-            chRec.StrokeThickness = OptionDrawLine.StrokeThickness;
+            chRec.Stroke = OptionColor.colorArc;
+            chRec.StrokeThickness = OptionDrawLine.strokeThickness;
             movingFigurePoints.Clear();
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            foreach (Figure fig in listFigure[indexFigure].groupFigures)
             {
                 movingFigurePoints.Add(GeometryHelper.DrawRectangle(fig.PointStart, false, true,
-                    OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas));
+                    OptionDrawLine.strokeThickness, OptionColor.colorOpacity, MainCanvas));
                 movingFigurePoints.Add(GeometryHelper.DrawRectangle(fig.PointEnd, false, false,
-                    OptionDrawLine.StrokeThickness, OptionColor.ColorOpacity, MainCanvas));
+                    OptionDrawLine.strokeThickness, OptionColor.colorOpacity, MainCanvas));
             }
             foreach (Rectangle rec in movingFigurePoints)
                 MainCanvas.Children.Remove(rec);
@@ -78,9 +78,9 @@ namespace ТриНитиДизайн
                 Point startPoint;
 
                 if(i%2 == 0)
-                    startPoint = ListFigure[IndexFigure].groupFigures[i/2].PointStart;
+                    startPoint = listFigure[indexFigure].groupFigures[i/2].PointStart;
                 else
-                    startPoint = ListFigure[IndexFigure].groupFigures[i/2].PointEnd;
+                    startPoint = listFigure[indexFigure].groupFigures[i/2].PointEnd;
                 Point recPosition = RotatePoint(angle, startPoint, centerPoint);
                 canvas.Children.Remove(movingFigurePoints[i]);
                 Canvas.SetLeft(movingFigurePoints[i], recPosition.X - movingFigurePoints[i].Width / 2);
@@ -113,9 +113,9 @@ namespace ТриНитиДизайн
             foreach (Rectangle rec in movingFigurePoints)
                 MainCanvas.Children.Remove(rec);
             movingFigurePoints.Clear();
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            foreach (Figure fig in listFigure[indexFigure].groupFigures)
             {
-                if (fig.regimFigure == Regim.RegimTatami)
+                if (fig.modeFigure == Mode.modeTatami)
                 {
                     Point p = new Point(fig.tatamiControlLine.X, fig.tatamiControlLine.Y);
                     p = RotatePoint(angle, p, new Point(0, 0));
@@ -124,19 +124,19 @@ namespace ТриНитиДизайн
                     fig.tatamiControlLine.Normalize();
                     fig.oldTatamiCenter = RotatePoint(angle, fig.oldTatamiCenter, centerPoint);
                 }
-                else if (fig.regimFigure == Regim.RegimGlad)
+                else if (fig.modeFigure == Mode.modeSatin)
                 {
                     for (int i = 0; i < fig.oldGladCenters.Count; i++)
                     {
                         fig.oldGladCenters[i] = RotatePoint(angle, fig.oldGladCenters[i], centerPoint);
                     }
-                    for (int i = 0; i < fig.gladControlLines.Count; i++)
+                    for (int i = 0; i < fig.satinControlLines.Count; i++)
                     {
-                        Point p = new Point(fig.gladControlLines[i].X, fig.gladControlLines[i].Y);
+                        Point p = new Point(fig.satinControlLines[i].X, fig.satinControlLines[i].Y);
                         p = RotatePoint(angle, p, new Point(0, 0));
                         Vector vect = new Vector(p.X, p.Y);
                         vect.Normalize();
-                        fig.gladControlLines[i] = vect;
+                        fig.satinControlLines[i] = vect;
                     }
                 }
                 for (int i = 0; i < fig.Points.Count; i++)
@@ -152,7 +152,7 @@ namespace ТриНитиДизайн
                         Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
                         fig.DictionaryPointLines.TryGetValue(p, out sh);
                         if (sh is Line)
-                            newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, rotatedP, rotatedNextP, false, MainCanvas);
+                            newSh = GeometryHelper.SetLine(OptionColor.colorActive, rotatedP, rotatedNextP, false, MainCanvas);
                         else
                         {
                             fig.DictionaryShapeControlPoints.TryGetValue(p, out contPts);
@@ -161,14 +161,14 @@ namespace ТриНитиДизайн
                                 Point rotatedContPoint1 = RotatePoint(angle, contPts.Item1, centerPoint);
                                 Point rotatedContPoint2 = RotatePoint(angle, contPts.Item2, centerPoint);
                                 contPts = new Tuple<Point, Point>(rotatedContPoint1, rotatedContPoint2);
-                                newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, rotatedP, contPts.Item1,
+                                newSh = GeometryHelper.SetBezier(OptionColor.colorActive, rotatedP, contPts.Item1,
                                     contPts.Item2, rotatedNextP, MainCanvas);
                             }
                             else
                             {
                                 Point rotatedContPoint = RotatePoint(angle, contPts.Item1, centerPoint);
                                 contPts = new Tuple<Point, Point>(rotatedContPoint, new Point());
-                                newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, rotatedP, rotatedNextP,
+                                newSh = GeometryHelper.SetArc(OptionColor.colorActive, rotatedP, rotatedNextP,
                                     contPts.Item1, MainCanvas);
                             }
                         }
@@ -181,7 +181,7 @@ namespace ТриНитиДизайн
                         Shape newSh;
                         Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
                         fig.DictionaryPointLines.TryGetValue(p, out sh);
-                        newSh = GeometryHelper.SetStarForSinglePoint(rotatedP, OptionColor.ColorDraw, MainCanvas);
+                        newSh = GeometryHelper.SetStarForSinglePoint(rotatedP, OptionColor.colorActive, MainCanvas);
                         fig.DeleteShape(sh, p, MainCanvas);
                         fig.AddShape(newSh, rotatedP, contPts);
                     }
@@ -197,7 +197,7 @@ namespace ТриНитиДизайн
             SetScalingCursor();
             Vector vect = new Vector();
             Vector originalVector = new Vector();
-            double rectangleDistance = OptionDrawLine.CursorModeRectangleDistance;
+            double rectangleDistance = OptionDrawLine.cursorModeRectangleDistance;
             tVect = new Vector();
             if (status.Equals("north"))
             {
@@ -259,9 +259,9 @@ namespace ТриНитиДизайн
             {
                 Point startPoint;
                 if (i % 2 == 0)
-                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointStart;
+                    startPoint = listFigure[indexFigure].groupFigures[i / 2].PointStart;
                 else
-                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointEnd;
+                    startPoint = listFigure[indexFigure].groupFigures[i / 2].PointEnd;
                 ScaleRectangles(movingFigurePoints[i], startPoint, startVector, tVect, canvas);
             }
         }
@@ -274,7 +274,7 @@ namespace ТриНитиДизайн
             tVect = new Vector();
             Point centerPoint = GetCenterForGroup(ptsRec);
             startVector = centerPoint;
-            double rectangleDistance = OptionDrawLine.CursorModeRectangleDistance;
+            double rectangleDistance = OptionDrawLine.cursorModeRectangleDistance;
             if (status.Equals("north"))
             {
                 vect = centerPoint - new Point(centerPoint.X, currentPosition.Y + rectangleDistance);
@@ -334,9 +334,9 @@ namespace ТриНитиДизайн
             {
                 Point startPoint;
                 if (i % 2 == 0)
-                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointStart;
+                    startPoint = listFigure[indexFigure].groupFigures[i / 2].PointStart;
                 else
-                    startPoint = ListFigure[IndexFigure].groupFigures[i / 2].PointEnd;
+                    startPoint = listFigure[indexFigure].groupFigures[i / 2].PointEnd;
                 ScaleRectangles(movingFigurePoints[i], startPoint, startVector, tVect, canvas);
             }
         }
@@ -406,9 +406,9 @@ namespace ТриНитиДизайн
             foreach (Rectangle rec in movingFigurePoints)
                 MainCanvas.Children.Remove(rec);
             movingFigurePoints.Clear();
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            foreach (Figure fig in listFigure[indexFigure].groupFigures)
             {
-                if(fig.regimFigure == Regim.RegimTatami)
+                if(fig.modeFigure == Mode.modeTatami)
                 {
                     Point p = new Point(fig.tatamiControlLine.X, fig.tatamiControlLine.Y);
                     p = GetScaledPoint(p, new Point(0,0), tVect, true);
@@ -417,19 +417,19 @@ namespace ТриНитиДизайн
                     fig.tatamiControlLine.Normalize();
                     fig.oldTatamiCenter = GetScaledPoint(fig.oldTatamiCenter, startVector, tVect, false);
                 }
-                else if (fig.regimFigure == Regim.RegimGlad)
+                else if (fig.modeFigure == Mode.modeSatin)
                 {
                     for (int i = 0; i < fig.oldGladCenters.Count; i++)
                     {
                         fig.oldGladCenters[i] = GetScaledPoint(fig.oldGladCenters[i], startVector, tVect, false);
                     }
-                    for(int i = 0; i < fig.gladControlLines.Count; i++)
+                    for(int i = 0; i < fig.satinControlLines.Count; i++)
                     {
-                        Point p = new Point(fig.gladControlLines[i].X, fig.gladControlLines[i].Y);
+                        Point p = new Point(fig.satinControlLines[i].X, fig.satinControlLines[i].Y);
                         p = GetScaledPoint(p, new Point(0, 0), tVect, true);
                         Vector vect = new Vector(p.X, p.Y);
                         vect.Normalize();
-                        fig.gladControlLines[i] = vect;
+                        fig.satinControlLines[i] = vect;
                     }
                 }
                 for (int i = 0; i < fig.Points.Count; i++)
@@ -445,7 +445,7 @@ namespace ТриНитиДизайн
                         Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
                         fig.DictionaryPointLines.TryGetValue(p, out sh);
                         if (sh is Line)
-                            newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, scaledP, scaledNextP, false, MainCanvas);
+                            newSh = GeometryHelper.SetLine(OptionColor.colorActive, scaledP, scaledNextP, false, MainCanvas);
                         else
                         {
                             fig.DictionaryShapeControlPoints.TryGetValue(p, out contPts);
@@ -454,14 +454,14 @@ namespace ТриНитиДизайн
                                 Point scaledContPoint1 = GetScaledPoint(contPts.Item1, startVector, tVect,false);
                                 Point scaledContPoint2 = GetScaledPoint(contPts.Item2, startVector, tVect, false);
                                 contPts = new Tuple<Point, Point>(scaledContPoint1, scaledContPoint2);
-                                newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, scaledP, contPts.Item1,
+                                newSh = GeometryHelper.SetBezier(OptionColor.colorActive, scaledP, contPts.Item1,
                                     contPts.Item2, scaledNextP, MainCanvas);
                             }
                             else
                             {
                                 Point scaledContPoint = GetScaledPoint(contPts.Item1, startVector, tVect, false);
                                 contPts = new Tuple<Point, Point>(scaledContPoint, new Point());
-                                newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, scaledP, scaledNextP,
+                                newSh = GeometryHelper.SetArc(OptionColor.colorActive, scaledP, scaledNextP,
                                     contPts.Item1, MainCanvas);
                             }
                         }
@@ -474,7 +474,7 @@ namespace ТриНитиДизайн
                         Shape newSh;
                         Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
                         fig.DictionaryPointLines.TryGetValue(p, out sh);
-                        newSh = GeometryHelper.SetStarForSinglePoint(scaledP, OptionColor.ColorDraw, MainCanvas);
+                        newSh = GeometryHelper.SetStarForSinglePoint(scaledP, OptionColor.colorActive, MainCanvas);
                         fig.DeleteShape(sh, p, MainCanvas);
                         fig.AddShape(newSh, scaledP, contPts);
                     }
@@ -525,7 +525,7 @@ namespace ТриНитиДизайн
         {
             if (!isShiftElements)
             {
-                group = ListFigure[IndexFigure].groupFigures;
+                group = listFigure[indexFigure].groupFigures;
                 foreach (Rectangle rec in movingFigurePoints)
                     MainCanvas.Children.Remove(rec);
                 movingFigurePoints.Clear();
@@ -534,11 +534,11 @@ namespace ТриНитиДизайн
             }
             foreach (Figure fig in group)
             {
-                if (fig.regimFigure == Regim.RegimTatami)
+                if (fig.modeFigure == Mode.modeTatami)
                 {
                     fig.oldTatamiCenter += figureVect;
                 }
-                else if(fig.regimFigure == Regim.RegimGlad)
+                else if(fig.modeFigure == Mode.modeSatin)
                 {
                     for(int i = 0; i < fig.oldGladCenters.Count; i++)
                     {
@@ -556,20 +556,20 @@ namespace ТриНитиДизайн
                         Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
                         fig.DictionaryPointLines.TryGetValue(p, out sh);
                         if (sh is Line)
-                            newSh = GeometryHelper.SetLine(OptionColor.ColorDraw, p + figureVect, nextP + figureVect, false, MainCanvas);
+                            newSh = GeometryHelper.SetLine(OptionColor.colorActive, p + figureVect, nextP + figureVect, false, MainCanvas);
                         else
                         {
                             fig.DictionaryShapeControlPoints.TryGetValue(p, out contPts);
                             if (sh.MinHeight == 5)
                             {
                                 contPts = new Tuple<Point, Point>(contPts.Item1 + figureVect, contPts.Item2 + figureVect);
-                                newSh = GeometryHelper.SetBezier(OptionColor.ColorDraw, p + figureVect, contPts.Item1,
+                                newSh = GeometryHelper.SetBezier(OptionColor.colorActive, p + figureVect, contPts.Item1,
                                     contPts.Item2, nextP + figureVect, MainCanvas);
                             }
                             else
                             {
                                 contPts = new Tuple<Point, Point>(contPts.Item1 + figureVect, new Point());
-                                newSh = GeometryHelper.SetArc(OptionColor.ColorDraw, p + figureVect, nextP + figureVect,
+                                newSh = GeometryHelper.SetArc(OptionColor.colorActive, p + figureVect, nextP + figureVect,
                                     contPts.Item1, MainCanvas);
                             }
                         }
@@ -582,7 +582,7 @@ namespace ТриНитиДизайн
                         Shape newSh;
                         Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
                         fig.DictionaryPointLines.TryGetValue(p, out sh);
-                        newSh = GeometryHelper.SetStarForSinglePoint(p + figureVect, OptionColor.ColorDraw, MainCanvas);
+                        newSh = GeometryHelper.SetStarForSinglePoint(p + figureVect, OptionColor.colorActive, MainCanvas);
                         fig.DeleteShape(sh, p, MainCanvas);
                         fig.AddShape(newSh, p + figureVect, contPts);
                     }
@@ -595,14 +595,14 @@ namespace ТриНитиДизайн
 
         public void CursorMenuDrawInColor()
         {
-            TempListFigure = ListFigure.ToList<Figure>();
+            tempListFigure = listFigure.ToList<Figure>();
             MainCanvas.Children.Clear();
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
+            foreach (Figure fig in listFigure[indexFigure].groupFigures)
             {
-                fig.ChangeFigureColor(OptionColor.ColorNewDraw, false);
+                fig.ChangeFigureColor(OptionColor.colorNewActive, false);
                 fig.AddFigure(MainCanvas);
             }
-            MainCanvas.Background = OptionColor.ColorNewBackground;
+            MainCanvas.Background = OptionColor.colorNewBackground;
         }
 
         private Vector FindFigureRectangle(Point p1, Point p2, Canvas canvas)
@@ -661,8 +661,8 @@ namespace ТриНитиДизайн
             transRectangles = new List<Rectangle>();
             List<Point> PointsOutSideRectangle = new List<Point>();
             Point a, b, c, d;
-            List<Point> pts = GeometryHelper.GetFourOutsidePointsForGroup(ListFigure[IndexFigure].groupFigures,
-                OptionDrawLine.CursorModeRectangleDistance);
+            List<Point> pts = GeometryHelper.GetFourOutsidePointsForGroup(listFigure[indexFigure].groupFigures,
+                OptionDrawLine.cursorModeRectangleDistance);
             a = pts[0];
             b = pts[1];
             c = pts[2];
@@ -675,13 +675,13 @@ namespace ТриНитиДизайн
             PointsOutSideRectangle.Add(b);
             PointsOutSideRectangle.Add(new Point((a.X + b.X) / 2, (b.Y + a.Y) / 2));
             PointsOutSideRectangle.Add(a);
-            double size = OptionDrawLine.SizeRectangleForRotation;
+            double size = OptionDrawLine.sizeRectangleForRotation;
             if (rememberLastRect)
                 PointsOutSideRectangle.Add(lastPoint);
             else if (!isScale)
                 PointsOutSideRectangle.Add(GetCenterForGroup(pts));
             else
-                size = OptionDrawLine.SizeRectangleForScale;
+                size = OptionDrawLine.sizeRectangleForScale;
             foreach (Point p in PointsOutSideRectangle)
             {
                 transRectangles.Add(GeometryHelper.DrawTransformingRectangle(p, size, canvas));
@@ -705,8 +705,8 @@ namespace ТриНитиДизайн
                     transRectangles[i].StrokeThickness = 0;
                 }
             }
-            foreach (Figure fig in ListFigure[IndexFigure].groupFigures)
-                fig.ChangeFigureColor(OptionColor.ColorDraw, false);
+            foreach (Figure fig in listFigure[indexFigure].groupFigures)
+                fig.ChangeFigureColor(OptionColor.colorActive, false);
         }
 
         private Point GetCenterForGroup(List<Point> pts)
@@ -717,41 +717,41 @@ namespace ТриНитиДизайн
         public void ShowJoinCursorMessage(Figure firstFigure, Figure secondFigure,Canvas canvas)
         {
             foreach (Figure fig in secondFigure.groupFigures)
-                fig.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+                fig.ChangeFigureColor(OptionColor.colorArc, false);
 
-            var JoinCursorWindow = new View.JoinCursor(ListFigure, firstFigure, secondFigure, canvas);
+            var JoinCursorWindow = new View.JoinCursor(listFigure, firstFigure, secondFigure, canvas);
             JoinCursorWindow.ShowDialog();
             foreach(Figure fig in secondFigure.groupFigures)
-                fig.ChangeFigureColor(OptionColor.ColorSelection, false);
+                fig.ChangeFigureColor(OptionColor.colorInactive, false);
 
-            if (OptionRegim.regim == Regim.RegimCursorJoinShiftElements)
+            if (OptionMode.mode == Mode.modeCursorJoinShiftElements)
                 JoinShiftElements(firstFigure, secondFigure);
-            OptionRegim.regim = Regim.RegimCursor;
-            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            OptionMode.mode = Mode.modeCursor;
+            RedrawEverything(listFigure, indexFigure, false, MainCanvas);
             DrawOutsideRectangles(true, false, canvas);
             ShowPositionStatus(firstFigure, true,false);
         }
 
         public void ShowBreakCursorMessage(Figure fig, Canvas canvas)
         {
-            fig.ChangeFigureColor(OptionColor.ColorChoosingRec, false);
+            fig.ChangeFigureColor(OptionColor.colorArc, false);
             int index = fig.groupFigures.IndexOf(fig);
             
             var RazorvatWindow = new View.Razorvat(fig.groupFigures, index, MainCanvas);
             RazorvatWindow.ShowDialog();
-            foreach (Figure indFig in ListFigure)
+            foreach (Figure indFig in listFigure)
                 if (indFig.Points.Count > 0)
                 {
                     if (indFig.Points[indFig.Points.Count - 1].X == -31231 && indFig.Points[indFig.Points.Count - 1].Y == 312312)
                     {
-                        IndexFigure = ListFigure.IndexOf(indFig);
+                        indexFigure = listFigure.IndexOf(indFig);
                         indFig.Points.RemoveAt(indFig.Points.Count - 1);
                         break;
                     }
                 }
-            OptionRegim.regim = Regim.RegimCursor;
-            ChangeFiguresColor(ListFigure, canvas);
-            RedrawEverything(ListFigure, IndexFigure, false, MainCanvas);
+            OptionMode.mode = Mode.modeCursor;
+            ChangeFiguresColor(listFigure, canvas);
+            RedrawEverything(listFigure, indexFigure, false, MainCanvas);
             DrawOutsideRectangles(true, false, canvas);
             ShowPositionStatus(fig, true,false);
         }

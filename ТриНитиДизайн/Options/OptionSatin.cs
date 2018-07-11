@@ -5,12 +5,12 @@ using System.Text;
 
 namespace ТриНитиДизайн
 {
-    public static class OptionGlad
+    public static class OptionSatin
     {
-        //Glad
-        public static double LenthStep = 4;
-        public static double MaxLenthStep = 124;
-        public static double MinLenthStep = 1;
+        //Satin
+        public static double lengthStep = 4;
+        public static double maxLengthStep = 124;
+        public static double minLengthStep = 1;
         public static double Rasshirenie = 0;
         public static double MaxRasshirenie = 100;
         public static double MinRasshirenie = 0;
