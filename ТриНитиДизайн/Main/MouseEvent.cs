@@ -48,7 +48,7 @@ namespace ТриНитиДизайн
                             listFigure[indexFigure].points.RemoveAt(pts.Count - 1);
                         Point normalizedPoint = FindClosestDot(newMousePosition);
                         listFigure[indexFigure].AddPoint(normalizedPoint);
-                        AddTransparentBMP(pts[pts.Count - 2], pts[pts.Count - 1], mainCanvas);
+                        DrawLine(pts[pts.Count - 2], pts[pts.Count - 1], mainCanvas);
                         startDrawing = true;
                     }
                 }

@@ -67,6 +67,7 @@ namespace ТриНитиДизайн
 
         Image mainBMP;
         Image transparentBMP;
+        Image gridBMP;
 
         TranslateTransform panTransform;
         ScaleTransform zoomTransform;

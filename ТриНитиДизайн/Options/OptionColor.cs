@@ -13,7 +13,6 @@ namespace ТриНитиДизайн
         public static Color colorDrawing = Color.FromRgb(0x80, 0x80, 0xFF);
         public static Color colorBackground = Colors.White;
         public static Color colorInactive = Colors.Black;
-        public static Color colorTransparent = Colors.Transparent;
         public static Color colorCurve = Colors.Fuchsia;
         public static Color colorArcRectangle = Colors.Blue;
         public static Color colorControlLine = Color.FromRgb(0x00, 0x00, 0x7F);

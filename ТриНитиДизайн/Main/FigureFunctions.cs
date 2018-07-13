@@ -46,7 +46,9 @@ namespace ТриНитиДизайн
         //    }
 
             canvas.Children.Clear();
-            WriteableBitmap bmp = BitmapFactory.New(1600,800);
+            canvas.Children.Add(gridBMP);
+            WriteableBitmap bmp = BitmapFactory.New(1600, 900);
+            bmp.Clear(Colors.Transparent);
             Color lineColor;
             for (int i = 0; i < listFig.Count; i++)
             {
@@ -72,10 +74,10 @@ namespace ТриНитиДизайн
             canvas.Children.Add(mainBMP);
         }
 
-        public void AddTransparentBMP(Point p1, Point p2, Canvas canvas)
+        public void DrawLine(Point p1, Point p2, Canvas canvas)
         {
             canvas.Children.Remove(transparentBMP);
-            WriteableBitmap bmp = new WriteableBitmap(1600, 800, 96, 96, PixelFormats.Bgra32, null);
+            WriteableBitmap bmp = BitmapFactory.New(1600, 900);
             bmp.Clear(Colors.Transparent);
             bmp.DrawLineBresenham((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, OptionColor.colorDrawing);
             transparentBMP = new Image

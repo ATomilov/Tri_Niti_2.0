@@ -21,40 +21,42 @@ namespace ТриНитиДизайн
     {
         public void SetGrid()          
         {
-            //if(gridFigure != null)
-            //{
-            //    gridFigure.RemoveFigure(mainCanvas);
-            //}
-            //gridFigure = new Figure(mainCanvas);
-            //double step = (Double)OptionGrid.gridInterval;
-            //if  ((OptionGrid.scaleMultiplier < 0.5 && step == 5) ||
-            //    (OptionGrid.scaleMultiplier < 2 && step == 2) ||
-            //    (OptionGrid.scaleMultiplier < 4 && step == 1) ||
-            //    (OptionGrid.scaleMultiplier < 8 && step == 0.5) ||
-            //    (OptionGrid.scaleMultiplier < 16 && step == 0.2) ||
-            //    (OptionGrid.scaleMultiplier < 32 && step == 0.1))
-            //    return;
-            ////warning - without those numbers setka doesn't show properly
-            ////no idea why this works exactly
-            //double incX = 8;
-            //double incY = 20;
-            //if(step != 0)
-            //{
-            //    double trueScale = 1 - (1 / OptionGrid.scaleMultiplier);
-            //    double startX = -panTransform.X + trueScale*(mainCanvas.ActualWidth/2) + incX;
-            //    double startY = -panTransform.Y + trueScale * (mainCanvas.ActualHeight / 2) + incY;
-            //    startX -= (startX % (step*2));
-            //    startY -= (startY % (step * 2));
+            double step = (Double)OptionGrid.gridInterval;
+            if ((OptionGrid.scaleMultiplier < 0.5 && step == 5) ||
+                (OptionGrid.scaleMultiplier < 2 && step == 2) ||
+                (OptionGrid.scaleMultiplier < 4 && step == 1) ||
+                (OptionGrid.scaleMultiplier < 8 && step == 0.5) ||
+                (OptionGrid.scaleMultiplier < 16 && step == 0.2) ||
+                (OptionGrid.scaleMultiplier < 32 && step == 0.1))
+                return;
+            mainCanvas.Children.Remove(gridBMP);
+            WriteableBitmap bmp = BitmapFactory.New(1600, 900);
+            bmp.Clear(Colors.Transparent);
+            //warning - without those numbers grid doesn't show properly
+            //no idea why this works exactly
+            double incX = 8;
+            double incY = 20;
+            if (step != 0)
+            {
+                double trueScale = 1 - (1 / OptionGrid.scaleMultiplier);
+                double startX = -panTransform.X + trueScale * (mainCanvas.ActualWidth / 2) + incX;
+                double startY = -panTransform.Y + trueScale * (mainCanvas.ActualHeight / 2) + incY;
+                startX -= (startX % (step * 2));
+                startY -= (startY % (step * 2));
 
-            //    for (double i = startX; i < startX + mainCanvas.ActualWidth / OptionGrid.scaleMultiplier; i += (step * 2))
-            //        for (double j = startY; j < startY + mainCanvas.ActualHeight / OptionGrid.scaleMultiplier; j += (step * 2))
-            //        {
-            //            Ellipse ell = SetDot(new Point(i, j));
-            //            GeometryHelper.RescaleEllipse(ell, OptionGrid.scaleMultiplier);
-            //            gridFigure.Shapes.Add(ell);
-            //            mainCanvas.Children.Add(ell);
-            //        }
-            //}
+                for (double i = startX; i < startX + mainCanvas.ActualWidth / OptionGrid.scaleMultiplier; i += (step * 2))
+                    for (double j = startY; j < startY + mainCanvas.ActualHeight / OptionGrid.scaleMultiplier; j += (step * 2))
+                    {
+                        if(i >= 0 && j >= 0 && i < 1600 && j < 900)
+                            bmp.SetPixel((int)i, (int)j, OptionColor.colorInactive);
+                    }
+            }
+            gridBMP = new Image
+            {
+                Stretch = Stretch.None,
+                Source = bmp
+            };
+            mainCanvas.Children.Add(gridBMP);
         }
 
         public void DrawCenter(bool isCenterSet)
