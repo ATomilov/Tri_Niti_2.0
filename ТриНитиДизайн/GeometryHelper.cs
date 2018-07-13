@@ -201,9 +201,9 @@ namespace ТриНитиДизайн
         {
             List<Point> pts = new List<Point>();
 
-            foreach (Figure fig in group)
-                foreach (Point p in fig.GetFourPointsOfOutSideRectangle(length))
-                    pts.Add(p);
+            //foreach (Figure fig in group)
+            //    foreach (Point p in fig.GetFourPointsOfOutSideRectangle(length))
+            //        pts.Add(p);
 
             Point max = new Point(Double.MinValue, Double.MinValue);
             Point min = new Point(Double.MaxValue, Double.MaxValue);

@@ -21,61 +21,61 @@ namespace ТриНитиДизайн
     {
         public void SetGrid()          
         {
-            if(gridFigure != null)
-            {
-                gridFigure.RemoveFigure(MainCanvas);
-            }
-            gridFigure = new Figure(MainCanvas);
-            double step = (Double)OptionGrid.gridInterval;
-            if  ((OptionGrid.scaleMultiplier < 0.5 && step == 5) ||
-                (OptionGrid.scaleMultiplier < 2 && step == 2) ||
-                (OptionGrid.scaleMultiplier < 4 && step == 1) ||
-                (OptionGrid.scaleMultiplier < 8 && step == 0.5) ||
-                (OptionGrid.scaleMultiplier < 16 && step == 0.2) ||
-                (OptionGrid.scaleMultiplier < 32 && step == 0.1))
-                return;
-            //warning - without those numbers setka doesn't show properly
-            //no idea why this works exactly
-            double incX = 8;
-            double incY = 20;
-            if(step != 0)
-            {
-                double trueScale = 1 - (1 / OptionGrid.scaleMultiplier);
-                double startX = -panTransform.X + trueScale*(MainCanvas.ActualWidth/2) + incX;
-                double startY = -panTransform.Y + trueScale * (MainCanvas.ActualHeight / 2) + incY;
-                startX -= (startX % (step*2));
-                startY -= (startY % (step * 2));
+            //if(gridFigure != null)
+            //{
+            //    gridFigure.RemoveFigure(mainCanvas);
+            //}
+            //gridFigure = new Figure(mainCanvas);
+            //double step = (Double)OptionGrid.gridInterval;
+            //if  ((OptionGrid.scaleMultiplier < 0.5 && step == 5) ||
+            //    (OptionGrid.scaleMultiplier < 2 && step == 2) ||
+            //    (OptionGrid.scaleMultiplier < 4 && step == 1) ||
+            //    (OptionGrid.scaleMultiplier < 8 && step == 0.5) ||
+            //    (OptionGrid.scaleMultiplier < 16 && step == 0.2) ||
+            //    (OptionGrid.scaleMultiplier < 32 && step == 0.1))
+            //    return;
+            ////warning - without those numbers setka doesn't show properly
+            ////no idea why this works exactly
+            //double incX = 8;
+            //double incY = 20;
+            //if(step != 0)
+            //{
+            //    double trueScale = 1 - (1 / OptionGrid.scaleMultiplier);
+            //    double startX = -panTransform.X + trueScale*(mainCanvas.ActualWidth/2) + incX;
+            //    double startY = -panTransform.Y + trueScale * (mainCanvas.ActualHeight / 2) + incY;
+            //    startX -= (startX % (step*2));
+            //    startY -= (startY % (step * 2));
 
-                for (double i = startX; i < startX + MainCanvas.ActualWidth / OptionGrid.scaleMultiplier; i += (step * 2))
-                    for (double j = startY; j < startY + MainCanvas.ActualHeight / OptionGrid.scaleMultiplier; j += (step * 2))
-                    {
-                        Ellipse ell = SetDot(new Point(i, j));
-                        GeometryHelper.RescaleEllipse(ell, OptionGrid.scaleMultiplier);
-                        gridFigure.Shapes.Add(ell);
-                        MainCanvas.Children.Add(ell);
-                    }
-            }
+            //    for (double i = startX; i < startX + mainCanvas.ActualWidth / OptionGrid.scaleMultiplier; i += (step * 2))
+            //        for (double j = startY; j < startY + mainCanvas.ActualHeight / OptionGrid.scaleMultiplier; j += (step * 2))
+            //        {
+            //            Ellipse ell = SetDot(new Point(i, j));
+            //            GeometryHelper.RescaleEllipse(ell, OptionGrid.scaleMultiplier);
+            //            gridFigure.Shapes.Add(ell);
+            //            mainCanvas.Children.Add(ell);
+            //        }
+            //}
         }
 
         public void DrawCenter(bool isCenterSet)
         {
             if(isCenterSet)
             {
-                double height = MainCanvas.ActualHeight;
-                double width = MainCanvas.ActualWidth;
+                double height = mainCanvas.ActualHeight;
+                double width = mainCanvas.ActualWidth;
                 Line verticalLine = new Line();
                 verticalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(width / 2, 0),
-                    new Point(width / 2, height),true, MainCanvas);
+                    new Point(width / 2, height),true, mainCanvas);
                 Line horizontalLine = new Line();
                 horizontalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(0, height / 2), 
-                    new Point(width, height / 2),true, MainCanvas);
+                    new Point(width, height / 2),true, mainCanvas);
                 centerLines.Add(verticalLine);
                 centerLines.Add(horizontalLine);
             }
             else
             {
-                MainCanvas.Children.Remove(centerLines[0]);
-                MainCanvas.Children.Remove(centerLines[1]);
+                mainCanvas.Children.Remove(centerLines[0]);
+                mainCanvas.Children.Remove(centerLines[1]);
                 centerLines.Clear();
             }
         }

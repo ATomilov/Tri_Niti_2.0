@@ -23,7 +23,7 @@ namespace ТриНитиДизайн
         {
             InitializeComponent();
             copyGroup = new List<Figure>();
-            controlLine = new Figure(MainCanvas);
+            controlLine = new Figure(mainCanvas);
             deletedGroup = new List<Figure>();
             chosenPts = new List<Point>();
         }
@@ -46,9 +46,9 @@ namespace ТриНитиДизайн
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             listFigure = new List<Figure>();
-            listFigure.Add(new Figure(MainCanvas));
+            listFigure.Add(new Figure(mainCanvas));
             listPltFigure = new List<Figure>();
-            listPltFigure.Add(new Figure(MainCanvas));
+            listPltFigure.Add(new Figure(mainCanvas));
             indexFigure = 0;
             tabControl1.Visibility = Visibility.Hidden;
             tabControl2.Visibility = Visibility.Hidden;
@@ -71,59 +71,59 @@ namespace ТриНитиДизайн
             centerCursor = new Cursor(sri7.Stream);
 
             mainGrid.Cursor = defaultCursor;
-            MainCanvas.Cursor = defaultCursor;
+            mainCanvas.Cursor = defaultCursor;
 
             panTransform = new TranslateTransform();
             zoomTransform = new ScaleTransform();
             bothTransforms = new TransformGroup();
             bothTransforms.Children.Add(panTransform);
             bothTransforms.Children.Add(zoomTransform);
-            MainCanvas.RenderTransform = bothTransforms;
+            mainCanvas.RenderTransform = bothTransforms;
             this.PreviewKeyDown += new KeyEventHandler(MainWindow_KeyDown);
         }
 
 
         private void EditButtonEvent(object sender, RoutedEventArgs e)
         {
-            if (OptionMode.mode == Mode.modeCursor)
-            {
-                indexFigure = listFigure.IndexOf(listFigure[indexFigure].groupFigures[0]);
-            }
-            ExitFromRisuimode();
-            Edit_Menu.IsEnabled = false;
-            CloseAllTabs();
-            listFigure[indexFigure].highlightedPoints.Clear();
+            //if (OptionMode.mode == Mode.modeCursor)
+            //{
+            //    indexFigure = listFigure.IndexOf(listFigure[indexFigure].groupFigures[0]);
+            //}
+            //ExitFromRisuimode();
+            //Edit_Menu.IsEnabled = false;
+            //CloseAllTabs();
+            //listFigure[indexFigure].highlightedPoints.Clear();
             OptionMode.mode = Mode.modeDraw;
-            RedrawEverything(listFigure, indexFigure, false, MainCanvas);
-            ShowPositionStatus(listFigure[indexFigure], false, false);
-            DrawFirstAndLastRectangle();
-            ChangeFiguresColor(listFigure, MainCanvas);
-            MainCanvas.Cursor = handCursor;
+            //RedrawEverything(listFigure, indexFigure, false, mainCanvas);
+            //ShowPositionStatus(listFigure[indexFigure], false, false);
+            //DrawFirstAndLastRectangle();
+            //ChangeFiguresColor(listFigure, mainCanvas);
+            //mainCanvas.Cursor = handCursor;
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)
         {
-            if(deletedGroup.Count > 0)
-                restore_button.IsEnabled = true;
-            else
-                restore_button.IsEnabled = false;
-            ExitFromRisuimode();
-            Edit_Menu.IsEnabled = true;
-            CloseAllTabs();
-            listFigure[indexFigure].highlightedPoints.Clear();
-            OptionMode.mode = Mode.modeCursor;
-            for (int i = 0; i < listFigure.Count; i++)
-            {
-                if (listFigure[i].PreparedForTatami)
-                {
-                    listFigure[i].LoadCurrentShapes();
-                }
-            }
-            ShowPositionStatus(listFigure[indexFigure], true, false);
-            RedrawEverything(listFigure, indexFigure, false, MainCanvas);
-            ChangeFiguresColor(listFigure, MainCanvas);
-            DrawOutsideRectangles(true, false, MainCanvas);
-            MainCanvas.Cursor = defaultCursor;
+            //if(deletedGroup.Count > 0)
+            //    restore_button.IsEnabled = true;
+            //else
+            //    restore_button.IsEnabled = false;
+            //ExitFromRisuimode();
+            //Edit_Menu.IsEnabled = true;
+            //CloseAllTabs();
+            //listFigure[indexFigure].highlightedPoints.Clear();
+            //OptionMode.mode = Mode.modeCursor;
+            //for (int i = 0; i < listFigure.Count; i++)
+            //{
+            //    if (listFigure[i].preparedForTatami)
+            //    {
+            //        listFigure[i].LoadCurrentShapes();
+            //    }
+            //}
+            //ShowPositionStatus(listFigure[indexFigure], true, false);
+            //RedrawEverything(listFigure, indexFigure, false, mainCanvas);
+            //ChangeFiguresColor(listFigure, mainCanvas);
+            //DrawOutsideRectangles(true, false, mainCanvas);
+            //mainCanvas.Cursor = defaultCursor;
         }
     }
 }

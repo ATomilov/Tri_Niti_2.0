@@ -79,7 +79,7 @@
     </ApplicationDefinition>
     <Compile Include="CanonicalSplineHelper.cs" />
     <Compile Include="ChangedShape.cs" />
-    <Compile Include="GeometyHelper.cs" />
+    <Compile Include="GeometryHelper.cs" />
     <Compile Include="Main\CanvasAssistant.cs" />
     <Compile Include="Figure.cs" />
     <Compile Include="Main\CursorFunctions.cs" />

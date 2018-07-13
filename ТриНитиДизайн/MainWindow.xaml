@@ -15,7 +15,7 @@
         <Canvas 
                 Margin="-0,0,-0,-0" 
                 Width="Auto"
-                Name="MainCanvas" 
+                Name="mainCanvas" 
                 Background="White" 
                 Cursor="Arrow" 
                 MouseMove="CanvasTest_MouseMove"  
