@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        private void MashtabMainButtonEvant(object sender, RoutedEventArgs e)
+        private void MashtabMainButtonEvent(object sender, RoutedEventArgs e)
         {
             ExitFromRisuimode();
             if (expander1.Visibility == Visibility.Collapsed)

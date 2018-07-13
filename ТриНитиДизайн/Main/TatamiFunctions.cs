@@ -373,7 +373,7 @@ namespace ТриНитиДизайн
                     if (!turnAround)        //конец отрезка
                     {
                         ListTatamiFigures[i].AddPoint(ListControlLines[i].Points[j + 1], OptionColor.colorInactive, false,false, 4);
-                       // ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j+1]);
+                        //ListTatamiFigures[i].Points.Add(ListControlLines[i].Points[j+1]);
                     }
                     else
                     {
@@ -385,11 +385,12 @@ namespace ТриНитиДизайн
             }
             //Test(ListTatamiFigures);
         }
+
         /*
         private void Test(List<Figure> ListTatamiFigures)
         {
             MainCanvas.Children.Clear();
-            WriteableBitmap writeableBmp = BitmapFactory.New(1600,900);
+            WriteableBitmap writeableBmp = BitmapFactory.New(1600,800);
             for (int j = 0; j < ListTatamiFigures.Count; j++)
             {
                 if (ListTatamiFigures[j].Points.Count > 0)
@@ -397,7 +398,8 @@ namespace ТриНитиДизайн
                     List<Point> pts = new List<Point>(ListTatamiFigures[j].Points);
                     for (int i = 0; i < pts.Count - 1; i++)
                     {
-                        writeableBmp.DrawLineAa((int)pts[i].X, (int)pts[i].Y, (int)pts[i + 1].X, (int)pts[i + 1].Y, Colors.Red);
+                        writeableBmp.FillEllipseCentered((int)pts[i].X, (int)pts[i].Y, 1, 1, Colors.Black);
+                        writeableBmp.DrawLineBresenham((int)pts[i].X, (int)pts[i].Y, (int)pts[i + 1].X, (int)pts[i + 1].Y, Colors.Red);
                     }
                 }
             }
@@ -408,6 +410,6 @@ namespace ТриНитиДизайн
             MainCanvas.Children.Add(waveform);
 
         }
-         */
+        */
     }
 }

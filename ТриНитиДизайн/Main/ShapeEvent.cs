@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        private void ShapeMainButtonEvant(object sender, RoutedEventArgs e)
+        private void ShapeMainButtonEvent(object sender, RoutedEventArgs e)
         {
             if (OptionMode.mode == Mode.modeCursor)
             {

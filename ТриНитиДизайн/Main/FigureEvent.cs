@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        private void FigureMainButtonEvant(object sender, RoutedEventArgs e)
+        private void FigureMainButtonEvent(object sender, RoutedEventArgs e)
         {
             if (OptionMode.mode == Mode.modeFigure || OptionMode.mode == Mode.modeTatami ||
                 OptionMode.mode == Mode.modeSatin || OptionMode.mode == Mode.modeRunStitch)

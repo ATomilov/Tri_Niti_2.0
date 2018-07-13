@@ -89,11 +89,11 @@
     <Compile Include="Main\MashtabFunctions.cs" />
     <Compile Include="Main\GridFunctions.cs" />
     <Compile Include="Main\GridEvent.cs" />
-    <Compile Include="Main\FigureEvant.cs" />
+    <Compile Include="Main\FigureEvent.cs" />
     <Compile Include="Main\GlobalObject.cs" />
     <Compile Include="Main\ShapeFunctions.cs" />
-    <Compile Include="Main\ShapeEvant.cs" />
-    <Compile Include="Main\MashtabEvant.cs" />
+    <Compile Include="Main\ShapeEvent.cs" />
+    <Compile Include="Main\MashtabEvent.cs" />
     <Compile Include="Main\MouseEvent.cs" />
     <Compile Include="Main\MainEvent.cs" />
     <Compile Include="Main\MainEventMenu.cs" />

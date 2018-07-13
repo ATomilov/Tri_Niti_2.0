@@ -111,7 +111,7 @@
             Width="40" 
             BorderBrush="Black" 
             BorderThickness="2" 
-            Click="ShapeMainButtonEvant" 
+            Click="ShapeMainButtonEvent" 
             Background="White">
             <Image Source="/ТриНитиДизайн;component/Images/edit_mode_old.png" />
         </Button>
@@ -123,7 +123,7 @@
             Width="40" 
             BorderBrush="Black"
             BorderThickness="2" 
-            Click="FigureMainButtonEvant" 
+            Click="FigureMainButtonEvent" 
             Background="White">
             <Image Source="/ТриНитиДизайн;component/Images/figure_mode_old.png" />
         </Button>
@@ -206,7 +206,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Height="40" HorizontalAlignment="Left" Margin="4,139,0,0" VerticalAlignment="Top" Width="40" BorderBrush="Black" BorderThickness="2"  Background="White" Click="MashtabMainButtonEvant">
+        <Button Height="40" HorizontalAlignment="Left" Margin="4,139,0,0" VerticalAlignment="Top" Width="40" BorderBrush="Black" BorderThickness="2"  Background="White" Click="MashtabMainButtonEvent">
             <Image Source="/ТриНитиДизайн;component/Images/scale_mode_old.png" />
         </Button>
     </Grid>
