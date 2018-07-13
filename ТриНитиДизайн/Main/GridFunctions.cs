@@ -64,13 +64,13 @@ namespace ТриНитиДизайн
                 double height = mainCanvas.ActualHeight;
                 double width = mainCanvas.ActualWidth;
                 Line verticalLine = new Line();
-                verticalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(width / 2, 0),
-                    new Point(width / 2, height),true, mainCanvas);
-                Line horizontalLine = new Line();
-                horizontalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(0, height / 2), 
-                    new Point(width, height / 2),true, mainCanvas);
+                //verticalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(width / 2, 0),
+                //    new Point(width / 2, height),true, mainCanvas);
+                //Line horizontalLine = new Line();
+                //horizontalLine = GeometryHelper.SetLine(OptionColor.colorInactive, new Point(0, height / 2), 
+                //    new Point(width, height / 2),true, mainCanvas);
                 centerLines.Add(verticalLine);
-                centerLines.Add(horizontalLine);
+                //centerLines.Add(horizontalLine);
             }
             else
             {
@@ -86,8 +86,8 @@ namespace ТриНитиДизайн
             ell.Height = OptionGrid.dotSize;
             ell.Width = OptionGrid.dotSize;
             ell.Stretch = Stretch.Uniform;
-            ell.Stroke = OptionColor.colorInactive;
-            ell.Fill = OptionColor.colorInactive;
+            //ell.Stroke = OptionColor.colorInactive;
+            //ell.Fill = OptionColor.colorInactive;
             Canvas.SetLeft(ell, centerPoint.X - ell.Height / 2);
             Canvas.SetTop(ell, centerPoint.Y - ell.Height / 2);
             return ell;

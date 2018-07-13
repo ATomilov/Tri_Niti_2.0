@@ -139,7 +139,7 @@ namespace ТриНитиДизайн
             Canvas.SetTop(rec, p.Y - rec.Width / 2);
 
             rec.Fill = brush;
-            rec.Stroke = OptionColor.colorInactive;
+            //rec.Stroke = OptionColor.colorInactive;
             rec.StrokeThickness = thickness;
             if (invRectangles)
                 rec.Opacity = 0;
@@ -155,9 +155,9 @@ namespace ТриНитиДизайн
             rec.Width = rec.Height;
             Canvas.SetLeft(rec, p.X - size / 2);
             Canvas.SetTop(rec, p.Y - size / 2);
-            rec.Stroke = OptionColor.colorInactive;
-            rec.StrokeThickness = OptionDrawLine.strokeThickness;
-            rec.Fill = OptionColor.colorInactive;
+            //rec.Stroke = OptionColor.colorInactive;
+            //rec.StrokeThickness = OptionDrawLine.strokeThickness;
+            //rec.Fill = OptionColor.colorInactive;
             canvas.Children.Add(rec);
             return rec;
         }

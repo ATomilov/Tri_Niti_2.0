@@ -90,15 +90,15 @@ namespace ТриНитиДизайн
             //    indexFigure = listFigure.IndexOf(listFigure[indexFigure].groupFigures[0]);
             //}
             //ExitFromRisuimode();
-            //Edit_Menu.IsEnabled = false;
-            //CloseAllTabs();
+            Edit_Menu.IsEnabled = false;
+            CloseAllTabs();
             //listFigure[indexFigure].highlightedPoints.Clear();
             OptionMode.mode = Mode.modeDraw;
             //RedrawEverything(listFigure, indexFigure, false, mainCanvas);
             //ShowPositionStatus(listFigure[indexFigure], false, false);
             //DrawFirstAndLastRectangle();
             //ChangeFiguresColor(listFigure, mainCanvas);
-            //mainCanvas.Cursor = handCursor;
+            mainCanvas.Cursor = handCursor;
         }
 
         private void CurcorButtonEvent(object sender, RoutedEventArgs e)

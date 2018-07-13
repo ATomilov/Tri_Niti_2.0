@@ -19,7 +19,7 @@ namespace ТриНитиДизайн
 {
     public partial class MainWindow : Window
     {
-        public void RedrawScreen(bool AllRectanglesOn)
+        public void RedrawScreen(List<Figure> listFig, int index, Canvas canvas)
         {
         //    canvas.Children.Clear();
         //    gridFigure.AddFigure(canvas);
@@ -45,48 +45,53 @@ namespace ТриНитиДизайн
         //        listPltFigure[i].AddFigure(canvas);
         //    }
 
-            mainCanvas.Children.Clear();
+            canvas.Children.Clear();
             WriteableBitmap bmp = BitmapFactory.New(1600,800);
-            for (int i = 0; i < listFigure.Count; i++)
+            Color lineColor;
+            for (int i = 0; i < listFig.Count; i++)
             {
-                if (listFigure[i].points.Count > 0)
+                if (listFig[i].points.Count > 0)
                 {
-                    List<Point> pts = listFigure[i].points;
+                    if (i == index)
+                        lineColor = OptionColor.colorActive;
+                    else
+                        lineColor = OptionColor.colorInactive;
+                    List<Point> pts = listFig[i].points;
                     for (int j = 0; j < pts.Count - 1; j++)
                     {
-                        bmp.DrawLineBresenham((int)pts[j].X, (int)pts[j].Y, (int)pts[j + 1].X, (int)pts[j + 1].Y, Colors.Red);
+                        bmp.DrawLineBresenham((int)pts[j].X, (int)pts[j].Y, (int)pts[j + 1].X, (int)pts[j + 1].Y, lineColor);
                     }
                 }
             }
-            DrawModeRectangles(bmp);
+            DrawModeRectangles(listFig, bmp);
             mainBMP = new Image
             {
                 Stretch = Stretch.None,
                 Source = bmp
             };
-            mainCanvas.Children.Add(mainBMP);
+            canvas.Children.Add(mainBMP);
         }
 
-        public void AddTransparentBMP(Point p1, Point p2)
+        public void AddTransparentBMP(Point p1, Point p2, Canvas canvas)
         {
-            mainCanvas.Children.Remove(transparentBMP);
+            canvas.Children.Remove(transparentBMP);
             WriteableBitmap bmp = new WriteableBitmap(1600, 800, 96, 96, PixelFormats.Bgra32, null);
             bmp.Clear(Colors.Transparent);
-            bmp.DrawLineBresenham((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, Colors.Blue);
+            bmp.DrawLineBresenham((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, OptionColor.colorDrawing);
             transparentBMP = new Image
             {
                 Stretch = Stretch.None,
                 Source = bmp
             };
-            mainCanvas.Children.Add(transparentBMP);
+            canvas.Children.Add(transparentBMP);
         }
 
-        public void DrawModeRectangles(WriteableBitmap bmp)
+        public void DrawModeRectangles(List<Figure> listFig, WriteableBitmap bmp)
         {
             if(OptionMode.mode == Mode.modeDraw)
             {
-                Point start = listFigure[indexFigure].pointStart;
-                Point end = listFigure[indexFigure].pointEnd;
+                Point start = listFig[indexFigure].pointStart;
+                Point end = listFig[indexFigure].pointEnd;
                 DrawRectangle(bmp, start, 6, 1);
                 DrawRectangle(bmp, end, 8, 2);
             }
@@ -98,7 +103,7 @@ namespace ТриНитиДизайн
             for (int i = 0; i < thickness; i++)
             {
                 bmp.DrawRectangle((int)p.X - half, (int)p.Y - half, (int)p.X + half, (int)p.Y + half,
-                    Colors.Black);
+                    OptionColor.colorInactive);
                 half--;
             }
         }
@@ -348,8 +353,12 @@ namespace ТриНитиДизайн
         //    }
         //}
 
-        //public bool ChooseFigureByClicking(Point clickedP, List<Figure> FigureList, Object clickedShape, Canvas canvas)
-        //{
+        public bool ChooseFigureByClicking(Point clickedP, List<Figure> listFig, Canvas canvas)
+        {
+            listFig.Add(new Figure(canvas));
+            indexFigure++;
+            RedrawScreen(listFig, indexFigure, canvas);
+            return false;
         //    if (clickedShape is Rectangle)
         //    {
         //        Rectangle rect = (Rectangle)clickedShape;
@@ -450,7 +459,7 @@ namespace ТриНитиДизайн
         //        ClearStatusBar();
         //    }
         //    return false;
-        //}
+        }
 
         //private Point GetPointOfClickedLine(Shape clickedShape, List<Figure> FigureList)
         //{

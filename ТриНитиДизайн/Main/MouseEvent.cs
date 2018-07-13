@@ -48,7 +48,7 @@ namespace ТриНитиДизайн
                             listFigure[indexFigure].points.RemoveAt(pts.Count - 1);
                         Point normalizedPoint = FindClosestDot(newMousePosition);
                         listFigure[indexFigure].AddPoint(normalizedPoint);
-                        AddTransparentBMP(pts[pts.Count - 2], pts[pts.Count - 1]);
+                        AddTransparentBMP(pts[pts.Count - 2], pts[pts.Count - 1], mainCanvas);
                         startDrawing = true;
                     }
                 }
@@ -312,7 +312,7 @@ namespace ТриНитиДизайн
                 //}
                 Point normalizedPoint = FindClosestDot(e.GetPosition(mainCanvas));
                 listFigure[indexFigure].AddPoint(normalizedPoint);
-                RedrawScreen(false);
+                RedrawScreen(listFigure, indexFigure, mainCanvas);
                 //ShowPositionStatus(listFigure[indexFigure], false, false);
             }
             startDrawing = false;
@@ -320,319 +320,319 @@ namespace ТриНитиДизайн
 
         void CanvasTest_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)          //левая кнопка мыши
         {
-        //    Mouse.Capture(mainCanvas);
-        //    if ((OptionMode.mode == Mode.modeTatami || OptionMode.mode == Mode.modeSatin || OptionMode.mode == Mode.modeRunStitch)
-        //        && e.OriginalSource is Rectangle)
-        //    {
-        //        Rectangle rect = (Rectangle)e.OriginalSource;
-        //        ChooseFirstOrLastRectangle(rect, true, mainCanvas);
-        //    }
-        //    else if (OptionMode.mode == Mode.modeTatami)
-        //    {
-        //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
-        //        if (!isNewFigureClicked)
-        //        {
-        //            startDrawing = false;
-        //            controlLine.points.Clear();
-        //            controlLine.points.Add(e.GetPosition(mainCanvas));
-        //        }
-        //    }
-        //    else if (OptionMode.mode == Mode.modeSatin)
-        //    {
-        //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
-        //        if (!isNewFigureClicked)
-        //        {
-        //            if (e.OriginalSource is Shape)
-        //            {
-        //                if (e.OriginalSource is Ellipse)
-        //                {
-        //                    Ellipse ell = (Ellipse)e.OriginalSource;
-        //                    Point ellPoint = new Point(Canvas.GetLeft(ell) + ell.Width/2, Canvas.GetTop(ell) + ell.Height/2);
-        //                    int index = 0;
-        //                    for(int i = 0; i < listFigure[firstSatinFigure].oldSatinCenters.Count; i++)
-        //                    {
-        //                        Point oldCenter = listFigure[firstSatinFigure].oldSatinCenters[i];
-        //                        if(Math.Abs(ellPoint.X - oldCenter.X) < 0.000000001 && Math.Abs(ellPoint.Y - oldCenter.Y) < 0.000000001)
-        //                        {
-        //                            index = i;
-        //                            break;
-        //                        }
-        //                    }
-        //                    listFigure[firstSatinFigure].oldSatinCenters.RemoveAt(index);
-        //                    listFigure[firstSatinFigure].satinControlLines.RemoveAt(index);
-        //                    for (int i = 0; i < linesForSatin.Count; i++)
-        //                    {
-        //                        if (linesForSatin[i].Shapes.Contains(ell))
-        //                        {
-        //                            linesForSatin[i].RemoveFigure(mainCanvas);
-        //                            linesForSatin[i].Shapes.Clear();
-        //                            linesForSatin.Remove(linesForSatin[i]);
-        //                            break;
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                startDrawing = false;
-        //                controlLine.points.Clear();
-        //                controlLine.points.Add(e.GetPosition(mainCanvas));
-        //            }
-        //        }
-        //    }
-        //    if (OptionMode.mode == Mode.modeDraw || OptionMode.mode == Mode.modeRunStitch)
-        //    {
-        //        ChooseFigureByClicking(e.GetPosition(mainCanvas),listFigure, e.OriginalSource, mainCanvas);
-        //    }
-        //    if (OptionMode.mode == Mode.modeFigure)
-        //    {
-        //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
-        //        if(!isNewFigureClicked && e.OriginalSource is Rectangle)
-        //        {
-        //            Rectangle rect = (Rectangle)e.OriginalSource;
-        //            ChooseFirstOrLastRectangle(rect, true, mainCanvas);
-        //        }
-        //    }
-        //    if (OptionMode.mode == Mode.modeEditFigures)
-        //    {
-        //        mainCanvas.Children.Remove(chRec);
-        //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas),listFigure, e.OriginalSource, mainCanvas);
-        //        chosenPts.Clear();
-        //        choosingRectangle.points.Clear();
-        //        if (e.OriginalSource is Line || e.OriginalSource is Path)
-        //        {
-        //            if (!isNewFigureClicked)
-        //            {
-        //                double x2 = 0;
-        //                double y2 = 0;
-        //                Shape clickedShape = (Shape)e.OriginalSource;
-        //                if (clickedShape.StrokeThickness == OptionDrawLine.strokeThickness)
-        //                {
-        //                    Shape sha;
-        //                    listFigure[indexFigure].DictionaryInvLines.TryGetValue(clickedShape, out sha);
-        //                    clickedShape = sha;
-        //                }
-        //                if (clickedShape == null)
-        //                    return;
-        //                if (e.OriginalSource is Line)
-        //                {
-        //                    Line clickedLine = (Line)clickedShape;
-        //                    x2 = clickedLine.X2;
-        //                    y2 = clickedLine.Y2;
-        //                }
-        //                else if (e.OriginalSource is Path)
-        //                {
-        //                    Path path = (Path)clickedShape;
-        //                    PathGeometry myPathGeometry = (PathGeometry)path.Data;
-        //                    Point p;
-        //                    Point tg;
-        //                    myPathGeometry.GetPointAtFractionLength(1, out p, out tg);
-        //                    x2 = p.X;
-        //                    y2 = p.Y;
-        //                }
-        //                Shape sh;
-        //                var keyLine = listFigure[indexFigure].DictionaryInvLines.FirstOrDefault(x => x.Value == clickedShape);
-        //                if (keyLine.Key == null)
-        //                    return;
-        //                if (keyLine.Key.Stroke == OptionColor.colorCurve)
-        //                {
-        //                    OptionMode.mode = Mode.modeDrawCurve;
-        //                    var point = listFigure[indexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
-        //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
-        //                    chosenPts = PrepareForBezier((Shape)e.OriginalSource, e.GetPosition(mainCanvas), point.Key, new Point(x2,y2));
+            Mouse.Capture(mainCanvas);
+                //if ((OptionMode.mode == Mode.modeTatami || OptionMode.mode == Mode.modeSatin || OptionMode.mode == Mode.modeRunStitch)
+            //        && e.OriginalSource is Rectangle)
+            //    {
+            //        Rectangle rect = (Rectangle)e.OriginalSource;
+            //        ChooseFirstOrLastRectangle(rect, true, mainCanvas);
+            //    }
+            //    else if (OptionMode.mode == Mode.modeTatami)
+            //    {
+            //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
+            //        if (!isNewFigureClicked)
+            //        {
+            //            startDrawing = false;
+            //            controlLine.points.Clear();
+            //            controlLine.points.Add(e.GetPosition(mainCanvas));
+            //        }
+            //    }
+            //    else if (OptionMode.mode == Mode.modeSatin)
+            //    {
+            //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
+            //        if (!isNewFigureClicked)
+            //        {
+            //            if (e.OriginalSource is Shape)
+            //            {
+            //                if (e.OriginalSource is Ellipse)
+            //                {
+            //                    Ellipse ell = (Ellipse)e.OriginalSource;
+            //                    Point ellPoint = new Point(Canvas.GetLeft(ell) + ell.Width/2, Canvas.GetTop(ell) + ell.Height/2);
+            //                    int index = 0;
+            //                    for(int i = 0; i < listFigure[firstSatinFigure].oldSatinCenters.Count; i++)
+            //                    {
+            //                        Point oldCenter = listFigure[firstSatinFigure].oldSatinCenters[i];
+            //                        if(Math.Abs(ellPoint.X - oldCenter.X) < 0.000000001 && Math.Abs(ellPoint.Y - oldCenter.Y) < 0.000000001)
+            //                        {
+            //                            index = i;
+            //                            break;
+            //                        }
+            //                    }
+            //                    listFigure[firstSatinFigure].oldSatinCenters.RemoveAt(index);
+            //                    listFigure[firstSatinFigure].satinControlLines.RemoveAt(index);
+            //                    for (int i = 0; i < linesForSatin.Count; i++)
+            //                    {
+            //                        if (linesForSatin[i].Shapes.Contains(ell))
+            //                        {
+            //                            linesForSatin[i].RemoveFigure(mainCanvas);
+            //                            linesForSatin[i].Shapes.Clear();
+            //                            linesForSatin.Remove(linesForSatin[i]);
+            //                            break;
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //            else
+            //            {
+            //                startDrawing = false;
+            //                controlLine.points.Clear();
+            //                controlLine.points.Add(e.GetPosition(mainCanvas));
+            //            }
+            //        }
+            //    }
+            if (OptionMode.mode == Mode.modeDraw || OptionMode.mode == Mode.modeRunStitch)
+            {
+                ChooseFigureByClicking(e.GetPosition(mainCanvas),listFigure, mainCanvas);
+            }
+            //    if (OptionMode.mode == Mode.modeFigure)
+            //    {
+            //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
+            //        if(!isNewFigureClicked && e.OriginalSource is Rectangle)
+            //        {
+            //            Rectangle rect = (Rectangle)e.OriginalSource;
+            //            ChooseFirstOrLastRectangle(rect, true, mainCanvas);
+            //        }
+            //    }
+            //    if (OptionMode.mode == Mode.modeEditFigures)
+            //    {
+            //        mainCanvas.Children.Remove(chRec);
+            //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas),listFigure, e.OriginalSource, mainCanvas);
+            //        chosenPts.Clear();
+            //        choosingRectangle.points.Clear();
+            //        if (e.OriginalSource is Line || e.OriginalSource is Path)
+            //        {
+            //            if (!isNewFigureClicked)
+            //            {
+            //                double x2 = 0;
+            //                double y2 = 0;
+            //                Shape clickedShape = (Shape)e.OriginalSource;
+            //                if (clickedShape.StrokeThickness == OptionDrawLine.strokeThickness)
+            //                {
+            //                    Shape sha;
+            //                    listFigure[indexFigure].DictionaryInvLines.TryGetValue(clickedShape, out sha);
+            //                    clickedShape = sha;
+            //                }
+            //                if (clickedShape == null)
+            //                    return;
+            //                if (e.OriginalSource is Line)
+            //                {
+            //                    Line clickedLine = (Line)clickedShape;
+            //                    x2 = clickedLine.X2;
+            //                    y2 = clickedLine.Y2;
+            //                }
+            //                else if (e.OriginalSource is Path)
+            //                {
+            //                    Path path = (Path)clickedShape;
+            //                    PathGeometry myPathGeometry = (PathGeometry)path.Data;
+            //                    Point p;
+            //                    Point tg;
+            //                    myPathGeometry.GetPointAtFractionLength(1, out p, out tg);
+            //                    x2 = p.X;
+            //                    y2 = p.Y;
+            //                }
+            //                Shape sh;
+            //                var keyLine = listFigure[indexFigure].DictionaryInvLines.FirstOrDefault(x => x.Value == clickedShape);
+            //                if (keyLine.Key == null)
+            //                    return;
+            //                if (keyLine.Key.Stroke == OptionColor.colorCurve)
+            //                {
+            //                    OptionMode.mode = Mode.modeDrawCurve;
+            //                    var point = listFigure[indexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
+            //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
+            //                    chosenPts = PrepareForBezier((Shape)e.OriginalSource, e.GetPosition(mainCanvas), point.Key, new Point(x2,y2));
 
-        //                    listFigure[indexFigure].DeleteShape(sh, point.Key, mainCanvas);
-        //                    changedLine = sh;
-        //                }
-        //                if (keyLine.Key.Stroke == OptionColor.colorArc)
-        //                {
-        //                    OptionMode.mode = Mode.modeDrawArc;
-        //                    var point = listFigure[indexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
-        //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
-        //                    listFigure[indexFigure].DeleteShape(sh, point.Key, mainCanvas);
-        //                    changedLine = sh;
-        //                    chosenPts.Add(point.Key);
-        //                    chosenPts.Add(new Point(x2, y2));
-        //                    chosenPts.Add(new Point());
-        //                }
-        //            }
-        //            else
-        //                listFigure[indexFigure].highlightedPoints.Clear();
-        //        }
-        //        else if (e.OriginalSource is Rectangle)
-        //        {
-        //            if (!isNewFigureClicked)
-        //            {
-        //                firstRec = (Rectangle)e.OriginalSource;
-        //                double x = Canvas.GetLeft(firstRec) + firstRec.ActualHeight / 2;
-        //                double y = Canvas.GetTop(firstRec) + firstRec.ActualWidth / 2;
-        //                int index = listFigure[indexFigure].points.IndexOf(new Point(x, y));
-        //                if(!listFigure[indexFigure].highlightedPoints.Contains(index))
-        //                {
-        //                    listFigure[indexFigure].highlightedPoints.Clear();
-        //                    listFigure[indexFigure].highlightedPoints.Add(index);
-        //                    listFigure[indexFigure].ChangeRectangleColor();
-        //                }
-        //                string status;
-        //                Rectangle rec1 = new Rectangle();
-        //                Rectangle rec2 = new Rectangle();
-        //                Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
-        //                for (int i = 0; i < listFigure[indexFigure].points.Count - 1; i++)
-        //                {
-        //                    Point p = listFigure[indexFigure].points[i];
-                            
-        //                    if (!listFigure[indexFigure].highlightedPoints.Contains(i) && listFigure[indexFigure].highlightedPoints.Contains(i + 1))
-        //                    {
-        //                        status = "second";
-        //                        rec2 = listFigure[indexFigure].RectangleOfFigures[i + 1];
-        //                    }
-        //                    else if (listFigure[indexFigure].highlightedPoints.Contains(i) && listFigure[indexFigure].highlightedPoints.Contains(i + 1))
-        //                    {
-        //                        status = "both";
-        //                        rec1 = listFigure[indexFigure].RectangleOfFigures[i];
-        //                        rec2 = listFigure[indexFigure].RectangleOfFigures[i + 1];
-        //                    }
-        //                    else if (listFigure[indexFigure].highlightedPoints.Contains(i) && !listFigure[indexFigure].highlightedPoints.Contains(i + 1))
-        //                    {
-        //                        rec1 = listFigure[indexFigure].RectangleOfFigures[i];
-        //                        status = "first";
-        //                    }
-        //                    else
-        //                        continue;
-        //                    listFigure[indexFigure].shapeControlPoints.TryGetValue(p, out contPts);
-        //                    if (contPts == null)
-        //                        contPts = new Tuple<Point, Point>(new Point(), new Point());
-        //                    Shape sh;
-        //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(p, out sh);
-        //                    ChangedShape chShape = new ChangedShape(sh, status, p, contPts.Item1, contPts.Item2, listFigure[indexFigure].points[i + 1],
-        //                        rec1,rec2, mainCanvas);
-        //                    listFigure[indexFigure].DeleteShape(sh, p, mainCanvas);
-        //                    listChangedShapes.Add(chShape);
-        //                }
-        //                if (listFigure[indexFigure].points.Count == 1 && listFigure[indexFigure].highlightedPoints.Contains(0))
-        //                {
-        //                    Point p = listFigure[indexFigure].points[0];
-        //                    rec1 = listFigure[indexFigure].RectangleOfFigures[0];
-        //                    status = "single";
-        //                    Shape sh;
-        //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(p, out sh);
-        //                    ChangedShape chShape = new ChangedShape(sh, status, p, contPts.Item1, contPts.Item2, new Point(),
-        //                        rec1, rec2, mainCanvas);
-        //                    listFigure[indexFigure].DeleteShape(sh, p, mainCanvas);
-        //                    listChangedShapes.Add(chShape);
-        //                }
-        //                prevPoint = e.GetPosition(mainCanvas);
-        //                OptionMode.mode = Mode.modeMovePoints;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            listFigure[indexFigure].highlightedPoints.Clear();
-        //            choosingRectangle.points.Add(e.GetPosition(mainCanvas));
-        //        }
-        //    }
-        //    if (OptionMode.mode == Mode.modeCursor)
-        //    {
-        //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
-        //        if (e.OriginalSource is Line || e.OriginalSource is Path)
-        //        {
-        //            if (!isNewFigureClicked)
-        //            {
-        //                foreach (Rectangle rec in transRectangles)
-        //                    mainCanvas.Children.Remove(rec);
-        //                prevPoint = e.GetPosition(mainCanvas);
-        //                InitializeFigureRectangle(0);
-        //                OptionMode.mode = Mode.modeCursorMoveRect;
-        //            }
-        //            else
-        //                DrawOutsideRectangles(true, false, mainCanvas);
-        //        }
-        //        if (e.OriginalSource is Rectangle && (((Rectangle)e.OriginalSource).Width == OptionDrawLine.sizeRectangleForRotation ||
-        //            ((Rectangle)e.OriginalSource).Width == OptionDrawLine.sizeRectangleForScale) && 
-        //            (listFigure[indexFigure].points.Count != 1 || listFigure[indexFigure].groupFigures.Count > 1))
-        //        {
-        //            Rectangle rec = (Rectangle)e.OriginalSource;
-        //            if (rec.Fill == OptionColor.colorInactive)
-        //            {
-        //                string[] statuses = { "north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest" };
-        //                int index = transRectangles.IndexOf(rec);
-        //                InitializeScaling(statuses[index]);
-        //                OptionMode.mode = Mode.modeScaleFigure;
-        //                foreach (Rectangle rect in transRectangles)
-        //                    mainCanvas.Children.Remove(rect);
-        //            }
-        //            else
-        //            {
-        //                if (transRectangles.IndexOf(rec) == 8)
-        //                {
-        //                    OptionMode.mode = Mode.modeChangeRotatingCenter;
-        //                    mainCanvas.Cursor = Cursors.Cross;   
-        //                }
-        //                else
-        //                {
-        //                    OptionMode.mode = Mode.rotateFigure;
-        //                    foreach (Rectangle rect in transRectangles)
-        //                        mainCanvas.Children.Remove(rect);
-        //                    InitializeFigureRectangle(0);
-        //                    prevPoint = e.GetPosition(mainCanvas);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    if(OptionMode.mode == Mode.zoomIn)
-        //    {
-        //        SaveLastView();
-        //        Point currentPosition = e.GetPosition(this);
-        //        if(OptionGrid.scaleMultiplier <= 16)
-        //            ScaleCanvas(2, currentPosition, mainCanvas);
-        //        else if (OptionGrid.scaleMultiplier > 16 && OptionGrid.scaleMultiplier <32)
-        //        {
-        //            double multiplier = 32 / OptionGrid.scaleMultiplier;
-        //            ScaleCanvas(multiplier, currentPosition, mainCanvas);
-        //        }
-        //        else
-        //            MoveCanvas(currentPosition, mainCanvas);
-        //        SetGrid();
-        //        OptionMode.mode = prevMode;
-        //        mainCanvas.Cursor = prevCursor;
-        //    }
-        //    if (OptionMode.mode == Mode.zoomOut)
-        //    {
-        //        SaveLastView();
-        //        Point currentPosition = e.GetPosition(this);
-        //        if (OptionGrid.scaleMultiplier >= 0.5)
-        //            ScaleCanvas(0.5, currentPosition, mainCanvas);
-        //        else if (OptionGrid.scaleMultiplier > 0.5 && OptionGrid.scaleMultiplier < 0.25)
-        //        {
-        //            double multiplier = 0.25 / OptionGrid.scaleMultiplier;
-        //            ScaleCanvas(multiplier, currentPosition, mainCanvas);
-        //        }
-        //        else
-        //            MoveCanvas(currentPosition, mainCanvas);
-        //        SetGrid();
-        //        OptionMode.mode = prevMode;
-        //        mainCanvas.Cursor = prevCursor;
-        //    }
-        //    if (OptionMode.mode == Mode.moveCanvas)
-        //    {
-        //        SaveLastView();
-        //        Point currentPosition = e.GetPosition(this);
-        //        MoveCanvas(currentPosition, mainCanvas);
-        //        SetGrid();
-        //        OptionMode.mode = prevMode;
-        //        mainCanvas.Cursor = prevCursor;
-        //    }
-        //    if (OptionMode.mode == Mode.oneToOne)
-        //    {
-        //        SaveLastView();
-        //        double multiplier = 2.1 / OptionGrid.scaleMultiplier;
-        //        Point currentPosition = e.GetPosition(this);
-        //        ScaleCanvas(multiplier, currentPosition, mainCanvas);
-        //        SetGrid();
-        //        OptionMode.mode = prevMode;
-        //        mainCanvas.Cursor = prevCursor;
-        //    }
-        //    ExitFromRisuimode();
+            //                    listFigure[indexFigure].DeleteShape(sh, point.Key, mainCanvas);
+            //                    changedLine = sh;
+            //                }
+            //                if (keyLine.Key.Stroke == OptionColor.colorArc)
+            //                {
+            //                    OptionMode.mode = Mode.modeDrawArc;
+            //                    var point = listFigure[indexFigure].DictionaryPointLines.FirstOrDefault(x => x.Value == keyLine.Key);
+            //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(point.Key, out sh);
+            //                    listFigure[indexFigure].DeleteShape(sh, point.Key, mainCanvas);
+            //                    changedLine = sh;
+            //                    chosenPts.Add(point.Key);
+            //                    chosenPts.Add(new Point(x2, y2));
+            //                    chosenPts.Add(new Point());
+            //                }
+            //            }
+            //            else
+            //                listFigure[indexFigure].highlightedPoints.Clear();
+            //        }
+            //        else if (e.OriginalSource is Rectangle)
+            //        {
+            //            if (!isNewFigureClicked)
+            //            {
+            //                firstRec = (Rectangle)e.OriginalSource;
+            //                double x = Canvas.GetLeft(firstRec) + firstRec.ActualHeight / 2;
+            //                double y = Canvas.GetTop(firstRec) + firstRec.ActualWidth / 2;
+            //                int index = listFigure[indexFigure].points.IndexOf(new Point(x, y));
+            //                if(!listFigure[indexFigure].highlightedPoints.Contains(index))
+            //                {
+            //                    listFigure[indexFigure].highlightedPoints.Clear();
+            //                    listFigure[indexFigure].highlightedPoints.Add(index);
+            //                    listFigure[indexFigure].ChangeRectangleColor();
+            //                }
+            //                string status;
+            //                Rectangle rec1 = new Rectangle();
+            //                Rectangle rec2 = new Rectangle();
+            //                Tuple<Point, Point> contPts = new Tuple<Point, Point>(new Point(), new Point());
+            //                for (int i = 0; i < listFigure[indexFigure].points.Count - 1; i++)
+            //                {
+            //                    Point p = listFigure[indexFigure].points[i];
+
+            //                    if (!listFigure[indexFigure].highlightedPoints.Contains(i) && listFigure[indexFigure].highlightedPoints.Contains(i + 1))
+            //                    {
+            //                        status = "second";
+            //                        rec2 = listFigure[indexFigure].RectangleOfFigures[i + 1];
+            //                    }
+            //                    else if (listFigure[indexFigure].highlightedPoints.Contains(i) && listFigure[indexFigure].highlightedPoints.Contains(i + 1))
+            //                    {
+            //                        status = "both";
+            //                        rec1 = listFigure[indexFigure].RectangleOfFigures[i];
+            //                        rec2 = listFigure[indexFigure].RectangleOfFigures[i + 1];
+            //                    }
+            //                    else if (listFigure[indexFigure].highlightedPoints.Contains(i) && !listFigure[indexFigure].highlightedPoints.Contains(i + 1))
+            //                    {
+            //                        rec1 = listFigure[indexFigure].RectangleOfFigures[i];
+            //                        status = "first";
+            //                    }
+            //                    else
+            //                        continue;
+            //                    listFigure[indexFigure].shapeControlPoints.TryGetValue(p, out contPts);
+            //                    if (contPts == null)
+            //                        contPts = new Tuple<Point, Point>(new Point(), new Point());
+            //                    Shape sh;
+            //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(p, out sh);
+            //                    ChangedShape chShape = new ChangedShape(sh, status, p, contPts.Item1, contPts.Item2, listFigure[indexFigure].points[i + 1],
+            //                        rec1,rec2, mainCanvas);
+            //                    listFigure[indexFigure].DeleteShape(sh, p, mainCanvas);
+            //                    listChangedShapes.Add(chShape);
+            //                }
+            //                if (listFigure[indexFigure].points.Count == 1 && listFigure[indexFigure].highlightedPoints.Contains(0))
+            //                {
+            //                    Point p = listFigure[indexFigure].points[0];
+            //                    rec1 = listFigure[indexFigure].RectangleOfFigures[0];
+            //                    status = "single";
+            //                    Shape sh;
+            //                    listFigure[indexFigure].DictionaryPointLines.TryGetValue(p, out sh);
+            //                    ChangedShape chShape = new ChangedShape(sh, status, p, contPts.Item1, contPts.Item2, new Point(),
+            //                        rec1, rec2, mainCanvas);
+            //                    listFigure[indexFigure].DeleteShape(sh, p, mainCanvas);
+            //                    listChangedShapes.Add(chShape);
+            //                }
+            //                prevPoint = e.GetPosition(mainCanvas);
+            //                OptionMode.mode = Mode.modeMovePoints;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            listFigure[indexFigure].highlightedPoints.Clear();
+            //            choosingRectangle.points.Add(e.GetPosition(mainCanvas));
+            //        }
+            //    }
+            //    if (OptionMode.mode == Mode.modeCursor)
+            //    {
+            //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas), listFigure, e.OriginalSource, mainCanvas);
+            //        if (e.OriginalSource is Line || e.OriginalSource is Path)
+            //        {
+            //            if (!isNewFigureClicked)
+            //            {
+            //                foreach (Rectangle rec in transRectangles)
+            //                    mainCanvas.Children.Remove(rec);
+            //                prevPoint = e.GetPosition(mainCanvas);
+            //                InitializeFigureRectangle(0);
+            //                OptionMode.mode = Mode.modeCursorMoveRect;
+            //            }
+            //            else
+            //                DrawOutsideRectangles(true, false, mainCanvas);
+            //        }
+            //        if (e.OriginalSource is Rectangle && (((Rectangle)e.OriginalSource).Width == OptionDrawLine.sizeRectangleForRotation ||
+            //            ((Rectangle)e.OriginalSource).Width == OptionDrawLine.sizeRectangleForScale) && 
+            //            (listFigure[indexFigure].points.Count != 1 || listFigure[indexFigure].groupFigures.Count > 1))
+            //        {
+            //            Rectangle rec = (Rectangle)e.OriginalSource;
+            //            if (rec.Fill == OptionColor.colorInactive)
+            //            {
+            //                string[] statuses = { "north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest" };
+            //                int index = transRectangles.IndexOf(rec);
+            //                InitializeScaling(statuses[index]);
+            //                OptionMode.mode = Mode.modeScaleFigure;
+            //                foreach (Rectangle rect in transRectangles)
+            //                    mainCanvas.Children.Remove(rect);
+            //            }
+            //            else
+            //            {
+            //                if (transRectangles.IndexOf(rec) == 8)
+            //                {
+            //                    OptionMode.mode = Mode.modeChangeRotatingCenter;
+            //                    mainCanvas.Cursor = Cursors.Cross;   
+            //                }
+            //                else
+            //                {
+            //                    OptionMode.mode = Mode.rotateFigure;
+            //                    foreach (Rectangle rect in transRectangles)
+            //                        mainCanvas.Children.Remove(rect);
+            //                    InitializeFigureRectangle(0);
+            //                    prevPoint = e.GetPosition(mainCanvas);
+            //                }
+            //            }
+            //        }
+            //    }
+            //    if(OptionMode.mode == Mode.zoomIn)
+            //    {
+            //        SaveLastView();
+            //        Point currentPosition = e.GetPosition(this);
+            //        if(OptionGrid.scaleMultiplier <= 16)
+            //            ScaleCanvas(2, currentPosition, mainCanvas);
+            //        else if (OptionGrid.scaleMultiplier > 16 && OptionGrid.scaleMultiplier <32)
+            //        {
+            //            double multiplier = 32 / OptionGrid.scaleMultiplier;
+            //            ScaleCanvas(multiplier, currentPosition, mainCanvas);
+            //        }
+            //        else
+            //            MoveCanvas(currentPosition, mainCanvas);
+            //        SetGrid();
+            //        OptionMode.mode = prevMode;
+            //        mainCanvas.Cursor = prevCursor;
+            //    }
+            //    if (OptionMode.mode == Mode.zoomOut)
+            //    {
+            //        SaveLastView();
+            //        Point currentPosition = e.GetPosition(this);
+            //        if (OptionGrid.scaleMultiplier >= 0.5)
+            //            ScaleCanvas(0.5, currentPosition, mainCanvas);
+            //        else if (OptionGrid.scaleMultiplier > 0.5 && OptionGrid.scaleMultiplier < 0.25)
+            //        {
+            //            double multiplier = 0.25 / OptionGrid.scaleMultiplier;
+            //            ScaleCanvas(multiplier, currentPosition, mainCanvas);
+            //        }
+            //        else
+            //            MoveCanvas(currentPosition, mainCanvas);
+            //        SetGrid();
+            //        OptionMode.mode = prevMode;
+            //        mainCanvas.Cursor = prevCursor;
+            //    }
+            //    if (OptionMode.mode == Mode.moveCanvas)
+            //    {
+            //        SaveLastView();
+            //        Point currentPosition = e.GetPosition(this);
+            //        MoveCanvas(currentPosition, mainCanvas);
+            //        SetGrid();
+            //        OptionMode.mode = prevMode;
+            //        mainCanvas.Cursor = prevCursor;
+            //    }
+            //    if (OptionMode.mode == Mode.oneToOne)
+            //    {
+            //        SaveLastView();
+            //        double multiplier = 2.1 / OptionGrid.scaleMultiplier;
+            //        Point currentPosition = e.GetPosition(this);
+            //        ScaleCanvas(multiplier, currentPosition, mainCanvas);
+            //        SetGrid();
+            //        OptionMode.mode = prevMode;
+            //        mainCanvas.Cursor = prevCursor;
+            //    }
+            //    ExitFromRisuimode();
         }
     }
 }

@@ -30,10 +30,10 @@ namespace ТриНитиДизайн.View
             currentList = _currentList;
             index = _index;
             canvas = _canvas;
-            firstRec = GeometryHelper.DrawRectangle(currentList[index].pointStart, false, true,
-                OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
-            lastRec = GeometryHelper.DrawRectangle(currentList[index].pointEnd, false, false,
-                OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //firstRec = GeometryHelper.DrawRectangle(currentList[index].pointStart, false, true,
+            //    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //lastRec = GeometryHelper.DrawRectangle(currentList[index].pointEnd, false, false,
+            //    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
             yes_button.Focus();
             yes_button.BorderThickness = new Thickness(1.9);
         }
