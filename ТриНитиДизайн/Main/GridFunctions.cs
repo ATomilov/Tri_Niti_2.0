@@ -22,6 +22,8 @@ namespace ТриНитиДизайн
         public void SetGrid()          
         {
             double step = (Double)OptionGrid.gridInterval;
+            mainCanvas.Children.Remove(gridBMP);
+            gridBMP = new Image();
             if ((OptionGrid.scaleMultiplier < 0.5 && step == 5) ||
                 (OptionGrid.scaleMultiplier < 2 && step == 2) ||
                 (OptionGrid.scaleMultiplier < 4 && step == 1) ||
@@ -29,7 +31,6 @@ namespace ТриНитиДизайн
                 (OptionGrid.scaleMultiplier < 16 && step == 0.2) ||
                 (OptionGrid.scaleMultiplier < 32 && step == 0.1))
                 return;
-            mainCanvas.Children.Remove(gridBMP);
             WriteableBitmap bmp = BitmapFactory.New(1600, 900);
             bmp.Clear(Colors.Transparent);
             //warning - without those numbers grid doesn't show properly
