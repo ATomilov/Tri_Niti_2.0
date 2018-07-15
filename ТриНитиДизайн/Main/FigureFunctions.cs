@@ -97,6 +97,14 @@ namespace ТриНитиДизайн
                 DrawRectangle(bmp, start, 6, 1);
                 DrawRectangle(bmp, end, 8, 2);
             }
+            if(OptionMode.mode == Mode.modeEditPoints)
+            {
+                List<Point> pts = listFig[indexFigure].points;
+                for(int i = 0; i < pts.Count; i++)
+                {
+                    DrawRectangle(bmp, pts[i], 6, 1);
+                }
+            }
         }
 
         public void DrawRectangle(WriteableBitmap bmp, Point p, int size, int thickness)
@@ -392,7 +400,7 @@ namespace ТриНитиДизайн
         //                {
         //                    if (indexFigure == i)
         //                    {
-        //                        if (OptionMode.mode != Mode.modeFigure && OptionMode.mode != Mode.modeEditFigures &&
+        //                        if (OptionMode.mode != Mode.modeFigure && OptionMode.mode != Mode.modeEditPoints &&
         //                            OptionMode.mode != Mode.modeTatami && OptionMode.mode != Mode.modeSatin && OptionMode.mode != Mode.modeRunStitch)
         //                        {
         //                            FigureList[indexFigure].ChangeFigureColor(OptionColor.colorInactive, false);
@@ -400,7 +408,7 @@ namespace ТриНитиДизайн
         //                            RedrawEverything(FigureList, indexFigure, false, canvas);
         //                            ShowPositionStatus(FigureList[indexFigure], false, false);
         //                        }
-        //                        else if (OptionMode.mode == Mode.modeEditFigures)
+        //                        else if (OptionMode.mode == Mode.modeEditPoints)
         //                        {
         //                            FigureList[indexFigure].pointForAddingPoints = p;
         //                            canvas.Children.Remove(FigureList[indexFigure].NewPointEllipse);
@@ -411,7 +419,7 @@ namespace ТриНитиДизайн
         //                    }
         //                    else
         //                    {
-        //                        if (OptionMode.mode != Mode.modeEditFigures)
+        //                        if (OptionMode.mode != Mode.modeEditPoints)
         //                        {
         //                            FigureList[indexFigure].ChangeFigureColor(OptionColor.colorInactive, false);
         //                            indexFigure = i;
@@ -451,7 +459,7 @@ namespace ТриНитиДизайн
         //        }
         //        return true;
         //    }
-        //    else if (OptionMode.mode != Mode.modeEditFigures && OptionMode.mode != Mode.modeFigure && OptionMode.mode != Mode.modeCursor &&
+        //    else if (OptionMode.mode != Mode.modeEditPoints && OptionMode.mode != Mode.modeFigure && OptionMode.mode != Mode.modeCursor &&
         //        OptionMode.mode != Mode.modeTatami && OptionMode.mode != Mode.modeSatin && OptionMode.mode != Mode.modeRunStitch)
         //    {
         //        FigureList[indexFigure].ChangeFigureColor(OptionColor.colorInactive, false);
@@ -542,7 +550,7 @@ namespace ТриНитиДизайн
         //        FigureList[firstSatinFigure].ChangeFigureColor(OptionColor.colorActive, false);
         //        FigureList[secondSatinFigure].ChangeFigureColor(OptionColor.colorActive, false);
         //    }
-        //    else if (OptionMode.mode == Mode.modeEditFigures)
+        //    else if (OptionMode.mode == Mode.modeEditPoints)
         //    {
         //        FigureList[indexFigure].ChangeFigureColor(OptionColor.colorActive, true);
         //    }

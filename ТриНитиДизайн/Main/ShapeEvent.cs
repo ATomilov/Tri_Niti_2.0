@@ -26,9 +26,9 @@ namespace ТриНитиДизайн
             //    indexFigure = listFigure.IndexOf(listFigure[indexFigure].groupFigures[0]);
             //}
             //ExitFromRisuimode();
-            //Edit_Menu.IsEnabled = false;
-            //CloseAllTabs();
-            //OptionMode.mode = Mode.modeEditFigures;
+            Edit_Menu.IsEnabled = false;
+            CloseAllTabs();
+            OptionMode.mode = Mode.modeEditPoints;
             //for (int i = 0; i < listFigure.Count; i++)
             //{
             //    if (listFigure[i].preparedForTatami)
@@ -37,8 +37,8 @@ namespace ТриНитиДизайн
             //    }
             //}
             //ChangeFiguresColor(listFigure, mainCanvas);
-            //mainCanvas.Cursor = arrowCursor;
-            //RedrawEverything(listFigure, indexFigure, true, mainCanvas);
+            mainCanvas.Cursor = arrowCursor;
+            RedrawScreen(listFigure, indexFigure, mainCanvas);
             //choosingRectangle = new Figure(mainCanvas);
             //if (tabControl1.Visibility == Visibility.Hidden)
             //    tabControl1.Visibility = Visibility.Visible;
@@ -47,7 +47,7 @@ namespace ТриНитиДизайн
 
         private void LomannaiButtonEvent(object sender, RoutedEventArgs e)
         {
-            //OptionMode.mode = Mode.modeEditFigures;
+            //OptionMode.mode = Mode.modeEditPoints;
             //MakeLomanaya(listFigure[indexFigure], mainCanvas);
             //RedrawEverything(listFigure, indexFigure, true, mainCanvas);
             //listFigure[indexFigure].ChangeRectangleColor();

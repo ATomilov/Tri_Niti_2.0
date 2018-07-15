@@ -87,7 +87,7 @@ namespace ТриНитиДизайн
             //            MoveFigureRectangle(rec, delta, mainCanvas);
             //        prevPoint = e.GetPosition(mainCanvas);
             //    }
-            //    if (OptionMode.mode == Mode.modeEditFigures)
+            //    if (OptionMode.mode == Mode.modeEditPoints)
             //    {
             //        if (choosingRectangle.points.Count > 0)
             //        {
@@ -216,7 +216,7 @@ namespace ТриНитиДизайн
             //    DrawOutsideRectangles(true, false, mainCanvas);
             //    mainCanvas.Cursor = defaultCursor;
             //}
-            //if (OptionMode.mode == Mode.modeEditFigures)
+            //if (OptionMode.mode == Mode.modeEditPoints)
             //{
             //    if (choosingRectangle.points.Count > 0)
             //    {
@@ -263,7 +263,7 @@ namespace ТриНитиДизайн
 
             //    listFigure[indexFigure].ChangeRectangleColor();
             //    listChangedShapes.Clear();
-            //    OptionMode.mode = Mode.modeEditFigures;
+            //    OptionMode.mode = Mode.modeEditPoints;
             //    ShowPositionStatus(listFigure[indexFigure], false, false);
             //}
             //if(OptionMode.mode == Mode.modeChangeRotatingCenter)
@@ -279,7 +279,7 @@ namespace ТриНитиДизайн
             //            listFigure[indexFigure].AddShape(changedLine, chosenPts[0], new Tuple<Point,Point>(chosenPts[1],chosenPts[2]));
             //        else
             //            listFigure[indexFigure].AddShape(changedLine, chosenPts[0], new Tuple<Point,Point>(e.GetPosition(mainCanvas), new Point()));
-            //        OptionMode.mode = Mode.modeEditFigures;
+            //        OptionMode.mode = Mode.modeEditPoints;
             //        ShowPositionStatus(listFigure[indexFigure], false, false);
             //    }
             //}
@@ -393,7 +393,7 @@ namespace ТриНитиДизайн
             //            ChooseFirstOrLastRectangle(rect, true, mainCanvas);
             //        }
             //    }
-            //    if (OptionMode.mode == Mode.modeEditFigures)
+            //    if (OptionMode.mode == Mode.modeEditPoints)
             //    {
             //        mainCanvas.Children.Remove(chRec);
             //        bool isNewFigureClicked = ChooseFigureByClicking(e.GetPosition(mainCanvas),listFigure, e.OriginalSource, mainCanvas);

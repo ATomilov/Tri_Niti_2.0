@@ -94,7 +94,7 @@ namespace ТриНитиДизайн
             CloseAllTabs();
             //listFigure[indexFigure].highlightedPoints.Clear();
             OptionMode.mode = Mode.modeDraw;
-            //RedrawEverything(listFigure, indexFigure, false, mainCanvas);
+            RedrawScreen(listFigure, indexFigure, mainCanvas);
             //ShowPositionStatus(listFigure[indexFigure], false, false);
             //DrawFirstAndLastRectangle();
             //ChangeFiguresColor(listFigure, mainCanvas);
