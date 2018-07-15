@@ -21,13 +21,13 @@ namespace ТриНитиДизайн
     {
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Space)
-            {
-                SaveLastView();
-                Point currentPosition = Mouse.GetPosition(this);
-                MoveCanvas(currentPosition, MainCanvas);
-                SetGrid();
-            }
+            //if(e.Key == Key.Space)
+            //{
+            //    SaveLastView();
+            //    Point currentPosition = Mouse.GetPosition(this);
+            //    MoveCanvas(currentPosition, mainCanvas);
+            //    SetGrid();
+            //}
         }   
     }
 }

@@ -41,12 +41,12 @@ namespace ТриНитиДизайн.View
 
         private void Prorisovat_Stezhki(object sender, RoutedEventArgs e)
         {
-            OptionMode.mode = Mode.modeDrawStitchesInColor;
-            foreach (Figure fig in listFigure)
-                fig.ChangeFigureColor(OptionColor.colorCurve, false);
-            canvas.Children.Remove(lastRec);
-            canvas.Children.Remove(firstRec);
-            this.Close();
+            //OptionMode.mode = Mode.modeDrawStitchesInColor;
+            //foreach (Figure fig in listFigure)
+            //    fig.ChangeFigureColor(OptionColor.colorCurve, false);
+            //canvas.Children.Remove(lastRec);
+            //canvas.Children.Remove(firstRec);
+            //this.Close();
         }
 
         private void Prorisovat_v_tsvete(object sender, RoutedEventArgs e)
@@ -74,22 +74,22 @@ namespace ТриНитиДизайн.View
 
         private void Otshit(object sender, RoutedEventArgs e)
         {
-            OptionMode.mode = Mode.modeUnembroid;
-            foreach (Figure fig in listFigure)
-                fig.ChangeFigureColor(OptionColor.colorCurve, false);
-            canvas.Children.Remove(lastRec);
-            canvas.Children.Remove(firstRec);
-            Line horizontalLine = new Line();
-            double x = listFigure[0].PointStart.X;
-            double y = listFigure[0].groupFigures[0].PointStart.Y;
-            horizontalLine = GeometryHelper.SetLine(OptionColor.colorArc, new Point(x - 350, y),
-                new Point(x + 350, y), true, canvas);
-            Line verticalLine = new Line();
-            verticalLine = GeometryHelper.SetLine(OptionColor.colorArc, new Point(x, y - 350),
-                new Point(x, y + 350), true, canvas);
-            unembroidLines.Add(verticalLine);
-            unembroidLines.Add(horizontalLine);
-            this.Close();
+            //OptionMode.mode = Mode.modeUnembroid;
+            //foreach (Figure fig in listFigure)
+            //    fig.ChangeFigureColor(OptionColor.colorCurve, false);
+            //canvas.Children.Remove(lastRec);
+            //canvas.Children.Remove(firstRec);
+            //Line horizontalLine = new Line();
+            //double x = listFigure[0].pointStart.X;
+            //double y = listFigure[0].groupFigures[0].pointStart.Y;
+            //horizontalLine = GeometryHelper.SetLine(OptionColor.colorArc, new Point(x - 350, y),
+            //    new Point(x + 350, y), true, canvas);
+            //Line verticalLine = new Line();
+            //verticalLine = GeometryHelper.SetLine(OptionColor.colorArc, new Point(x, y - 350),
+            //    new Point(x, y + 350), true, canvas);
+            //unembroidLines.Add(verticalLine);
+            //unembroidLines.Add(horizontalLine);
+            //this.Close();
         }
 
         private void Otmenit(object sender, RoutedEventArgs e)
@@ -117,7 +117,7 @@ namespace ТриНитиДизайн.View
 
             int stCount = 0;
             foreach (Figure fig in list)
-                stCount += fig.Points.Count;
+                stCount += fig.points.Count;
             contents += BuildMetaInfo("ST:", stCount, 7);
             contents += BuildMetaInfo("CO:", list.Count - 1, 3);
 
@@ -145,7 +145,7 @@ namespace ТриНитиДизайн.View
             for (int i = 0; i < list.Count; i++)
             {
                 contents = EncodePoint(0, 0, 0, contents);
-                List<Point> pts = new List<Point>(list[i].Points);
+                List<Point> pts = new List<Point>(list[i].points);
                 xx = (int)(pts[0].X * 5);
                 yy = (int)(pts[0].Y * 5);
                 for (int j = 1; j < pts.Count; j++)
@@ -157,7 +157,7 @@ namespace ТриНитиДизайн.View
                     contents = EncodePoint(dx, dy, 0, contents);
                 }
                 if (i != list.Count - 1)
-                    contents = JumpToNewEmbroideryPart(pts[pts.Count - 1], list[i + 1].PointStart, contents);
+                    contents = JumpToNewEmbroideryPart(pts[pts.Count - 1], list[i + 1].pointStart, contents);
             }
             contents = EncodePoint(0, 0, 3, contents);
             contents += EmbChar(0xA1);

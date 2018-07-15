@@ -26,8 +26,8 @@ namespace ТриНитиДизайн
         public WindowColors()
         {
             InitializeComponent();
-            Rect_main.Fill = OptionColor.colorNewBackground;
-            lines.Stroke = OptionColor.colorInactive;
+            Rect_main.Fill = new SolidColorBrush(OptionColor.colorNewBackground);
+            lines.Stroke = new SolidColorBrush(OptionColor.colorInactive);
             MakeColorRectangles();
             MakeLine();
             button_accept.Focus();
@@ -98,8 +98,8 @@ namespace ТриНитиДизайн
 
         private void button_accept_Click(object sender, RoutedEventArgs e)              //если нажимаем создать, то цвет канвы меняется (цвет линий тоже должен меняться, но почему-то не работает)
         {
-            OptionColor.colorNewBackground = Rect_main.Fill;
-            OptionColor.colorNewActive = lines.Stroke;
+            OptionColor.colorNewBackground = (Rect_main.Fill as SolidColorBrush).Color;
+            OptionColor.colorNewActive = (lines.Stroke as SolidColorBrush).Color;
             this.Close();
         }
 
@@ -129,7 +129,7 @@ namespace ТриНитиДизайн
 
         private void button_delete_Click(object sender, RoutedEventArgs e)                      //при нажатии на удалить - возврат к фиолетовому цвету линий
         {
-            OptionColor.colorNewActive = Brushes.Violet;
+            OptionColor.colorNewActive = (Brushes.Violet as SolidColorBrush).Color;
             this.Close();
         }
 

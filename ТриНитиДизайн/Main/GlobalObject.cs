@@ -37,7 +37,7 @@ namespace ТриНитиДизайн
         int firstSatinFigure;
         int secondSatinFigure;
         bool areSatinPointsInversed;
-        bool startDrawing = true;
+        bool startDrawing = false;
         Rectangle firstRec;
         Rectangle lastRec;
         Rectangle chRec;
@@ -64,6 +64,10 @@ namespace ТриНитиДизайн
         List<Line> centerLines = new List<Line>();
         List<Line> unembroidLines = new List<Line>();
         List<PreviousView> previousViewList = new List<PreviousView>();
+
+        Image mainBMP;
+        Image transparentBMP;
+        Image gridBMP;
 
         TranslateTransform panTransform;
         ScaleTransform zoomTransform;

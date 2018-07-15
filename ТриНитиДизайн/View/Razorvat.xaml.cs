@@ -30,10 +30,10 @@ namespace ТриНитиДизайн.View
             currentList = _currentList;
             index = _index;
             canvas = _canvas;
-            firstRec = GeometryHelper.DrawRectangle(currentList[index].PointStart, false, true,
-                OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
-            lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
-                OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //firstRec = GeometryHelper.DrawRectangle(currentList[index].pointStart, false, true,
+            //    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //lastRec = GeometryHelper.DrawRectangle(currentList[index].pointEnd, false, false,
+            //    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
             yes_button.Focus();
             yes_button.BorderThickness = new Thickness(1.9);
         }
@@ -50,7 +50,7 @@ namespace ТриНитиДизайн.View
             canvas.Children.Remove(lastRec);
             List<Figure> group = new List<Figure>(currentList);
             Figure brokenFigure = currentList[index];
-            brokenFigure.Points.Add(new Point(-31231, 312312));
+            brokenFigure.points.Add(new Point(-31231, 312312));
             for (int i = 0; i < index; i++ )
             {
                 Figure fig = group[i];
@@ -84,34 +84,34 @@ namespace ТриНитиДизайн.View
 
         private void previous_button_Click(object sender, RoutedEventArgs e)
         {
-            if(index !=0)
-            {
-                canvas.Children.Remove(firstRec);
-                canvas.Children.Remove(lastRec);
-                currentList[index].ChangeFigureColor(OptionColor.colorActive, false);
-                index--;
-                currentList[index].ChangeFigureColor(OptionColor.colorArc, false);
-                firstRec = GeometryHelper.DrawRectangle(currentList[index].PointStart, false, true,
-                OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
-                lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
-                    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
-            }
+            //if(index !=0)
+            //{
+            //    canvas.Children.Remove(firstRec);
+            //    canvas.Children.Remove(lastRec);
+            //    currentList[index].ChangeFigureColor(OptionColor.colorActive, false);
+            //    index--;
+            //    currentList[index].ChangeFigureColor(OptionColor.colorArc, false);
+            //    firstRec = GeometryHelper.DrawRectangle(currentList[index].pointStart, false, true,
+            //    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //    lastRec = GeometryHelper.DrawRectangle(currentList[index].pointEnd, false, false,
+            //        OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //}
         }
 
         private void next_button_Click(object sender, RoutedEventArgs e)
         {
-            if (index != currentList.Count - 1)
-            {
-                canvas.Children.Remove(firstRec);
-                canvas.Children.Remove(lastRec);
-                currentList[index].ChangeFigureColor(OptionColor.colorActive, false);
-                index++;
-                currentList[index].ChangeFigureColor(OptionColor.colorArc, false);
-                firstRec = GeometryHelper.DrawRectangle(currentList[index].PointStart, false, true,
-                OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
-                lastRec = GeometryHelper.DrawRectangle(currentList[index].PointEnd, false, false,
-                    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
-            }
+            //if (index != currentList.Count - 1)
+            //{
+            //    canvas.Children.Remove(firstRec);
+            //    canvas.Children.Remove(lastRec);
+            //    currentList[index].ChangeFigureColor(OptionColor.colorActive, false);
+            //    index++;
+            //    currentList[index].ChangeFigureColor(OptionColor.colorArc, false);
+            //    firstRec = GeometryHelper.DrawRectangle(currentList[index].pointStart, false, true,
+            //    OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //    lastRec = GeometryHelper.DrawRectangle(currentList[index].pointEnd, false, false,
+            //        OptionDrawLine.strokeThickness, OptionColor.colorInactive, canvas);
+            //}
         }
 
         private void yes_button_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

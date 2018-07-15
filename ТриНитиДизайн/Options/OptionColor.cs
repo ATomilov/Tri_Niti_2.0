@@ -9,16 +9,19 @@ namespace ТриНитиДизайн
     public static class OptionColor
     {
         //Color
-        public static Brush colorActive = Brushes.Red;
-        public static Brush colorBackground = Brushes.White;
-        public static Brush colorInactive = Brushes.Black;
-        public static Brush colorOpacity = Brushes.White;
-        public static Brush colorCurve = Brushes.Violet;
-        public static Brush colorSatin = Brushes.Yellow;
-        public static Brush colorPltFigure = Brushes.LimeGreen;
-        public static Brush colorArc = Brushes.Blue;
+        public static Color colorActive = Colors.Red;
+        public static Color colorDrawing = Color.FromRgb(0x80, 0x80, 0xFF);
+        public static Color colorBackground = Colors.White;
+        public static Color colorInactive = Colors.Black;
+        public static Color colorCurve = Colors.Fuchsia;
+        public static Color colorArcRectangle = Colors.Blue;
+        public static Color colorControlLine = Color.FromRgb(0x00, 0x00, 0x7F);
+        public static Color colorSimDrawMode = Colors.Yellow;
 
-        public static Brush colorNewActive = Brushes.Violet;
-        public static Brush colorNewBackground = Brushes.LightSkyBlue;
+        //TODO: find correct color for plt
+        public static Color colorPltFigure = Colors.LimeGreen;
+
+        public static Color colorNewActive = Colors.Violet;
+        public static Color colorNewBackground = Colors.LightSkyBlue;
     }
 }

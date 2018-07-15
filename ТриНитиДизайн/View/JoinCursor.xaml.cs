@@ -41,42 +41,42 @@ namespace ТриНитиДизайн.View
 
         private void ChainButtonClick(object sender, RoutedEventArgs e)
         {
-            Point start = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1].PointEnd;
-            Point end = secondFigure.groupFigures[0].PointStart;
-            Vector newFigVect = end - start;
-            newFigVect /= 5;
-            Figure newFigure = new Figure(canvas);
-            Point p = start;
-            for (int i = 0; i < 6; i++)
-            {
-                newFigure.AddPoint(p, OptionColor.colorActive, false,false, OptionDrawLine.sizeRectangle);
-                p += newFigVect;
-            }
-            newFigure.modeFigure = Mode.modeRunStitch;
-            currentList.Add(newFigure);
+            //Point start = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1].pointEnd;
+            //Point end = secondFigure.groupFigures[0].pointStart;
+            //Vector newFigVect = end - start;
+            //newFigVect /= 5;
+            //Figure newFigure = new Figure(canvas);
+            //Point p = start;
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    newFigure.AddPoint(p, OptionColor.colorActive, false,false, OptionDrawLine.sizeRectangle);
+            //    p += newFigVect;
+            //}
+            //newFigure.modeFigure = Mode.modeRunStitch;
+            //currentList.Add(newFigure);
 
-            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
-            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
+            //List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
+            //List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
 
-            foreach (Figure fig in group1)
-            {
-                fig.groupFigures.Add(newFigure);
-                foreach (Figure fig2 in group2)
-                    fig.groupFigures.Add(fig2);
-            }
+            //foreach (Figure fig in group1)
+            //{
+            //    fig.groupFigures.Add(newFigure);
+            //    foreach (Figure fig2 in group2)
+            //        fig.groupFigures.Add(fig2);
+            //}
 
-            foreach (Figure fig in group2)
-            {
-                newFigure.groupFigures.Add(fig);
-                fig.groupFigures.Insert(0, newFigure);
-                for (int i = group1.Count - 1; i > -1; i--)
-                    fig.groupFigures.Insert(0, group1[i]);
-            }
+            //foreach (Figure fig in group2)
+            //{
+            //    newFigure.groupFigures.Add(fig);
+            //    fig.groupFigures.Insert(0, newFigure);
+            //    for (int i = group1.Count - 1; i > -1; i--)
+            //        fig.groupFigures.Insert(0, group1[i]);
+            //}
 
-            for (int i = group1.Count - 1; i > -1; i--)
-                newFigure.groupFigures.Insert(0, group1[i]);
+            //for (int i = group1.Count - 1; i > -1; i--)
+            //    newFigure.groupFigures.Insert(0, group1[i]);
 
-            this.Close();
+            //this.Close();
         }
 
         private void TranspositionButtonClick(object sender, RoutedEventArgs e)
@@ -96,61 +96,61 @@ namespace ТриНитиДизайн.View
 
         private void ShiftDotsButtonClick(object sender, RoutedEventArgs e)
         {
-            Figure lastFigureInGroup = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1];
-            Figure firstFigureInGroup = secondFigure.groupFigures[0];
-            Point start = lastFigureInGroup.PointEnd;
-            Point end = firstFigureInGroup.PointStart;
-            Point middle = new Point();
-            middle.X = (start.X + end.X) / 2;
-            middle.Y = (start.Y + end.Y) / 2;
-            Shape sh;
-            if (lastFigureInGroup.Points.Count == 1)
-            {
-                lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[0], out sh);
-                lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[0], canvas);
-                lastFigureInGroup.Points.Remove(start);
-                lastFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, true, 0);
-            }
-            else
-            {
-                lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], out sh);
-                lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 2], canvas);
-                lastFigureInGroup.Points.Remove(start);
-                lastFigureInGroup.PointEnd = lastFigureInGroup.Points[lastFigureInGroup.Points.Count - 1];
-                lastFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, false, 0);
-            }
-            if (firstFigureInGroup.Points.Count == 1)
-            {
-                firstFigureInGroup.DictionaryPointLines.TryGetValue(firstFigureInGroup.Points[0], out sh);
-                firstFigureInGroup.DeleteShape(sh, firstFigureInGroup.Points[0], canvas);
-                firstFigureInGroup.Points.Remove(end);
-                firstFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, true, 0);
-            }
-            else
-            {
-                firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
-                firstFigureInGroup.DeleteShape(sh, end, canvas);
-                firstFigureInGroup.Points.Remove(end);
-                sh = GeometryHelper.SetLine(OptionColor.colorActive, middle, firstFigureInGroup.Points[0], false, canvas);
-                firstFigureInGroup.AddShape(sh, middle, null);
-                firstFigureInGroup.PointStart = middle;
-                firstFigureInGroup.Points.Insert(0, middle);
-            }
-            List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
-            List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
+            //Figure lastFigureInGroup = firstFigure.groupFigures[firstFigure.groupFigures.Count - 1];
+            //Figure firstFigureInGroup = secondFigure.groupFigures[0];
+            //Point start = lastFigureInGroup.pointEnd;
+            //Point end = firstFigureInGroup.pointStart;
+            //Point middle = new Point();
+            //middle.X = (start.X + end.X) / 2;
+            //middle.Y = (start.Y + end.Y) / 2;
+            //Shape sh;
+            //if (lastFigureInGroup.points.Count == 1)
+            //{
+            //    lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.points[0], out sh);
+            //    lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.points[0], canvas);
+            //    lastFigureInGroup.points.Remove(start);
+            //    lastFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, true, 0);
+            //}
+            //else
+            //{
+            //    lastFigureInGroup.DictionaryPointLines.TryGetValue(lastFigureInGroup.points[lastFigureInGroup.points.Count - 2], out sh);
+            //    lastFigureInGroup.DeleteShape(sh, lastFigureInGroup.points[lastFigureInGroup.points.Count - 2], canvas);
+            //    lastFigureInGroup.points.Remove(start);
+            //    lastFigureInGroup.pointEnd = lastFigureInGroup.points[lastFigureInGroup.points.Count - 1];
+            //    lastFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, false, 0);
+            //}
+            //if (firstFigureInGroup.points.Count == 1)
+            //{
+            //    firstFigureInGroup.DictionaryPointLines.TryGetValue(firstFigureInGroup.points[0], out sh);
+            //    firstFigureInGroup.DeleteShape(sh, firstFigureInGroup.points[0], canvas);
+            //    firstFigureInGroup.points.Remove(end);
+            //    firstFigureInGroup.AddPoint(middle, OptionColor.colorActive, false, true, 0);
+            //}
+            //else
+            //{
+            //    firstFigureInGroup.DictionaryPointLines.TryGetValue(end, out sh);
+            //    firstFigureInGroup.DeleteShape(sh, end, canvas);
+            //    firstFigureInGroup.points.Remove(end);
+            //    sh = GeometryHelper.SetLine(OptionColor.colorActive, middle, firstFigureInGroup.points[0], false, canvas);
+            //    firstFigureInGroup.AddShape(sh, middle, null);
+            //    firstFigureInGroup.pointStart = middle;
+            //    firstFigureInGroup.points.Insert(0, middle);
+            //}
+            //List<Figure> group1 = new List<Figure>(firstFigure.groupFigures);
+            //List<Figure> group2 = new List<Figure>(secondFigure.groupFigures);
 
-            foreach (Figure fig in group1)
-            {
-                foreach (Figure fig2 in group2)
-                    fig.groupFigures.Add(fig2);
-            }
+            //foreach (Figure fig in group1)
+            //{
+            //    foreach (Figure fig2 in group2)
+            //        fig.groupFigures.Add(fig2);
+            //}
 
-            foreach (Figure fig in group2)
-            {
-                for (int i = group1.Count - 1; i > -1; i--)
-                    fig.groupFigures.Insert(0, group1[i]);
-            }
-            this.Close();
+            //foreach (Figure fig in group2)
+            //{
+            //    for (int i = group1.Count - 1; i > -1; i--)
+            //        fig.groupFigures.Insert(0, group1[i]);
+            //}
+            //this.Close();
         }
 
         private void ShiftElementsButtonClick(object sender, RoutedEventArgs e)
